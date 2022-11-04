@@ -20,12 +20,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           node-version: '18.9.x'
-      - name: Angular Github Actions
-        uses: mayurrawte/github-angular-actions@v1.1.0
-      - name: Install Angular 12.2.7
-        uses: actions/angular-github-actions
-        with:
-          version: 14.2.3
       - name: Install dependencies
         run: dotnet restore
       - name: Build
