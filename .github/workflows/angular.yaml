@@ -1,4 +1,4 @@
-name: CI Angular app through GitHub Actions
+name: Angular Unit Test
 on: push
 defaults:
   run:
@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 14.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 18.x
 
       - name: Setup
         run: npm ci
