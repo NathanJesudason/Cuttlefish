@@ -232,3 +232,6 @@ _Pvt_Extensions
 
 #Custom gitignore
 .angular/cache
+
+#vscode
+.vscode
