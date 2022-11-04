@@ -16,9 +16,16 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Setup NodeJS 18
+        uses: actions/setup-dotnet@v3
+        with:
+          node-version: '18.9.x'
       - name: Install dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test
         run: dotnet test --no-restore --verbosity normal
+      - name: Test Angular
+        run: npm test
+        working-directory: ./ClientApp
