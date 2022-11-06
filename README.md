@@ -55,7 +55,11 @@ $ npm start
 
 ### Run Unit Tests
 
-To run ASP.NET unit tests.....???????
+You can run ASP.NET unit tests like so...
+
+```shell
+dotnet test
+```
 
 You can run Angular unit tests like so...
 
