@@ -17,4 +17,4 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Format
-        run: dotnet format --verify-no-changes --verbosity normal
+        run: dotnet format --verify-no-changes --verbosity quiet
