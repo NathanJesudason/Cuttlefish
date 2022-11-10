@@ -7,6 +7,9 @@ updates:
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
+    # Ignore all '@angular/*' dependencies, must be updated all at once with ng update
+    ignore:
+      - dependency-name: "@angular/*"
 
   # Enable version updates for Dotnet
   - package-ecosystem: "nuget"
