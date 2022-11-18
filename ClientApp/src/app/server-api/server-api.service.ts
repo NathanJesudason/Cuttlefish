@@ -16,7 +16,12 @@ export class ServerApi {
     this.http = http;
   }
 
-  // support the fake WeatherForecasts get that it gave us
+  /**
+   * Simple http GET of the `'weatherforecast'` endpoint that's provided in the sample.
+   * No error checking is done
+   * @type The type that you expect to receive in the result (`WeatherForecast`)
+   * @return An `Observable<T>` that stores the body of the HTTP response
+   */
   getWeatherForecast<T>(): Observable<T> {
     return this.http.get<T>(
       `${this.baseUrl}weatherforecast`,
