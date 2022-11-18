@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
@@ -19,7 +20,7 @@ export class ServerApi {
   /**
    * Simple http GET of the `'weatherforecast'` endpoint that's provided in the sample.
    * No error checking is done
-   * @type The type that you expect to receive in the result (`WeatherForecast`)
+   * @type The type that you expect to receive in the result (`WeatherForecast[]`)
    * @return An `Observable<T>` that stores the body of the HTTP response
    */
   getWeatherForecast<T>(): Observable<T> {

@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { defer } from 'rxjs';
+
 import { ServerApi } from './server-api.service';
 import { WeatherForecast } from '../fetch-data/fetch-data.component';
-import { defer } from 'rxjs';
 
 describe('ServerApi', () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
