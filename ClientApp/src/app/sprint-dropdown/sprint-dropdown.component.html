@@ -1,0 +1,21 @@
+<p-accordionTab [selected]="true">
+  <ng-template pTemplate="header">
+    {{ data.name }} | 11/26/2022 - 12/08/2022
+  </ng-template>
+  <ng-template pTemplate="body">
+    Name: {{ data.name }}, dueDate: {{ data.dueDate }}, completed: 
+    <i *ngIf="data.complete; else incomplete" class="pi pi-check"></i>
+    <ng-template #incomplete>
+      <i class="pi pi-times"></i>
+    </ng-template>
+    <p-divider></p-divider>
+    <p-accordion [multiple]="true">
+      <task-dropdown *ngFor="let task of tasks"
+        [id]="task.id"
+        [name]="task.name"
+        [assignee]="task.assignee"
+        [storyPoints]="task.storyPoints"
+      ></task-dropdown>
+    </p-accordion>
+  </ng-template>
+</p-accordionTab>

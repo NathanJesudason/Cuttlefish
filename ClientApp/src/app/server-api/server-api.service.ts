@@ -33,4 +33,51 @@ export class ServerApi {
       }
     );
   }
+
+  getSprintData<T>(id: number): T {
+    // simple initial function
+    if (id === 0) {
+      return {
+        name: 'Sprint 0',
+        dueDate: new Date().setHours(new Date().getHours() - 1),
+        complete: false,
+      } as T;
+    } else if (id === 1) {
+      return {
+        name: 'Sprint 1',
+        dueDate: new Date().setHours(new Date().getHours() - 3),
+        complete: true,
+      } as T;
+    }
+    return {
+      name: 'This is wrong',
+      dueDate: new Date(),
+      complete: true,
+    } as T;
+  }
+
+  getTaskData<T>(id: number): T {
+    // simple initial function
+    if (id === 10000) {
+      return {
+        id: 10000,
+        name: "Work on angular",
+        assignee: "Sebastian Hardin",
+        storyPoints: 5
+      } as T;
+    } else if (id === 10001) {
+      return {
+        id: 10001,
+        name: "Add properties to database",
+        assignee: "Sebastian Hardin",
+        storyPoints: 3
+      } as T;
+    }
+    return {
+      id: 0,
+      name: "Invalid task",
+      assignee: "No one",
+      storyPoints: 0
+    } as T;
+  }
 }

@@ -1,0 +1,14 @@
+<p-accordionTab>
+  <ng-template pTemplate="header">
+    <div class="task-dropdown-header">
+      <p class="task-dropdown-header-text">{{ id }}: {{ name }}</p>
+      <p-chip label="{{storyPoints}}" styleClass="p-mr-2" class="task-dropdown-story-chip"></p-chip>
+    </div>
+    
+  </ng-template>
+  <ng-template pTemplate="body">
+    Assignee: {{ assignee }}    Story Points: {{ storyPoints }}
+    <p-divider></p-divider>
+    <button pButton type="button" class="p-button-sm" label="Go to Task"></button>
+  </ng-template>
+</p-accordionTab>

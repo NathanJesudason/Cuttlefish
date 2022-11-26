@@ -1,0 +1,13 @@
+.task-dropdown-header {
+  width: 100%;
+  display: table;
+}
+
+.task-dropdown-header-text {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.task-dropdown-story-chip {
+  float: right;
+}
