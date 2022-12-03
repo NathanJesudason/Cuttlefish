@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
+import { SprintData } from '../../types/sprint';
+import { TaskData } from '../../types/task';
+
 @Injectable({providedIn: 'root'})
 export class ServerApi {
   baseUrl: string;
@@ -34,29 +37,35 @@ export class ServerApi {
     );
   }
 
-  getSprintData<T>(id: number): T {
+  getSprintData(id: number): SprintData {
     // simple initial function
+    const date = new Date();
     if (id === 0) {
+      date.setHours(new Date().getHours() - 1);
       return {
+        id: 0,
         name: 'Sprint 0',
-        dueDate: new Date().setHours(new Date().getHours() - 1),
+        dueDate: date,
         complete: false,
-      } as T;
+      };
     } else if (id === 1) {
+      date.setHours(new Date().getHours() - 1);
       return {
+        id: 1,
         name: 'Sprint 1',
-        dueDate: new Date().setHours(new Date().getHours() - 3),
+        dueDate: date,
         complete: true,
-      } as T;
+      };
     }
     return {
+      id: -1,
       name: 'This is wrong',
-      dueDate: new Date(),
+      dueDate: date,
       complete: true,
-    } as T;
+    };
   }
 
-  getTaskData<T>(id: number): T {
+  getTaskData(id: number): TaskData {
     // simple initial function
     if (id === 10000) {
       return {
@@ -64,20 +73,20 @@ export class ServerApi {
         name: "Work on angular",
         assignee: "Sebastian Hardin",
         storyPoints: 5
-      } as T;
+      };
     } else if (id === 10001) {
       return {
         id: 10001,
         name: "Add properties to database",
         assignee: "Sebastian Hardin",
         storyPoints: 3
-      } as T;
+      };
     }
     return {
       id: 0,
       name: "Invalid task",
       assignee: "No one",
       storyPoints: 0
-    } as T;
+    };
   }
 }

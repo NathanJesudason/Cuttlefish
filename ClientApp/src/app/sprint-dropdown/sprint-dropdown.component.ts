@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ServerApi } from '../server-api/server-api.service';
+import { SprintData } from '../../types/sprint';
+import { TaskData } from '../../types/task';
 
 @Component({
   selector: 'sprint-dropdown',
@@ -25,17 +27,4 @@ export class SprintDropdownComponent implements OnInit {
     this.tasks.push(this.serverApi.getTaskData(10000));
     this.tasks.push(this.serverApi.getTaskData(10001));
   }
-}
-
-type SprintData = {
-  name: string;
-  dueDate: Date;
-  complete: boolean;
-}
-
-type TaskData = {
-  id: number;
-  name: string;
-  assignee: string;
-  storyPoints: number;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TaskData } from '../../types/task';
 
 @Component({
   selector: 'task-dropdown',
@@ -6,14 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./task-dropdown.component.css']
 })
 export class TaskDropdownComponent implements OnInit {
-  @Input() id!: number;
-  @Input() name!: string;
-  @Input() storyPoints!: number;
-  @Input() assignee!: string;
+  @Input() taskData!: TaskData;
 
   constructor() { }
 
-  ngOnInit(): void {
-  
-  }
+  ngOnInit(): void { }
 }
