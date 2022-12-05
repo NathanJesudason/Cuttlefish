@@ -4,11 +4,15 @@ import {
   ngMocks
 } from 'ng-mocks';
 import { AccordionModule } from 'primeng/accordion';
+import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 
 import { ProjectPageComponent } from './project-page.component';
 
 describe('ProjectPageComponent', () => {
-  beforeEach(() => MockBuilder(ProjectPageComponent, AccordionModule));
+  beforeEach(() => {
+    return MockBuilder(ProjectPageComponent, AccordionModule)
+      .mock(SprintDropdownComponent, { export: true });
+  });
 
   it('should create', () => {
     MockRender(ProjectPageComponent);
