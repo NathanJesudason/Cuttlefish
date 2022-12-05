@@ -6,7 +6,8 @@ import { TaskData } from '../../types/task';
 
 @Component({
   selector: 'sprint-dropdown',
-  templateUrl: './sprint-dropdown.component.html'
+  templateUrl: './sprint-dropdown.component.html',
+  styleUrls: ['./sprint-dropdown.component.css' ],
 })
 export class SprintDropdownComponent implements OnInit {
   @Input() id!: number;
