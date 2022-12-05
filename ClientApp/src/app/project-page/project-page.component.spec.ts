@@ -5,7 +5,6 @@ import {
 } from 'ng-mocks';
 import { AccordionModule } from 'primeng/accordion';
 
-// import { TaskData } from '../../types/task';
 import { ProjectPageComponent } from './project-page.component';
 
 describe('ProjectPageComponent', () => {
