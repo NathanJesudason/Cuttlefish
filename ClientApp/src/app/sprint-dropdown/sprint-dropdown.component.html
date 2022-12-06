@@ -17,7 +17,7 @@
     </ng-template>
     <p-divider></p-divider>
     <p-accordion [multiple]="true">
-      <task-dropdown *ngFor="let task of tasks" [taskData]="task"></task-dropdown>
+      <task-dropdown *ngFor="let task of data.tasks" [taskData]="task"></task-dropdown>
     </p-accordion>
   </ng-template>
 </p-accordionTab>

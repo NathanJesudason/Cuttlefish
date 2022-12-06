@@ -10,7 +10,13 @@ describe('SprintDropdownComponent', () => {
     id: 3,
     name: 'Cuttlefish Team: Sprint 3',
     dueDate: new Date(),
-    complete: false
+    complete: false,
+    tasks: [{
+      id: 43572,
+      name: 'this is the task name',
+      storyPoints: 3,
+      assignee: 'Person'
+    }],
   };
   
   beforeEach(() => {

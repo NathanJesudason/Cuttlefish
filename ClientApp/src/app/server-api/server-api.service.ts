@@ -47,6 +47,7 @@ export class ServerApi {
         name: 'Sprint 0',
         dueDate: date,
         complete: false,
+        tasks: [],
       };
     } else if (id === 1) {
       date.setHours(new Date().getHours() - 1);
@@ -55,6 +56,7 @@ export class ServerApi {
         name: 'Sprint 1',
         dueDate: date,
         complete: true,
+        tasks: []
       };
     }
     return {
@@ -62,6 +64,7 @@ export class ServerApi {
       name: 'This is wrong',
       dueDate: date,
       complete: true,
+      tasks: [],
     };
   }
 
