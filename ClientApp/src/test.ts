@@ -6,6 +6,8 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import { DefaultTitleStrategy, TitleStrategy } from '@angular/router';
+import { MockService, ngMocks } from 'ng-mocks';
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
@@ -13,6 +15,10 @@ declare const require: {
     <T>(id: string): T;
   };
 };
+
+// ngmocks setup
+ngMocks.defaultMock(TitleStrategy, () => MockService(DefaultTitleStrategy));
+ngMocks.autoSpy('jasmine');
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

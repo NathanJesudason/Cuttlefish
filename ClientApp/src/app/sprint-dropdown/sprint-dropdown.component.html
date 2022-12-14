@@ -1,0 +1,23 @@
+<p-accordionTab [selected]="true">
+  <ng-template pTemplate="header">
+    <div class="sprint-dropdown-header">
+      <p class="sprint-dropdown-header-item">{{ data.name }} | 11/26/2022 - {{ data.dueDate.toLocaleString('en-US') }}</p>
+      <i *ngIf="data.complete; else incompleteIconHeader" class="pi pi-check sprint-dropdown-header-item" style="font-size: 2rem;"></i>
+      <ng-template #incompleteIconHeader>
+        <i class="pi pi-times sprint-dropdown-header-item" style="font-size: 2rem;"></i>
+      </ng-template>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="body">
+    Name: {{ data.name }}, dueDate: {{ data.dueDate }}, completed: 
+    <i *ngIf="data.complete; else incompleteIconBody" class="pi pi-check"></i>
+    <ng-template #incompleteIconBody>
+      <i class="pi pi-times"></i>
+    </ng-template>
+    <p-divider></p-divider>
+    <p-accordion [multiple]="true">
+      <task-dropdown *ngFor="let task of data.tasks" [taskData]="task"></task-dropdown>
+    </p-accordion>
+  </ng-template>
+</p-accordionTab>

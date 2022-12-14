@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
+import { SprintData } from '../../types/sprint';
+import { TaskData } from '../../types/task';
+
 @Injectable({providedIn: 'root'})
 export class ServerApi {
   baseUrl: string;
@@ -32,5 +35,61 @@ export class ServerApi {
         responseType: 'json'
       }
     );
+  }
+
+  getSprintData(id: number): SprintData {
+    // simple initial function
+    const date = new Date();
+    if (id === 0) {
+      date.setHours(new Date().getHours() - 1);
+      return {
+        id: 0,
+        name: 'Sprint 0',
+        dueDate: date,
+        complete: false,
+        tasks: [],
+      };
+    } else if (id === 1) {
+      date.setHours(new Date().getHours() - 1);
+      return {
+        id: 1,
+        name: 'Sprint 1',
+        dueDate: date,
+        complete: true,
+        tasks: []
+      };
+    }
+    return {
+      id: -1,
+      name: 'This is wrong',
+      dueDate: date,
+      complete: true,
+      tasks: [],
+    };
+  }
+
+  getTaskData(id: number): TaskData {
+    // simple initial function
+    if (id === 10000) {
+      return {
+        id: 10000,
+        name: "Work on angular",
+        assignee: "Sebastian Hardin",
+        storyPoints: 5
+      };
+    } else if (id === 10001) {
+      return {
+        id: 10001,
+        name: "Add properties to database",
+        assignee: "Sebastian Hardin",
+        storyPoints: 3
+      };
+    }
+    return {
+      id: 0,
+      name: "Invalid task",
+      assignee: "No one",
+      storyPoints: 0
+    };
   }
 }

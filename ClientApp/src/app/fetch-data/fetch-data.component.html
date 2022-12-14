@@ -1,24 +1,23 @@
 <h1 id="tableLabel">Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component demonstrates fetching data from the server into PrimeNG table.</p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
-
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
-  <thead>
+<p-table [value]="forecasts" [tableStyle]="{'min-width': '50rem'}"
+  [lazy]="true" (onLazyLoad)="loadWeather($event)" [loading]="loading">
+  <ng-template pTemplate="header">
     <tr>
       <th>Date</th>
       <th>Temp. (C)</th>
       <th>Temp. (F)</th>
       <th>Summary</th>
     </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let forecast of forecasts">
+  </ng-template>
+  <ng-template pTemplate="body" let-forecast>
+    <tr>
       <td>{{ forecast.date }}</td>
       <td>{{ forecast.temperatureC }}</td>
       <td>{{ forecast.temperatureF }}</td>
       <td>{{ forecast.summary }}</td>
     </tr>
-  </tbody>
-</table>
+  </ng-template>
+</p-table>

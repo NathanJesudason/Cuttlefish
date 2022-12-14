@@ -1,0 +1,12 @@
+.sprint-dropdown-header {
+  width: 100%;
+  display: grid;
+  column-gap: 0.75rem;
+  grid-template-columns: auto min-content;
+  grid-template-rows: 100%;
+}
+
+.sprint-dropdown-header-item {
+  margin-top: auto;
+  margin-bottom: auto;
+}
