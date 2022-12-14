@@ -1,4 +1,3 @@
-import 'jasmine';
 import { MockBuilder, MockRender, ngMocks } from "ng-mocks";
 import { AccordionModule } from "primeng/accordion";
 
