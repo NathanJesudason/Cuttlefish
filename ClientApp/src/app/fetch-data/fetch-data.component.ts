@@ -1,16 +1,32 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { LazyLoadEvent } from 'primeng/api';
+
 import { ServerApi } from '../server-api/server-api.service';
 
 @Component({
   selector: 'app-fetch-data',
   templateUrl: './fetch-data.component.html'
 })
-export class FetchDataComponent {
-  public forecasts: WeatherForecast[] = [];
+export class FetchDataComponent implements OnInit {
+  forecasts: WeatherForecast[] = [];
+  loading!: boolean;
 
-  constructor(serverApi: ServerApi) {
-    serverApi.getWeatherForecast<WeatherForecast[]>()
-      .subscribe(data => this.forecasts = data);
+  constructor(private serverApi: ServerApi) { }
+
+  ngOnInit(): void {
+    this.loading = true;
+  }
+
+  loadWeather(_event: LazyLoadEvent): void {
+    this.loading = false;
+
+    setTimeout(() => {
+      this.serverApi.getWeatherForecast<WeatherForecast[]>().subscribe(data => {
+        this.forecasts = data;
+        this.loading = false;
+      });
+    }, 2000);
   }
 }
 
