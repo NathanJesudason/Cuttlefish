@@ -27,7 +27,7 @@
     "primeicons": "^6.0.1",
     "primeng": "^14.2.2",
     "run-script-os": "^1.1.6",
-    "rxjs": "~7.6.0",
+    "rxjs": "~7.8.0",
     "tslib": "^2.4.1",
     "zone.js": "~0.12.0"
   },
