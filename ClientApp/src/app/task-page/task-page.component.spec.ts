@@ -1,11 +1,13 @@
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
-import { AccordionModule } from 'primeng/accordion';
 
 import { TaskData } from '../../types/task';
+
+import { ServerApi } from '../server-api/server-api.service';
 import { TaskPageComponent } from './task-page.component';
 
 describe('TaskPageComponent', () => {
@@ -16,7 +18,17 @@ describe('TaskPageComponent', () => {
     assignee: 'Person'
   };
 
-  beforeEach(() => MockBuilder(TaskPageComponent, AccordionModule));
+  beforeEach(() => {
+    return MockBuilder(TaskPageComponent)
+      .mock(ActivatedRoute, {
+        snapshot: {
+          paramMap: convertToParamMap({ 'id': data.id })
+        }
+      } as Partial<ActivatedRoute>)
+      .mock(ServerApi, {
+        getFullTaskData: (id: number): TaskData => data,
+      } as Partial<ServerApi>);
+  });
 
   it('should create', () => {
     MockRender(TaskPageComponent, data);
