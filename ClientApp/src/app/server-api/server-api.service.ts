@@ -92,4 +92,28 @@ export class ServerApi {
       storyPoints: 0
     };
   }
+
+  getFullTaskData(id: number): TaskData {
+    if (id === 10000) {
+      return {
+        id: 10000,
+        name: "Work on angular",
+        assignee: "Sebastian Hardin",
+        storyPoints: 5
+      };
+    } else if (id === 10001) {
+      return {
+        id: 10001,
+        name: "Add properties to database",
+        assignee: "Sebastian Hardin",
+        storyPoints: 3
+      };
+    }
+    return {
+      id: 0,
+      name: "Invalid task",
+      assignee: "No one",
+      storyPoints: 0
+    };
+  }
 }
