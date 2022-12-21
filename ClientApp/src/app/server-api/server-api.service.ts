@@ -75,21 +75,33 @@ export class ServerApi {
         id: 10000,
         name: "Work on angular",
         assignee: "Sebastian Hardin",
-        storyPoints: 5
+        storyPoints: 5,
+        description: 'This is the description of the task',
+        progress: 'In Progress',
+        startDate: new Date(Date.parse('12/23/2022')),
+        endDate: new Date(Date.parse('12/26/2022')),
       };
     } else if (id === 10001) {
       return {
         id: 10001,
         name: "Add properties to database",
         assignee: "Sebastian Hardin",
-        storyPoints: 3
+        storyPoints: 3,
+        description: 'This is the description of the task',
+        progress: 'Done',
+        startDate: new Date(Date.parse('12/27/2022')),
+        endDate: new Date(Date.parse('12/28/2022')),
       };
     }
     return {
       id: 0,
       name: "Invalid task",
       assignee: "No one",
-      storyPoints: 0
+      storyPoints: 0,
+      description: 'This is the description of the task',
+      progress: 'Backlog',
+      startDate: new Date(Date.parse('12/23/2022')),
+      endDate: new Date(Date.parse('12/26/2022')),
     };
   }
 
@@ -99,21 +111,33 @@ export class ServerApi {
         id: 10000,
         name: "Work on angular",
         assignee: "Sebastian Hardin",
-        storyPoints: 5
+        storyPoints: 5,
+        description: 'This is the description of the task',
+        progress: 'In Review',
+        startDate: new Date(Date.parse('12/27/2022')),
+        endDate: new Date(Date.parse('12/28/2022')),
       };
     } else if (id === 10001) {
       return {
         id: 10001,
         name: "Add properties to database",
         assignee: "Sebastian Hardin",
-        storyPoints: 3
+        storyPoints: 3,
+        description: 'This is the description of the task',
+        progress: 'Backlog',
+        startDate: new Date(Date.parse('12/23/2022')),
+        endDate: new Date(Date.parse('12/26/2022')),
       };
     }
     return {
       id: 0,
       name: "Invalid task",
       assignee: "No one",
-      storyPoints: 0
+      storyPoints: 0,
+      description: 'This is the description of the task',
+      progress: 'Backlog',
+      startDate: new Date(Date.parse('12/23/2022')),
+      endDate: new Date(Date.parse('12/26/2022')),
     };
   }
 }
