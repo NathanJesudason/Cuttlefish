@@ -4,6 +4,8 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
+import { ChipModule } from 'primeng/chip';
+import { TagModule } from 'primeng/tag';
 
 import { TaskData } from '../../types/task';
 
@@ -23,12 +25,12 @@ describe('TaskPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(TaskPageComponent)
+    return MockBuilder(TaskPageComponent, [TagModule, ChipModule])
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
-      } as Partial<ActivatedRoute>)
+      } as Partial<ActivatedRoute>, { export: true })
       .mock(ServerApi, {
         getFullTaskData: (id: number): TaskData => data,
       } as Partial<ServerApi>);

@@ -77,9 +77,9 @@ export class ServerApi {
         assignee: "Sebastian Hardin",
         storyPoints: 5,
         description: 'This is the description of the task',
-        progress: 'In Progress',
-        startDate: new Date(Date.parse('12/23/2022')),
-        endDate: new Date(Date.parse('12/26/2022')),
+        progress: 'In Review',
+        startDate: new Date(Date.parse('12/27/2022')),
+        endDate: new Date(Date.parse('12/28/2022')),
       };
     } else if (id === 10001) {
       return {
@@ -88,9 +88,9 @@ export class ServerApi {
         assignee: "Sebastian Hardin",
         storyPoints: 3,
         description: 'This is the description of the task',
-        progress: 'Done',
-        startDate: new Date(Date.parse('12/27/2022')),
-        endDate: new Date(Date.parse('12/28/2022')),
+        progress: 'Backlog',
+        startDate: new Date(Date.parse('12/23/2022')),
+        endDate: new Date(Date.parse('12/26/2022')),
       };
     }
     return {

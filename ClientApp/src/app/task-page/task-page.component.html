@@ -1,1 +1,11 @@
 <h4>{{ taskData.id }}: {{ taskData.name }}</h4>
+
+<p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
+<p-tag styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
+<span>{{ taskData.assignee }}</span>
+
+<h4>Description:</h4>
+<p>{{ taskData.description }}</p>
+
+<p>Start Date: {{ taskData.startDate }}</p>
+<p>End Date: {{ taskData.endDate }}</p>
