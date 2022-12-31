@@ -27,6 +27,7 @@ import { SprintDropdownComponent } from './sprint-dropdown/sprint-dropdown.compo
 import { ProjectPageComponent } from './project-page/project-page.component';
 import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
 import { TaskPageComponent } from './task-page/task-page.component';
+import { GanttPageComponent } from './gantt-page/gantt-page.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TaskPageComponent } from './task-page/task-page.component';
     ProjectPageComponent,
     TaskDropdownComponent,
     TaskPageComponent,
+    GanttPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -63,6 +65,7 @@ import { TaskPageComponent } from './task-page/task-page.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project-page', component: ProjectPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
+      { path: 'gantt-page', component: GanttPageComponent },
     ])
   ],
   providers: [],
