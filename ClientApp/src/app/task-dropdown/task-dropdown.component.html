@@ -3,7 +3,7 @@
     <div class="task-dropdown-header">
       <p class="task-dropdown-header-item">{{ taskData.id }}: {{ taskData.name }}</p>
       <p-avatar shape="circle" icon="pi pi-user" class="task-dropdown-header-item"></p-avatar>
-      <p-tag class="task-dropdown-header-item" styleClass="mr-2" value="In Progress"></p-tag>
+      <p-tag class="task-dropdown-header-item" styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
       <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2" class="task-dropdown-header-item"></p-chip>
     </div>
   </ng-template>
@@ -11,6 +11,6 @@
   <ng-template pTemplate="body">
     Assignee: {{ taskData.assignee }}    Story Points: {{ taskData.storyPoints }}
     <p-divider></p-divider>
-    <button pButton type="button" class="p-button-sm" label="Go to Task"></button>
+    <button pButton type="button" class="p-button-sm" label="Go to Task" [routerLink]="['/task', taskData.id]"></button>
   </ng-template>
 </p-accordionTab>
