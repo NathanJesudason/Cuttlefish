@@ -1,4 +1,3 @@
 <p-accordion [multiple]="true">
-  <sprint-dropdown [id]="0"></sprint-dropdown>
-  <sprint-dropdown [id]="1"></sprint-dropdown>
+  <sprint-dropdown *ngFor="let sprint of projectData.sprints" [id]="sprint.id"></sprint-dropdown>
 </p-accordion>
