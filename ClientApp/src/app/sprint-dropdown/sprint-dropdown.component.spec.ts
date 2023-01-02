@@ -1,9 +1,9 @@
-import { MockBuilder, MockRender, ngMocks } from "ng-mocks";
-import { AccordionModule } from "primeng/accordion";
+import { MockBuilder, MockRender, ngMocks } from 'ng-mocks';
+import { AccordionModule } from 'primeng/accordion';
 
-import { SprintData } from "../../types/sprint";
-import { ServerApi } from "../server-api/server-api.service";
-import { SprintDropdownComponent } from "./sprint-dropdown.component";
+import { SprintData } from '../../types/sprint';
+import { ServerApi } from '../server-api/server-api.service';
+import { SprintDropdownComponent } from './sprint-dropdown.component';
 
 describe('SprintDropdownComponent', () => {
   const data: SprintData = {

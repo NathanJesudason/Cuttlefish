@@ -1,4 +1,4 @@
-import { TaskData } from "./task";
+import { TaskData } from './task';
 
 export type SprintData = {
   id: number;
