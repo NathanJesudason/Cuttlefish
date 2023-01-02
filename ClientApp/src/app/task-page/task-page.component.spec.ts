@@ -37,7 +37,7 @@ describe('TaskPageComponent', () => {
   });
 
   it('should create', () => {
-    MockRender(TaskPageComponent, data);
+    MockRender(TaskPageComponent);
     expect(ngMocks.findAll(TaskPageComponent)[0]).toBeTruthy();
   });
 });
