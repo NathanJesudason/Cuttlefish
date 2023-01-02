@@ -1,1 +1,6 @@
+<div id="view-modes-container">
+  <p-radioButton id="day-view-selector" name="viewModes" value="day" label="Day" [(ngModel)]="selectedViewMode" (onClick)="this.changeViewMode('day')"></p-radioButton>
+  <p-radioButton id="week-view-selector" name="viewModes" value="week" label="Week" [(ngModel)]="selectedViewMode" (onClick)="this.changeViewMode('week')"></p-radioButton>
+  <p-radioButton id="month-view-selector" name="viewModes" value="month" label="Month" [(ngModel)]="selectedViewMode" (onClick)="this.changeViewMode('month')"></p-radioButton>
+</div>
 <div id="gantt-chart"></div>

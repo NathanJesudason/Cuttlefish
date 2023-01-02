@@ -17,6 +17,7 @@ import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { MenubarModule } from 'primeng/menubar';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -59,13 +60,14 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
     ToolbarModule,
     AvatarModule,
     MenubarModule,
+    RadioButtonModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'project-page', component: ProjectPageComponent },
+      { path: 'project/:id', component: ProjectPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
-      { path: 'gantt-page', component: GanttPageComponent },
+      { path: 'gantt/:id', component: GanttPageComponent },
     ])
   ],
   providers: [],

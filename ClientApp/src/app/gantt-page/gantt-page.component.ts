@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SVGGantt } from 'gantt';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Item as GanttItem, Options as GanttOptions, SVGGantt } from 'gantt';
 
 import { ServerApi } from '../server-api/server-api.service';
+
+import { ProjectData } from '../../types/project';
+import { TaskData } from '../../types/task';
 
 @Component({
   selector: 'gantt-page',
@@ -9,44 +13,72 @@ import { ServerApi } from '../server-api/server-api.service';
   styleUrls: ['./gantt-page.component.css']
 })
 export class GanttPageComponent implements OnInit {
+  ganttChart!: SVGGantt;
+  defaultChartOptions!: GanttOptions;
+  
+  projectData!: ProjectData;
 
-  constructor(private serverApi: ServerApi) { }
+  selectedViewMode!: 'day' | 'week' | 'month';
+  
+  constructor(
+    private serverApi: ServerApi,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    this.renderGanttChart();
+    this.selectedViewMode = 'day';
+    this.defaultChartOptions = {
+      viewMode: this.selectedViewMode,
+      onClick: (ganttItem: GanttItem) => {
+        this.router.navigate(['task', ganttItem.id]);
+        return {};
+      },
+    };
+
+    this.createGanttChart();
   }
 
-  renderGanttChart(): void {
-    const data = [{
-      id: 1,
-      type: 'group',
-      text: '1 Waterfall model',
-      start: new Date('2018-10-10T09:24:24.319Z'),
-      end: new Date('2018-12-12T09:32:51.245Z'),
-      percent: 0.71,
-      links: []
-    }, {
-      id: 11,
-      parent: 1,
-      text: '1.1 Requirements',
-      start: new Date('2018-10-21T09:24:24.319Z'),
-      end: new Date('2018-11-22T01:01:08.938Z'),
-      percent: 0.29,
-      links: [{
-        target: 12,
-        type: 'FS'
-      }]
-    }, {
-      id: 12,
-      parent: 1,
-      text: '1.2 Design',
-      start: new Date('2018-11-05T09:24:24.319Z'),
-      end: new Date('2018-12-12T09:32:51.245Z'),
-      percent: 0.78,
-    }];
+  private taskToGanttItem(task: TaskData): GanttItem {
+    let item: GanttItem = {
+      id: task.id,
+      parent: -1,
+      text: `${task.id}: ${task.name}`,
+      start: task.startDate ? task.startDate : new Date(),
+      end: task.endDate ? task.endDate : new Date(),
+      percent: 0,
+      links: [],
+    };
+
+    // need to calculate parent (epic this task is contained within)
+
+    // do we want to use the percent completion marker?
+
+    // need to calculate links (to epic, any sub tasks, other upwards/downwards dependencies)
+
+    return item;
+  }
+
+  createGanttChart(): void {
+    let data: GanttItem[] = [];
+    const id = Number(this.route.snapshot.paramMap.get('id')!);
+    this.projectData = this.serverApi.getProjectData(id);
+    for (const sprint of this.projectData.sprints) {
+      for (const task of sprint.tasks) {
+        data.push(this.taskToGanttItem(task));
+      } 
+    }
     
-    new SVGGantt('#gantt-chart', data, {
-      viewMode: 'week',
+    this.ganttChart = new SVGGantt('#gantt-chart', data, {
+      viewMode: this.selectedViewMode,
+      onClick: (ganttItem: GanttItem) => {
+        this.router.navigate(['task', ganttItem.id]);
+        return {};
+      },
     });
+  }
+
+  changeViewMode(viewMode: 'day' | 'week' | 'month'): void {
+    this.ganttChart.setOptions({...this.defaultChartOptions, viewMode: viewMode});
   }
 }
