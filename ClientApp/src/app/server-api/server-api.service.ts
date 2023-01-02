@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { SprintData } from '../../types/sprint';
 import { TaskData } from '../../types/task';
+import { ProjectData } from '../../types/project';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
@@ -42,21 +43,27 @@ export class ServerApi {
     const date = new Date();
     if (id === 0) {
       date.setHours(new Date().getHours() - 1);
+      let tasks: TaskData[] = [];
+      tasks.push(this.getFullTaskData(10000));
+      tasks.push(this.getFullTaskData(10001));
       return {
         id: 0,
         name: 'Sprint 0',
         dueDate: date,
         complete: false,
-        tasks: [],
+        tasks: tasks,
       };
     } else if (id === 1) {
       date.setHours(new Date().getHours() - 1);
+      let tasks: TaskData[] = [];
+      tasks.push(this.getFullTaskData(10000));
+      tasks.push(this.getFullTaskData(10001));
       return {
         id: 1,
         name: 'Sprint 1',
         dueDate: date,
         complete: true,
-        tasks: []
+        tasks: tasks,
       };
     }
     return {
@@ -73,8 +80,8 @@ export class ServerApi {
     if (id === 10000) {
       return {
         id: 10000,
-        name: "Work on angular",
-        assignee: "Sebastian Hardin",
+        name: 'Work on angular',
+        assignee: 'Sebastian Hardin',
         storyPoints: 5,
         description: 'This is the description of the task',
         progress: 'In Review',
@@ -84,8 +91,8 @@ export class ServerApi {
     } else if (id === 10001) {
       return {
         id: 10001,
-        name: "Add properties to database",
-        assignee: "Sebastian Hardin",
+        name: 'Add properties to database',
+        assignee: 'Sebastian Hardin',
         storyPoints: 3,
         description: 'This is the description of the task',
         progress: 'Backlog',
@@ -95,8 +102,8 @@ export class ServerApi {
     }
     return {
       id: 0,
-      name: "Invalid task",
-      assignee: "No one",
+      name: 'Invalid task',
+      assignee: 'No one',
       storyPoints: 0,
       description: 'This is the description of the task',
       progress: 'Backlog',
@@ -109,8 +116,8 @@ export class ServerApi {
     if (id === 10000) {
       return {
         id: 10000,
-        name: "Work on angular",
-        assignee: "Sebastian Hardin",
+        name: 'Work on angular',
+        assignee: 'Sebastian Hardin',
         storyPoints: 5,
         description: 'This is the description of the task',
         progress: 'In Review',
@@ -120,8 +127,8 @@ export class ServerApi {
     } else if (id === 10001) {
       return {
         id: 10001,
-        name: "Add properties to database",
-        assignee: "Sebastian Hardin",
+        name: 'Add properties to database',
+        assignee: 'Sebastian Hardin',
         storyPoints: 3,
         description: 'This is the description of the task',
         progress: 'Backlog',
@@ -131,13 +138,32 @@ export class ServerApi {
     }
     return {
       id: 0,
-      name: "Invalid task",
-      assignee: "No one",
+      name: 'Invalid task',
+      assignee: 'No one',
       storyPoints: 0,
       description: 'This is the description of the task',
       progress: 'Backlog',
       startDate: new Date(Date.parse('12/23/2022')),
       endDate: new Date(Date.parse('12/26/2022')),
     };
+  }
+
+  getProjectData(id: number): ProjectData {
+    if(id === 0) {
+      let sprints: SprintData[] = [];
+      sprints.push(this.getSprintData(0));
+      sprints.push(this.getSprintData(1));
+      return {
+        id: 1,
+        name: 'Cuttlefish Project',
+        sprints: sprints,
+      };
+    } else {
+      return {
+        id: -1,
+        name: 'Invalid project',
+        sprints: [],
+      };
+    }
   }
 }
