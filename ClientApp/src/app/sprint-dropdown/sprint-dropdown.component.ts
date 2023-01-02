@@ -21,7 +21,5 @@ export class SprintDropdownComponent implements OnInit {
 
   loadSprintData(): void {
     this.data = this.serverApi.getSprintData(this.id);
-    this.data.tasks.push(this.serverApi.getTaskData(10000));
-    this.data.tasks.push(this.serverApi.getTaskData(10001));
   }
 }
