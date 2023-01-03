@@ -154,7 +154,7 @@ export class ServerApi {
       sprints.push(this.getSprintData(0));
       sprints.push(this.getSprintData(1));
       return {
-        id: 1,
+        id: 0,
         name: 'Cuttlefish Project',
         sprints: sprints,
       };
