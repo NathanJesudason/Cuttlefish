@@ -66,8 +66,8 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
+      { path: 'project/:id/gantt', component: GanttPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
-      { path: 'gantt/:id', component: GanttPageComponent },
     ])
   ],
   providers: [],
