@@ -1,6 +1,7 @@
 import {
   ActivatedRoute,
-  convertToParamMap
+  convertToParamMap,
+  RouterModule
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
@@ -9,6 +10,7 @@ import {
   ngMocks
 } from 'ng-mocks';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ButtonModule } from 'primeng/button';
 
 import { GanttPageComponent } from './gantt-page.component';
 import { ProjectData } from '../../types/project';
@@ -37,7 +39,7 @@ describe('GanttPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(GanttPageComponent, [RadioButtonModule, FormsModule])
+    return MockBuilder(GanttPageComponent, [RadioButtonModule, FormsModule, ButtonModule, RouterModule])
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })

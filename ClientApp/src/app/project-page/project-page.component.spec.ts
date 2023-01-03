@@ -1,10 +1,15 @@
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  RouterModule
+} from '@angular/router';
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
 import { AccordionModule } from 'primeng/accordion';
+import { ButtonModule } from 'primeng/button';
 
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
@@ -34,7 +39,7 @@ describe('ProjectPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(ProjectPageComponent, AccordionModule)
+    return MockBuilder(ProjectPageComponent, [AccordionModule, ButtonModule, RouterModule])
       .mock(SprintDropdownComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
