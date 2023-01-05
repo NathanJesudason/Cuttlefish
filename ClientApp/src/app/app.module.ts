@@ -19,6 +19,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { MenubarModule } from 'primeng/menubar';
 import { RadioButtonModule } from 'primeng/radiobutton';
 
+import { NgxGanttModule } from '@worktile/gantt';
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -61,6 +63,7 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
     AvatarModule,
     MenubarModule,
     RadioButtonModule,
+    NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

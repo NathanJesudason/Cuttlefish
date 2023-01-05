@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Item as GanttItem, Options as GanttOptions, SVGGantt } from 'gantt';
+import { GanttBarClickEvent, GanttItem, GanttSelectedEvent, GanttViewOptions, GanttViewType } from '@worktile/gantt';
+import { format } from 'date-fns';
 
 import { ServerApi } from '../server-api/server-api.service';
 
@@ -13,12 +14,23 @@ import { TaskData } from '../../types/task';
   styleUrls: ['./gantt-page.component.css']
 })
 export class GanttPageComponent implements OnInit {
-  ganttChart!: SVGGantt;
-  defaultChartOptions!: GanttOptions;
-  
   projectData!: ProjectData;
 
-  selectedViewMode!: 'day' | 'week' | 'month';
+  items: GanttItem[] = [];
+
+  // these strings come from date-fns format()
+  viewOptions: GanttViewOptions = {
+    dateFormat: {
+      week: `'Week' w`,
+      month: `LLLL`,
+      quarter: `QQQ yyyy`,
+      yearMonth: `LLLL`,
+      yearQuarter: `QQQ yyyy`,
+      year: `y`,
+    }
+  };
+
+  selectedViewMode!: GanttViewType;
   
   constructor(
     private serverApi: ServerApi,
@@ -27,58 +39,45 @@ export class GanttPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.selectedViewMode = 'day';
-    this.defaultChartOptions = {
-      viewMode: this.selectedViewMode,
-      onClick: (ganttItem: GanttItem) => {
-        this.router.navigate(['task', ganttItem.id]);
-        return {};
-      },
-    };
+    this.loadProjectData();
+    this.selectedViewMode = GanttViewType.day;
+  }
 
-    this.createGanttChart();
+  loadProjectData() {
+    const id = Number(this.route.snapshot.paramMap.get('id')!);
+    this.projectData = this.serverApi.getProjectData(id);
+    for (const sprint of this.projectData.sprints) {
+      this.items.push(...sprint.tasks.map(this.taskToGanttItem));
+    }
   }
 
   private taskToGanttItem(task: TaskData): GanttItem {
     let item: GanttItem = {
-      id: task.id,
-      parent: -1,
-      text: `${task.id}: ${task.name}`,
-      start: task.startDate ? task.startDate : new Date(),
-      end: task.endDate ? task.endDate : new Date(),
-      percent: 0,
-      links: [],
+      id: String(task.id),
+      title: `${task.id}: ${task.name}`,
+      start: task.startDate ? task.startDate.getTime() : undefined,
+      end: task.endDate ? task.endDate.getTime() : undefined,
     };
 
-    // need to calculate parent (epic this task is contained within)
+    // need to calculate group_id (epic this task is contained within)
 
-    // do we want to use the percent completion marker?
+    // do we want to use the progress completion marker?
 
     // need to calculate links (to epic, any sub tasks, other upwards/downwards dependencies)
 
     return item;
   }
 
-  createGanttChart(): void {
-    let data: GanttItem[] = [];
-    const id = Number(this.route.snapshot.paramMap.get('id')!);
-    this.projectData = this.serverApi.getProjectData(id);
-    for (const sprint of this.projectData.sprints) {
-      for (const task of sprint.tasks) {
-        data.push(this.taskToGanttItem(task));
-      } 
-    }
-    
-    this.ganttChart = new SVGGantt('#gantt-chart', data, {
-      viewMode: this.selectedViewMode,
-      onClick: (ganttItem: GanttItem) => {
-        this.router.navigate(['task', ganttItem.id]);
-        return {};
-      },
-    });
+  // so that we can use date-fns format() in the html file
+  format(date: Date | number, str: string) {
+    return format(date, str);
   }
 
-  changeViewMode(viewMode: 'day' | 'week' | 'month'): void {
-    this.ganttChart.setOptions({...this.defaultChartOptions, viewMode: viewMode});
+  itemBarClick(event: GanttBarClickEvent) {
+    this.router.navigate(['task', event.item.id]);
+  }
+
+  itemTitleClick(event: GanttSelectedEvent) {
+    this.router.navigate(['task', (event.selectedValue as GanttItem).id]);
   }
 }
