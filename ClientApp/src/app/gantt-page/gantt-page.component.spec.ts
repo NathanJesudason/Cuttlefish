@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { GanttPageComponent } from './gantt-page.component';
 import { ProjectData } from '../../types/project';
 import { ServerApi } from '../server-api/server-api.service';
+import { NgxGanttModule } from '@worktile/gantt';
 
 describe('GanttPageComponent', () => {
   const data: ProjectData = {
@@ -39,7 +40,7 @@ describe('GanttPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(GanttPageComponent, [RadioButtonModule, FormsModule, ButtonModule, RouterModule])
+    return MockBuilder(GanttPageComponent, [NgxGanttModule, RadioButtonModule, FormsModule, ButtonModule, RouterModule])
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
