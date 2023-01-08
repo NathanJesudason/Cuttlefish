@@ -11,7 +11,7 @@
 <ngx-gantt
   #gantt
   [items]="items"
-  selectable="true"
+  [selectable]="true"
   [viewOptions]="viewOptions"
   [viewType]="selectedViewMode"
   (barClick)="itemBarClick($event)"
@@ -23,12 +23,12 @@
     </ngx-gantt-column>
     <ngx-gantt-column name="Start Date" width="120px">
       <ng-template #cell let-item="item">
-        {{ format(item.start, 'yyyy-MM-dd') }}
+        {{ format(item.start, 'MM-dd-yyyy') }}
       </ng-template>
     </ngx-gantt-column>
     <ngx-gantt-column name="End Date" width="120px">
       <ng-template #cell let-item="item">
-        {{ format(item.end, 'yyyy-MM-dd') }}
+        {{ format(item.end, 'MM-dd-yyyy') }}
       </ng-template>
     </ngx-gantt-column>
   </ngx-gantt-table>
