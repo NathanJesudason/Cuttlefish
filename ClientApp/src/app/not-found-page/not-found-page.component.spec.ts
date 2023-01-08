@@ -1,8 +1,6 @@
 import {
   ActivatedRoute,
-  convertToParamMap,
-  RouterModule,
-  UrlSegment
+  RouterModule
 } from '@angular/router';
 import {
   MockBuilder,
@@ -10,13 +8,11 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
-import { AccordionModule } from 'primeng/accordion';
-import { ButtonModule } from 'primeng/button';
 
-import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
-import { NotFoundPageComponent, NotFoundReason } from './not-found-page.component';
-import { ProjectData } from '../../types/project';
-import { ServerApi } from '../server-api/server-api.service';
+import {
+  NotFoundPageComponent,
+  NotFoundReason
+} from './not-found-page.component';
 import { AppModule } from '../app.module';
 
 describe('NotFoundPageComponent', () => {

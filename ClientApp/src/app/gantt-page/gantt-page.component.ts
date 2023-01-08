@@ -1,11 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { GanttBarClickEvent, GanttItem, GanttSelectedEvent, GanttViewOptions, GanttViewType } from '@worktile/gantt';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  Router,
+  ActivatedRoute
+} from '@angular/router';
+import {
+  GanttBarClickEvent,
+  GanttItem,
+  GanttSelectedEvent,
+  GanttViewOptions,
+  GanttViewType
+} from '@worktile/gantt';
 import { format } from 'date-fns';
 
 import { ServerApi } from '../server-api/server-api.service';
 
-import { ProjectData, ProjectNotFoundError } from '../../types/project';
+import {
+  ProjectData,
+  ProjectNotFoundError
+} from '../../types/project';
 import { TaskData } from '../../types/task';
 
 @Component({

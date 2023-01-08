@@ -1,11 +1,23 @@
-import { Injectable, Inject } from '@angular/core';
+import {
+  Injectable,
+  Inject
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { SprintData, SprintNotFoundError } from '../../types/sprint';
-import { TaskData, TaskNotFoundError } from '../../types/task';
-import { ProjectData, ProjectNotFoundError } from '../../types/project';
+import {
+  SprintData,
+  SprintNotFoundError
+} from '../../types/sprint';
+import {
+  TaskData,
+  TaskNotFoundError
+} from '../../types/task';
+import {
+  ProjectData,
+  ProjectNotFoundError
+} from '../../types/project';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {

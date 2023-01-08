@@ -1,7 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 
-import { TaskData, TaskNotFoundError } from '../../types/task';
+import {
+  TaskData,
+  TaskNotFoundError
+} from '../../types/task';
 import { ServerApi } from '../server-api/server-api.service';
 
 @Component({

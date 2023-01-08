@@ -1,4 +1,8 @@
-import { MockBuilder, MockRender, ngMocks } from 'ng-mocks';
+import {
+  MockBuilder,
+  MockRender,
+  ngMocks
+} from 'ng-mocks';
 import { AccordionModule } from 'primeng/accordion';
 
 import { SprintData } from '../../types/sprint';

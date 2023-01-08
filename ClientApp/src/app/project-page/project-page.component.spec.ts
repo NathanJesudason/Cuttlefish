@@ -11,10 +11,11 @@ import {
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 
+import { ServerApi } from '../server-api/server-api.service';
+
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
 import { ProjectData } from '../../types/project';
-import { ServerApi } from '../server-api/server-api.service';
 
 describe('ProjectPageComponent', () => {
   const data: ProjectData = {

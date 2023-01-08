@@ -1,4 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input
+} from '@angular/core';
 
 import { ServerApi } from '../server-api/server-api.service';
 import { SprintData } from '../../types/sprint';

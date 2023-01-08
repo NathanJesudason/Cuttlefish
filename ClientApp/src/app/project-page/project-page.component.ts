@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 
 import { ServerApi } from '../server-api/server-api.service';
 
-import { ProjectData, ProjectNotFoundError } from '../../types/project';
+import {
+  ProjectData,
+  ProjectNotFoundError
+} from '../../types/project';
 
 @Component({
   selector: 'project-page',
