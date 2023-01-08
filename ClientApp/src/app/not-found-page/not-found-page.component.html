@@ -1,0 +1,9 @@
+<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Unknown">Invalid URL!</h2>
+
+<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Project">Project wasn't found!</h2>
+
+<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Sprint">Sprint wasn't found!</h2>
+
+<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Task">Task wasn't found!</h2>
+
+<h3 *ngIf="this.invalidId !== undefined">Attempted id: {{ this.invalidId }}</h3>

@@ -31,6 +31,7 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
 import { TaskPageComponent } from './task-page/task-page.component';
 import { GanttPageComponent } from './gantt-page/gantt-page.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
     TaskDropdownComponent,
     TaskPageComponent,
     GanttPageComponent,
+    NotFoundPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -71,6 +73,8 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
       { path: 'project/:id', component: ProjectPageComponent },
       { path: 'project/:id/gantt', component: GanttPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
+      { path: 'not-found/*', component: NotFoundPageComponent },
+      { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
     ])
   ],
   providers: [],
