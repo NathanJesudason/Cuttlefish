@@ -48,7 +48,7 @@ describe('ProjectPageComponent', () => {
       } as Partial<ActivatedRoute>, { export: true })
       .mock(ServerApi, {
         getProjectData: (id: number): ProjectData => data,
-      } as Partial<ServerApi>);;
+      } as Partial<ServerApi>);
   });
 
   it('should create', () => {
