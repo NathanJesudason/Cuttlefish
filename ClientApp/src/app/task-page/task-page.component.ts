@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { TaskData } from '../../types/task';
+import { TaskData, TaskNotFoundError } from '../../types/task';
 import { ServerApi } from '../server-api/server-api.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class TaskPageComponent implements OnInit {
   constructor(
     private serverApi: ServerApi,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -23,6 +24,14 @@ export class TaskPageComponent implements OnInit {
 
   loadTaskData(): void {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
-    this.taskData = this.serverApi.getFullTaskData(id);
+
+    try {
+      this.taskData = this.serverApi.getFullTaskData(id);
+    } catch (error) {
+      if (error instanceof TaskNotFoundError) {
+        this.router.navigate(['not-found', 'task', this.route.snapshot.paramMap.get('id')!]);
+        return;
+      }
+    }
   }
 }

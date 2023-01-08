@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 
 import { ServerApi } from '../server-api/server-api.service';
 
-import { ProjectData } from '../../types/project';
+import { ProjectData, ProjectNotFoundError } from '../../types/project';
 import { TaskData } from '../../types/task';
 
 @Component({
@@ -45,7 +45,16 @@ export class GanttPageComponent implements OnInit {
 
   loadProjectData() {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
-    this.projectData = this.serverApi.getProjectData(id);
+
+    try {
+      this.projectData = this.serverApi.getProjectData(id);
+    } catch (error) {
+      if (error instanceof ProjectNotFoundError) {
+        this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
+        return;
+      }
+    }
+
     for (const sprint of this.projectData.sprints) {
       this.items.push(...sprint.tasks.map(this.taskToGanttItem));
     }
