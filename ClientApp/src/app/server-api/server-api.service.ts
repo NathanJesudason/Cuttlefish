@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { SprintData } from '../../types/sprint';
-import { TaskData } from '../../types/task';
-import { ProjectData } from '../../types/project';
+import { SprintData, SprintNotFoundError } from '../../types/sprint';
+import { TaskData, TaskNotFoundError } from '../../types/task';
+import { ProjectData, ProjectNotFoundError } from '../../types/project';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
@@ -38,6 +38,12 @@ export class ServerApi {
     );
   }
 
+  /**
+   * 
+   * @param id the id of the requested sprint
+   * @returns `SprintData`
+   * @throws `SprintNotFoundError` on invalid id
+   */
   getSprintData(id: number): SprintData {
     // simple initial function
     const date = new Date();
@@ -66,15 +72,15 @@ export class ServerApi {
         tasks: tasks,
       };
     }
-    return {
-      id: -1,
-      name: 'This is wrong',
-      dueDate: date,
-      complete: true,
-      tasks: [],
-    };
+    throw new SprintNotFoundError('Sprint not found', id);
   }
 
+  /**
+   * 
+   * @param id the id of the requested task
+   * @returns `TaskData`
+   * @throws `TaskNotFoundError` on invalid id
+   */
   getTaskData(id: number): TaskData {
     // simple initial function
     if (id === 10000) {
@@ -100,18 +106,15 @@ export class ServerApi {
         endDate: new Date(Date.parse('12/26/2022')),
       };
     }
-    return {
-      id: 0,
-      name: 'Invalid task',
-      assignee: 'No one',
-      storyPoints: 0,
-      description: 'This is the description of the task',
-      progress: 'Backlog',
-      startDate: new Date(Date.parse('12/23/2022')),
-      endDate: new Date(Date.parse('12/26/2022')),
-    };
+    throw new TaskNotFoundError('Task not found', id);
   }
 
+  /**
+   * 
+   * @param id the id of the requested task
+   * @returns `TaskData`
+   * @throws `TaskNotFoundError` on invalid id
+   */
   getFullTaskData(id: number): TaskData {
     if (id === 10000) {
       return {
@@ -136,18 +139,15 @@ export class ServerApi {
         endDate: new Date(Date.parse('12/26/2022')),
       };
     }
-    return {
-      id: 0,
-      name: 'Invalid task',
-      assignee: 'No one',
-      storyPoints: 0,
-      description: 'This is the description of the task',
-      progress: 'Backlog',
-      startDate: new Date(Date.parse('12/23/2022')),
-      endDate: new Date(Date.parse('12/26/2022')),
-    };
+    throw new TaskNotFoundError('Task not found', id);
   }
 
+  /**
+   * 
+   * @param id the id of the requested project
+   * @returns `ProjectData`
+   * @throws `ProjectNotFoundError`
+   */
   getProjectData(id: number): ProjectData {
     if(id === 0) {
       let sprints: SprintData[] = [];
@@ -158,12 +158,7 @@ export class ServerApi {
         name: 'Cuttlefish Project',
         sprints: sprints,
       };
-    } else {
-      return {
-        id: -1,
-        name: 'Invalid project',
-        sprints: [],
-      };
     }
+    throw new ProjectNotFoundError('Project not found', id);
   }
 }
