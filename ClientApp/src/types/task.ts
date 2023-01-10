@@ -8,3 +8,16 @@ export type TaskData = {
   startDate: Date | null;
   endDate: Date | null;
 };
+
+export class TaskNotFoundError extends Error {
+  id: number;
+  
+  constructor(m: string, id: number) {
+    super(m);
+    Object.setPrototypeOf(this, TaskNotFoundError.prototype);
+
+    this.id = id;
+    this.name = 'TaskNotFoundError';
+    this.message = `Task with id ${this.id} not found`;
+  }
+};

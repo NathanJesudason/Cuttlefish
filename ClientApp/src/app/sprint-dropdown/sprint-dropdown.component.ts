@@ -1,4 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input
+} from '@angular/core';
 
 import { ServerApi } from '../server-api/server-api.service';
 import { SprintData } from '../../types/sprint';
@@ -21,7 +25,5 @@ export class SprintDropdownComponent implements OnInit {
 
   loadSprintData(): void {
     this.data = this.serverApi.getSprintData(this.id);
-    this.data.tasks.push(this.serverApi.getTaskData(10000));
-    this.data.tasks.push(this.serverApi.getTaskData(10001));
   }
 }

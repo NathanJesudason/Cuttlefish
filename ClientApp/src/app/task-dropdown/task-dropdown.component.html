@@ -11,6 +11,6 @@
   <ng-template pTemplate="body">
     Assignee: {{ taskData.assignee }}    Story Points: {{ taskData.storyPoints }}
     <p-divider></p-divider>
-    <button pButton type="button" class="p-button-sm" label="Go to Task" [routerLink]="['/task', taskData.id]"></button>
+    <button pButton type="button" class="p-button-raised p-button-sm" label="Go to Task" icon="pi pi-check-square" [routerLink]="['/task', taskData.id]"></button>
   </ng-template>
 </p-accordionTab>

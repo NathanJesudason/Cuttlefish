@@ -17,6 +17,9 @@ import { TagModule } from 'primeng/tag';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { MenubarModule } from 'primeng/menubar';
+import { RadioButtonModule } from 'primeng/radiobutton';
+
+import { NgxGanttModule } from '@worktile/gantt';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -27,6 +30,8 @@ import { SprintDropdownComponent } from './sprint-dropdown/sprint-dropdown.compo
 import { ProjectPageComponent } from './project-page/project-page.component';
 import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
 import { TaskPageComponent } from './task-page/task-page.component';
+import { GanttPageComponent } from './gantt-page/gantt-page.component';
+import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +44,8 @@ import { TaskPageComponent } from './task-page/task-page.component';
     ProjectPageComponent,
     TaskDropdownComponent,
     TaskPageComponent,
+    GanttPageComponent,
+    NotFoundPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,12 +64,17 @@ import { TaskPageComponent } from './task-page/task-page.component';
     ToolbarModule,
     AvatarModule,
     MenubarModule,
+    RadioButtonModule,
+    NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'project-page', component: ProjectPageComponent },
+      { path: 'project/:id', component: ProjectPageComponent },
+      { path: 'project/:id/gantt', component: GanttPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
+      { path: 'not-found/*', component: NotFoundPageComponent },
+      { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
     ])
   ],
   providers: [],

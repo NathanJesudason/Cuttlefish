@@ -1,4 +1,4 @@
+<button pButton id="gantt-chart-button" class="p-button-raised p-button-sm" type="button" label="Gantt Chart" icon="pi pi-chart-bar" [routerLink]="['/project', projectData.id, 'gantt']"></button>
 <p-accordion [multiple]="true">
-  <sprint-dropdown [id]="0"></sprint-dropdown>
-  <sprint-dropdown [id]="1"></sprint-dropdown>
+  <sprint-dropdown *ngFor="let sprint of projectData.sprints" [id]="sprint.id"></sprint-dropdown>
 </p-accordion>

@@ -1,9 +1,14 @@
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  RouterModule
+} from '@angular/router';
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
+import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { TagModule } from 'primeng/tag';
 
@@ -25,7 +30,7 @@ describe('TaskPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(TaskPageComponent, [TagModule, ChipModule])
+    return MockBuilder(TaskPageComponent, [TagModule, ChipModule, ButtonModule, RouterModule])
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
@@ -37,7 +42,7 @@ describe('TaskPageComponent', () => {
   });
 
   it('should create', () => {
-    MockRender(TaskPageComponent, data);
+    MockRender(TaskPageComponent);
     expect(ngMocks.findAll(TaskPageComponent)[0]).toBeTruthy();
   });
 });
