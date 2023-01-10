@@ -32,6 +32,7 @@ import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
 import { TaskPageComponent } from './task-page/task-page.component';
 import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     TaskDropdownComponent,
     TaskPageComponent,
     GanttPageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
