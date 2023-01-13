@@ -1,0 +1,29 @@
+footer {
+  background-color: var(--surface-b);
+
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+
+  color: var(--text-color);
+
+  padding: 0.5rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#footer-content-container {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-rows: 100%;
+}
+
+.footer-content-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
