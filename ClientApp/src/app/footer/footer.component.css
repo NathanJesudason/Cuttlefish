@@ -2,6 +2,7 @@ footer {
   background-color: var(--surface-b);
 
   border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
 
   color: var(--text-color);
 
