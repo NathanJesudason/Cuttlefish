@@ -23,7 +23,7 @@ import { NgxGanttModule } from '@worktile/gantt';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import { HomePageComponent } from './home-page/home-page.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SprintDropdownComponent } from './sprint-dropdown/sprint-dropdown.component';
@@ -38,7 +38,7 @@ import { FooterComponent } from './footer/footer.component';
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
+    HomePageComponent,
     CounterComponent,
     FetchDataComponent,
     SprintDropdownComponent,
@@ -69,7 +69,7 @@ import { FooterComponent } from './footer/footer.component';
     RadioButtonModule,
     NgxGanttModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: HomePageComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
