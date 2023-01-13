@@ -21,6 +21,10 @@ describe('ProjectPageComponent', () => {
   const data: ProjectData = {
     id: 12345,
     name: 'Project Name',
+    color: '#234001',
+    description: 'This is the project description',
+    dueDate: new Date(),
+    funds: 49.95,
     sprints: [{
       id: 234597,
       name: 'Sprint Name',

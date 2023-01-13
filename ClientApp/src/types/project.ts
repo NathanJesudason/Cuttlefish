@@ -3,6 +3,10 @@ import { SprintData } from './sprint';
 export type ProjectData = {
   id: number;
   name: string;
+  color: string;
+  description: string;
+  dueDate: Date;
+  funds: number;
   sprints: SprintData[];
 };
 
