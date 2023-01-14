@@ -18,6 +18,9 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { MenubarModule } from 'primeng/menubar';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { InplaceModule } from 'primeng/inplace';
+import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -33,6 +36,7 @@ import { TaskPageComponent } from './task-page/task-page.component';
 import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
+import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,7 @@ import { FooterComponent } from './footer/footer.component';
     GanttPageComponent,
     NotFoundPageComponent,
     FooterComponent,
+    TitleInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -67,6 +72,9 @@ import { FooterComponent } from './footer/footer.component';
     AvatarModule,
     MenubarModule,
     RadioButtonModule,
+    InplaceModule,
+    InputTextModule,
+    ToastModule,
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
