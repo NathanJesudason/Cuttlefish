@@ -22,4 +22,3 @@ export class ProjectNotFoundError extends Error {
     this.message = `Project with id ${this.id} not found`;
   }
 };
-

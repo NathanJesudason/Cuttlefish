@@ -1,16 +1,18 @@
 import { RouterModule } from '@angular/router';
+
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 
 import { ServerApi } from '../server-api/server-api.service';
 
 import { HomePageComponent } from './home-page.component';
 import { ProjectData } from '../../types/project';
-import { CardModule } from 'primeng/card';
 
 describe('HomePageComponent', () => {
   const data: ProjectData[] = [{
