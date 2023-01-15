@@ -15,6 +15,7 @@ import { ServerApi } from '../server-api/server-api.service';
 
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
+import { TitleInplaceComponent } from '../title-inplace/title-inplace.component';
 import { ProjectData } from '../../types/project';
 
 describe('ProjectPageComponent', () => {
@@ -46,6 +47,7 @@ describe('ProjectPageComponent', () => {
   beforeEach(() => {
     return MockBuilder(ProjectPageComponent, [AccordionModule, ButtonModule, RouterModule])
       .mock(SprintDropdownComponent, { export: true })
+      .mock(TitleInplaceComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
