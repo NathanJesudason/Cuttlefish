@@ -1,6 +1,7 @@
-<p-menubar>
-  <button pButton class="p-button-text" type="button" label="Home" [routerLink]="['/']"></button>
-  <button pButton class="p-button-text" type="button" label="Project" [routerLink]="['/project', 0]"></button>
-  <button pButton class="p-button-text" type="button" label="Counter" [routerLink]="['/counter']"></button>
-  <button pButton class="p-button-text" type="button" label="Fetch Data" [routerLink]="['/fetch-data']"></button>
+<p-menubar [model]="menuItems" styleClass="nav-menubar">
+  <ng-template pTemplate="start">
+    <a id="cuttlefish-logo" href="https://github.com/NathanJesudason/Cuttlefish" target="_blank">
+      <img src="assets/cuttlefish_logo.png" alt="Cuttlefish Logo" height="50px">
+    </a>
+  </ng-template>
 </p-menubar>

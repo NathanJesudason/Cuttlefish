@@ -18,12 +18,15 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { MenubarModule } from 'primeng/menubar';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { InplaceModule } from 'primeng/inplace';
+import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import { HomePageComponent } from './home-page/home-page.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SprintDropdownComponent } from './sprint-dropdown/sprint-dropdown.component';
@@ -32,12 +35,14 @@ import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
 import { TaskPageComponent } from './task-page/task-page.component';
 import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
+import { FooterComponent } from './footer/footer.component';
+import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
+    HomePageComponent,
     CounterComponent,
     FetchDataComponent,
     SprintDropdownComponent,
@@ -45,7 +50,9 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     TaskDropdownComponent,
     TaskPageComponent,
     GanttPageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    FooterComponent,
+    TitleInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -65,9 +72,12 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
     AvatarModule,
     MenubarModule,
     RadioButtonModule,
+    InplaceModule,
+    InputTextModule,
+    ToastModule,
     NgxGanttModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: HomePageComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
