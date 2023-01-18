@@ -84,6 +84,18 @@ export class ServerApi {
         tasks: tasks,
       };
     }
+    else if (id === 2) {
+      date.setHours(new Date().getHours() + 7);
+      let tasks: TaskData[] = [];
+      tasks.push(this.getFullTaskData(10001));
+      return {
+        id: 2,
+        name: 'Sprint 1',
+        dueDate: date,
+        complete: false,
+        tasks: tasks,
+      };
+    }
     throw new SprintNotFoundError('Sprint not found', id);
   }
 
@@ -168,9 +180,32 @@ export class ServerApi {
       return {
         id: 0,
         name: 'Cuttlefish Project',
+        color: '#234001',
+        description: 'The goal of this project is to complete the creation of Cuttlefish, our 2022-2023 senior capstone project',
+        dueDate: new Date(),
+        funds: 49.95,
+        sprints: sprints,
+      };
+    } else if (id === 1) {
+      let sprints: SprintData[] = [];
+      sprints.push(this.getSprintData(2));
+      return {
+        id: 1,
+        name: 'A Different Cuttlefish Project',
+        color: '#D84B92',
+        description: 'This is just a mock project to help fill some data into the site as we develop it',
+        dueDate: new Date(),
+        funds: 194,
         sprints: sprints,
       };
     }
     throw new ProjectNotFoundError('Project not found', id);
+  }
+
+  getAllProjects(): ProjectData[] {
+    return [
+      this.getProjectData(0),
+      this.getProjectData(1)
+    ];
   }
 }

@@ -1,0 +1,12 @@
+<p-inplace (preventClick)="true" #titleInplace>
+  <ng-template pTemplate="display">{{ entityData.id }}: {{ entityData.name }}</ng-template>
+  <ng-template pTemplate="content">
+    <input type="text" pInputText [(ngModel)]="updatedTitle" (keydown.enter)="approveChanges()" value="{{ entityData.name }}" />
+    <span class="p-buttonset">
+      <button pButton icon="pi pi-check" (click)="approveChanges()"></button>
+      <button pButton icon="pi pi-times" (click)="cancelInput()"></button>
+    </span>
+  </ng-template>
+</p-inplace>
+
+<p-toast></p-toast>
