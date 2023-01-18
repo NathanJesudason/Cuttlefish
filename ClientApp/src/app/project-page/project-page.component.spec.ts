@@ -15,12 +15,17 @@ import { ServerApi } from '../server-api/server-api.service';
 
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
+import { TitleInplaceComponent } from '../title-inplace/title-inplace.component';
 import { ProjectData } from '../../types/project';
 
 describe('ProjectPageComponent', () => {
   const data: ProjectData = {
     id: 12345,
     name: 'Project Name',
+    color: '#234001',
+    description: 'This is the project description',
+    dueDate: new Date(),
+    funds: 49.95,
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
@@ -42,6 +47,7 @@ describe('ProjectPageComponent', () => {
   beforeEach(() => {
     return MockBuilder(ProjectPageComponent, [AccordionModule, ButtonModule, RouterModule])
       .mock(SprintDropdownComponent, { export: true })
+      .mock(TitleInplaceComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })

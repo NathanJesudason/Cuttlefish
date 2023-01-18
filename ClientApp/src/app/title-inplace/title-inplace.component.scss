@@ -1,0 +1,11 @@
+:host ::ng-deep {
+  .p-inplace-display, .p-inplace-content .p-inputtext {
+    font-size: xx-large;
+    color: var(--text-color);
+    font-weight: 700;
+  }
+}
+
+.p-buttonset {
+  display: block;
+}
