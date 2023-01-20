@@ -3,8 +3,12 @@ import { TaskData } from './task';
 export type SprintData = {
   id: number;
   name: string;
+  startDate: Date;
   dueDate: Date;
-  complete: boolean;
+  pointsCompleted: number;
+  pointsAttempted: number;
+  projectId: number;
+  isBacklog: boolean;
   tasks: TaskData[];
 };
 

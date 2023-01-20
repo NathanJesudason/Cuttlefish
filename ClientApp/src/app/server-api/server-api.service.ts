@@ -58,41 +58,64 @@ export class ServerApi {
    */
   getSprintData(id: number): SprintData {
     // simple initial function
-    const date = new Date();
     if (id === 0) {
-      date.setHours(new Date().getHours() - 1);
       let tasks: TaskData[] = [];
       tasks.push(this.getFullTaskData(10000));
       tasks.push(this.getFullTaskData(10001));
+      let attempted = 0, completed = 0;
+      tasks.forEach(task => {
+        if (task.progress === 'Done') completed += task.storyPoints;
+        attempted += task.storyPoints;
+      });
       return {
         id: 0,
-        name: 'Sprint 0',
-        dueDate: date,
-        complete: false,
+        name: 'Team Cuttlefish - Sprint 0',
+        startDate: new Date(Date.parse('17 Jan 2023 00:00:00 GMT')),
+        dueDate: new Date(Date.parse('31 Jan 2023 00:00:00 GMT')),
+        pointsAttempted: attempted,
+        pointsCompleted: completed,
+        projectId: 0,
+        isBacklog: false,
         tasks: tasks,
       };
     } else if (id === 1) {
-      date.setHours(new Date().getHours() - 1);
       let tasks: TaskData[] = [];
       tasks.push(this.getFullTaskData(10000));
       tasks.push(this.getFullTaskData(10001));
+      let attempted = 0, completed = 0;
+      tasks.forEach(task => {
+        if (task.progress === 'Done') completed += task.storyPoints;
+        attempted += task.storyPoints;
+      });
       return {
         id: 1,
-        name: 'Sprint 1',
-        dueDate: date,
-        complete: true,
+        name: 'Team Cuttlefish - Sprint 1',
+        startDate: new Date(Date.parse('1 Feb 2023 00:00:00 GMT')),
+        dueDate: new Date(Date.parse('15 Feb 2023 00:00:00 GMT')),
+        pointsAttempted: attempted,
+        pointsCompleted: completed,
+        projectId: 0,
+        isBacklog: false,
         tasks: tasks,
       };
     }
     else if (id === 2) {
-      date.setHours(new Date().getHours() + 7);
       let tasks: TaskData[] = [];
       tasks.push(this.getFullTaskData(10001));
+      let attempted = 0, completed = 0;
+      tasks.forEach(task => {
+        if (task.progress === 'Done') completed += task.storyPoints;
+        attempted += task.storyPoints;
+      });
       return {
         id: 2,
-        name: 'Sprint 1',
-        dueDate: date,
-        complete: false,
+        name: 'Different Team Cuttlefish - Sprint 2',
+        startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
+        dueDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
+        pointsAttempted: attempted,
+        pointsCompleted: completed,
+        projectId: 1,
+        isBacklog: false,
         tasks: tasks,
       };
     }
@@ -147,7 +170,7 @@ export class ServerApi {
         assignee: 'Sebastian Hardin',
         storyPoints: 5,
         description: 'This is the description of the task',
-        progress: 'In Review',
+        progress: 'Done',
         startDate: new Date(Date.parse('12/27/2022')),
         endDate: new Date(Date.parse('12/28/2022')),
       };
