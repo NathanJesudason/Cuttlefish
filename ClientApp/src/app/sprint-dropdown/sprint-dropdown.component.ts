@@ -18,17 +18,23 @@ export class SprintDropdownComponent implements OnInit {
   @Input() id!: number;
   
   data!: SprintData;
+  sprintStarted!: boolean;
   sprintComplete!: boolean;
   
   constructor(private serverApi: ServerApi) { }
 
   ngOnInit(): void {
     this.loadSprintData();
-    this.sprintComplete = this.data.dueDate < new Date();
+    this.updateProgress();
   }
 
   loadSprintData(): void {
     this.data = this.serverApi.getSprintData(this.id);
+  }
+
+  updateProgress(): void {
+    this.sprintStarted = this.data.startDate < new Date();
+    this.sprintComplete = this.data.dueDate < new Date();
   }
 
   // so that we can use date-fns format() in the html file
