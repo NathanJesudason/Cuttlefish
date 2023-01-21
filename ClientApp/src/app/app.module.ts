@@ -37,6 +37,8 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
+import { TeamMembersComponent } from './team-members/team-members.component';
+import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component'
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
+    TeamMembersComponent,
+    TeamMembersFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -80,6 +84,7 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
       { path: '', component: HomePageComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'teammembers', component: TeamMembersComponent},
       { path: 'project/:id', component: ProjectPageComponent },
       { path: 'project/:id/gantt', component: GanttPageComponent },
       { path: 'task/:id', component: TaskPageComponent },

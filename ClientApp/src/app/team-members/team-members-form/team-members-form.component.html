@@ -1,0 +1,29 @@
+<form novalidate #form="ngForm" (submit)="onSubmit(form)">
+    <input type="hidden" name="team_memberID"
+    [value]="service.teamMemberData.team_memberID"/>
+    <div>
+        <label>Team Member Name/Username</label>
+        <input placeholder="Name/Username"
+        name="username" #username="ngModel" [(ngModel)]="service.teamMemberData.username"/>
+    </div>
+    <div>
+        <label>Password</label>
+        <input placeholder="Enter password here"
+        name="password" #password="ngModel" [(ngModel)]="service.teamMemberData.password"/>
+    </div>
+    <div>
+        <label>Email</label>
+        <input placeholder="Enter email here"
+        name="email" #email="ngModel" [(ngModel)]="service.teamMemberData.email"/>
+    </div>
+
+    <div>
+        <label>Role</label>
+        <input placeholder="Enter role here"
+        name="role" #role="ngModel" [(ngModel)]="service.teamMemberData.role"/>
+    </div>
+    <div>
+        <button type="submit">Submit</button> 
+    </div>
+
+</form>

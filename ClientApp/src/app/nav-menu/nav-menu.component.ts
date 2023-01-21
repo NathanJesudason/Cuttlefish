@@ -37,6 +37,11 @@ export class NavMenuComponent implements OnInit {
         routerLink: ['/fetch-data'],
       },
       {
+        icon: 'pi pi-cloud',
+        label: 'Team Members',
+        routerLink: ['/teammembers'],
+      },
+      {
         icon: 'pi pi-user',
         items: [
           {
