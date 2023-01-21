@@ -18,6 +18,7 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from '../../types/project';
+import { TranslationKeys } from 'primeng/api';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
@@ -118,6 +119,24 @@ export class ServerApi {
         isBacklog: false,
         tasks: tasks,
       };
+    } else if (id == 3) {
+      let tasks: TaskData[] = [];
+      tasks.push(this.getFullTaskData(10002));
+      let attempted = 0;
+      tasks.forEach(task => {
+        attempted += task.storyPoints;
+      });
+      return {
+        id: 3,
+        name: 'Backlog',
+        startDate: new Date(0),
+        dueDate: new Date(0),
+        pointsAttempted: attempted,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: true,
+        tasks: tasks,
+      }
     }
     throw new SprintNotFoundError('Sprint not found', id);
   }
@@ -185,6 +204,17 @@ export class ServerApi {
         startDate: new Date(Date.parse('12/23/2022')),
         endDate: new Date(Date.parse('12/26/2022')),
       };
+    } else if (id === 10002) {
+      return {
+        id: 10002,
+        name: 'Backlog task',
+        assignee: 'Sebastian Hardin',
+        storyPoints: 1,
+        description: 'This is a test task that exists in the backlog',
+        progress: 'Backlog',
+        startDate: null,
+        endDate: null,
+      }
     }
     throw new TaskNotFoundError('Task not found', id);
   }
@@ -200,6 +230,7 @@ export class ServerApi {
       let sprints: SprintData[] = [];
       sprints.push(this.getSprintData(0));
       sprints.push(this.getSprintData(1));
+      sprints.push(this.getSprintData(3));
       return {
         id: 0,
         name: 'Cuttlefish Project',
@@ -212,6 +243,7 @@ export class ServerApi {
     } else if (id === 1) {
       let sprints: SprintData[] = [];
       sprints.push(this.getSprintData(2));
+      sprints.push(this.getSprintData(4));
       return {
         id: 1,
         name: 'A Different Cuttlefish Project',

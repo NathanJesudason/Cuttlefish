@@ -1,26 +1,27 @@
 <p-accordionTab [selected]="true">
   <ng-template pTemplate="header">
-    <div class="sprint-dropdown-header">
-      <p class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.dueDate, 'MM/dd/yyyy') }}</p>
+    <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.dueDate, 'MM/dd/yyyy') }}</p>
+      <p *ngIf="data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }}</p>
 
-      <p class="sprint-dropdown-header-item">Completed:</p>
-      <p-chip class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsCompleted}}" styleClass="p-mr-2"></p-chip>
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item">Completed:</p>
+      <p-chip *ngIf="!data.isBacklog" class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsCompleted}}" styleClass="p-mr-2"></p-chip>
 
-      <p class="sprint-dropdown-header-item">Attempted:</p>
+      <p class="sprint-dropdown-header-item">Total:</p>
       <p-chip class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsAttempted}}" styleClass="p-mr-2"></p-chip>
 
       <i
-        *ngIf="!sprintStarted && !sprintComplete"
+        *ngIf="!data.isBacklog && !sprintStarted && !sprintComplete"
         class="pi pi-times sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--red-500);"
       ></i>
       <i
-        *ngIf="sprintStarted && !sprintComplete"
+        *ngIf="!data.isBacklog && sprintStarted && !sprintComplete"
         class="pi pi-clock sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--yellow-500);"
       ></i>
       <i
-        *ngIf="sprintStarted && sprintComplete"
+        *ngIf="!data.isBacklog && sprintStarted && sprintComplete"
         class="pi pi-check sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--green-500);"
       ></i>
