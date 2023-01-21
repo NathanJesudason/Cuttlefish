@@ -1,13 +1,13 @@
 <p-accordionTab [selected]="true">
   <ng-template pTemplate="header">
     <div class="sprint-dropdown-header">
-      <p class="sprint-dropdown-header-item">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.dueDate, 'MM/dd/yyyy') }}</p>
+      <p class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.dueDate, 'MM/dd/yyyy') }}</p>
 
       <p class="sprint-dropdown-header-item">Completed:</p>
-      <p-chip class="sprint-dropdown-header-item" label="{{data.pointsCompleted}}" styleClass="p-mr-2"></p-chip>
+      <p-chip class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsCompleted}}" styleClass="p-mr-2"></p-chip>
 
       <p class="sprint-dropdown-header-item">Attempted:</p>
-      <p-chip class="sprint-dropdown-header-item" label="{{data.pointsAttempted}}" styleClass="p-mr-2"></p-chip>
+      <p-chip class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsAttempted}}" styleClass="p-mr-2"></p-chip>
 
       <i *ngIf="sprintComplete; else incompleteIconHeader" class="pi pi-check sprint-dropdown-header-item" style="font-size: 2rem;"></i>
       <ng-template #incompleteIconHeader>
