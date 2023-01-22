@@ -29,7 +29,8 @@
   </ng-template>
 
   <ng-template pTemplate="body">
-    Name: {{ data.name }}, dueDate: {{ data.dueDate }}, completed: 
+    <title-inplace [entityData]="data" size="medium"></title-inplace>
+    <!-- Name: {{ data.name }}, dueDate: {{ data.dueDate }}, completed: 
     <i
       *ngIf="!sprintStarted && !sprintComplete"
       class="pi pi-times"
@@ -44,7 +45,7 @@
       *ngIf="sprintStarted && sprintComplete"
       class="pi pi-check"
       style="color: var(--green-500);"
-    ></i>
+    ></i> -->
 
     <p-divider></p-divider>
 

@@ -1,4 +1,4 @@
-<title-inplace [entityData]="projectData"></title-inplace>
+<title-inplace [entityData]="projectData" size="large"></title-inplace>
 <button pButton id="gantt-chart-button" class="p-button-raised p-button-sm" type="button" label="Gantt Chart" icon="pi pi-chart-bar" [routerLink]="['/project', projectData.id, 'gantt']"></button>
 <p-accordion [multiple]="true">
   <div *ngFor="let sprint of projectData.sprints">
