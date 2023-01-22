@@ -21,6 +21,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -37,6 +38,7 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
+import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
+    DateInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -75,6 +78,7 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
     InplaceModule,
     InputTextModule,
     ToastModule,
+    CalendarModule,
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
