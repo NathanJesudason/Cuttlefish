@@ -34,7 +34,7 @@ export class SprintDropdownComponent implements OnInit {
 
   updateProgress(): void {
     this.sprintStarted = this.data.startDate < new Date();
-    this.sprintComplete = this.data.dueDate < new Date();
+    this.sprintComplete = this.data.endDate < new Date();
   }
 
   // so that we can use date-fns format() in the html file

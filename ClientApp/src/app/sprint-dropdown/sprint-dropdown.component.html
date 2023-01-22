@@ -1,7 +1,7 @@
-<p-accordionTab [selected]="true">
+<p-accordionTab [selected]="data.isBacklog || !sprintComplete">
   <ng-template pTemplate="header">
     <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
-      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.dueDate, 'MM/dd/yyyy') }}</p>
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.endDate, 'MM/dd/yyyy') }}</p>
       <p *ngIf="data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }}</p>
 
       <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item">Completed:</p>
@@ -30,6 +30,8 @@
 
   <ng-template pTemplate="body">
     <title-inplace [entityData]="data" size="medium"></title-inplace>
+    <date-inplace *ngIf="!data.isBacklog" [entityData]="data" whichDate="start" [disabled]="sprintComplete"></date-inplace>
+    <date-inplace *ngIf="!data.isBacklog" [entityData]="data" whichDate="end" [disabled]="sprintComplete"></date-inplace>
 
     <p-divider></p-divider>
 

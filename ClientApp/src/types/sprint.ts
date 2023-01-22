@@ -4,7 +4,7 @@ export type SprintData = {
   id: number;
   name: string;
   startDate: Date;
-  dueDate: Date;
+  endDate: Date;
   pointsCompleted: number;
   pointsAttempted: number;
   projectId: number;
