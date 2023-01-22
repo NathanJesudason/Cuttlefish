@@ -133,6 +133,24 @@ export class ServerApi {
         dueDate: new Date(0),
         pointsAttempted: attempted,
         pointsCompleted: 0,
+        projectId: 0,
+        isBacklog: true,
+        tasks: tasks,
+      }
+    } else if (id == 4) {
+      let tasks: TaskData[] = [];
+      tasks.push(this.getFullTaskData(10002));
+      let attempted = 0;
+      tasks.forEach(task => {
+        attempted += task.storyPoints;
+      });
+      return {
+        id: 4,
+        name: 'Backlog',
+        startDate: new Date(0),
+        dueDate: new Date(0),
+        pointsAttempted: attempted,
+        pointsCompleted: 0,
         projectId: 1,
         isBacklog: true,
         tasks: tasks,
