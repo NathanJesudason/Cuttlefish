@@ -22,6 +22,7 @@ import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
+import { MenuModule } from 'primeng/menu';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -79,6 +80,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     InputTextModule,
     ToastModule,
     CalendarModule,
+    MenuModule,
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },

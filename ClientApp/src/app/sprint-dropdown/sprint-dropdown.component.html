@@ -29,9 +29,33 @@
   </ng-template>
 
   <ng-template pTemplate="body">
-    <title-inplace [entityData]="data" size="medium"></title-inplace>
-    <date-inplace *ngIf="!data.isBacklog" [entityData]="data" whichDate="start" [disabled]="sprintComplete"></date-inplace>
-    <date-inplace *ngIf="!data.isBacklog" [entityData]="data" whichDate="end" [disabled]="sprintComplete"></date-inplace>
+    <div class="sprint-dropdown-content">
+      <title-inplace class="sprint-dropdown-content-item" [entityData]="data" size="medium"></title-inplace>
+
+      <span *ngIf="!data.isBacklog" class="sprint-dropdown-content-item">
+        <button
+          pButton pRipple
+          type="button" icon="pi pi-ellipsis-v"
+          class="p-button-rounded p-button-secondary p-button-text"
+          (click)="optionsMenu.toggle($event)"
+        ></button>
+        <p-menu #optionsMenu [popup]="true" [model]="optionsMenuItems"></p-menu>
+      </span>
+
+      <span *ngIf="!data.isBacklog" class="sprint-dropdown-content-item">
+        <date-inplace
+          [entityData]="data"
+          whichDate="start"
+          [disabled]="sprintComplete"
+        ></date-inplace>
+        <i class="pi pi-minus date-minus"></i>
+        <date-inplace
+          [entityData]="data"
+          whichDate="end"
+          [disabled]="sprintComplete"
+        ></date-inplace>
+      </span>
+    </div>
 
     <p-divider></p-divider>
 
