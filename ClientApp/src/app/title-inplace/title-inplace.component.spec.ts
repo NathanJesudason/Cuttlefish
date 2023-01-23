@@ -1,4 +1,5 @@
 import { FormsModule } from '@angular/forms';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import {
   MockBuilder,
@@ -45,7 +46,7 @@ describe('TitleInplaceComponent', () => {
     }],
   };
   
-  beforeEach(() => MockBuilder(TitleInplaceComponent, [InplaceModule, ToastModule, FormsModule]));
+  beforeEach(() => MockBuilder(TitleInplaceComponent, [InplaceModule, ToastModule, FormsModule, A11yModule]));
 
   it('should create', () => {
     MockRender(TitleInplaceComponent, {entityData: data});
