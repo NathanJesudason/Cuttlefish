@@ -14,7 +14,11 @@
       pInputText
       [(ngModel)]="updatedTitle"
       (keydown.enter)="approveChanges()"
+      (keydown.escape)="cancelInput()"
       value="{{ entityData.name }}"
+      [cdkTrapFocusAutoCapture]="titleInplace.active"
+      [cdkTrapFocus]="titleInplace.active"
+      #titleInput
     />
     <span class="p-buttonset">
       <button pButton icon="pi pi-check" (click)="approveChanges()"></button>

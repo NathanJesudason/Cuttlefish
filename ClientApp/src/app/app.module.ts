@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
@@ -63,6 +64,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    A11yModule,
     TableModule,
     AccordionModule,
     FieldsetModule,
