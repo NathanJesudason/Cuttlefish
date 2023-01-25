@@ -5,8 +5,8 @@ export type TaskData = {
   storyPoints: number;
   description: string;
   progress: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
-  startDate: Date | undefined;
-  endDate: Date | undefined;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export class TaskNotFoundError extends Error {

@@ -23,8 +23,6 @@ export class DateInplaceComponent implements OnInit {
   @Input() whichDate!: 'start' | 'end';
   @Input() disabled!: boolean;
 
-  // @ViewChild('dateInplace') dateInplace!: Inplace;
-
   selectedDate!: Date | undefined;
 
   constructor(

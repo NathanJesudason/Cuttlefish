@@ -6,7 +6,7 @@ export type ProjectData = {
   color: string;
   description: string;
   startDate?: Date;
-  endDate: Date;
+  endDate?: Date;
   funds: number;
   sprints: SprintData[];
 };

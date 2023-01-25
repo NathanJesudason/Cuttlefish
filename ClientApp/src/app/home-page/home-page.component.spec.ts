@@ -15,7 +15,7 @@ import { HomePageComponent } from './home-page.component';
 import { ProjectData } from '../../types/project';
 
 describe('HomePageComponent', () => {
-  const data: ProjectData = {
+  const data: ProjectData[] = [{
     id: 12345,
     name: 'Project Name',
     color: '#234001',
@@ -42,12 +42,12 @@ describe('HomePageComponent', () => {
         progress: 'Backlog'
       }],
     }],
-  };
+  }];
 
   beforeEach(() => {
     return MockBuilder(HomePageComponent, [CardModule, ButtonModule, RouterModule])
       .mock(ServerApi, {
-        getAllProjects: (id: number): ProjectData[] => [data],
+        getAllProjects: (id: number): ProjectData[] => data,
       } as Partial<ServerApi>);
   });
 

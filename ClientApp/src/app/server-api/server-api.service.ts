@@ -18,7 +18,6 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from '../../types/project';
-import { TranslationKeys } from 'primeng/api';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
