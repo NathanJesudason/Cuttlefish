@@ -93,7 +93,10 @@ export class GanttPageComponent implements OnInit {
   }
 
   // so that we can use date-fns format() in the html file
-  format(date: Date | number, str: string) {
+  format(date: Date | number | undefined, str: string) {
+    if (typeof date === 'undefined') {
+      return "none";
+    }
     return format(date, str);
   }
 

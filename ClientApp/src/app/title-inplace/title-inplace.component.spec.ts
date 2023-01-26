@@ -1,4 +1,5 @@
 import { FormsModule } from '@angular/forms';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import {
   MockBuilder,
@@ -21,13 +22,17 @@ describe('TitleInplaceComponent', () => {
     name: 'Project Name',
     color: '#234001',
     description: 'This is the project description',
-    dueDate: new Date(),
+    endDate: new Date(),
     funds: 49.95,
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
-      dueDate: new Date(),
-      complete: true,
+      startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
+      endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
+      pointsAttempted: 0,
+      pointsCompleted: 0,
+      projectId: 1,
+      isBacklog: false,
       tasks: [{
         id: 12345,
         name: 'Task Name',
@@ -41,7 +46,7 @@ describe('TitleInplaceComponent', () => {
     }],
   };
   
-  beforeEach(() => MockBuilder(TitleInplaceComponent, [InplaceModule, ToastModule, FormsModule]));
+  beforeEach(() => MockBuilder(TitleInplaceComponent, [InplaceModule, ToastModule, FormsModule, A11yModule]));
 
   it('should create', () => {
     MockRender(TitleInplaceComponent, {entityData: data});

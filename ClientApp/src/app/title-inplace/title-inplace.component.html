@@ -1,7 +1,25 @@
-<p-inplace (preventClick)="true" #titleInplace>
+<p-inplace
+  [ngClass]="{
+    'size-large': size === 'large',
+    'size-medium': size === 'medium',
+    'size-small': size === 'small'
+  }"
+  (preventClick)="true"
+  #titleInplace
+>
   <ng-template pTemplate="display">{{ entityData.id }}: {{ entityData.name }}</ng-template>
   <ng-template pTemplate="content">
-    <input type="text" pInputText [(ngModel)]="updatedTitle" (keydown.enter)="approveChanges()" value="{{ entityData.name }}" />
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="updatedTitle"
+      (keydown.enter)="approveChanges()"
+      (keydown.escape)="cancelInput()"
+      value="{{ entityData.name }}"
+      [cdkTrapFocusAutoCapture]="titleInplace.active"
+      [cdkTrapFocus]="titleInplace.active"
+      #titleInput
+    />
     <span class="p-buttonset">
       <button pButton icon="pi pi-check" (click)="approveChanges()"></button>
       <button pButton icon="pi pi-times" (click)="cancelInput()"></button>

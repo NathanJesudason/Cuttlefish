@@ -1,0 +1,9 @@
+<p-calendar
+  [(ngModel)]="selectedDate"
+  [disabled]="disabled"
+  [showIcon]="true"
+  (onSelect)="approveChanges($event)"
+  (onClickOutside)="cancelInput($event)"
+></p-calendar>
+
+<p-toast></p-toast>

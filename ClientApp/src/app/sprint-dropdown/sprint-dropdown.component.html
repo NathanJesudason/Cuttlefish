@@ -1,21 +1,64 @@
-<p-accordionTab [selected]="true">
+<p-accordionTab [selected]="data.isBacklog || !sprintComplete">
   <ng-template pTemplate="header">
-    <div class="sprint-dropdown-header">
-      <p class="sprint-dropdown-header-item">{{ data.name }} | 11/26/2022 - {{ data.dueDate.toLocaleString('en-US') }}</p>
-      <i *ngIf="data.complete; else incompleteIconHeader" class="pi pi-check sprint-dropdown-header-item" style="font-size: 2rem;"></i>
-      <ng-template #incompleteIconHeader>
-        <i class="pi pi-times sprint-dropdown-header-item" style="font-size: 2rem;"></i>
-      </ng-template>
+    <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.endDate, 'MM/dd/yyyy') }}</p>
+      <p *ngIf="data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }}</p>
+
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item">Completed:</p>
+      <p-chip *ngIf="!data.isBacklog" class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsCompleted}}" styleClass="p-mr-2"></p-chip>
+
+      <p class="sprint-dropdown-header-item">Total:</p>
+      <p-chip class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsAttempted}}" styleClass="p-mr-2"></p-chip>
+
+      <i
+        *ngIf="!data.isBacklog && !sprintStarted && !sprintComplete"
+        class="pi pi-times sprint-dropdown-header-item"
+        style="font-size: 2rem; color: var(--red-500);"
+      ></i>
+      <i
+        *ngIf="!data.isBacklog && sprintStarted && !sprintComplete"
+        class="pi pi-clock sprint-dropdown-header-item"
+        style="font-size: 2rem; color: var(--yellow-500);"
+      ></i>
+      <i
+        *ngIf="!data.isBacklog && sprintStarted && sprintComplete"
+        class="pi pi-check sprint-dropdown-header-item"
+        style="font-size: 2rem; color: var(--green-500);"
+      ></i>
     </div>
   </ng-template>
 
   <ng-template pTemplate="body">
-    Name: {{ data.name }}, dueDate: {{ data.dueDate }}, completed: 
-    <i *ngIf="data.complete; else incompleteIconBody" class="pi pi-check"></i>
-    <ng-template #incompleteIconBody>
-      <i class="pi pi-times"></i>
-    </ng-template>
+    <div class="sprint-dropdown-content">
+      <title-inplace class="sprint-dropdown-content-item" [entityData]="data" size="medium"></title-inplace>
+
+      <span *ngIf="!data.isBacklog" class="sprint-dropdown-content-item">
+        <button
+          pButton pRipple
+          type="button" icon="pi pi-ellipsis-v"
+          class="p-button-rounded p-button-secondary p-button-text"
+          (click)="optionsMenu.toggle($event)"
+        ></button>
+        <p-menu #optionsMenu [popup]="true" [model]="optionsMenuItems"></p-menu>
+      </span>
+
+      <span *ngIf="!data.isBacklog" class="sprint-dropdown-content-item">
+        <date-inplace
+          [entityData]="data"
+          whichDate="start"
+          [disabled]="sprintComplete"
+        ></date-inplace>
+        <i class="pi pi-minus date-minus"></i>
+        <date-inplace
+          [entityData]="data"
+          whichDate="end"
+          [disabled]="sprintComplete"
+        ></date-inplace>
+      </span>
+    </div>
+
     <p-divider></p-divider>
+
     <p-accordion [multiple]="true">
       <task-dropdown *ngFor="let task of data.tasks" [taskData]="task"></task-dropdown>
     </p-accordion>
