@@ -52,7 +52,7 @@
     "karma-jasmine-html-reporter": "^2.0.0",
     "karma-mocha": "^2.0.1",
     "mocha": "^10.2.0",
-    "ng-mocks": "^14.5.3",
+    "ng-mocks": "^14.6.0",
     "typescript": "~4.8.4"
   },
   "overrides": {
