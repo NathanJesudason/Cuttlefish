@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
@@ -21,6 +22,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
+import { MenuModule } from 'primeng/menu';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -37,6 +40,7 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
+import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 
 @NgModule({
   declarations: [
@@ -53,12 +57,14 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
+    DateInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    A11yModule,
     TableModule,
     AccordionModule,
     FieldsetModule,
@@ -75,6 +81,8 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
     InplaceModule,
     InputTextModule,
     ToastModule,
+    CalendarModule,
+    MenuModule,
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
