@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Models;
+using Cuttlefish.Authentication;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cuttlefish.Controllers
 {
@@ -19,6 +22,92 @@ namespace Cuttlefish.Controllers
         {
             _context = context;
         }
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] TeamMember teammemberObj) // will be sending a body (username and password)
+        {
+            if (teammemberObj == null)
+            {
+                return BadRequest();
+            }
+
+            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.Username == teammemberObj.Username); // && x.Password == teammemberObj.Password);
+
+            if (teammember == null)
+            {
+                return NotFound(new { Message = "User Not Found" });
+            }
+            if(!PasswordHasher.VerifyPassword(teammemberObj.Password, teammember.Password))
+            {
+                return BadRequest(new { Message = "Username or Password is incorrect" });
+            }
+
+            return Ok(new { Message = "Login Success" });
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterTeammember([FromBody] TeamMember teammemberObj)
+        {
+            if (teammemberObj == null)
+            {
+                return BadRequest();
+            }
+
+            //check username
+            if(await CheckUserNameExistAsync(teammemberObj.Username))
+            {
+                return BadRequest(new { Message = "Username Already Exists" });
+            }
+            //check email
+            if (await CheckEmailExistAsync(teammemberObj.Email))
+            {
+                return BadRequest(new { Message = "Email Already Exists" });
+            }
+
+            //check password strength
+            var password = CheckPasswordStrength(teammemberObj.Password);
+            if (!string.IsNullOrEmpty(password))
+            {
+                return BadRequest(new {Message = password.ToString()});
+            }
+
+            teammemberObj.Password = PasswordHasher.HashPassword(teammemberObj.Password); // hash password in Authentication 
+            teammemberObj.Role = "User";
+            teammemberObj.Token = "";
+            await _context.TeamMembers.AddAsync(teammemberObj);
+            await _context.SaveChangesAsync();
+            return Ok(new {Message = "Team member registered"});
+        }
+
+        private async Task<bool> CheckUserNameExistAsync(string username)
+        {
+            return await _context.TeamMembers.AnyAsync(x => x.Username == username);
+        }
+
+        private async Task<bool> CheckEmailExistAsync(string email)
+        {
+            return await _context.TeamMembers.AnyAsync(x => x.Email == email);
+        }
+
+        private string CheckPasswordStrength(string password)
+        {
+            StringBuilder stringbuilder = new StringBuilder();
+            if(password.Length < 8) 
+            {
+                stringbuilder.Append("Minimum password length should be 8" + Environment.NewLine);
+            }
+            if(!(Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[0-9]")))
+            {
+                stringbuilder.Append("Password should contain upper and lower case letters" + Environment.NewLine);
+            }
+            if(!Regex.IsMatch(password, "[$,&,+,,,:,;,=,?,@,#,|,',<,>,.,-,^,*,(,),%,!,{,},`,~,_,\\[,\\]]"))
+            {
+                stringbuilder.Append("Password should contain special character" + Environment.NewLine);
+            }
+            return stringbuilder.ToString();
+        }
+
+
 
         // GET: api/TeamMember
         [HttpGet]

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -38,7 +38,9 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { TeamMembersComponent } from './team-members/team-members.component';
-import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component'
+import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component'
 
 @NgModule({
   declarations: [
@@ -57,11 +59,14 @@ import { TeamMembersFormComponent } from './team-members/team-members-form/team-
     TitleInplaceComponent,
     TeamMembersComponent,
     TeamMembersFormComponent,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule,
     TableModule,
     AccordionModule,
@@ -82,6 +87,9 @@ import { TeamMembersFormComponent } from './team-members/team-members-form/team-
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
+      { path: 'home', component: HomePageComponent, pathMatch: 'full' },
+      { path: 'login', component: LoginComponent},
+      { path: 'signUp', component: SignupComponent}, // possible bug where it won't route to 'signup' but goes to 'signUp'
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'teammembers', component: TeamMembersComponent},

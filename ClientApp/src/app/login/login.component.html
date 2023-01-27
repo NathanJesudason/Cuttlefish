@@ -1,0 +1,12 @@
+<div>
+    <form [formGroup]="loginForm">
+        <input type="text" placeholder="Username or Email" formControlName="username"><br>
+        <input [type]="type" name="password" id="password" placeholder="Password" formControlName="password"> <span (click)="showOrHidePassword()"> Show/Hide Toggle (Click me)</span><br><br>
+        <button [disabled]="loginForm.invalid" type="submit" (click)="Login()">Login</button><br><br>
+        <a href="/forgotpassword">Forgot Password?</a><br>
+        <p>Don't have an account? <a href="/signUp">Signup here</a></p>
+    </form>
+    <a href="https://www.facebook.com">Login in with Facebook [logo]</a><br>
+    <a href="https://www.google.com">Login in with Google  [logo]</a><br>
+    <a href="https://www.github.com">Login in with Github  [logo]</a><br>
+</div>

@@ -13,20 +13,25 @@ var dbConnectionString = builder.Configuration.GetConnectionString("DBConnection
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
 builder.Services.AddCors();
-
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseCors(options => options.WithOrigins("http://localhost:44430").AllowAnyMethod().AllowAnyHeader());
+//app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //possibly allow any origin
 
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
+    // for verifiying http requests without frontend
+    app.UseSwagger();
+    app.UseSwaggerUI(); 
 }
 
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

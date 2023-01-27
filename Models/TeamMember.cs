@@ -9,16 +9,17 @@ namespace Cuttlefish.Models
         public int Team_memberID { get; set; }
 
         [Column(TypeName = "nvarchar(32)")]
-        public string? Username { get; set; }
+        public string Username { get; set; }
 
         [Column(TypeName = "nvarchar(127)")]
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
         [Column(TypeName = "nvarchar(254)")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [Column(TypeName = "nvarchar(32)")]
-        public string? Role { get; set; }
+        public string Role { get; set; }
+        public string Token { get; set; }
 
 
     }
