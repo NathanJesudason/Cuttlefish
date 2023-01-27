@@ -1,0 +1,34 @@
+#dropdown-option-buttons {
+  margin-bottom: var(--content-padding);
+}
+
+:host ::ng-deep {
+  .p-toolbar {
+    margin-bottom: var(--content-padding);
+  }
+}
+
+#hide-sprints-option-button {
+  margin-left: calc(var(--content-padding) / 2);
+}
+
+title-inplace {
+  display: block;
+  margin-bottom: 0.6em;
+}
+
+// :host ::ng-deep {
+//   .p-togglebutton.p-highlight {
+//     background: var(--surface-b);
+//     border-color: #ced4da;
+//     color: var(--text-color);
+//   }
+
+//   .p-togglebutton.p-highlight:hover {
+
+//   }
+
+//   .p-togglebutton.p-highlight .p-button-icon-left {
+//     color: #343a40;
+//   }
+// }

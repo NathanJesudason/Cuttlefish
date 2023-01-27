@@ -3,13 +3,20 @@ import {
   convertToParamMap,
   RouterModule
 } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { DividerModule } from 'primeng/divider';
 
 import { ServerApi } from '../server-api/server-api.service';
 
@@ -49,7 +56,16 @@ describe('ProjectPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(ProjectPageComponent, [AccordionModule, ButtonModule, RouterModule])
+    return MockBuilder(ProjectPageComponent, [
+        AccordionModule,
+        ButtonModule,
+        RouterModule,
+        ToolbarModule,
+        CheckboxModule,
+        FormsModule,
+        ToastModule,
+        DividerModule,
+      ])
       .mock(SprintDropdownComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
       .mock(ActivatedRoute, {
