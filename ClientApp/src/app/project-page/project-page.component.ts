@@ -1,16 +1,23 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {
   ActivatedRoute,
   Router
 } from '@angular/router';
 
+import { MessageService } from 'primeng/api';
+
+import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ServerApi } from '../server-api/server-api.service';
 
 import {
   ProjectData,
   ProjectNotFoundError
 } from '../../types/project';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'project-page',
@@ -24,6 +31,8 @@ export class ProjectPageComponent {
   collapseButtonText: 'Collapse All' | 'Uncollapse All' = 'Collapse All';
   sprintsCollapsed: boolean = false;
   completedSprintsShown: boolean = false;
+
+  @ViewChildren('sprintDropdown') sprintDropdowns!: QueryList<ElementRef<SprintDropdownComponent>>;
   
   constructor(
     private serverApi: ServerApi,
@@ -52,8 +61,14 @@ export class ProjectPageComponent {
   toggleCollapseSprints() {
     this.sprintsCollapsed = !this.sprintsCollapsed;
     if (this.collapseButtonText === 'Collapse All') {
+      for (const sprintDropdown of this.sprintDropdowns.toArray()) {
+        (sprintDropdown as any).collapse();
+      }
       this.collapseButtonText = 'Uncollapse All';
     } else {
+      for (const sprintDropdown of this.sprintDropdowns.toArray()) {
+        (sprintDropdown as any).uncollapse();
+      }
       this.collapseButtonText = 'Collapse All';
     }
     this.messageService.add({severity: 'success', summary: `Sprints are collapsed? ${this.sprintsCollapsed}`});

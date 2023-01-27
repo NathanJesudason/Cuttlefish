@@ -27,7 +27,7 @@
 <p-accordion [multiple]="true">
   <div *ngFor="let sprint of projectData.sprints">
     <p-divider *ngIf="sprint.isBacklog"></p-divider>
-    <sprint-dropdown  [id]="sprint.id"></sprint-dropdown>
+    <sprint-dropdown #sprintDropdown [id]="sprint.id"></sprint-dropdown>
   </div>
 </p-accordion>
 

@@ -22,6 +22,8 @@ export class SprintDropdownComponent implements OnInit {
   sprintStarted!: boolean;
   sprintComplete!: boolean;
 
+  collapsed: boolean = false;
+
   optionsMenuItems: MenuItem[] = [];
   
   constructor(private serverApi: ServerApi) { }
@@ -52,6 +54,18 @@ export class SprintDropdownComponent implements OnInit {
       label: `Delete sprint`,
       icon: 'pi pi-trash',
     });
+  }
+
+  collapse() {
+    if (!this.collapsed) {
+      this.collapsed = true;
+    }
+  }
+
+  uncollapse() {
+    if (this.collapsed) {
+      this.collapsed = false;
+    }
   }
 
   // so that we can use date-fns format() in the html file
