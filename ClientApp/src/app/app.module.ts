@@ -24,6 +24,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
+import { EditorModule } from 'primeng/editor';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -41,6 +42,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     FooterComponent,
     TitleInplaceComponent,
     DateInplaceComponent,
+    DescriptionInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -84,6 +87,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     CalendarModule,
     MenuModule,
     NgxGanttModule,
+    EditorModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
