@@ -37,7 +37,7 @@ namespace Cuttlefish.Controllers
             {
                 return NotFound(new { Message = "User Not Found" });
             }
-            if(!PasswordHasher.VerifyPassword(teammemberObj.Password, teammember.Password))
+            if (!PasswordHasher.VerifyPassword(teammemberObj.Password, teammember.Password))
             {
                 return BadRequest(new { Message = "Username or Password is incorrect" });
             }
@@ -54,7 +54,7 @@ namespace Cuttlefish.Controllers
             }
 
             //check username
-            if(await CheckUserNameExistAsync(teammemberObj.Username))
+            if (await CheckUserNameExistAsync(teammemberObj.Username))
             {
                 return BadRequest(new { Message = "Username Already Exists" });
             }
@@ -68,7 +68,7 @@ namespace Cuttlefish.Controllers
             var password = CheckPasswordStrength(teammemberObj.Password);
             if (!string.IsNullOrEmpty(password))
             {
-                return BadRequest(new {Message = password.ToString()});
+                return BadRequest(new { Message = password.ToString() });
             }
 
             teammemberObj.Password = PasswordHasher.HashPassword(teammemberObj.Password); // hash password in Authentication 
@@ -76,7 +76,7 @@ namespace Cuttlefish.Controllers
             teammemberObj.Token = "";
             await _context.TeamMembers.AddAsync(teammemberObj);
             await _context.SaveChangesAsync();
-            return Ok(new {Message = "Team member registered"});
+            return Ok(new { Message = "Team member registered" });
         }
 
         private async Task<bool> CheckUserNameExistAsync(string username)
@@ -92,15 +92,15 @@ namespace Cuttlefish.Controllers
         private string CheckPasswordStrength(string password)
         {
             StringBuilder stringbuilder = new StringBuilder();
-            if(password.Length < 8) 
+            if (password.Length < 8)
             {
                 stringbuilder.Append("Minimum password length should be 8" + Environment.NewLine);
             }
-            if(!(Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[0-9]")))
+            if (!(Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[0-9]")))
             {
                 stringbuilder.Append("Password should contain upper and lower case letters" + Environment.NewLine);
             }
-            if(!Regex.IsMatch(password, "[$,&,+,,,:,;,=,?,@,#,|,',<,>,.,-,^,*,(,),%,!,{,},`,~,_,\\[,\\]]"))
+            if (!Regex.IsMatch(password, "[$,&,+,,,:,;,=,?,@,#,|,',<,>,.,-,^,*,(,),%,!,{,},`,~,_,\\[,\\]]"))
             {
                 stringbuilder.Append("Password should contain special character" + Environment.NewLine);
             }

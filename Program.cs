@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
 {
     // for verifiying http requests without frontend
     app.UseSwagger();
-    app.UseSwaggerUI(); 
+    app.UseSwaggerUI();
 }
 
 

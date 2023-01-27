@@ -12,12 +12,12 @@ namespace Cuttlefish.Authentication
         public static string HashPassword(string password)
         {
             byte[] salt = new byte[SaltSize];
-            rng.GetBytes(salt); 
+            rng.GetBytes(salt);
             var key = new Rfc2898DeriveBytes(password, salt, Iterations);
             var hash = key.GetBytes(HashSize);
             var hashBytes = new byte[SaltSize + HashSize];
             Array.Copy(salt, 0, hashBytes, 0, SaltSize);
-            Array.Copy(hash, 0, hashBytes,SaltSize, HashSize);
+            Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
 
             var base64Hash = Convert.ToBase64String(hashBytes);
             return base64Hash;
@@ -32,9 +32,9 @@ namespace Cuttlefish.Authentication
             var key = new Rfc2898DeriveBytes(password, salt, Iterations);
             byte[] hash = key.GetBytes(HashSize);
 
-            for(var i=0; i<HashSize; i++) 
+            for (var i = 0; i < HashSize; i++)
             {
-                if (hashBytes[i+SaltSize] != hash[i])
+                if (hashBytes[i + SaltSize] != hash[i])
                 {
                     return false;
                 }
