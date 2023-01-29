@@ -1,4 +1,4 @@
-<p-accordionTab [(selected)]="(data.isBacklog || !sprintComplete) && !collapsed">
+<p-accordionTab [selected]="(data.isBacklog || !sprintComplete) && !collapsed">
   <ng-template pTemplate="header">
     <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
       <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.endDate, 'MM/dd/yyyy') }}</p>
