@@ -20,7 +20,6 @@ export class SprintDropdownComponent implements OnInit {
   
   data!: SprintData;
   sprintStarted!: boolean;
-  sprintComplete!: boolean;
 
   collapsed: boolean = false;
 
@@ -40,11 +39,10 @@ export class SprintDropdownComponent implements OnInit {
 
   updateProgress(): void {
     this.sprintStarted = this.data.startDate < new Date();
-    this.sprintComplete = this.data.endDate < new Date();
   }
 
   assignOptionsMenuItems() {
-    if (this.sprintComplete) {
+    if (this.data.isCompleted) {
       this.optionsMenuItems.push({
         label: 'Hide completed sprint from view',
         icon: 'pi pi-eye-slash',
