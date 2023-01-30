@@ -19,7 +19,7 @@
       [(ngModel)]="completedSprintsShown"
       label="Show Completed Sprints"
       [binary]="true"
-      (onChange)="toggleHideCompletedSprints()"
+      (onChange)="toggleHideCompletedSprints($event)"
     ></p-checkbox>
   </div>
 </p-toolbar>

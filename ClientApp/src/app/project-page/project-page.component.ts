@@ -59,22 +59,37 @@ export class ProjectPageComponent {
   }
 
   toggleCollapseSprints() {
-    this.sprintsCollapsed = !this.sprintsCollapsed;
-    if (this.collapseButtonText === 'Collapse All') {
+    if (!this.sprintsCollapsed) {
       for (const sprintDropdown of this.sprintDropdowns.toArray()) {
-        (sprintDropdown as any).collapse();
+        if (!(sprintDropdown as any).hidden) {
+          (sprintDropdown as any).collapse();
+        }
       }
       this.collapseButtonText = 'Uncollapse All';
     } else {
       for (const sprintDropdown of this.sprintDropdowns.toArray()) {
-        (sprintDropdown as any).uncollapse();
+        if (!(sprintDropdown as any).hidden) {
+          (sprintDropdown as any).uncollapse();
+        }
       }
       this.collapseButtonText = 'Collapse All';
     }
+    this.sprintsCollapsed = !this.sprintsCollapsed;
     this.messageService.add({severity: 'success', summary: `Sprints are collapsed? ${this.sprintsCollapsed}`});
   }
 
-  toggleHideCompletedSprints() {
-    this.messageService.add({severity: 'success', summary: `Completed sprints are shown? ${this.completedSprintsShown}`});
+  toggleHideCompletedSprints(event: {checked: boolean}) {
+    if (event.checked) {
+      for (const sprintDropdown of this.sprintDropdowns.toArray()) {
+        (sprintDropdown as any).unhide();
+      }
+    } else {
+      for (const sprintDropdown of this.sprintDropdowns.toArray()) {
+        if ((sprintDropdown as any).data.isCompleted) {
+          (sprintDropdown as any).hide();
+        }
+      }
+    }
+    this.messageService.add({severity: 'success', summary: `Completed sprints are shown? ${event.checked}`});
   }
 }

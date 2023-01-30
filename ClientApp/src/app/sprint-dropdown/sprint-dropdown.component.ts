@@ -21,7 +21,8 @@ export class SprintDropdownComponent implements OnInit {
   data!: SprintData;
   sprintStarted!: boolean;
 
-  collapsed: boolean = false;
+  collapsed!: boolean;
+  hidden!: boolean;
 
   optionsMenuItems: MenuItem[] = [];
   
@@ -31,6 +32,8 @@ export class SprintDropdownComponent implements OnInit {
     this.loadSprintData();
     this.updateProgress();
     this.assignOptionsMenuItems();
+    this.assignHidden();
+    this.assignCollapsed();
   }
 
   loadSprintData(): void {
@@ -44,14 +47,23 @@ export class SprintDropdownComponent implements OnInit {
   assignOptionsMenuItems() {
     if (this.data.isCompleted) {
       this.optionsMenuItems.push({
-        label: 'Hide completed sprint from view',
+        label: 'Hide completed sprint',
         icon: 'pi pi-eye-slash',
+        command: () => this.hide(),
       })
     }
     this.optionsMenuItems.push({
       label: `Delete sprint`,
       icon: 'pi pi-trash',
     });
+  }
+
+  assignHidden() {
+    this.hidden = this.data.isCompleted;
+  }
+
+  assignCollapsed() {
+    this.collapsed = !this.data.isBacklog && this.data.isCompleted;
   }
 
   collapse() {
@@ -64,6 +76,14 @@ export class SprintDropdownComponent implements OnInit {
     if (this.collapsed) {
       this.collapsed = false;
     }
+  }
+
+  hide() {
+    this.hidden = true;
+  }
+
+  unhide() {
+    this.hidden = false;
   }
 
   // so that we can use date-fns format() in the html file
