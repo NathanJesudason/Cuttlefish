@@ -25,10 +25,10 @@
 </p-toolbar>
 
 <p-accordion [multiple]="true">
-  <div *ngFor="let sprint of projectData.sprints">
-    <p-divider *ngIf="sprint.isBacklog"></p-divider>
+  <ng-container *ngFor="let sprint of projectData.sprints; let i = index">
+    <p-divider *ngIf="sprint.isBacklog && projectData.sprints.length > 1 && !projectData.sprints[i-1].isBacklog"></p-divider>
     <sprint-dropdown #sprintDropdown [id]="sprint.id"></sprint-dropdown>
-  </div>
+  </ng-container>
 </p-accordion>
 
 <p-toast></p-toast>

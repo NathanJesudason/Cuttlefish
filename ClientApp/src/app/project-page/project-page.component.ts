@@ -18,6 +18,7 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from '../../types/project';
+import { SprintData } from '../../types/sprint';
 
 @Component({
   selector: 'project-page',
@@ -56,6 +57,8 @@ export class ProjectPageComponent {
         return;
       }
     }
+
+    this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
   }
 
   toggleCollapseSprints() {
@@ -91,5 +94,27 @@ export class ProjectPageComponent {
       }
     }
     this.messageService.add({severity: 'success', summary: `Completed sprints are shown? ${event.checked}`});
+  }
+
+  // for use within the array's builtin sort()
+  static sprintOrdering(a: SprintData, b: SprintData): number {
+    // backlogs must be at the bottom
+    if (a.isBacklog && !b.isBacklog) {
+      return 1;
+    }
+    if (b.isBacklog && !a.isBacklog) {
+      return -1;
+    }
+    
+    // completed sprints must be at the top
+    if (a.isCompleted && !b.isCompleted) {
+      return -1;
+    }
+    if (b.isCompleted && !a.isCompleted) {
+      return 1;
+    }
+
+    // everything else is ascending order by id
+    return a.startDate.getTime() - b.startDate.getTime();
   }
 }
