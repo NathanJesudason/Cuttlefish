@@ -72,7 +72,7 @@ export class SprintDropdownComponent implements OnInit {
     }
   }
 
-  uncollapse() {
+  expand() {
     if (this.collapsed) {
       this.collapsed = false;
     }

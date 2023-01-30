@@ -29,7 +29,7 @@ import { SprintData } from '../../types/sprint';
 export class ProjectPageComponent {
   projectData!: ProjectData;
 
-  collapseButtonText: 'Collapse All' | 'Uncollapse All' = 'Collapse All';
+  collapseButtonText: 'Collapse All' | 'Expand All' = 'Collapse All';
   sprintsCollapsed: boolean = false;
   completedSprintsShown: boolean = false;
 
@@ -68,11 +68,11 @@ export class ProjectPageComponent {
           (sprintDropdown as any).collapse();
         }
       }
-      this.collapseButtonText = 'Uncollapse All';
+      this.collapseButtonText = 'Expand All';
     } else {
       for (const sprintDropdown of this.sprintDropdowns.toArray()) {
         if (!(sprintDropdown as any).hidden) {
-          (sprintDropdown as any).uncollapse();
+          (sprintDropdown as any).expand();
         }
       }
       this.collapseButtonText = 'Collapse All';
