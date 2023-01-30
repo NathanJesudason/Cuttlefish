@@ -2,11 +2,11 @@ import {
   Component,
   ElementRef,
   QueryList,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import {
   ActivatedRoute,
-  Router
+  Router,
 } from '@angular/router';
 
 import { MessageService } from 'primeng/api';

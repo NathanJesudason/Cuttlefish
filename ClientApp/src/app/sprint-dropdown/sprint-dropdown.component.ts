@@ -32,8 +32,8 @@ export class SprintDropdownComponent implements OnInit {
     this.loadSprintData();
     this.updateProgress();
     this.assignOptionsMenuItems();
-    this.assignHidden();
-    this.assignCollapsed();
+    this.initAssignHidden();
+    this.initAssignCollapsed();
   }
 
   loadSprintData(): void {
@@ -58,11 +58,11 @@ export class SprintDropdownComponent implements OnInit {
     });
   }
 
-  assignHidden() {
+  initAssignHidden() {
     this.hidden = this.data.isCompleted;
   }
 
-  assignCollapsed() {
+  initAssignCollapsed() {
     this.collapsed = !this.data.isBacklog && this.data.isCompleted;
   }
 
