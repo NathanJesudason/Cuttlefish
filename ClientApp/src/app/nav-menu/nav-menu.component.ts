@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../server-api/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,6 +10,10 @@ import { MenuItem } from 'primeng/api';
 export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
   accountMenuItems!: MenuItem[];
+
+  constructor(private auth: AuthService ){
+
+  }
 
   ngOnInit() {
     this.assignMenuItems();
@@ -55,24 +60,19 @@ export class NavMenuComponent implements OnInit {
           {
             icon: 'pi pi-sign-out',
             label: 'Sign Out',
+            command: (event)   => 
+            { this.signOut()}
+            ,
           },
         ],
       },
     ];
 
-    this.accountMenuItems = [
-      {
-        icon: 'pi pi-user',
-        label: 'Account',
-      },
-      {
-        icon: 'pi pi-cog',
-        label: 'Settings',
-      },
-      {
-        icon: 'pi pi-sign-out',
-        label: 'Sign Out',
-      },
-    ];
+    
+  }
+
+
+  signOut(){
+    this.auth.signOut()
   }
 }

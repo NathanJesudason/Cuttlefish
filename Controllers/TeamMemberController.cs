@@ -9,6 +9,9 @@ using Cuttlefish.Models;
 using Cuttlefish.Authentication;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cuttlefish.Controllers
 {
@@ -42,7 +45,13 @@ namespace Cuttlefish.Controllers
                 return BadRequest(new { Message = "Username or Password is incorrect" });
             }
 
-            return Ok(new { Message = "Login Success" });
+            teammember.Token = CreateJwtToken(teammember);
+
+
+
+            return Ok(new { 
+                Token = teammember.Token,
+                Message = "Login Success" });
         }
 
         [HttpPost("register")]
@@ -191,6 +200,27 @@ namespace Cuttlefish.Controllers
         private bool TeamMemberExists(int id)
         {
             return _context.TeamMembers.Any(e => e.Team_memberID == id);
+        }
+        private string CreateJwtToken(TeamMember teammember) 
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("secretkeygoeshere");
+            var identity = new ClaimsIdentity(new Claim[] 
+            {
+                new Claim(ClaimTypes.Role, teammember.Role),
+                new Claim(ClaimTypes.Name,teammember.Username)
+            });
+
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+
+            var tokenDecriptor = new SecurityTokenDescriptor
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = credentials
+            };
+            var token = jwtTokenHandler.CreateToken(tokenDecriptor);
+            return jwtTokenHandler.WriteToken(token);
         }
     }
 }

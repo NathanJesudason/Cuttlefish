@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
     .subscribe({
         next: (res)=>{
           this.loginForm.reset()
+          this.auth.storeToken(res.token)
           this.router.navigate(['home'])
           alert(res.message)
         },

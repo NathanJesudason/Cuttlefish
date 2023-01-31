@@ -1,5 +1,8 @@
 using Cuttlefish.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,25 @@ var dbConnectionString = builder.Configuration.GetConnectionString("DBConnection
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(x => 
+{ 
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme  = JwtBearerDefaults.AuthenticationScheme; 
+
+}).AddJwtBearer( x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretkeygoeshere")),
+        ValidateAudience = false,
+        ValidateIssuer = false
+
+    };
+});
 var app = builder.Build();
 
 app.UseCors(options => options.WithOrigins("http://localhost:44430").AllowAnyMethod().AllowAnyHeader());

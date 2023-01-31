@@ -41,6 +41,7 @@ import { TeamMembersComponent } from './team-members/team-members.component';
 import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component'
+import { AuthGuard } from './server-api/auth.guard';
 
 @NgModule({
   declarations: [
@@ -86,8 +87,8 @@ import { SignupComponent } from './signup/signup.component'
     ToastModule,
     NgxGanttModule,
     RouterModule.forRoot([
-      { path: '', component: HomePageComponent, pathMatch: 'full' },
-      { path: 'home', component: HomePageComponent, pathMatch: 'full' },
+      { path: '', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] },
+      { path: 'home', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] }, // home is restricted so the user has to login first to see the home
       { path: 'login', component: LoginComponent},
       { path: 'signUp', component: SignupComponent}, // possible bug where it won't route to 'signup' but goes to 'signUp'
       { path: 'counter', component: CounterComponent },
