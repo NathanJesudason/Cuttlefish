@@ -1,6 +1,6 @@
-<h1>Welcome, user!</h1>
+<h1>Welcome, {{username}}!</h1>
 
-<div id="project-cards-container">
+ <div id="project-cards-container"> <!--*ngIf="role === 'Admin'"> -->
   <p-card
     class="project-card"
     *ngFor="let project of projects"

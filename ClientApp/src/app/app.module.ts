@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { TableModule } from 'primeng/table';
@@ -42,6 +42,7 @@ import { TeamMembersFormComponent } from './team-members/team-members-form/team-
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component'
 import { AuthGuard } from './server-api/auth.guard';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -91,17 +92,23 @@ import { AuthGuard } from './server-api/auth.guard';
       { path: 'home', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] }, // home is restricted so the user has to login first to see the home
       { path: 'login', component: LoginComponent},
       { path: 'signUp', component: SignupComponent}, // possible bug where it won't route to 'signup' but goes to 'signUp'
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'teammembers', component: TeamMembersComponent},
-      { path: 'project/:id', component: ProjectPageComponent },
-      { path: 'project/:id/gantt', component: GanttPageComponent },
-      { path: 'task/:id', component: TaskPageComponent },
-      { path: 'not-found/*', component: NotFoundPageComponent },
+      { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
+      { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
+      { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
+      { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
+      { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
+      { path: 'task/:id', component: TaskPageComponent, canActivate:[AuthGuard] },
+      { path: 'not-found/*', component: NotFoundPageComponent, canActivate:[AuthGuard] },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
     ])
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

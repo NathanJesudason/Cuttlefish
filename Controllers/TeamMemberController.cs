@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cuttlefish.Controllers
 {
@@ -31,7 +32,7 @@ namespace Cuttlefish.Controllers
         {
             if (teammemberObj == null)
             {
-                return BadRequest();
+                return BadRequest(new { Message = "teammemberobj is null" });
             }
 
             var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.Username == teammemberObj.Username); // && x.Password == teammemberObj.Password);
@@ -49,7 +50,7 @@ namespace Cuttlefish.Controllers
 
 
 
-            return Ok(new { 
+            return Ok(new {
                 Token = teammember.Token,
                 Message = "Login Success" });
         }
@@ -119,6 +120,7 @@ namespace Cuttlefish.Controllers
 
 
         // GET: api/TeamMember
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TeamMember>>> GetTeamMembers()
         {
@@ -201,11 +203,13 @@ namespace Cuttlefish.Controllers
         {
             return _context.TeamMembers.Any(e => e.Team_memberID == id);
         }
+
         private string CreateJwtToken(TeamMember teammember) 
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
+            //jwtTokenHandler.SetDefaultTimesOnTokenCreation = false; // for testing token, set the default experation token
             var key = Encoding.ASCII.GetBytes("secretkeygoeshere");
-            var identity = new ClaimsIdentity(new Claim[] 
+            var identity = new ClaimsIdentity(new Claim[]  //payload in JWT
             {
                 new Claim(ClaimTypes.Role, teammember.Role),
                 new Claim(ClaimTypes.Name,teammember.Username)
@@ -216,8 +220,9 @@ namespace Cuttlefish.Controllers
             var tokenDecriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = credentials
+                
+                Expires = DateTime.UtcNow.AddSeconds(60),
+                SigningCredentials = credentials,
             };
             var token = jwtTokenHandler.CreateToken(tokenDecriptor);
             return jwtTokenHandler.WriteToken(token);

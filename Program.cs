@@ -32,7 +32,9 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretkeygoeshere")),
         ValidateAudience = false,
-        ValidateIssuer = false
+        ValidateIssuer = false,
+        ValidateLifetime = true, 
+        ClockSkew = TimeSpan.Zero // used to match the time of the token
 
     };
 });
@@ -53,15 +55,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+
+
+app.UseStaticFiles();
+
+
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.MapControllers();
-
-app.UseStaticFiles();
-app.UseRouting();
-
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");

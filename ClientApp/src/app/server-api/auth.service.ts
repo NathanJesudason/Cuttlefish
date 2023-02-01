@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import {JwtHelperService} from '@auth0/angular-jwt'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private baseUrl: string = "http://localhost:5277/api/TeamMember/"
+
+  private userPayload: any
+
   constructor(private http : HttpClient, private router: Router) // inject HttpClient into the constructor of this service
   {
-
+    this.userPayload = this.decodedToken()
   }
 
   signUp(teammemberObj : any){
@@ -30,7 +34,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean{
-    return !!localStorage.getItem('token') // if there is a token return true, else return false
+    return !!localStorage.getItem('token') // if there is a token return true, else return false. later add implementation to validate token
   }
 
   signOut(){
@@ -38,5 +42,21 @@ export class AuthService {
     // can also do: localStorage.removeItem('token')
     this.router.navigate(['/login'])
 
+  }
+
+  decodedToken(){
+    const jwtHelper = new JwtHelperService()
+    const token = this.getToken()! // ! because it can be undefined
+    return jwtHelper.decodeToken(token)
+  }
+
+  getUsernameFromToken(){
+    if(this.userPayload)
+      return this.userPayload.name  // this will be the user name
+  }
+
+  getRoleFromToken(){
+    if(this.userPayload)
+      return this.userPayload.role;
   }
 }

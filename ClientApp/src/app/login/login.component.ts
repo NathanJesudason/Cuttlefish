@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../server-api/auth.service';
+import { UserService } from '../server-api/user.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   //formGroup declared in html
   loginForm!: FormGroup
   
-  constructor(private formbuilder: FormBuilder, private  auth : AuthService, private router: Router) { }
+  constructor(private formbuilder: FormBuilder, private  auth : AuthService, private router: Router, private user: UserService) { }
 
   ngOnInit(): void {
 
@@ -44,11 +45,19 @@ export class LoginComponent implements OnInit {
         next: (res)=>{
           this.loginForm.reset()
           this.auth.storeToken(res.token)
+          
+          // this will update the username and role displayed on the homepage by getting the 'name' from the token
+          const tokenPayload = this.auth.decodedToken()
+          this.user.setUserName(tokenPayload.name)
+          this.user.setRole(tokenPayload.role)
+
           this.router.navigate(['home'])
           alert(res.message)
         },
         error: (err)=>{
-           alert(err?.error.message)
+          console.log(err)
+          console.log('incorrect username or password')
+          //  alert(err?.error.message)
         }
       }
     )

@@ -28,6 +28,9 @@ export class TeamMemberService {
   refreshList(){
     this.http.get(this.baseURL).toPromise().then(
       res=> this.list = res as TeamMember[]
+      ,(err)=>{
+        console.log(err.message)
+     }
     )
   }
 }
