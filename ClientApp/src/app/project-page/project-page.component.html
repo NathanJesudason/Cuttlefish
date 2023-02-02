@@ -1,8 +1,42 @@
 <title-inplace [entityData]="projectData" size="large"></title-inplace>
-<button pButton id="gantt-chart-button" class="p-button-raised p-button-sm" type="button" label="Gantt Chart" icon="pi pi-chart-bar" [routerLink]="['/project', projectData.id, 'gantt']"></button>
-<p-accordion [multiple]="true">
-  <div *ngFor="let sprint of projectData.sprints">
-    <p-divider *ngIf="sprint.isBacklog"></p-divider>
-    <sprint-dropdown  [id]="sprint.id"></sprint-dropdown>
+<button
+  pButton
+  id="gantt-chart-button"
+  class="p-button-raised p-button-sm"
+  type="button"
+  label="Gantt Chart"
+  icon="pi pi-chart-bar"
+  [routerLink]="['/project', projectData.id, 'gantt']"
+></button>
+
+<p-divider></p-divider>
+
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <p-button
+      id="collapse-all-button"
+      icon="pi pi-list"
+      [label]="collapseButtonText"
+      styleClass="p-button-sm"
+      (onClick)="toggleCollapseSprints()"
+    ></p-button>
   </div>
+
+  <div class="p-toolbar-group-end">
+    <p-checkbox
+      [(ngModel)]="completedSprintsShown"
+      label="Show Completed Sprints"
+      [binary]="true"
+      (onChange)="toggleHideCompletedSprints($event)"
+    ></p-checkbox>
+  </div>
+</p-toolbar>
+
+<p-accordion [multiple]="true">
+  <ng-container *ngFor="let sprint of projectData.sprints; let i = index">
+    <p-divider *ngIf="sprint.isBacklog && projectData.sprints.length > 1 && !projectData.sprints[i-1].isBacklog"></p-divider>
+    <sprint-dropdown #sprintDropdown [id]="sprint.id"></sprint-dropdown>
+  </ng-container>
 </p-accordion>
+
+<p-toast></p-toast>

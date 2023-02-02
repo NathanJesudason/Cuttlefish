@@ -1,4 +1,7 @@
-<p-accordionTab [selected]="data.isBacklog || !sprintComplete">
+<p-accordionTab
+  *ngIf="!hidden"
+  [selected]="!collapsed"
+>
   <ng-template pTemplate="header">
     <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
       <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.endDate, 'MM/dd/yyyy') }}</p>
@@ -11,17 +14,17 @@
       <p-chip class="sprint-dropdown-header-item sprint-dropdown-header-chip" label="{{data.pointsAttempted}}" styleClass="p-mr-2"></p-chip>
 
       <i
-        *ngIf="!data.isBacklog && !sprintStarted && !sprintComplete"
+        *ngIf="!data.isBacklog && !sprintStarted && !data.isCompleted"
         class="pi pi-times sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--red-500);"
       ></i>
       <i
-        *ngIf="!data.isBacklog && sprintStarted && !sprintComplete"
+        *ngIf="!data.isBacklog && sprintStarted && !data.isCompleted"
         class="pi pi-clock sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--yellow-500);"
       ></i>
       <i
-        *ngIf="!data.isBacklog && sprintStarted && sprintComplete"
+        *ngIf="!data.isBacklog && sprintStarted && data.isCompleted"
         class="pi pi-check sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--green-500);"
       ></i>
@@ -46,13 +49,13 @@
         <date-inplace
           [entityData]="data"
           whichDate="start"
-          [disabled]="sprintComplete"
+          [disabled]="data.isCompleted"
         ></date-inplace>
         <i class="pi pi-minus date-minus"></i>
         <date-inplace
           [entityData]="data"
           whichDate="end"
-          [disabled]="sprintComplete"
+          [disabled]="data.isCompleted"
         ></date-inplace>
       </span>
     </div>
