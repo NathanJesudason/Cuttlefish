@@ -43,6 +43,7 @@ import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ProjectsPageComponent } from './projects-page/projects-page.component';
     TitleInplaceComponent,
     DateInplaceComponent,
     ProjectsPageComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -90,6 +92,8 @@ import { ProjectsPageComponent } from './projects-page/projects-page.component';
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
+      { path: 'login', component: LoginPageComponent },
+      { path: 'projects', component: ProjectsPageComponent },     // route to here after successfully logging in
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
