@@ -91,8 +91,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
     CheckboxModule,
     NgxGanttModule,
     RouterModule.forRoot([
-      { path: '', component: HomePageComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginPageComponent },
+      { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
+      { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in
       { path: 'projects', component: ProjectsPageComponent },     // route to here after successfully logging in
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
