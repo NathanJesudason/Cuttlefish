@@ -42,6 +42,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { ProjectsPageComponent } from './projects-page/projects-page.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     FooterComponent,
     TitleInplaceComponent,
     DateInplaceComponent,
+    ProjectsPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
