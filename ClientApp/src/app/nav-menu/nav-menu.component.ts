@@ -17,14 +17,9 @@ export class NavMenuComponent implements OnInit {
   assignMenuItems() {
     this.menuItems = [
       {
-        icon: 'pi pi-home',
-        label: 'Home',
-        routerLink: ['/'],
-      },
-      {
         icon: 'pi pi-briefcase',
-        label: 'Project',
-        routerLink: ['/project', 0],
+        label: 'Projects',
+        routerLink: ['/projects'],
       },
       {
         icon: 'pi pi-stopwatch',
