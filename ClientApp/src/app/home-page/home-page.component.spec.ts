@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import {
   MockBuilder,
   MockRender,
@@ -9,7 +10,7 @@ import { HomePageComponent } from './home-page.component';
 describe('HomePageComponent', () => {
 
   beforeEach(() => {
-    return MockBuilder(HomePageComponent);
+    return MockBuilder(HomePageComponent, [RouterModule]);
   });
 
   it('should create', () => {
