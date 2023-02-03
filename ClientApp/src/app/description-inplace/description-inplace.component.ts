@@ -19,33 +19,43 @@ import {
     providers: [MessageService],
   })
   export class DescriptionInplaceComponent implements OnInit {
-    @Input() entityData!: TaskData | ProjectData | SprintData;
+    @Input() entityData!: TaskData | ProjectData;
     @Input() whichDate!: 'start' | 'end';
     @Input() disabled!: boolean;
     
-    text: string = '';
+    text!: string;
     selectedDate!: Date | undefined;
+    selected!: boolean
   
     constructor(
       private messageService: MessageService,
     ) { }
   
+    @ViewChild('descriptionInplace') descriptionInplace!: Inplace;
+
     ngOnInit() {
-      this.selectedDate = (this.whichDate === 'start') ? this.entityData.startDate : this.entityData.endDate;
+      this.selected = false;
+      this.text = this.entityData.description;
+    }
+
+    select() {
+      this.selected = true;
+    }
+
+    unSelect() {
+      this.selected = false;
     }
   
     approveChanges(event: any) {
-      this.messageService.add({severity: 'success', summary: `Date was changed to ${this.selectedDate}!`});
-      if (this.whichDate === 'start') {
-        this.entityData.startDate = this.selectedDate;
-      } else {
-        this.entityData.endDate = this.selectedDate;
-      }
+      this.messageService.add({severity: 'success', summary: 'Description was updated'});
+      this.entityData.description = this.text;
       // when the time comes, add a serverApi call here to send change to backend
+      this.unSelect();
     }
   
     cancelInput(event: any) {
-      this.messageService.add({severity: 'info', summary: 'Date update was cancelled'});
+      this.messageService.add({severity: 'info', summary: 'Description update was cancelled'});
+      this.unSelect();
     }
   }
   

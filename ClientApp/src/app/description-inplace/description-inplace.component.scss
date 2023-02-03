@@ -1,31 +1,20 @@
 :host ::ng-deep {
-    .p-inplace-display, .p-inplace-content .p-inputtext {
-      color: var(--text-color);
+    #displayedText:hover {
+      background-color: var(--surface-c);
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
-    
-    p-inplace.size-large {
-      .p-inplace-display, .p-inplace-content .p-inputtext {
-        font-size: xx-large;
-        font-weight: 700;
-      }
+
+    #displayedText {
+      padding: var(--content-padding);
+      border-radius: var(--border-radius);
     }
-  
-    p-inplace.size-medium {
-      .p-inplace-display, .p-inplace-content .p-inputtext {
-        font-size: x-large;
-        font-weight: 600;
-      }
-    }
-  
-    p-inplace.size-small {
-      .p-inplace-display, .p-inplace-content .p-inputtext {
-        font-size: medium;
-        font-weight: 400;
-      }
+
+    #displayedText p {
+      margin-bottom: 0;
     }
   }
   
-  .p-buttonset {
-    display: block;
-  }
-  
+.p-buttonset {
+  display: block;
+} 
