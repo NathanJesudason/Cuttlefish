@@ -20,12 +20,9 @@ import {
   })
   export class DescriptionInplaceComponent implements OnInit {
     @Input() entityData!: TaskData | ProjectData;
-    @Input() whichDate!: 'start' | 'end';
-    @Input() disabled!: boolean;
     
     text!: string;
-    selectedDate!: Date | undefined;
-    selected!: boolean
+    selected!: boolean;
   
     constructor(
       private messageService: MessageService,

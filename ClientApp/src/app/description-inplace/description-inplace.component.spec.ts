@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { DescriptionInplaceComponent } from './description-inplace.component';
 import { ProjectData } from '../../types/project';
 
-describe('DateInplaceComponent', () => {
+describe('DescriptionInplaceComponent', () => {
   const data: ProjectData = {
     id: 12345,
     name: 'Project Name',
@@ -49,13 +49,15 @@ describe('DateInplaceComponent', () => {
     expect(ngMocks.findAll(DescriptionInplaceComponent)[0]).toBeTruthy();
   });
 
-  it('should have correct inplace structure', () => {
+  it('should select and unselect', () => {
     const fixture = MockRender(DescriptionInplaceComponent, {entityData: data});
     const component = fixture.point.componentInstance;
-
-    const calendar = ngMocks.find('p-calendar');
-    expect(calendar).withContext('primeng\'s calendar HTML element exists').toBeTruthy();
-    const calendarBoundValue = ngMocks.input(calendar, 'ngModel');
-    expect(calendarBoundValue).withContext('calendar is properly bound with ngModel').toBe(component.selectedDate);
+    expect(component.selected).toBe(false);
+    component.select();
+    //const editor = ngMocks.find("div#description");
+    //expect(editor).toBeTruthy();
+    expect(component.selected).toBe(true);
+    component.unSelect();
+    expect(component.selected).toBe(false);
   });
 });
