@@ -25,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
 import { EditorModule } from 'primeng/editor';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -86,6 +87,7 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
     ToastModule,
     CalendarModule,
     MenuModule,
+    CheckboxModule,
     NgxGanttModule,
     EditorModule,
     RouterModule.forRoot([
