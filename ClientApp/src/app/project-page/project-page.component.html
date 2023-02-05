@@ -13,22 +13,34 @@
 
 <p-toolbar>
   <div class="p-toolbar-group-start">
-    <p-button
-      id="collapse-all-button"
-      icon="pi pi-list"
-      [label]="collapseButtonText"
-      styleClass="p-button-sm"
-      (onClick)="toggleCollapseSprints()"
-    ></p-button>
+    <button
+      pButton pRipple
+      type="button"
+      label="Create Sprint"
+      class="p-button-success p-button-sm"
+      icon="pi pi-plus"
+      (click)="showCreateSprintModal()"
+    ></button>
   </div>
 
   <div class="p-toolbar-group-end">
-    <p-checkbox
-      [(ngModel)]="completedSprintsShown"
-      label="Show Completed Sprints"
-      [binary]="true"
-      (onChange)="toggleHideCompletedSprints($event)"
-    ></p-checkbox>
+    <div class="sprint-options">
+      <p-button
+        id="collapse-all-button"
+        icon="pi pi-list"
+        [label]="collapseButtonText"
+        styleClass="p-button-sm sprint-option"
+        (onClick)="toggleCollapseSprints()"
+      ></p-button>
+      
+      <p-checkbox
+        [(ngModel)]="completedSprintsShown"
+        label="Show Completed Sprints"
+        [binary]="true"
+        (onChange)="toggleHideCompletedSprints($event)"
+        class="sprint-option"
+      ></p-checkbox>
+    </div>
   </div>
 </p-toolbar>
 
@@ -40,3 +52,7 @@
 </p-accordion>
 
 <p-toast></p-toast>
+
+<create-sprint-modal
+  #createSprintModal
+></create-sprint-modal>

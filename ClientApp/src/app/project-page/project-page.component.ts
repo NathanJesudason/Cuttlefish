@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -12,6 +13,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
+import { CreateSprintModalComponent } from '../create-sprint-modal/create-sprint-modal.component';
 import { ServerApi } from '../server-api/server-api.service';
 
 import {
@@ -34,6 +36,7 @@ export class ProjectPageComponent {
   completedSprintsShown: boolean = false;
 
   @ViewChildren('sprintDropdown') sprintDropdowns!: QueryList<ElementRef<SprintDropdownComponent>>;
+  @ViewChild('createSprintModal') createSprintModal!: ElementRef<CreateSprintModalComponent>;
   
   constructor(
     private serverApi: ServerApi,
@@ -116,5 +119,9 @@ export class ProjectPageComponent {
 
     // everything else is ascending order by id
     return a.startDate.getTime() - b.startDate.getTime();
+  }
+
+  showCreateSprintModal() {
+    (this.createSprintModal as any).showCreateSprintModal();
   }
 }

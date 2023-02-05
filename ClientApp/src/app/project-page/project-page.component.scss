@@ -8,3 +8,16 @@ title-inplace {
     margin-bottom: var(--content-padding);
   }
 }
+
+.sprint-options {
+  width: 100%;
+  display: grid;
+  column-gap: 0.75rem;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: 100%;
+}
+
+.sprint-option {
+  margin-top: auto;
+  margin-bottom: auto;
+}

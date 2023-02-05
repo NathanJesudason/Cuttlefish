@@ -25,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -42,6 +43,7 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     FooterComponent,
     TitleInplaceComponent,
     DateInplaceComponent,
+    CreateSprintModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,6 +88,7 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     CalendarModule,
     MenuModule,
     CheckboxModule,
+    DialogModule,
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },
