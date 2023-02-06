@@ -1,27 +1,44 @@
 <p-dialog
-  id="create-sprint-modal"
   header="Create Sprint"
   [modal]="true"
   [(visible)]="createSprintModalShown"
-  [style]="{width: '50vw'}"
   [draggable]="false"
   [resizable]="false"
 >
-  <p>form in here</p>
+  <div id="modal-body">
+    <div id="modal-forms">
+      <span class="p-float-label">
+        <input id="name-input" type="text" pInputText [(ngModel)]="inputName" />
+        <label for="name-input">Name</label>
+      </span>
 
-  <div id="sprint-modal-action-buttons">
-    <button
-      pButton class="p-button-success"
-      icon="pi pi-check"
-      (click)="acceptModalInput()"
-    ></button>
+      <div class="date-input">
+        <p style="margin-bottom: 0px;">Start Date</p>
+        <p-calendar [(ngModel)]="inputStartDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
+      </div>
 
-    <button
-      pButton class="p-button-danger"
-      icon="pi pi-times"
-      (click)="cancelModalInput()"
-    ></button>
-  </div>
+      <div class="date-input">
+        <p style="margin-bottom: 0px;">End Date</p>
+        <p-calendar [(ngModel)]="inputEndDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
+      </div>
+
+      <p-checkbox [(ngModel)]="inputIsBacklog" [binary]="true" inputId="backlog-input" label="Sprint is a backlog?"></p-checkbox>
+    </div>
+
+    <div id="action-buttons">
+      <button
+        pButton class="p-button-success"
+        icon="pi pi-check"
+        (click)="acceptModalInput()"
+      ></button>
+
+      <button
+        pButton class="p-button-danger"
+        icon="pi pi-times"
+        (click)="cancelModalInput()"
+      ></button>
+    </div>
+</div>
 </p-dialog>
 
 <p-toast></p-toast>
