@@ -19,7 +19,7 @@ import { TaskData } from '../../types/task';
 })
 export class DescriptionInplaceComponent implements OnInit {
   @Input() entityData!: TaskData | ProjectData;
-  
+
   text!: string;
   selected!: boolean;
 
