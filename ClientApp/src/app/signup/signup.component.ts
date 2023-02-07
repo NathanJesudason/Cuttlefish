@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -47,7 +48,7 @@ export class SignupComponent implements OnInit {
             this.signUpForm.reset()
             this.router.navigate(['home'])
           }),
-            error: (err=>{alert(err?.error.message)})
+          error: (err => console.log(err.error.message))
         }
       )
   }

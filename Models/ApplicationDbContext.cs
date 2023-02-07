@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Cuttlefish.Models;
 
 namespace Cuttlefish.Models
 {
@@ -9,6 +10,7 @@ namespace Cuttlefish.Models
         }
 
         public DbSet<TeamMember> TeamMembers { get; set; }
+
 
 
     }

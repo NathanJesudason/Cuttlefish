@@ -103,6 +103,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     ])
   ],
   providers: [
+    
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

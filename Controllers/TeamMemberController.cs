@@ -221,7 +221,7 @@ namespace Cuttlefish.Controllers
             {
                 Subject = identity,
                 
-                Expires = DateTime.UtcNow.AddSeconds(60),
+                Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = credentials,
             };
             var token = jwtTokenHandler.CreateToken(tokenDecriptor);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../server-api/auth.service';
 import { TeamMember } from '../shared/team-member.model';
 import { TeamMemberService } from '../shared/team-member.service';
 
@@ -10,10 +11,11 @@ import { TeamMemberService } from '../shared/team-member.service';
 })
 export class TeamMembersComponent implements OnInit {
 
-  constructor(public service: TeamMemberService) { }
+  constructor(public service: TeamMemberService, private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.service.refreshList()
+    if(this.auth.isLoggedIn())
+      this.service.refreshList()
   }
 
   populateForm(selectedItem: TeamMember){
