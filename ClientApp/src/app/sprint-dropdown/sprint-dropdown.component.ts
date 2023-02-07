@@ -1,7 +1,9 @@
 import {
   Component,
   OnInit,
-  Input
+  Input,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 
 import { format } from 'date-fns';
@@ -9,6 +11,8 @@ import { format } from 'date-fns';
 import { ServerApi } from '../server-api/server-api.service';
 import { SprintData } from '../../types/sprint';
 import { MenuItem } from 'primeng/api';
+
+import { CreateTaskModalComponent } from '../create-task-modal/create-task-modal.component';
 
 @Component({
   selector: 'sprint-dropdown',
@@ -25,6 +29,8 @@ export class SprintDropdownComponent implements OnInit {
   hidden!: boolean;
 
   optionsMenuItems: MenuItem[] = [];
+
+  @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
   
   constructor(private serverApi: ServerApi) { }
 
@@ -84,6 +90,10 @@ export class SprintDropdownComponent implements OnInit {
 
   unhide() {
     this.hidden = false;
+  }
+
+  showCreateTaskModal() {
+    (this.createTaskModal as any).showCreateTaskModal();
   }
 
   // so that we can use date-fns format() in the html file

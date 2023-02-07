@@ -44,6 +44,7 @@ import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
+import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-
     TitleInplaceComponent,
     DateInplaceComponent,
     CreateSprintModalComponent,
+    CreateTaskModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

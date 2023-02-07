@@ -1,0 +1,44 @@
+<p-dialog
+  header="Create Task"
+  [modal]="true"
+  [(visible)]="createTaskModalShown"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div id="modal-body">
+    <div id="modal-forms">
+      <span class="p-float-label">
+        <input id="name-input" type="text" pInputText [(ngModel)]="inputName" />
+        <label for="name-input">Name</label>
+      </span>
+
+      <div class="date-input">
+        <p style="margin-bottom: 0px;">Start Date</p>
+        <p-calendar [(ngModel)]="inputStartDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
+      </div>
+
+      <div class="date-input">
+        <p style="margin-bottom: 0px;">End Date</p>
+        <p-calendar [(ngModel)]="inputEndDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
+      </div>
+
+      <p>Need to add more inputs in here when we're ready</p>
+    </div>
+
+    <div id="action-buttons">
+      <button
+        pButton class="p-button-success"
+        icon="pi pi-check"
+        (click)="acceptModalInput()"
+      ></button>
+
+      <button
+        pButton class="p-button-danger"
+        icon="pi pi-times"
+        (click)="cancelModalInput()"
+      ></button>
+    </div>
+</div>
+</p-dialog>
+
+<p-toast></p-toast>

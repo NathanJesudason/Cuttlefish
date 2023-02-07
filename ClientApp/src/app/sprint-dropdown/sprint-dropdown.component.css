@@ -46,3 +46,7 @@
 .date-minus {
   margin: auto 0.7rem;
 }
+
+.task-modal-button {
+  margin-bottom: var(--content-padding);
+}

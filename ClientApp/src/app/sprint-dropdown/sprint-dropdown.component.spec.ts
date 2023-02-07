@@ -6,6 +6,7 @@ import {
 import { AccordionModule } from 'primeng/accordion';
 
 import { SprintData } from '../../types/sprint';
+import { CreateTaskModalComponent } from '../create-task-modal/create-task-modal.component';
 import { ServerApi } from '../server-api/server-api.service';
 import { SprintDropdownComponent } from './sprint-dropdown.component';
 
@@ -33,7 +34,9 @@ describe('SprintDropdownComponent', () => {
   };
   
   beforeEach(() => {
-    return MockBuilder(SprintDropdownComponent, AccordionModule).mock(ServerApi, {
+    return MockBuilder(SprintDropdownComponent, AccordionModule)
+    .mock(CreateTaskModalComponent, { export: true })
+    .mock(ServerApi, {
       getSprintData: (id: number): SprintData => data,
     } as Partial<ServerApi>);
   });
