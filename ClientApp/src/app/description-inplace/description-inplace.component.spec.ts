@@ -29,6 +29,7 @@ describe('DescriptionInplaceComponent', () => {
       pointsCompleted: 0,
       projectId: 1,
       isBacklog: false,
+      isCompleted: false,
       tasks: [{
         id: 12345,
         name: 'Task Name',
@@ -54,8 +55,6 @@ describe('DescriptionInplaceComponent', () => {
     const component = fixture.point.componentInstance;
     expect(component.selected).toBe(false);
     component.select();
-    //const editor = ngMocks.find("div#description");
-    //expect(editor).toBeTruthy();
     expect(component.selected).toBe(true);
     component.unSelect();
     expect(component.selected).toBe(false);

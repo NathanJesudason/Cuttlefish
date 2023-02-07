@@ -10,7 +10,6 @@ import {
   
   import { ProjectData } from '../../types/project';
   import { TaskData } from '../../types/task';
-  import { SprintData } from '../../types/sprint';
   
   @Component({
     selector: 'description-inplace',
@@ -55,4 +54,3 @@ import {
       this.unSelect();
     }
   }
-  

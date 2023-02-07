@@ -1,20 +1,20 @@
 :host ::ng-deep {
-    #displayedText:hover {
-      background-color: var(--surface-c);
-      cursor: pointer;
-      transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
-    }
-
-    #displayedText {
-      padding: var(--content-padding);
-      border-radius: var(--border-radius);
-    }
-
-    #displayedText p {
-      margin-bottom: 0;
-    }
+  #displayedText:hover {
+    background-color: var(--surface-c);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   }
+
+  #displayedText {
+    padding: var(--content-padding);
+    border-radius: var(--border-radius);
+  }
+
+  #displayedText p {
+    margin-bottom: 0;
+  }
+}
   
 .p-buttonset {
   display: block;
-} 
+}
