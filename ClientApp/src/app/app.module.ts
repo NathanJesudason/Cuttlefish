@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
@@ -21,6 +22,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
+import { MenuModule } from 'primeng/menu';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -37,12 +41,15 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
+
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component'
 import { AuthGuard } from './server-api/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+
+import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 
 @NgModule({
   declarations: [
@@ -59,10 +66,13 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
+
     TeamMembersComponent,
     TeamMembersFormComponent,
     LoginComponent,
     SignupComponent,
+
+    DateInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -70,6 +80,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    A11yModule,
     TableModule,
     AccordionModule,
     FieldsetModule,
@@ -86,6 +97,9 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     InplaceModule,
     InputTextModule,
     ToastModule,
+    CalendarModule,
+    MenuModule,
+    CheckboxModule,
     NgxGanttModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] },

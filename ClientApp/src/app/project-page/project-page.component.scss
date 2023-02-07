@@ -1,0 +1,10 @@
+title-inplace {
+  display: block;
+  margin-bottom: 0.6em;
+}
+
+:host ::ng-deep {
+  .p-toolbar {
+    margin-bottom: var(--content-padding);
+  }
+}

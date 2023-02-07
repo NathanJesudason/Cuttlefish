@@ -10,6 +10,7 @@ import { Inplace } from 'primeng/inplace';
 
 import { ProjectData } from '../../types/project';
 import { TaskData } from '../../types/task';
+import { SprintData } from '../../types/sprint';
 
 @Component({
   selector: 'title-inplace',
@@ -18,7 +19,8 @@ import { TaskData } from '../../types/task';
   providers: [MessageService],
 })
 export class TitleInplaceComponent implements OnInit {
-  @Input() entityData!: TaskData | ProjectData;
+  @Input() entityData!: TaskData | ProjectData | SprintData;
+  @Input() size!: 'large' | 'medium' | 'small';
 
   @ViewChild('titleInplace') titleInplace!: Inplace;
 
@@ -41,6 +43,7 @@ export class TitleInplaceComponent implements OnInit {
 
   cancelInput() {
     this.messageService.add({severity: 'info', summary: 'Title update was cancelled'});
+    this.updatedTitle = this.entityData.name;
     this.titleInplace.deactivate();
   }
 }

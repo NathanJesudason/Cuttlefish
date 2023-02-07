@@ -3,20 +3,29 @@ import {
   convertToParamMap,
   RouterModule
 } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { DividerModule } from 'primeng/divider';
 
 import { ServerApi } from '../server-api/server-api.service';
 
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
 import { TitleInplaceComponent } from '../title-inplace/title-inplace.component';
+
 import { ProjectData } from '../../types/project';
+import { SprintData } from '../../types/sprint';
 
 describe('ProjectPageComponent', () => {
   const data: ProjectData = {
@@ -24,13 +33,18 @@ describe('ProjectPageComponent', () => {
     name: 'Project Name',
     color: '#234001',
     description: 'This is the project description',
-    dueDate: new Date(),
+    endDate: new Date(),
     funds: 49.95,
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
-      dueDate: new Date(),
-      complete: true,
+      startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
+      endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
+      isCompleted: false,
+      pointsAttempted: 0,
+      pointsCompleted: 0,
+      projectId: 1,
+      isBacklog: false,
       tasks: [{
         id: 12345,
         name: 'Task Name',
@@ -45,7 +59,16 @@ describe('ProjectPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(ProjectPageComponent, [AccordionModule, ButtonModule, RouterModule])
+    return MockBuilder(ProjectPageComponent, [
+        AccordionModule,
+        ButtonModule,
+        RouterModule,
+        ToolbarModule,
+        CheckboxModule,
+        FormsModule,
+        ToastModule,
+        DividerModule,
+      ])
       .mock(SprintDropdownComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
       .mock(ActivatedRoute, {
@@ -63,5 +86,173 @@ describe('ProjectPageComponent', () => {
     expect(ngMocks.findAll(ProjectPageComponent)[0]).toBeTruthy();
   });
 
-  // if we ever put anything in the projectpage besides a single accordion, add more unit tests for that
+  it('should order sprints correctly', () => {
+    const test1: SprintData[] = [
+      {
+        id: 0,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: true,
+        tasks: [],
+      },
+      {
+        id: 1,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      }
+    ];
+    const test1Expected: SprintData[] = [
+      {
+        id: 1,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      },
+      {
+        id: 0,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: true,
+        tasks: [],
+      }
+    ];
+    expect(test1.sort(ProjectPageComponent.sprintOrdering))
+      .withContext('Prioritize backlogs at bottom')
+      .toEqual(test1Expected);
+    
+    const test2: SprintData[] = [
+      {
+        id: 0,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      },
+      {
+        id: 1,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: true,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      }
+    ];
+    const test2Expected: SprintData[] = [
+      {
+        id: 1,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: true,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      },
+      {
+        id: 0,
+        name: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      }
+    ];
+    expect(test2.sort(ProjectPageComponent.sprintOrdering))
+      .withContext('Prioritize completed sprints at top')
+      .toEqual(test2Expected);
+    
+    const test3: SprintData[] = [
+      {
+        id: 0,
+        name: '',
+        startDate: new Date('19 Jan 2023 00:00:00 GMT'),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      },
+      {
+        id: 1,
+        name: '',
+        startDate: new Date('18 Jan 2023 00:00:00 GMT'),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      }
+    ];
+    const test3Expected: SprintData[] = [
+      {
+        id: 1,
+        name: '',
+        startDate: new Date('18 Jan 2023 00:00:00 GMT'),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      },
+      {
+        id: 0,
+        name: '',
+        startDate: new Date('19 Jan 2023 00:00:00 GMT'),
+        endDate: new Date(),
+        isCompleted: false,
+        pointsAttempted: 0,
+        pointsCompleted: 0,
+        projectId: 1,
+        isBacklog: false,
+        tasks: [],
+      }
+    ];
+    expect(test3.sort(ProjectPageComponent.sprintOrdering))
+      .withContext('Prioritize earlier sprints at top')
+      .toEqual(test3Expected);
+  });
 });

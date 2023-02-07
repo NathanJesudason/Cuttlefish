@@ -11,19 +11,24 @@ import { SprintDropdownComponent } from './sprint-dropdown.component';
 
 describe('SprintDropdownComponent', () => {
   const data: SprintData = {
-    id: 3,
-    name: 'Cuttlefish Team: Sprint 3',
-    dueDate: new Date(),
-    complete: false,
+    id: 234597,
+    name: 'Sprint Name',
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
+    endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
+    isCompleted: false,
+    pointsAttempted: 0,
+    pointsCompleted: 0,
+    projectId: 1,
+    isBacklog: false,
     tasks: [{
-      id: 43572,
-      name: 'this is the task name',
+      id: 12345,
+      name: 'Task Name',
+      assignee: 'Me',
       storyPoints: 3,
-      assignee: 'Person',
-      description: 'This is the description of the task',
-      progress: 'In Progress',
-      startDate: new Date(Date.parse('12/23/2022')),
-      endDate: new Date(Date.parse('12/26/2022')),
+      description: 'Task Description',
+      startDate: new Date(),
+      endDate: new Date(),
+      progress: 'Backlog'
     }],
   };
   
