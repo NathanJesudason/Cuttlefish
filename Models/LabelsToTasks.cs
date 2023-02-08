@@ -9,7 +9,7 @@ namespace Cuttlefish.Models
 {
     public class LabelsToTasks
     {
-        [Key] public int Id { get; set; }  
+        [Key] public int Id { get; set; }
 
         [ForeignKey("Labels")]
         [Column(Order = 1)]

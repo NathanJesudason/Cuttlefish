@@ -12,7 +12,7 @@ namespace Cuttlefish.Models
         public int id { get; set; }
         [Required]
         public string username { get; set; }
-        public string password { get; set; }    
+        public string password { get; set; }
         public string email { get; set; }
         public string roles { get; set; }
         public string avatar { get; set; }
