@@ -1,0 +1,14 @@
+<p-toast></p-toast>
+
+<div id="displayedText" [innerHTML]="text" *ngIf="!selected" (click)="select()"> 
+
+</div>
+
+<div id="description" *ngIf="selected">
+  <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor>
+    
+  <span class="p-buttonset">
+    <button pButton icon="pi pi-check" (click)="approveChanges($event)"></button>
+    <button pButton icon="pi pi-times" (click)="cancelInput($event)"></button>
+  </span> 
+</div>

@@ -24,6 +24,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
+import { EditorModule } from 'primeng/editor';
 import { CheckboxModule } from 'primeng/checkbox';
 
 import { NgxGanttModule } from '@worktile/gantt';
@@ -44,6 +45,7 @@ import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     DateInplaceComponent,
     ProjectsPageComponent,
     LoginPageComponent,
+    DescriptionInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -90,6 +93,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     MenuModule,
     CheckboxModule,
     NgxGanttModule,
+    EditorModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in
