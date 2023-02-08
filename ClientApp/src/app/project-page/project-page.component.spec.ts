@@ -1,6 +1,7 @@
 import {
   ActivatedRoute,
   convertToParamMap,
+  Params,
   RouterModule
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +11,8 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
+import { from, of } from 'rxjs';
 
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
@@ -75,6 +78,7 @@ describe('ProjectPageComponent', () => {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
+        params: of({ 'id': data.id } as Partial<Params>),
       } as Partial<ActivatedRoute>, { export: true })
       .mock(ServerApi, {
         getProjectData: (id: number): ProjectData => data,
