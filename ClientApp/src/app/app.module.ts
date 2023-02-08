@@ -50,6 +50,13 @@ import { AuthGuard } from './server-api/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { FbLoginComponent } from './login/fb-login/fb-login.component';
+
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from '@abacritt/angularx-social-login';
+// import {
+//   // GoogleLoginProvider,
+//   
+// } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -73,10 +80,12 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     SignupComponent,
 
     DateInplaceComponent,
+      FbLoginComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
@@ -101,10 +110,12 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     MenuModule,
     CheckboxModule,
     NgxGanttModule,
+    SocialLoginModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] },
       { path: 'home', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] }, // home is restricted so the user has to login first to see the home
       { path: 'login', component: LoginComponent},
+      { path: 'fb-login', component: FbLoginComponent},
       { path: 'signUp', component: SignupComponent}, // possible bug where it won't route to 'signup' but goes to 'signUp'
       { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
@@ -119,9 +130,31 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
   providers: [
     
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,
       multi:true
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          // {
+          //   id: GoogleLoginProvider.PROVIDER_ID,
+          //   provider: new GoogleLoginProvider('875864930408756')
+          // },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('875864930408756')
+          }
+        ],
+        onError: (err: any)=> {
+          console.log(err);
+        }
+      } as SocialAuthServiceConfig,
+    },
+    {
+      provide: FbLoginComponent
     }
   ],
   bootstrap: [AppComponent]

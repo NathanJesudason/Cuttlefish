@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt'
+import { FbLoginComponent } from '../login/fb-login/fb-login.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
 
   private userPayload: any
 
-  constructor(private http : HttpClient, private router: Router) // inject HttpClient into the constructor of this service
+  constructor(private http : HttpClient, private router: Router, private fbLogin: FbLoginComponent) // inject HttpClient into the constructor of this service
   {
     this.userPayload = this.decodedToken()
   }

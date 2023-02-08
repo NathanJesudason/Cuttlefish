@@ -1,0 +1,22 @@
+<h2 class="text-center mb-5">Angular Login with Facebook</h2>
+
+<div *ngIf="!isSignedin">
+  <button type="button" (click)="signInWithFB()" class="btn btn-primary btn-block">Login with Facebook</button>
+</div>
+
+<div *ngIf="isSignedin === true">
+  <div class="form-group">
+    <label>First Name</label>
+    <input type="text" class="form-control" [value]="user.firstName" id="firstname" readonly>
+  </div>
+  <div class="form-group">
+    <label>Last Name</label>
+    <input type="text" class="form-control" [value]="user.lastName" id="lastname" readonly>
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input type="text" class="form-control" [value]="user.email" id="email" readonly>
+  </div>
+
+  <button type="button" (click)="signOut()" class="btn btn-primary">Log Out</button>
+</div>
