@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Models;
 
-namespace Cuttlefish.Models
+namespace Cuttlefish.Data
 {
     public class ApplicationDbContext : DbContext
     {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
+using Cuttlefish.Data;
 using Cuttlefish.Models;
 
 namespace Cuttlefish.Controllers;

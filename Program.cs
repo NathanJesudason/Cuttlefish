@@ -1,4 +1,5 @@
-﻿using Cuttlefish.Models;
+﻿using Cuttlefish.Data;
+using Cuttlefish.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
