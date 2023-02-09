@@ -27,6 +27,7 @@ import { MenuModule } from 'primeng/menu';
 import { EditorModule } from 'primeng/editor';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -100,6 +101,7 @@ import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.
     DialogModule,
     NgxGanttModule,
     EditorModule,
+    InputNumberModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in

@@ -119,8 +119,13 @@ export class ProjectPageComponent {
       return 1;
     }
 
-    // everything else is ascending order by id
-    return a.startDate.getTime() - b.startDate.getTime();
+    // as long as both have a start time, sort by start time
+    if (a.startDate && b.startDate) {
+      return a.startDate.getTime() - b.startDate.getTime();
+    }
+    
+    // as a last resort, sort by id
+    return a.id - b.id;
   }
 
   showCreateSprintModal() {

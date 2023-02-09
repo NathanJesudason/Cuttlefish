@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { ToastModule } from 'primeng/toast';
 
 import { CreateTaskModalComponent } from './create-task-modal.component';
@@ -22,7 +23,8 @@ describe('CreateTaskModalComponent', () => {
       ToastModule, 
       CheckboxModule, 
       FormsModule, 
-      CalendarModule
+      CalendarModule,
+      InputNumberModule,
     ]);
   });
 

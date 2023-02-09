@@ -7,7 +7,6 @@ import { AccordionModule } from 'primeng/accordion';
 
 import { SprintData } from '../../types/sprint';
 import { CreateTaskModalComponent } from '../create-task-modal/create-task-modal.component';
-import { ServerApi } from '../server-api/server-api.service';
 import { SprintDropdownComponent } from './sprint-dropdown.component';
 
 describe('SprintDropdownComponent', () => {
@@ -35,22 +34,46 @@ describe('SprintDropdownComponent', () => {
   
   beforeEach(() => {
     return MockBuilder(SprintDropdownComponent, AccordionModule)
-    .mock(CreateTaskModalComponent, { export: true })
-    .mock(ServerApi, {
-      getSprintData: (id: number): SprintData => data,
-    } as Partial<ServerApi>);
+      .mock(CreateTaskModalComponent, { export: true });
   });
     
 
   it('should create', () => {
-    MockRender(SprintDropdownComponent);
+    MockRender(SprintDropdownComponent, { data: data });
     expect(ngMocks.findAll(SprintDropdownComponent)[0]).toBeTruthy();
   });
 
-  it('should get SprintData provided by ServerApi', () => {
-    const fixture = MockRender(SprintDropdownComponent, {id: data.id});
-    expect(fixture.point.componentInstance.data).toEqual(data);
+  it('should expand and collapse programmatically', () => {
+    const fixture = MockRender(SprintDropdownComponent, { data: data });
+    const component = fixture.point.componentInstance;
+
+    const accordion = ngMocks.find('p-accordionTab');
+    expect(accordion).withContext('a primeng accordionTab exists').toBeTruthy();
+    expect(ngMocks.input(accordion, 'selected')).withContext('accordionTab uses !collapsed as its selected input').toBe(!component.collapsed);
+
+    component.collapse();
+    expect(component.collapsed).withContext('collapsing programmatically works').toBeTrue();
+
+    component.expand();
+    expect(component.collapsed).withContext('expanding programmatically works').toBeFalse();
   });
 
-  // if we ever put anything in the sprintdropdown besides a single accordiontab, add more unit tests for that
+  it('should hide and unhide programmatically', () => {
+    const fixture = MockRender(SprintDropdownComponent, { data: data });
+    const component = fixture.point.componentInstance;
+
+    let accordion = ngMocks.find('p-accordionTab');
+    expect(accordion).withContext('a primeng accordionTab exists').toBeTruthy();
+    
+    component.hide();
+    fixture.detectChanges();
+    expect(component.hidden).withContext('hiding programmatically works').toBeTrue();
+    expect(() => ngMocks.find('p-accordionTab')).withContext('accordionTab is no longer rendered after being hidden').toThrow();
+
+    component.unhide();
+    fixture.detectChanges();
+    expect(component.hidden).withContext('unhiding programmatically works').toBeFalse();
+    accordion = ngMocks.find('p-accordionTab');
+    expect(accordion).withContext('accordionTab exists again after calling unhide()').toBeTruthy();
+  });
 });

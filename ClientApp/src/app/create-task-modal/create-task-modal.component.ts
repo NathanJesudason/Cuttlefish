@@ -1,9 +1,13 @@
 import {
   Component,
+  Input,
   OnInit
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
+
+import { SprintData } from '../../types/sprint';
+import { TaskData } from '../../types/task';
 
 @Component({
   selector: 'create-task-modal',
@@ -12,12 +16,14 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService],
 })
 export class CreateTaskModalComponent implements OnInit {
+  @Input() sprintData!: SprintData;
+  
   createTaskModalShown: boolean = false;
 
   inputName!: string;
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
-  inputIsBacklog: boolean = false;
+  inputStoryPoints!: number | undefined;
 
   constructor(
     private messageService: MessageService,
@@ -32,20 +38,38 @@ export class CreateTaskModalComponent implements OnInit {
 
   hideCreateTaskModal() {
     this.createTaskModalShown = false;
-    this.inputName = "";
-    this.inputStartDate = null;
-    this.inputEndDate = null;
-    this.inputIsBacklog = false;
+    this.clearInputs();
   }
 
   acceptModalInput() {
     this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
     // call to serverapi with the collected input* values
+    this.sprintData.tasks.push(this.collectInputs());
     this.hideCreateTaskModal();
   }
 
   cancelModalInput() {
     this.messageService.add({severity: 'info', summary: 'Create task input cancelled'});
     this.hideCreateTaskModal();
+  }
+
+  collectInputs(): TaskData {
+    return {
+      id: 10003,
+      name: this.inputName,
+      startDate: this.inputStartDate,
+      endDate: this.inputEndDate,
+      assignee: '',
+      storyPoints: this.inputStoryPoints || 0,
+      description: '',
+      progress: 'Backlog',
+    } as TaskData;
+  }
+
+  clearInputs() {
+    this.inputName = '';
+    this.inputStartDate = null;
+    this.inputEndDate = null;
+    this.inputStoryPoints = undefined;
   }
 }

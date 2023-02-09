@@ -69,6 +69,7 @@
       class="p-button-success p-button-sm task-modal-button"
       icon="pi pi-plus"
       (click)="showCreateTaskModal()"
+      [ngStyle]="{'margin-bottom': data.tasks.length === 0 ? '0' : 'var(--content-padding)'}"
     ></button>
 
     <p-accordion [multiple]="true">
@@ -79,4 +80,5 @@
 
 <create-task-modal
   #createTaskModal
+  [sprintData]="data"
 ></create-task-modal>

@@ -14,12 +14,24 @@
 
       <div class="date-input">
         <p style="margin-bottom: 0px;">Start Date</p>
-        <p-calendar [(ngModel)]="inputStartDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
+        <p-calendar [(ngModel)]="inputStartDate" [showIcon]="true"></p-calendar>
       </div>
 
       <div class="date-input">
         <p style="margin-bottom: 0px;">End Date</p>
-        <p-calendar [(ngModel)]="inputEndDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
+        <p-calendar [(ngModel)]="inputEndDate" [showIcon]="true"></p-calendar>
+      </div>
+
+      <div class="story-points-input">
+        <p style="margin-bottom: 0px;">Story Points</p>
+        <p-inputNumber
+          [(ngModel)]="inputStoryPoints"
+          mode="decimal" [step]="1"
+          [min]="0"
+          [showButtons]="true" buttonLayout="vertical" spinnerMode="vertical"
+          incrementButtonClass="p-button-primary" incrementButtonIcon="pi pi-plus"
+          decrementButtonClass="p-button-primary" decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
       </div>
 
       <p>Need to add more inputs in here when we're ready</p>
