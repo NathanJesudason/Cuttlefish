@@ -1,14 +1,11 @@
-#project-cards-container {
+#home-page-grid {
   width: 100%;
-
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: var(--content-padding);
+  grid-template-rows: repeat(3, min-content);
   row-gap: var(--content-padding);
 }
 
-@media only screen and (max-width: 768px) {
-  #project-cards-container {
-    grid-template-columns: repeat(1, auto);
-  }
+.home-page-grid-item {
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -1,7 +1,11 @@
 <p-menubar [model]="menuItems" styleClass="nav-menubar">
   <ng-template pTemplate="start">
-    <a id="cuttlefish-logo" href="https://github.com/NathanJesudason/Cuttlefish" target="_blank">
-      <img src="assets/cuttlefish_logo.png" alt="Cuttlefish Logo" height="50px">
-    </a>
+    <img
+      id="cuttlefish-logo"
+      src="assets/cuttlefish_logo.png"
+      alt="Cuttlefish Logo"
+      height="50px"
+      [routerLink]="['/projects']"
+    >
   </ng-template>
 </p-menubar>
