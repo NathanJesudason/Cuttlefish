@@ -7,14 +7,15 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
+
+string connectionString = builder.Configuration.GetConnectionString("default");
+builder.Services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(connectionString));
 
 builder.Services.AddEndpointsApiExplorer();
 
-var dbConnectionString = builder.Configuration.GetConnectionString("DBConnectionString");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
+
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 

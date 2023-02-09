@@ -43,7 +43,9 @@ export class ProjectPageComponent {
   ) { }
 
   ngOnInit() {
-    this.loadProjectData();
+    this.route.params.subscribe(_routeParams => {
+      this.loadProjectData();
+    });
   }
 
   loadProjectData() {

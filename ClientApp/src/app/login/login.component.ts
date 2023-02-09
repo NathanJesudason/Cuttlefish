@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
           this.user.setUserName(tokenPayload.name)
           this.user.setRole(tokenPayload.role)
 
-          this.router.navigate(['home'])
+          this.router.navigate(['projects'])
           alert(res.message)
         },
         error: (err)=>{

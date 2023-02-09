@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ServerApi } from '../server-api/server-api.service';
 
@@ -12,17 +9,17 @@ import { AuthService } from '../server-api/auth.service';
 @Component({
   selector: 'home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
+  styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
+
+  constructor(private serverApi: ServerApi, private user: UserService, private auth: AuthService) { }
+
   projects!: ProjectData[];
-
-
   public username: string = ""
   public role!: string
 
 
-  constructor(private serverApi: ServerApi, private user: UserService, private auth: AuthService) { }
 
   ngOnInit(): void {
     

@@ -24,6 +24,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
+import { EditorModule } from 'primeng/editor';
 import { CheckboxModule } from 'primeng/checkbox';
 
 import { NgxGanttModule } from '@worktile/gantt';
@@ -50,6 +51,9 @@ import { AuthGuard } from './server-api/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { ProjectsPageComponent } from './projects-page/projects-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 import { FbLoginComponent } from './login/fb-login/fb-login.component';
 
 import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from '@abacritt/angularx-social-login';
@@ -80,6 +84,9 @@ import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from
     SignupComponent,
 
     DateInplaceComponent,
+    ProjectsPageComponent,
+    LoginPageComponent,
+    DescriptionInplaceComponent,
       FbLoginComponent,
   ],
   imports: [
@@ -110,20 +117,28 @@ import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from
     MenuModule,
     CheckboxModule,
     NgxGanttModule,
+    EditorModule,
     SocialLoginModule,
     RouterModule.forRoot([
-      { path: '', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] },
-      { path: 'home', component: HomePageComponent, pathMatch: 'full', canActivate:[AuthGuard] }, // home is restricted so the user has to login first to see the home
+     
+     
+      { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'fb-login', component: FbLoginComponent},
-      { path: 'signUp', component: SignupComponent}, // possible bug where it won't route to 'signup' but goes to 'signUp'
+      { path: 'signup', component: SignupComponent},
       { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
       { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
       { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
       { path: 'task/:id', component: TaskPageComponent, canActivate:[AuthGuard] },
-      { path: 'not-found/*', component: NotFoundPageComponent, canActivate:[AuthGuard] },
+     
+
+
+      { path: 'projects', component: ProjectsPageComponent, canActivate: [AuthGuard] },     // route to here after successfully logging in
+     
+      
+      { path: 'not-found/*', component: NotFoundPageComponent },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
     ])
   ],
@@ -141,11 +156,11 @@ import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from
         providers: [
           // {
           //   id: GoogleLoginProvider.PROVIDER_ID,
-          //   provider: new GoogleLoginProvider('875864930408756')
+          //   provider: new GoogleLoginProvider('')
           // },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('875864930408756')
+            provider: new FacebookLoginProvider('')
           }
         ],
         onError: (err: any)=> {

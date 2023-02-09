@@ -8,7 +8,7 @@ import { FbLoginComponent } from '../login/fb-login/fb-login.component';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl: string = "http://localhost:5277/api/TeamMember/"
+  private baseUrl: string = "http://localhost:5277/api/TeamMembers/"
 
   private userPayload: any
 

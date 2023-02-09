@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../server-api/auth.service';
+
+import { ServerApi } from '../server-api/server-api.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,11 +12,12 @@ import { AuthService } from '../server-api/auth.service';
 })
 export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
-  accountMenuItems!: MenuItem[];
 
-  constructor(private auth: AuthService ){
+  constructor(
+    private serverApi: ServerApi, private auth: AuthService
+  ) {}
 
-  }
+  
 
   ngOnInit() {
     this.assignMenuItems();
@@ -22,14 +26,9 @@ export class NavMenuComponent implements OnInit {
   assignMenuItems() {
     this.menuItems = [
       {
-        icon: 'pi pi-home',
-        label: 'Home',
-        routerLink: ['/'],
-      },
-      {
         icon: 'pi pi-briefcase',
-        label: 'Project',
-        routerLink: ['/project', 0],
+        label: 'Projects',
+        items: [],
       },
       {
         icon: 'pi pi-stopwatch',
@@ -68,6 +67,15 @@ export class NavMenuComponent implements OnInit {
       },
     ];
 
+    const projects = this.serverApi.getAllProjects();
+    const projectMenuItems = projects.map(project => {
+      return {
+        icon: 'pi pi-briefcase',
+        label: `${project.id}: ${project.name}`,
+        routerLink: ['/project', project.id],
+      } as MenuItem;
+    });
+    this.menuItems[0].items = projectMenuItems;
     
   }
 

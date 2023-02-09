@@ -1,13 +1,13 @@
 <button pButton id="project-back-button" class="p-button-raised p-button-sm" type="button" label="Back to Project" icon="pi pi-arrow-left" [routerLink]="['/project', 0]"></button>
 
-<h4>{{ taskData.id }}: {{ taskData.name }}</h4>
+<title-inplace [entityData]="taskData" size="large"></title-inplace>
 
 <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
 <p-tag styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
 <span>{{ taskData.assignee }}</span>
 
 <h4>Description:</h4>
-<p>{{ taskData.description }}</p>
+<description-inplace [entityData]="taskData"></description-inplace>
 
 <p>Start Date: {{ taskData.startDate }}</p>
 <p>End Date: {{ taskData.endDate }}</p>
