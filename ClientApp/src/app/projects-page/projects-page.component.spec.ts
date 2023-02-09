@@ -1,19 +1,21 @@
+import { RouterModule } from '@angular/router';
+
 import {
   MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
 
-import { MenubarModule } from 'primeng/menubar';
-
-import { ProjectData } from '../../types/project';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 
 import { ServerApi } from '../server-api/server-api.service';
 
-import { NavMenuComponent } from './nav-menu.component';
+import { ProjectsPageComponent } from './projects-page.component';
+import { ProjectData } from '../../types/project';
 
-describe('NavMenuComponent', () => {
-  const data: ProjectData = {
+describe('ProjectsPageComponent', () => {
+  const data: ProjectData[] = [{
     id: 12345,
     name: 'Project Name',
     color: '#234001',
@@ -41,17 +43,17 @@ describe('NavMenuComponent', () => {
         progress: 'Backlog'
       }],
     }],
-  };
-  
+  }];
+
   beforeEach(() => {
-    return MockBuilder(NavMenuComponent, [MenubarModule])
+    return MockBuilder(ProjectsPageComponent, [CardModule, ButtonModule, RouterModule])
       .mock(ServerApi, {
-        getAllProjects: (id: number): ProjectData[] => [data],
+        getAllProjects: (id: number): ProjectData[] => data,
       } as Partial<ServerApi>);
   });
 
   it('should create', () => {
-    MockRender(NavMenuComponent);
-    expect(ngMocks.findAll(NavMenuComponent)[0]).toBeTruthy();
+    MockRender(ProjectsPageComponent);
+    expect(ngMocks.findAll(ProjectsPageComponent)[0]).toBeTruthy();
   });
 });

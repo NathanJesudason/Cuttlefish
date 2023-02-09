@@ -43,6 +43,8 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { ProjectsPageComponent } from './projects-page/projects-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 
 @NgModule({
@@ -61,6 +63,8 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
     FooterComponent,
     TitleInplaceComponent,
     DateInplaceComponent,
+    ProjectsPageComponent,
+    LoginPageComponent,
     DescriptionInplaceComponent,
   ],
   imports: [
@@ -91,7 +95,9 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
     NgxGanttModule,
     EditorModule,
     RouterModule.forRoot([
-      { path: '', component: HomePageComponent, pathMatch: 'full' },
+      { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
+      { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in
+      { path: 'projects', component: ProjectsPageComponent },     // route to here after successfully logging in
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
