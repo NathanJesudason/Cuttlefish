@@ -1,5 +1,5 @@
 export class TeamMember {
-    team_memberID: number = 0
+    id: number = 0
     username: string = ""
     password: string = ""
     email: string = ""

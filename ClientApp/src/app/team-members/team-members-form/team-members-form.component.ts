@@ -17,7 +17,7 @@ export class TeamMembersFormComponent implements OnInit {
   }
 
   onSubmit(form: NgForm){
-    if(this.service.teamMemberData.team_memberID == 0){
+    if(this.service.teamMemberData.id == 0){
       this.insertRecord(form)
     }
     else{

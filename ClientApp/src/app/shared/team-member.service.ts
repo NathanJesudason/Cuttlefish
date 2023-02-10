@@ -18,7 +18,7 @@ export class TeamMemberService {
   }
 
   putTeamMember(){
-    return this.http.put(`${this.baseURL}/${this.teamMemberData.team_memberID}`, this.teamMemberData)
+    return this.http.put(`${this.baseURL}/${this.teamMemberData.id}`, this.teamMemberData)
   }
 
   deleteTeamMember(id:number){

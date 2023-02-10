@@ -1,6 +1,6 @@
 <form novalidate #form="ngForm" (submit)="onSubmit(form)" >
-    <input type="hidden" name="team_memberID"
-    [value]="service.teamMemberData.team_memberID"/>
+    <input type="hidden" name="id"
+    [value]="service.teamMemberData.id"/>
     <div>
         <label>Team Member Name/Username</label>
         <input placeholder="Name/Username"
