@@ -46,6 +46,7 @@ export class SignupComponent implements OnInit {
           next:(res =>{
             alert(res.message)
             this.signUpForm.reset()
+            this.auth.login(this.signUpForm.value)
             this.router.navigate(['projects'])
           }),
           error: (err) =>{

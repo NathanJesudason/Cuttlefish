@@ -52,11 +52,11 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+// import { LoginPageComponent } from './login-page/login-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 import { FbLoginComponent } from './login/fb-login/fb-login.component';
 
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from '@abacritt/angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider, SocialAuthService} from '@abacritt/angularx-social-login';
 // import {
 //   // GoogleLoginProvider,
 //   
@@ -85,7 +85,7 @@ import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider} from
 
     DateInplaceComponent,
     ProjectsPageComponent,
-    LoginPageComponent,
+    // LoginPageComponent,
     DescriptionInplaceComponent,
       FbLoginComponent,
   ],

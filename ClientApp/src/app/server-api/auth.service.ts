@@ -12,9 +12,15 @@ export class AuthService {
 
   private userPayload: any
 
-  constructor(private http : HttpClient, private router: Router, private fbLogin: FbLoginComponent) // inject HttpClient into the constructor of this service
+  constructor(private http : HttpClient, private router: Router) // inject HttpClient into the constructor of this service
   {
     this.userPayload = this.decodedToken()
+  }
+
+  isUserLoggedIn = false
+
+  setHttpClient(http: HttpClient) {
+    this.http = http;
   }
 
   signUp(teammemberObj : any){
@@ -35,7 +41,8 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean{
-    return !!localStorage.getItem('token') // if there is a token return true, else return false. later add implementation to validate token
+    this.isUserLoggedIn = !!localStorage.getItem('token') // if there is a token return true, else return false. later add implementation to validate token
+    return this.isUserLoggedIn
   }
 
   signOut(){
