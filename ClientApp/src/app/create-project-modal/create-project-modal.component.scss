@@ -23,18 +23,10 @@
   margin-bottom: var(--content-padding);
 }
 
-.story-points-input {
-  margin-bottom: var(--content-padding);
-}
-
 :host ::ng-deep {
   .p-dialog {
     width: 560px;
     height: 860px;
-  }
-
-  .p-inputnumber {
-    width: 4rem;
   }
   
   @media only screen and (max-width: 768px) {
