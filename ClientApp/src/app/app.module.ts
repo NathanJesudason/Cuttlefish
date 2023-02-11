@@ -28,6 +28,7 @@ import { EditorModule } from 'primeng/editor';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -50,6 +51,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
+import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.
     DescriptionInplaceComponent,
     CreateSprintModalComponent,
     CreateTaskModalComponent,
+    CreateProjectModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -102,6 +105,7 @@ import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.
     NgxGanttModule,
     EditorModule,
     InputNumberModule,
+    ColorPickerModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in

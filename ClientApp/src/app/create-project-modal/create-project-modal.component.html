@@ -1,7 +1,7 @@
 <p-dialog
-  header="Create Task"
+  header="Create Project"
   [modal]="true"
-  [(visible)]="createTaskModalShown"
+  [(visible)]="createProjectModalShown"
   [draggable]="false"
   [resizable]="false"
 >
@@ -22,17 +22,7 @@
         <p-calendar [(ngModel)]="inputEndDate" [showIcon]="true"></p-calendar>
       </div>
 
-      <div class="story-points-input">
-        <p style="margin-bottom: 0px;">Story Points</p>
-        <p-inputNumber
-          [(ngModel)]="inputStoryPoints"
-          mode="decimal" [step]="1"
-          [min]="0"
-          [showButtons]="true" buttonLayout="vertical" spinnerMode="vertical"
-          incrementButtonClass="p-button-primary" incrementButtonIcon="pi pi-plus"
-          decrementButtonClass="p-button-primary" decrementButtonIcon="pi pi-minus"
-        ></p-inputNumber>
-      </div>
+      <p-colorPicker [(ngModel)]="inputColor"></p-colorPicker>
 
       <p>Need to add more inputs in here when we're ready</p>
     </div>
