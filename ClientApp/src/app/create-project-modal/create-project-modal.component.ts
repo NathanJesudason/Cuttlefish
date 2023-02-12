@@ -20,7 +20,7 @@ export class CreateProjectModalComponent implements OnInit {
   createProjectModalShown: boolean = false;
 
   inputName!: string;
-  inputColor!: string;
+  inputColor: string = '#ff0000';
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
   inputFunds!: number;
@@ -68,7 +68,7 @@ export class CreateProjectModalComponent implements OnInit {
 
   clearInputs() {
     this.inputName = '';
-    this.inputColor = '';
+    this.inputColor = '#ff0000';
     this.inputStartDate = null;
     this.inputEndDate = null;
     this.inputFunds = 0;

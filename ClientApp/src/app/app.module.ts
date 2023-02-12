@@ -102,10 +102,10 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     MenuModule,
     CheckboxModule,
     DialogModule,
-    NgxGanttModule,
-    EditorModule,
     InputNumberModule,
     ColorPickerModule,
+    NgxGanttModule,
+    EditorModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in
