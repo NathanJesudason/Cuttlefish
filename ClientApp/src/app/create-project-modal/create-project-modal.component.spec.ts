@@ -30,4 +30,38 @@ describe('CreateProjectModalComponent', () => {
     MockRender(CreateProjectModalComponent);
     expect(ngMocks.findAll(CreateProjectModalComponent)[0]).toBeTruthy();
   });
+
+  it('should be bound with visibility variable', () => {
+    const fixture = MockRender(CreateProjectModalComponent);
+    const component = fixture.point.componentInstance;
+
+    const modal = ngMocks.find('p-dialog');
+    expect(modal).withContext('primeng dialog element exists').toBeTruthy();
+
+    component.showCreateProjectModal();
+    fixture.detectChanges();
+
+    const visibilityVar = ngMocks.input(modal, 'visible');
+    expect(visibilityVar).withContext('modal visibility bound with createProjectModalShown').toBe(component.createProjectModalShown);
+  });
+
+  it('should show and hide modal programmatically', () => {
+    const fixture = MockRender(CreateProjectModalComponent);
+    const component = fixture.point.componentInstance;
+
+    const modal = ngMocks.find('p-dialog');
+    expect(modal).withContext('primeng dialog element exists').toBeTruthy();
+
+    expect(component.createProjectModalShown).withContext('modal is hidden by default').toBeFalse();
+
+    component.showCreateProjectModal();
+    fixture.detectChanges();
+
+    expect(component.createProjectModalShown).withContext('modal is shown after showCreateProjectModal()').toBeTrue();
+
+    component.hideCreateProjectModal();
+    fixture.detectChanges();
+
+    expect(component.createProjectModalShown).withContext('modal is hidden after hideCreateProjectModal()').toBeFalse();
+  });
 });
