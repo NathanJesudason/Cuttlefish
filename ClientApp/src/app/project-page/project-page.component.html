@@ -13,30 +13,48 @@
 
 <p-toolbar>
   <div class="p-toolbar-group-start">
-    <p-button
-      id="collapse-all-button"
-      icon="pi pi-list"
-      [label]="collapseButtonText"
-      styleClass="p-button-sm"
-      (onClick)="toggleCollapseSprints()"
-    ></p-button>
+    <button
+      pButton pRipple
+      type="button"
+      label="Create Sprint"
+      class="p-button-success p-button-sm"
+      icon="pi pi-plus"
+      (click)="showCreateSprintModal()"
+    ></button>
   </div>
 
   <div class="p-toolbar-group-end">
-    <p-checkbox
-      [(ngModel)]="completedSprintsShown"
-      label="Show Completed Sprints"
-      [binary]="true"
-      (onChange)="toggleHideCompletedSprints($event)"
-    ></p-checkbox>
+    <div class="sprint-options">
+      <p-button
+        id="collapse-all-button"
+        icon="pi pi-list"
+        [label]="collapseButtonText"
+        styleClass="p-button-sm sprint-option"
+        (onClick)="toggleCollapseSprints()"
+      ></p-button>
+      
+      <p-checkbox
+        [(ngModel)]="completedSprintsShown"
+        label="Show Completed Sprints"
+        [binary]="true"
+        (onChange)="toggleHideCompletedSprints($event)"
+        class="sprint-option"
+      ></p-checkbox>
+    </div>
   </div>
+
 </p-toolbar>
 
 <p-accordion [multiple]="true">
   <ng-container *ngFor="let sprint of projectData.sprints; let i = index">
     <p-divider *ngIf="sprint.isBacklog && projectData.sprints.length > 1 && !projectData.sprints[i-1].isBacklog"></p-divider>
-    <sprint-dropdown #sprintDropdown [id]="sprint.id"></sprint-dropdown>
+    <sprint-dropdown #sprintDropdown [data]="sprint"></sprint-dropdown>
   </ng-container>
 </p-accordion>
 
 <p-toast></p-toast>
+
+<create-sprint-modal
+  #createSprintModal
+  [projectData]="projectData"
+></create-sprint-modal>

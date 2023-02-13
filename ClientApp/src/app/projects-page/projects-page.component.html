@@ -1,0 +1,37 @@
+<h1>Welcome, user!</h1>
+
+<div id="project-cards-container">
+  <p-card
+    class="project-card"
+    *ngFor="let project of projects"
+    header="{{ project.id }}: {{ project.name }}"
+  >
+    <ng-template pTemplate="header">
+      <div [ngStyle]="{
+        'background-color': project.color,
+        'height': '10em',
+        'border-top-left-radius': 'var(--border-radius)',
+        'border-top-right-radius': 'var(--border-radius)'
+      }"></div>
+    </ng-template>
+    <p>{{ project.description }}</p>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" class="p-button-raised p-button-sm" label="Go to Project" icon="pi pi-briefcase" [routerLink]="['/project', project.id]"></button>
+    </ng-template>
+  </p-card>
+</div>
+
+<div id="project-modal-button-container">
+  <button
+    pButton pRipple type="button"
+    label="Create Project"
+    icon="pi pi-plus"
+    class="p-button-outlined project-modal-button"
+    (click)="showCreateProjectModal()"
+  ></button>
+</div>
+
+<create-project-modal
+  #createProjectModal
+  [projects]="projects"
+></create-project-modal>

@@ -24,7 +24,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
+import { EditorModule } from 'primeng/editor';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -42,6 +46,12 @@ import { NotFoundPageComponent } from './not-found-page/not-found-page.component
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
+import { ProjectsPageComponent } from './projects-page/projects-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
+import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
+import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
+import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +69,12 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     FooterComponent,
     TitleInplaceComponent,
     DateInplaceComponent,
+    ProjectsPageComponent,
+    LoginPageComponent,
+    DescriptionInplaceComponent,
+    CreateSprintModalComponent,
+    CreateTaskModalComponent,
+    CreateProjectModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,9 +101,15 @@ import { DateInplaceComponent } from './date-inplace/date-inplace.component';
     CalendarModule,
     MenuModule,
     CheckboxModule,
+    DialogModule,
+    InputNumberModule,
+    ColorPickerModule,
     NgxGanttModule,
+    EditorModule,
     RouterModule.forRoot([
-      { path: '', component: HomePageComponent, pathMatch: 'full' },
+      { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
+      { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in
+      { path: 'projects', component: ProjectsPageComponent },     // route to here after successfully logging in
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
