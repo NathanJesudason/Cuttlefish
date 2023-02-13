@@ -1,4 +1,8 @@
-a#cuttlefish-logo {
+#cuttlefish-logo {
   margin-left: 0.3em;
   margin-right: 0.8em;
+}
+
+#cuttlefish-logo:hover {
+  cursor: pointer;
 }

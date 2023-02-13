@@ -1,22 +1,18 @@
-<h1>Welcome, user!</h1>
-
-<div id="project-cards-container">
-  <p-card
-    class="project-card"
-    *ngFor="let project of projects"
-    header="{{ project.id }}: {{ project.name }}"
+<div id="home-page-grid">
+  <h1 class="home-page-grid-item">Welcome to Cuttlefish!</h1>
+  <img
+    class="home-page-grid-item"
+    src="assets/cuttlefish_logo.png"
+    alt="Cuttlefish Logo"
+    height="300px"
   >
-    <ng-template pTemplate="header">
-      <div [ngStyle]="{
-        'background-color': project.color,
-        'height': '10em',
-        'border-top-left-radius': 'var(--border-radius)',
-        'border-top-right-radius': 'var(--border-radius)'
-      }"></div>
-    </ng-template>
-    <p>{{ project.description }}</p>
-    <ng-template pTemplate="footer">
-      <button pButton type="button" class="p-button-raised p-button-sm" label="Go to Project" icon="pi pi-briefcase" [routerLink]="['/project', project.id]"></button>
-    </ng-template>
-  </p-card>
+
+  <button
+    pButton type="button"
+    class="home-page-grid-item p-button-raised p-button-sm"
+    label="Log In"
+    icon="pi pi-user"
+    [routerLink]="'/login'"
+    style="width: auto;"
+  ></button>
 </div>

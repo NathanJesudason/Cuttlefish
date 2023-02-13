@@ -1,6 +1,7 @@
 import {
   ActivatedRoute,
   convertToParamMap,
+  Params,
   RouterModule
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +11,8 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
+import { from, of } from 'rxjs';
 
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
@@ -23,6 +26,8 @@ import { ServerApi } from '../server-api/server-api.service';
 import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
 import { TitleInplaceComponent } from '../title-inplace/title-inplace.component';
+
+import { CreateSprintModalComponent } from '../create-sprint-modal/create-sprint-modal.component';
 
 import { ProjectData } from '../../types/project';
 import { SprintData } from '../../types/sprint';
@@ -71,10 +76,12 @@ describe('ProjectPageComponent', () => {
       ])
       .mock(SprintDropdownComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
+      .mock(CreateSprintModalComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
+        params: of({ 'id': data.id } as Partial<Params>),
       } as Partial<ActivatedRoute>, { export: true })
       .mock(ServerApi, {
         getProjectData: (id: number): ProjectData => data,
@@ -87,12 +94,13 @@ describe('ProjectPageComponent', () => {
   });
 
   it('should order sprints correctly', () => {
+    const blankDate = new Date();
     const test1: SprintData[] = [
       {
         id: 0,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -103,8 +111,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -117,8 +125,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -129,8 +137,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -147,8 +155,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -159,8 +167,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: true,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -173,8 +181,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: true,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -185,8 +193,8 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: blankDate,
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -204,7 +212,7 @@ describe('ProjectPageComponent', () => {
         id: 0,
         name: '',
         startDate: new Date('19 Jan 2023 00:00:00 GMT'),
-        endDate: new Date(),
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -216,7 +224,7 @@ describe('ProjectPageComponent', () => {
         id: 1,
         name: '',
         startDate: new Date('18 Jan 2023 00:00:00 GMT'),
-        endDate: new Date(),
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -230,7 +238,7 @@ describe('ProjectPageComponent', () => {
         id: 1,
         name: '',
         startDate: new Date('18 Jan 2023 00:00:00 GMT'),
-        endDate: new Date(),
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
@@ -242,7 +250,7 @@ describe('ProjectPageComponent', () => {
         id: 0,
         name: '',
         startDate: new Date('19 Jan 2023 00:00:00 GMT'),
-        endDate: new Date(),
+        endDate: blankDate,
         isCompleted: false,
         pointsAttempted: 0,
         pointsCompleted: 0,
