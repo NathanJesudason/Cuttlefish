@@ -12,3 +12,16 @@
     grid-template-columns: repeat(1, auto);
   }
 }
+
+#project-modal-button-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+}
+
+.project-modal-button {
+  margin-top: var(--content-padding);
+  margin-left: auto;
+  margin-right: auto;
+}

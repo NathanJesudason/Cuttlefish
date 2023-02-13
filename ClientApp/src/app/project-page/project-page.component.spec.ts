@@ -27,6 +27,8 @@ import { SprintDropdownComponent } from '../sprint-dropdown/sprint-dropdown.comp
 import { ProjectPageComponent } from './project-page.component';
 import { TitleInplaceComponent } from '../title-inplace/title-inplace.component';
 
+import { CreateSprintModalComponent } from '../create-sprint-modal/create-sprint-modal.component';
+
 import { ProjectData } from '../../types/project';
 import { SprintData } from '../../types/sprint';
 
@@ -74,6 +76,7 @@ describe('ProjectPageComponent', () => {
       ])
       .mock(SprintDropdownComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
+      .mock(CreateSprintModalComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })

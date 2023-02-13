@@ -62,8 +62,23 @@
 
     <p-divider></p-divider>
 
+    <button
+      pButton pRipple
+      type="button"
+      label="Create Task"
+      class="p-button-success p-button-sm task-modal-button"
+      icon="pi pi-plus"
+      (click)="showCreateTaskModal()"
+      [ngStyle]="{'margin-bottom': data.tasks.length === 0 ? '0' : 'var(--content-padding)'}"
+    ></button>
+
     <p-accordion [multiple]="true">
       <task-dropdown *ngFor="let task of data.tasks" [taskData]="task"></task-dropdown>
     </p-accordion>
   </ng-template>
 </p-accordionTab>
+
+<create-task-modal
+  #createTaskModal
+  [sprintData]="data"
+></create-task-modal>

@@ -20,3 +20,18 @@
     </ng-template>
   </p-card>
 </div>
+
+<div id="project-modal-button-container">
+  <button
+    pButton pRipple type="button"
+    label="Create Project"
+    icon="pi pi-plus"
+    class="p-button-outlined project-modal-button"
+    (click)="showCreateProjectModal()"
+  ></button>
+</div>
+
+<create-project-modal
+  #createProjectModal
+  [projects]="projects"
+></create-project-modal>
