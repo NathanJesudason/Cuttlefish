@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^14.2.10",
     "@angular/platform-server": "^14.2.10",
     "@angular/router": "^14.2.10",
-    "@worktile/gantt": "^14.0.4",
+    "@worktile/gantt": "^14.0.5",
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
     "html2canvas": "^1.4.1",
