@@ -1,8 +1,13 @@
+using Cuttlefish.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
+
+string connectionString = builder.Configuration.GetConnectionString("default");
+builder.Services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
