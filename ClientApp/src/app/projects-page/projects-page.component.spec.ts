@@ -13,6 +13,7 @@ import { ServerApi } from '../server-api/server-api.service';
 
 import { ProjectsPageComponent } from './projects-page.component';
 import { ProjectData } from '../../types/project';
+import { CreateProjectModalComponent } from '../create-project-modal/create-project-modal.component';
 
 describe('ProjectsPageComponent', () => {
   const data: ProjectData[] = [{
@@ -47,6 +48,7 @@ describe('ProjectsPageComponent', () => {
 
   beforeEach(() => {
     return MockBuilder(ProjectsPageComponent, [CardModule, ButtonModule, RouterModule])
+      .mock(CreateProjectModalComponent, { export: true })
       .mock(ServerApi, {
         getAllProjects: (id: number): ProjectData[] => data,
       } as Partial<ServerApi>);

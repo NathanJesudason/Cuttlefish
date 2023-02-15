@@ -26,6 +26,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { MenuModule } from 'primeng/menu';
 import { EditorModule } from 'primeng/editor';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -53,6 +56,9 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
+import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
+import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
+import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
 
 
 @NgModule({
@@ -79,6 +85,9 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
     DateInplaceComponent,
     ProjectsPageComponent,
     DescriptionInplaceComponent,
+    CreateSprintModalComponent,
+    CreateTaskModalComponent,
+    CreateProjectModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -107,6 +116,9 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
     CalendarModule,
     MenuModule,
     CheckboxModule,
+    DialogModule,
+    InputNumberModule,
+    ColorPickerModule,
     NgxGanttModule,
     EditorModule,
     RouterModule.forRoot([

@@ -1,0 +1,45 @@
+#action-buttons {
+  width: 100%;
+  display: grid;
+  column-gap: 0.75rem;
+  grid-template-columns: min-content min-content 1fr;
+  grid-template-rows: 100%;
+
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+}
+
+#modal-forms {
+  padding-top: var(--content-padding);
+  margin-bottom: var(--content-padding);
+}
+
+.p-float-label {
+  margin-bottom: var(--content-padding);
+}
+
+.date-input {
+  margin-bottom: var(--content-padding);
+}
+
+.story-points-input {
+  margin-bottom: var(--content-padding);
+}
+
+:host ::ng-deep {
+  .p-dialog {
+    width: 560px;
+    height: 860px;
+  }
+
+  .p-inputnumber {
+    width: 4rem;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .p-dialog {
+      width: 400px;
+    }
+  }
+}

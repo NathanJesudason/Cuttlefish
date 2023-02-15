@@ -1,14 +1,17 @@
 import {
   Component,
   OnInit,
-  Input
+  Input,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 
+import { MenuItem } from 'primeng/api';
 import { format } from 'date-fns';
 
-import { ServerApi } from '../server-api/server-api.service';
 import { SprintData } from '../../types/sprint';
-import { MenuItem } from 'primeng/api';
+
+import { CreateTaskModalComponent } from '../create-task-modal/create-task-modal.component';
 
 @Component({
   selector: 'sprint-dropdown',
@@ -16,31 +19,25 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./sprint-dropdown.component.css' ],
 })
 export class SprintDropdownComponent implements OnInit {
-  @Input() id!: number;
-  
-  data!: SprintData;
+  @Input() data!: SprintData;
+
   sprintStarted!: boolean;
 
   collapsed!: boolean;
   hidden!: boolean;
 
   optionsMenuItems: MenuItem[] = [];
-  
-  constructor(private serverApi: ServerApi) { }
+
+  @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
 
   ngOnInit(): void {
-    this.loadSprintData();
     this.updateProgress();
     this.assignOptionsMenuItems();
     this.initAssignHidden();
     this.initAssignCollapsed();
   }
 
-  loadSprintData(): void {
-    this.data = this.serverApi.getSprintData(this.id);
-  }
-
-  updateProgress(): void {
+  updateProgress() {
     this.sprintStarted = this.data.startDate < new Date();
   }
 
@@ -53,7 +50,7 @@ export class SprintDropdownComponent implements OnInit {
       })
     }
     this.optionsMenuItems.push({
-      label: `Delete sprint`,
+      label: 'Delete sprint',
       icon: 'pi pi-trash',
     });
   }
@@ -84,6 +81,10 @@ export class SprintDropdownComponent implements OnInit {
 
   unhide() {
     this.hidden = false;
+  }
+
+  showCreateTaskModal() {
+    (this.createTaskModal as any).showCreateTaskModal();
   }
 
   // so that we can use date-fns format() in the html file
