@@ -9,5 +9,12 @@
 <h4>Description:</h4>
 <description-inplace [entityData]="taskData"></description-inplace>
 
-<p>Start Date: {{ taskData.startDate }}</p>
-<p>End Date: {{ taskData.endDate }}</p>
+<date-inplace
+    [entityData]="taskData"
+    whichDate="start"
+></date-inplace>
+<i class="pi pi-minus date-minus"></i>
+<date-inplace
+    [entityData]="taskData"
+    whichDate="end"
+></date-inplace>
