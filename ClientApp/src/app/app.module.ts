@@ -29,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -76,6 +77,7 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     CreateSprintModalComponent,
     CreateTaskModalComponent,
     CreateProjectModalComponent,
+    LabelsPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -107,6 +109,7 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     ColorPickerModule,
     NgxGanttModule,
     EditorModule,
+    DropdownModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in

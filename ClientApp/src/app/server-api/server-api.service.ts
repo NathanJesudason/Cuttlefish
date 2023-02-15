@@ -18,6 +18,7 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from '../../types/project';
+import { LabelData, LabelNotFoundError } from '../../types/label';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
@@ -283,6 +284,34 @@ export class ServerApi {
     return [
       this.getProjectData(0),
       this.getProjectData(1)
+    ];
+  }
+
+  getLabel(name: string): LabelData {
+    if (name === 'frontend') {
+      return {
+        name: 'frontend',
+        color: '#F782CA',
+      }
+    } else if (name === 'backend') {
+      return {
+        name: 'backend',
+        color: '#CEEF49',
+      }
+    } else if (name === 'database') {
+      return {
+        name: 'database',
+        color: '#A3EE82',
+      }
+    }
+    throw new LabelNotFoundError('Label not found', name);
+  }
+
+  getAllLabels(): LabelData[] {
+    return [
+      this.getLabel('frontend'),
+      this.getLabel('backend'),
+      this.getLabel('database'),
     ];
   }
 }

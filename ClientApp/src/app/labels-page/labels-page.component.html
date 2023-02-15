@@ -1,1 +1,21 @@
-<p>labels-page works!</p>
+<button
+  pButton
+  id="project-back-button"
+  class="p-button-raised p-button-sm"
+  type="button"
+  label="Back to Project"
+  icon="pi pi-arrow-left"
+  [routerLink]="['/project', projectId]"
+></button>
+
+<p-divider></p-divider>
+
+<p-dropdown
+  [(ngModel)]="currentLabel"
+  [options]="availableLabels"
+  optionLabel="name"
+  placeholder="Select a label"
+  [showClear]="true"
+  (onChange)="updateSelectedLabel($event)"
+  (onClear)="clearSelectedLabel($event)"
+></p-dropdown>
