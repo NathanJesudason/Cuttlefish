@@ -1,0 +1,17 @@
+.availableLabel-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: min-content auto;
+  column-gap: 0.5rem;
+}
+
+.availableLabel-item .label-color-swatch {
+  display: inline-block;
+
+  margin-top: auto;
+  margin-bottom: auto;
+
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 3px;
+}

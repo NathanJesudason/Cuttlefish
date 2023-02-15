@@ -12,7 +12,7 @@ import { ServerApi } from '../server-api/server-api.service';
 import { LabelData } from '../../types/label';
 
 @Component({
-  selector: 'app-labels-page',
+  selector: 'labels-page',
   templateUrl: './labels-page.component.html',
   styleUrls: ['./labels-page.component.css'],
 })

@@ -18,4 +18,18 @@
   [showClear]="true"
   (onChange)="updateSelectedLabel($event)"
   (onClear)="clearSelectedLabel($event)"
-></p-dropdown>
+>
+  <ng-template pTemplate="selectedItem">
+    <div class="availableLabel-item" *ngIf="currentLabel">
+      <span class="label-color-swatch" [ngStyle]="{'background-color': currentLabel.color}"></span>
+      <span>{{ currentLabel.name }}</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="item" let-availableLabel>
+    <div class="availableLabel-item">
+      <span class="label-color-swatch" [ngStyle]="{'background-color': availableLabel.color}"></span>
+      <span>{{ availableLabel.name }}</span>
+    </div>
+  </ng-template>
+</p-dropdown>
