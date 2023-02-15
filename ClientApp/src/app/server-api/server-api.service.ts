@@ -292,19 +292,37 @@ export class ServerApi {
       return {
         name: 'frontend',
         color: '#F782CA',
-      }
+      };
     } else if (name === 'backend') {
       return {
         name: 'backend',
         color: '#CEEF49',
-      }
+      };
     } else if (name === 'database') {
       return {
         name: 'database',
         color: '#A3EE82',
-      }
+      };
     }
     throw new LabelNotFoundError('Label not found', name);
+  }
+
+  getTasksByLabel(name: string): TaskData[] {
+    if (name === 'frontend') {
+      return [
+        this.getFullTaskData(10000),
+        this.getFullTaskData(10002),
+      ];
+    } else if (name === 'backend') {
+      return [
+        this.getFullTaskData(10001),
+      ];
+    } else if (name === 'database') {
+      return [
+        this.getFullTaskData(10001),
+      ];
+    }
+    return [];
   }
 
   getAllLabels(): LabelData[] {

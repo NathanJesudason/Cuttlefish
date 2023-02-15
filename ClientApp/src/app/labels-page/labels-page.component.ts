@@ -10,11 +10,12 @@ import {
 import { ServerApi } from '../server-api/server-api.service';
 
 import { LabelData } from '../../types/label';
+import { TaskData } from '../../types/task';
 
 @Component({
   selector: 'labels-page',
   templateUrl: './labels-page.component.html',
-  styleUrls: ['./labels-page.component.css'],
+  styleUrls: ['./labels-page.component.scss'],
 })
 export class LabelsPageComponent implements OnInit {
   projectId!: number;
@@ -22,6 +23,9 @@ export class LabelsPageComponent implements OnInit {
   availableLabels!: LabelData[];
 
   currentLabel!: LabelData;
+  tasksByLabel: TaskData[] = [];
+
+  taskPickerDisabled: boolean = false;
   
   constructor (
     private serverApi: ServerApi,
@@ -33,6 +37,7 @@ export class LabelsPageComponent implements OnInit {
     this.getProjectId();
     this.getAvailableLabels();
     this.getCurrentLabel();
+    this.getTasksByCurrentLabel();
   }
 
   getProjectId() {
@@ -50,15 +55,29 @@ export class LabelsPageComponent implements OnInit {
     }
   }
 
+  getTasksByCurrentLabel() {
+    if (this.currentLabel === undefined || this.currentLabel === null) return;
+    this.tasksByLabel = this.serverApi.getTasksByLabel(this.currentLabel.name);
+  }
+
   getAvailableLabels() {
     this.availableLabels = this.serverApi.getAllLabels();
   }
 
   updateSelectedLabel(event: { value: LabelData }) {
-    this.router.navigate(['/project', this.projectId, 'labels'], { queryParams: { name: event.value.name } });
-  }
-
-  clearSelectedLabel(_event: { value: LabelData }) {
-    this.router.navigate(['/project', this.projectId, 'labels']);
+    this.taskPickerDisabled = true;
+    if (event.value === null) {
+      this.router.navigate(['/project', this.projectId, 'labels'])
+        .then(() => {
+          this.tasksByLabel = [];
+          this.taskPickerDisabled = false;
+        });
+      return;
+    }
+    this.router.navigate(['/project', this.projectId, 'labels'], { queryParams: { name: event.value.name } })
+      .then(() => {
+        this.getTasksByCurrentLabel();
+        this.taskPickerDisabled = false;
+      });
   }
 }
