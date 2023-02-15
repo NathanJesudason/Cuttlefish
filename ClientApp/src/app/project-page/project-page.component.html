@@ -9,6 +9,16 @@
   [routerLink]="['/project', projectData.id, 'gantt']"
 ></button>
 
+<button
+  pButton
+  id="labels-page-button"
+  class="p-button-raised p-button-sm"
+  type="button"
+  label="View Tasks by Label"
+  icon="pi pi-tag"
+  [routerLink]="['/project', projectData.id, 'labels']"
+></button>
+
 <p-divider></p-divider>
 
 <p-toolbar>

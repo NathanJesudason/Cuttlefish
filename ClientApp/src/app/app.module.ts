@@ -52,6 +52,7 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
+import { LabelsPageComponent } from './labels-page/labels-page.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
       { path: 'project/:id/gantt', component: GanttPageComponent },
+      { path: 'project/:id/labels', component: LabelsPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
       { path: 'not-found/*', component: NotFoundPageComponent },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
