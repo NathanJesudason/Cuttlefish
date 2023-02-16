@@ -42,8 +42,7 @@ builder.Services.AddAuthentication(x =>
 });
 var app = builder.Build();
 
-app.UseCors(options => options.WithOrigins("http://localhost:44430", "https://cuttlefish.azurewebsites.net/").AllowAnyMethod().AllowAnyHeader());
-//app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); //possibly allow any origin
+app.UseCors(options => options.WithOrigins("https://cuttlefish.azurewebsites.net/").AllowAnyMethod().AllowAnyHeader());
 
 
 // Configure the HTTP request pipeline.
