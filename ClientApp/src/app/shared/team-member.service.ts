@@ -11,7 +11,7 @@ export class TeamMemberService {
 
   teamMemberData: TeamMember = new TeamMember()
   list: TeamMember[] = []
-  readonly baseURL = "http://localhost:5277/api/Teammembers" // this is the server port
+  readonly baseURL = "https://cuttlefish.azurewebsites.net/api/Teammembers" // this is the server port
  
   postTeamMember(){
     return this.http.post(this.baseURL, this.teamMemberData)

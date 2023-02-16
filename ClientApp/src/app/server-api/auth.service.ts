@@ -7,7 +7,7 @@ import {JwtHelperService} from '@auth0/angular-jwt'
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl: string = "http://localhost:5277/api/TeamMembers/"
+  private baseUrl: string = "https://cuttlefish.azurewebsites.net/api/TeamMembers/"
 
   private userPayload: any
 
