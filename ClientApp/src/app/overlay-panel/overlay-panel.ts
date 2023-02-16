@@ -7,7 +7,7 @@ import {
   
   import { MessageService } from 'primeng/api';
   import { Inplace } from 'primeng/inplace';
-  import { OverlayPanelModule } from 'primeng/overlaypanel';
+  import { OverlayPanel } from 'primeng/overlaypanel';
   
   import { ProjectData } from '../../types/project';
   import { TaskData } from '../../types/task';
@@ -23,7 +23,7 @@ import {
     @Input() entityData!: TaskData | ProjectData | SprintData;
     @Input() size!: 'large' | 'medium' | 'small';
   
-    @ViewChild('titleInplace') titleInplace!: Inplace;
+    @ViewChild('overlayPanel') overlayPanel!: OverlayPanel;
   
     updatedTitle!: string;
   
@@ -39,13 +39,13 @@ import {
       this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.updatedTitle}!`});
       this.entityData.name = this.updatedTitle;
       // when the time comes, add a serverApi call here to send change to backend
-      this.titleInplace.deactivate();
+      this.overlayPanel.hide();
     }
   
     cancelInput() {
       this.messageService.add({severity: 'info', summary: 'Progress update was cancelled'});
       this.updatedTitle = this.entityData.name;
-      this.titleInplace.deactivate();
+      this.overlayPanel.hide();
     }
   }
   
