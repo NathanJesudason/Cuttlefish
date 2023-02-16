@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(x =>
 });
 var app = builder.Build();
 
-app.UseCors(options => options.WithOrigins("https://cuttlefish.azurewebsites.net/").AllowAnyMethod().AllowAnyHeader());
+app.UseCors(options => options.WithOrigins("https://cuttlefish.azurewebsites.net").AllowAnyMethod().AllowAnyHeader());
 
 
 // Configure the HTTP request pipeline.
