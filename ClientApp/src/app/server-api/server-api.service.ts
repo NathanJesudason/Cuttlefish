@@ -215,6 +215,7 @@ export class ServerApi {
         progress: 'Done',
         startDate: new Date(Date.parse('12/27/2022')),
         endDate: new Date(Date.parse('12/28/2022')),
+        labels: [this.getLabel('frontend')],
       };
     } else if (id === 10001) {
       return {
@@ -226,6 +227,7 @@ export class ServerApi {
         progress: 'Backlog',
         startDate: new Date(Date.parse('12/23/2022')),
         endDate: new Date(Date.parse('12/26/2022')),
+        labels: [this.getLabel('backend'), this.getLabel('database')],
       };
     } else if (id === 10002) {
       return {
@@ -237,6 +239,7 @@ export class ServerApi {
         progress: 'Backlog',
         startDate: undefined,
         endDate: undefined,
+        labels: [this.getLabel('frontend')],
       }
     }
     throw new TaskNotFoundError('Task not found', id);
