@@ -56,7 +56,7 @@ describe('LabelsPageComponent', () => {
     expect(ngMocks.findAll(LabelsPageComponent)[0]).toBeTruthy();
   });
 
-  it('should read the project id and label from url params', () => {
+  it('should read the label from url params', () => {
     const mockLabelName = 'thisisalabel';
     MockInstance(
       ActivatedRoute,
