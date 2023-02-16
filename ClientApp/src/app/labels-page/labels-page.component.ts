@@ -18,8 +18,6 @@ import { TaskData } from '../../types/task';
   styleUrls: ['./labels-page.component.scss'],
 })
 export class LabelsPageComponent implements OnInit {
-  projectId!: number;
-
   availableLabels!: LabelData[];
 
   currentLabel!: LabelData;
@@ -34,14 +32,9 @@ export class LabelsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getProjectId();
     this.getAvailableLabels();
     this.getCurrentLabel();
     this.getTasksByCurrentLabel();
-  }
-
-  getProjectId() {
-    this.projectId = Number(this.route.snapshot.paramMap.get('id')!);
   }
 
   getCurrentLabel() {
@@ -67,14 +60,14 @@ export class LabelsPageComponent implements OnInit {
   updateSelectedLabel(event: { value: LabelData }) {
     this.taskPickerDisabled = true;
     if (event.value === null) {
-      this.router.navigate(['/project', this.projectId, 'labels'])
+      this.router.navigate(['/label'])
         .then(() => {
           this.tasksByLabel = [];
           this.taskPickerDisabled = false;
         });
       return;
     }
-    this.router.navigate(['/project', this.projectId, 'labels'], { queryParams: { name: event.value.name } })
+    this.router.navigate(['/label'], { queryParams: { name: event.value.name } })
       .then(() => {
         this.getTasksByCurrentLabel();
         this.taskPickerDisabled = false;

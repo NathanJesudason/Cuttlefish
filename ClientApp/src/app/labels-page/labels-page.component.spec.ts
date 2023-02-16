@@ -49,7 +49,6 @@ describe('LabelsPageComponent', () => {
       jasmine.createSpy(),
       'get'
     ).and.returnValue({
-      paramMap: convertToParamMap({ 'id': 0 }),
       queryParamMap: convertToParamMap({ 'name': null }),
     });
     
@@ -58,7 +57,6 @@ describe('LabelsPageComponent', () => {
   });
 
   it('should read the project id and label from url params', () => {
-    const mockProjectId = 12495;
     const mockLabelName = 'thisisalabel';
     MockInstance(
       ActivatedRoute,
@@ -66,14 +64,12 @@ describe('LabelsPageComponent', () => {
       jasmine.createSpy(),
       'get'
     ).and.returnValue({
-      paramMap: convertToParamMap({ 'id': mockProjectId }),
       queryParamMap: convertToParamMap({ 'name': mockLabelName }),
     });
     
     const fixture = MockRender(LabelsPageComponent);
     const component = fixture.point.componentInstance;
 
-    expect(component.projectId).toEqual(mockProjectId);
     expect(component.currentLabel.name).toEqual(mockLabelName);
   });
 });

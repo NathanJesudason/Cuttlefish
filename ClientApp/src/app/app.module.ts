@@ -118,7 +118,7 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'project/:id', component: ProjectPageComponent },
       { path: 'project/:id/gantt', component: GanttPageComponent },
-      { path: 'project/:id/labels', component: LabelsPageComponent },
+      { path: 'label', component: LabelsPageComponent },
       { path: 'task/:id', component: TaskPageComponent },
       { path: 'not-found/*', component: NotFoundPageComponent },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list

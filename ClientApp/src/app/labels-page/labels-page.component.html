@@ -1,35 +1,23 @@
-<button
-  pButton
-  id="project-back-button"
-  class="p-button-raised p-button-sm"
-  type="button"
-  label="Back to Project"
-  icon="pi pi-arrow-left"
-  [routerLink]="['/project', projectId]"
-></button>
-
-<p-divider></p-divider>
-
 <p-dropdown
   [(ngModel)]="currentLabel"
   [disabled]="taskPickerDisabled"
   [options]="availableLabels"
   optionLabel="name"
-  placeholder="Select a label"
+  placeholder="Select a label..."
   [showClear]="true"
   (onChange)="updateSelectedLabel($event)"
 >
   <ng-template pTemplate="selectedItem">
     <div class="availableLabel-item" *ngIf="currentLabel">
       <span class="label-color-swatch" [ngStyle]="{'background-color': currentLabel.color}"></span>
-      <span>{{ currentLabel.name }}</span>
+      <code>{{ currentLabel.name }}</code>
     </div>
   </ng-template>
 
   <ng-template pTemplate="item" let-availableLabel>
     <div class="availableLabel-item">
       <span class="label-color-swatch" [ngStyle]="{'background-color': availableLabel.color}"></span>
-      <span>{{ availableLabel.name }}</span>
+      <code>{{ availableLabel.name }}</code>
     </div>
   </ng-template>
 </p-dropdown>

@@ -11,13 +11,18 @@
   margin-top: auto;
   margin-bottom: auto;
 
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 3px;
 }
 
 :host ::ng-deep {
   p-accordion {
     display: block;
+  }
+
+  .p-dropdown-label, .p-dropdown-label code, .p-dropdown-item code {
+    font-size: 2rem;
+    color: var(--text-color-secondary);
   }
 }
