@@ -2,6 +2,7 @@
 using Cuttlefish.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -42,7 +43,7 @@ builder.Services.AddAuthentication(x =>
 });
 var app = builder.Build();
 
-app.UseCors(options => options.WithOrigins("https://cuttlefish.azurewebsites.net").AllowAnyMethod().AllowAnyHeader());
+app.UseCors(options => options.WithOrigins(builder.Configuration.GetValue<string>("url")).AllowAnyMethod().AllowAnyHeader());
 
 
 // Configure the HTTP request pipeline.

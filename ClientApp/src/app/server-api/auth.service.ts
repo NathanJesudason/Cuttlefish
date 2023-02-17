@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl: string = "https://cuttlefish.azurewebsites.net/api/TeamMembers/"
+  private baseUrl: string = `${environment.url}TeamMembers/`
 
   private userPayload: any
 

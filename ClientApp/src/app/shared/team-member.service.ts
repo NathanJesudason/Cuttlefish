@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TeamMember } from './team-member.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class TeamMemberService {
 
   teamMemberData: TeamMember = new TeamMember()
   list: TeamMember[] = []
-  readonly baseURL = "https://cuttlefish.azurewebsites.net/api/Teammembers" // this is the server port
+  readonly baseURL = environment.url // this is the server port
  
   postTeamMember(){
     return this.http.post(this.baseURL, this.teamMemberData)
@@ -26,7 +27,7 @@ export class TeamMemberService {
   }
 
   refreshList(){
-    this.http.get(this.baseURL).toPromise().then(
+    this.http.get(`${this.baseURL}TeamMembers`).toPromise().then(
       res=> this.list = res as TeamMember[]
       ,(err)=>{
         console.log(err.message)
