@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { TeamMember } from 'src/app/shared/team-member.model';
-import { TeamMemberService } from 'src/app/shared/team-member.service';
+import { TeamMember } from 'src/types/team-member.model';
+import { TeamMemberService } from 'src/app/server-api/team-member.service';
 
 @Component({
   selector: 'app-team-members-form',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../server-api/auth.service';
-import { TeamMember } from '../shared/team-member.model';
-import { TeamMemberService } from '../shared/team-member.service';
+import { TeamMember } from '../../types/team-member.model';
+import { TeamMemberService } from '../server-api/team-member.service';
 
 @Component({
   selector: 'teammembers',
