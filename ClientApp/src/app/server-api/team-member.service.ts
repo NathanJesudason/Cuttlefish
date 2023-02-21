@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TeamMember } from './team-member.model';
+import { TeamMember } from '../../types/team-member.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
