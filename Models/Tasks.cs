@@ -16,7 +16,7 @@ namespace Cuttlefish.Models
         public int sprintID { get; set; }
         public string name { get; set; }
         [ForeignKey("TeamMembers")]
-        public int assignee { get; set; }
+        public int? assignee { get; set; }
         public int storyPoints { get; set; }
         public string description { get; set; }
         public string progress { get; set; }

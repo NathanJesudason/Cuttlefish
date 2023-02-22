@@ -52,6 +52,19 @@ namespace Cuttlefish.Controllers
                 return BadRequest();
             }
 
+            if (await _context.TeamMembers.FindAsync(comments.teamMemberID) == null)
+            {
+                return BadRequest();
+            }
+            if (await _context.Tasks.FindAsync(comments.taskID) == null)
+            {
+                return BadRequest();
+            }
+            if (await _context.Projects.FindAsync(comments.projectID) == null)
+            {
+                return BadRequest();
+            }
+
             _context.Entry(comments).State = EntityState.Modified;
 
             try
@@ -78,6 +91,18 @@ namespace Cuttlefish.Controllers
         [HttpPost]
         public async Task<ActionResult<Comments>> PostComments(Comments comments)
         {
+            if (await _context.TeamMembers.FindAsync(comments.teamMemberID) == null)
+            {
+                return BadRequest();
+            }
+            if (await _context.Tasks.FindAsync(comments.taskID) == null)
+            {
+                return BadRequest();
+            }
+            if (await _context.Projects.FindAsync(comments.projectID) == null)
+            {
+                return BadRequest();
+            }
             _context.Comments.Add(comments);
             await _context.SaveChangesAsync();
 

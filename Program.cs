@@ -10,9 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddEndpointsApiExplorer();
 
 string connectionString = builder.Configuration.GetConnectionString("default");
 builder.Services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(connectionString));
+builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -48,8 +51,8 @@ app.UseCors(options => options.WithOrigins(builder.Configuration.GetValue<string
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    // for verifiying http requests without frontend
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -66,7 +69,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 app.MapControllerRoute(

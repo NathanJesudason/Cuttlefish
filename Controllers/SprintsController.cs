@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Data;
 using Cuttlefish.Models;
+using Microsoft.Build.Framework;
 
 namespace Cuttlefish.Controllers
 {
@@ -78,10 +79,16 @@ namespace Cuttlefish.Controllers
         [HttpPost]
         public async Task<ActionResult<Sprints>> PostSprints(Sprints sprints)
         {
-            _context.Sprints.Add(sprints);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSprints", new { id = sprints.id }, sprints);
+            if (await _context.Projects.FindAsync(sprints.projectID) != null)
+            {
+                _context.Sprints.Add(sprints);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetSprints", new { id = sprints.id }, sprints);
+            }
+
+            return BadRequest();
         }
 
         // DELETE: api/Sprints/5
