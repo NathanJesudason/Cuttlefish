@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../server-api/auth.service';
 
 import { ServerApi } from '../server-api/server-api.service';
 
@@ -13,8 +14,10 @@ export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
 
   constructor(
-    private serverApi: ServerApi,
+    private serverApi: ServerApi, private auth: AuthService
   ) {}
+
+  
 
   ngOnInit() {
     this.assignMenuItems();
@@ -38,6 +41,11 @@ export class NavMenuComponent implements OnInit {
         routerLink: ['/fetch-data'],
       },
       {
+        icon: 'pi pi-cloud',
+        label: 'Team Members',
+        routerLink: ['/teammembers'],
+      },
+      {
         icon: 'pi pi-user',
         items: [
           {
@@ -51,6 +59,9 @@ export class NavMenuComponent implements OnInit {
           {
             icon: 'pi pi-sign-out',
             label: 'Sign Out',
+            command: (event)   => 
+            { this.signOut()}
+            ,
           },
         ],
       },
@@ -65,5 +76,11 @@ export class NavMenuComponent implements OnInit {
       } as MenuItem;
     });
     this.menuItems[0].items = projectMenuItems;
+    
+  }
+
+
+  signOut(){
+    this.auth.signOut()
   }
 }
