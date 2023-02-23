@@ -4,6 +4,8 @@
 
 <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
 <p-tag styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
+<overlay-panel [entityData]="taskData"></overlay-panel>
+
 <span>{{ taskData.assignee }}</span>
 
 <h4>Description:</h4>

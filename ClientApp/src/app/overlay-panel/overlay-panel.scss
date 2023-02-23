@@ -1,0 +1,30 @@
+:host ::ng-deep {
+  .p-inplace-display, .p-inplace-content .p-inputtext {
+    color: var(--text-color);
+  }
+    
+  p-inplace.size-large {
+    .p-inplace-display, .p-inplace-content .p-inputtext {
+      font-size: xx-large;
+      font-weight: 700;
+    }
+  }
+  
+  p-inplace.size-medium {
+    .p-inplace-display, .p-inplace-content .p-inputtext {
+      font-size: x-large;
+      font-weight: 600;
+    }
+  }
+  
+  p-inplace.size-small {
+    .p-inplace-display, .p-inplace-content .p-inputtext {
+        font-size: medium;
+        font-weight: 400;
+    }
+  }
+}
+  
+.p-buttonset {
+  display: block;
+}
