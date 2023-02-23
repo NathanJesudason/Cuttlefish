@@ -1,0 +1,30 @@
+<p-dropdown
+  [(ngModel)]="currentLabel"
+  [disabled]="taskPickerDisabled"
+  [options]="availableLabels"
+  optionLabel="name"
+  placeholder="Select a label..."
+  [showClear]="true"
+  (onChange)="updateSelectedLabel($event)"
+>
+  <ng-template pTemplate="selectedItem">
+    <div class="availableLabel-item" *ngIf="currentLabel">
+      <span class="label-color-swatch" [ngStyle]="{'background-color': currentLabel.color}"></span>
+      <code>{{ currentLabel.name }}</code>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="item" let-availableLabel>
+    <div class="availableLabel-item">
+      <span class="label-color-swatch" [ngStyle]="{'background-color': availableLabel.color}"></span>
+      <code>{{ availableLabel.name }}</code>
+    </div>
+  </ng-template>
+</p-dropdown>
+
+<p-accordion
+  [multiple]="true"
+  [ngStyle]="{'margin-top': tasksByLabel.length === 0 ? '0' : 'var(--content-padding)'}"
+>
+  <task-dropdown *ngFor="let task of tasksByLabel" [taskData]="task"></task-dropdown>
+</p-accordion>

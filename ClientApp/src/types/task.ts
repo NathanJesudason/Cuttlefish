@@ -1,3 +1,5 @@
+import { LabelData } from './label';
+
 export type TaskData = {
   id: number;
   name: string;
@@ -7,6 +9,7 @@ export type TaskData = {
   progress: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
   startDate?: Date;
   endDate?: Date;
+  labels?: LabelData[];
 };
 
 export class TaskNotFoundError extends Error {

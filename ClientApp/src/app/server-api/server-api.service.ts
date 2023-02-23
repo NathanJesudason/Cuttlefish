@@ -18,6 +18,7 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from '../../types/project';
+import { LabelData, LabelNotFoundError } from '../../types/label';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
@@ -214,6 +215,7 @@ export class ServerApi {
         progress: 'Done',
         startDate: new Date(Date.parse('12/27/2022')),
         endDate: new Date(Date.parse('12/28/2022')),
+        labels: [this.getLabel('frontend')],
       };
     } else if (id === 10001) {
       return {
@@ -225,6 +227,7 @@ export class ServerApi {
         progress: 'Backlog',
         startDate: new Date(Date.parse('12/23/2022')),
         endDate: new Date(Date.parse('12/26/2022')),
+        labels: [this.getLabel('backend'), this.getLabel('database')],
       };
     } else if (id === 10002) {
       return {
@@ -236,6 +239,7 @@ export class ServerApi {
         progress: 'Backlog',
         startDate: undefined,
         endDate: undefined,
+        labels: [this.getLabel('frontend')],
       }
     }
     throw new TaskNotFoundError('Task not found', id);
@@ -283,6 +287,52 @@ export class ServerApi {
     return [
       this.getProjectData(0),
       this.getProjectData(1)
+    ];
+  }
+
+  getLabel(name: string): LabelData {
+    if (name === 'frontend') {
+      return {
+        name: 'frontend',
+        color: '#F782CA',
+      };
+    } else if (name === 'backend') {
+      return {
+        name: 'backend',
+        color: '#CEEF49',
+      };
+    } else if (name === 'database') {
+      return {
+        name: 'database',
+        color: '#A3EE82',
+      };
+    }
+    throw new LabelNotFoundError('Label not found', name);
+  }
+
+  getTasksByLabel(name: string): TaskData[] {
+    if (name === 'frontend') {
+      return [
+        this.getFullTaskData(10000),
+        this.getFullTaskData(10002),
+      ];
+    } else if (name === 'backend') {
+      return [
+        this.getFullTaskData(10001),
+      ];
+    } else if (name === 'database') {
+      return [
+        this.getFullTaskData(10001),
+      ];
+    }
+    return [];
+  }
+
+  getAllLabels(): LabelData[] {
+    return [
+      this.getLabel('frontend'),
+      this.getLabel('backend'),
+      this.getLabel('database'),
     ];
   }
 }

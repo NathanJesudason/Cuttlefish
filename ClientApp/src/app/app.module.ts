@@ -29,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -59,6 +60,7 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
+import { LabelsPageComponent } from './labels-page/labels-page.component';
 
 
 @NgModule({
@@ -88,6 +90,7 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     CreateSprintModalComponent,
     CreateTaskModalComponent,
     CreateProjectModalComponent,
+    LabelsPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -121,9 +124,8 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     ColorPickerModule,
     NgxGanttModule,
     EditorModule,
+    DropdownModule,
     RouterModule.forRoot([
-     
-     
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
@@ -132,12 +134,9 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
       { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
       { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
+      { path: 'label', component: LabelsPageComponent, canActivate:[AuthGuard] },
       { path: 'task/:id', component: TaskPageComponent, canActivate:[AuthGuard] },
-     
-
-
       { path: 'projects', component: ProjectsPageComponent, canActivate: [AuthGuard] },     // route to here after successfully logging in
-     
       
       { path: 'not-found/*', component: NotFoundPageComponent },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
