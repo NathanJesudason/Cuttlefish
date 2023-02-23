@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { A11yModule } from '@angular/cdk/a11y';
 
@@ -29,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -45,13 +46,22 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
+
+import { TeamMembersComponent } from './team-members/team-members.component';
+import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component'
+import { AuthGuard } from './server-api/auth.guard';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
+import { LabelsPageComponent } from './labels-page/labels-page.component';
+
 
 @NgModule({
   declarations: [
@@ -68,18 +78,26 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
+
+    TeamMembersComponent,
+    TeamMembersFormComponent,
+    LoginComponent,
+    SignupComponent,
+
     DateInplaceComponent,
     ProjectsPageComponent,
-    LoginPageComponent,
     DescriptionInplaceComponent,
     CreateSprintModalComponent,
     CreateTaskModalComponent,
     CreateProjectModalComponent,
+    LabelsPageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule,
     A11yModule,
     TableModule,
@@ -106,20 +124,32 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     ColorPickerModule,
     NgxGanttModule,
     EditorModule,
+    DropdownModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
-      { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in
-      { path: 'projects', component: ProjectsPageComponent },     // route to here after successfully logging in
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'project/:id', component: ProjectPageComponent },
-      { path: 'project/:id/gantt', component: GanttPageComponent },
-      { path: 'task/:id', component: TaskPageComponent },
+      { path: 'login', component: LoginComponent},
+      { path: 'signup', component: SignupComponent},
+      { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
+      { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
+      { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
+      { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
+      { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
+      { path: 'label', component: LabelsPageComponent, canActivate:[AuthGuard] },
+      { path: 'task/:id', component: TaskPageComponent, canActivate:[AuthGuard] },
+      { path: 'projects', component: ProjectsPageComponent, canActivate: [AuthGuard] },     // route to here after successfully logging in
+      
       { path: 'not-found/*', component: NotFoundPageComponent },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
     ])
   ],
-  providers: [],
+  providers: [
+    
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: TokenInterceptor,
+      multi:true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

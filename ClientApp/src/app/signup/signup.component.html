@@ -1,0 +1,15 @@
+<div>
+  <form action="" [formGroup]="signUpForm">
+
+    <input type="text" placeholder="Username" required formControlName="username"><br>
+    <input type="text" placeholder="Email" required formControlName="email"><br>
+    <input [type]="type" name="password" id="password" placeholder="Password" formControlName="password"> <span (click)="showOrHidePassword()"> Show/Hide Toggle (Click me)</span><br>
+    <!-- <input [type]="type" name="password" id="password" placeholder="Confirm Password"> <span (click)="showOrHidePassword()"> Show/Hide Toggle (Click me) //fix here to show or hide individual</span><br><br> -->
+    <button [disabled]="signUpForm.invalid" (click)="Signup()">Signup</button><br><br>
+    <p>Have an account? <a href="/login">login here</a></p>
+
+  </form>
+  <a href="https://www.facebook.com">Signin in with Facebook [logo]</a><br>
+  <a href="https://www.google.com">Signin in with Google  [logo]</a><br>
+  <a href="https://www.github.com">Signin in with Github  [logo]</a><br>
+</div>
