@@ -34,6 +34,10 @@ export class OverlayPanelComponent implements OnInit {
     this.selectedProgress = this.whichProgress;
   }
 
+  updateProgress(event: any) {
+    this.selectedProgress = event.target.value;
+  }
+
   approveChanges(event: any) {
     this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}!`});
     // when the time comes, add a serverApi call here to send change to backend
