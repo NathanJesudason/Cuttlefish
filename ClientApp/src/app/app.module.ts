@@ -29,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -52,6 +53,7 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
+import { OverlayPanelComponent} from './overlay-panel/overlay-panel.component'
 
 @NgModule({
   declarations: [
@@ -75,6 +77,7 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     CreateSprintModalComponent,
     CreateTaskModalComponent,
     CreateProjectModalComponent,
+    OverlayPanelComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -106,6 +109,7 @@ import { CreateProjectModalComponent } from './create-project-modal/create-proje
     ColorPickerModule,
     NgxGanttModule,
     EditorModule,
+    OverlayPanelModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginPageComponent },           // temporary page to use for logging in

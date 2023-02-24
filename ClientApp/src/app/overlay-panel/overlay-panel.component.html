@@ -1,9 +1,19 @@
-<p-overlaypanel
-    [dismissable]="true"
-    [showCloseIcon]="true"
-    [appendTo]="body"
-    [style]="{width: '300px'}"
-    #overlayPanel
-></p-overlaypanel>
+<p-tag styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{data.progress}}"></p-tag>
+<p-overlayPanel
+  [dismissable]="true"
+  [showCloseIcon]="true"
+  [style]="{width: '300px'}"
+  #overlayPanel
+>
+
+  <p-overlayPanel #op>
+    <ng-template pTemplate>
+      <ul>
+        <li *ngFor="let option of progressOptions" (click)="updateProgress(option)">{{option}}</li>
+      </ul>
+    </ng-template>
+  </p-overlayPanel>
+
+</p-overlayPanel>
 
 <p-toast></p-toast>

@@ -3,8 +3,8 @@
 <title-inplace [entityData]="taskData" size="large"></title-inplace>
 
 <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
-<p-tag styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
-<overlay-panel [entityData]="taskData"></overlay-panel>
+
+<overlay-panel [data]="taskData" #overlayPanel></overlay-panel>
 
 <span>{{ taskData.assignee }}</span>
 

@@ -19,11 +19,12 @@ import { SprintData } from '../../types/sprint';
   providers: [MessageService],
 })
 export class OverlayPanelComponent implements OnInit {
-  @Input() entityData!: TaskData | ProjectData | SprintData;
+  @Input() data!: TaskData;
   @Input() whichProgress!: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
   @Input() disabled!: boolean;
 
   selectedProgress!: string | undefined;
+  progressOptions: string[] = ['Backlog', 'In Progress', 'In Review', 'Done'];
 
   constructor(
     private messageService: MessageService,
