@@ -3,13 +3,13 @@ using MimeKit;
 
 namespace Cuttlefish.EmailService.Utility
 {
-    public class EmailService: IEmailService
+    public class EmailService : IEmailService
     {
 
         private readonly IConfiguration _config;
         public EmailService(IConfiguration config)
         {
-            _config = config;   
+            _config = config;
         }
 
         public void SendEmail(EmailModel emailModel)
@@ -24,14 +24,15 @@ namespace Cuttlefish.EmailService.Utility
                 Text = string.Format(emailModel.Content)
             };
 
-            using(var client = new SmtpClient())
+            using (var client = new SmtpClient())
             {
                 try
                 {
                     client.Connect(_config["EmailSettings:SmtpServer"], 465, true);
                     client.Authenticate(_config["EmailSettings:From"], _config["EmailSettings:Password"]);
                     client.Send(emailMessage);
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     throw;
                 }

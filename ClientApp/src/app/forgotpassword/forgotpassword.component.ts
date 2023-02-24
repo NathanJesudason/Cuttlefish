@@ -26,8 +26,6 @@ export class ForgotpasswordComponent implements OnInit {
 
   sendEmail(){
     this.email = this.forgotPasswordForm.value
-    alert('email sent')
-    console.log("2", this.forgotPasswordForm.value['email'])
 
     // call api
     this.resetService.sendResetPasswordLink(this.forgotPasswordForm.value['email']).subscribe({
@@ -38,7 +36,12 @@ export class ForgotpasswordComponent implements OnInit {
         this.email = ""
       },
       error:(err)=>{
-        alert('error sending link')
+        if (err.status === 500)
+          alert('Error sending link. Check email entered.')
+        else if(err.status === 404)
+          alert('Email does not exist.')
+        else
+          alert('Error sending link.')
         console.log("error: ", err)
       }
     })

@@ -47,9 +47,19 @@ namespace Cuttlefish.Controllers
 
             var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username); // && x.Password == teammemberObj.Password);
 
+            var teammember_email = await _context.TeamMembers.FirstOrDefaultAsync(x => x.email == teammemberObj.username);
+
+
             if (teammember == null)
             {
-                return NotFound(new { Message = "User Not Found" });
+                if(teammember_email == null)
+                {
+                    return NotFound(new { Message = "User Not Found" });
+                }
+                else
+                {
+                    teammember = teammember_email;
+                }
             }
             if (!PasswordHasher.VerifyPassword(teammemberObj.password, teammember.password))
             {
@@ -240,10 +250,11 @@ namespace Cuttlefish.Controllers
         [HttpPost("send-reset-email/{email}")]
         public async Task<IActionResult> SendEmail(string email)
         {
-            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(t=> t.email == email);
+            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(t => t.email == email);
             if (teammember is null)
             {
-                return NotFound(new { 
+                return NotFound(new
+                {
                     StatusCode = 404,
                     Message = "Email is not registered"
                 });
@@ -252,7 +263,7 @@ namespace Cuttlefish.Controllers
             var tokenBytes = RandomNumberGenerator.GetBytes(64);
             var emailToken = Convert.ToBase64String(tokenBytes);
             teammember.resetPasswordToken = emailToken;
-            teammember.resetPasswordExpire = DateTime.UtcNow.AddHours(12);
+            teammember.resetPasswordExpire = DateTime.UtcNow.AddHours(24);
             string from = _config["EmailSettings:From"];
             var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
             _emailService.SendEmail(emailModel);
@@ -283,7 +294,7 @@ namespace Cuttlefish.Controllers
             }
             var tokenCode = teammember.resetPasswordToken;
             DateTime emailTokenExpire = teammember.resetPasswordExpire;
-            if(tokenCode != newToken || DateTime.UtcNow < emailTokenExpire) 
+            if (tokenCode != newToken || DateTime.UtcNow > emailTokenExpire)
             {
                 return BadRequest(new
                 {

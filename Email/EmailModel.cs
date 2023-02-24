@@ -1,6 +1,6 @@
 ﻿namespace Cuttlefish.EmailService
 {
-    
+
     public class EmailModel
     {
         public string To { get; set; }

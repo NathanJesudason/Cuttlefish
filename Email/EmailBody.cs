@@ -2,7 +2,7 @@
 {
     public static class EmailBody
     {
-        public static string EmailStringBody (string email, string emailToken)
+        public static string EmailStringBody(string email, string emailToken)
         {
             return $@"<html>
                         <div>

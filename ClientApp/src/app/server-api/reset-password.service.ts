@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { ResetPassword } from 'src/types/reset-password.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResetPasswordService {
-private baseUrl: string = "http://localhost:5277/api/TeamMembers"
+private baseUrl: string = `${environment.url}TeamMembers`
   constructor(private http: HttpClient) { }
 
   sendResetPasswordLink(email: string){
