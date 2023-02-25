@@ -3,7 +3,7 @@ export class TeamMember {
     username: string = ""
     password: string = ""
     email: string = ""
-    role: string = ""
+    roles: string = ""
 
     /*
     could also possibly use a constructor to initialize
