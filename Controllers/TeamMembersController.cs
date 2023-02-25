@@ -53,7 +53,7 @@ namespace Cuttlefish.Controllers
 
             if (teammember == null)
             {
-                if(teammember_email == null)
+                if (teammember_email == null)
                 {
                     return NotFound(new { Message = "User Not Found" });
                 }
