@@ -18,6 +18,7 @@ using System.Security.Cryptography;
 using Cuttlefish.EmailService;
 using Cuttlefish.Email;
 using Cuttlefish.EmailService.Utility;
+using Cuttlefish.Models.Dtos;
 
 namespace Cuttlefish.Controllers
 {
@@ -142,9 +143,19 @@ namespace Cuttlefish.Controllers
         // GET: api/TeamMembers
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TeamMembers>>> GetTeamMembers_1()
+        public IQueryable<TeamMemberDto> GetTeamMembers_1()
         {
-            return await _context.TeamMembers.ToListAsync();
+            var teamMembers = from t in _context.TeamMembers
+                              select new TeamMemberDto()
+                              {
+                                  username = t.username,
+                                  email = t.email,
+                                  roles = t.roles
+                              };
+
+            //return await _context.TeamMembers.ToListAsync();
+            return teamMembers;
+
         }
 
         // GET: api/TeamMembers/5
