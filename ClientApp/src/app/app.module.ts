@@ -30,6 +30,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { DropdownModule } from 'primeng/dropdown';
+import { PasswordModule } from 'primeng/password';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -125,6 +126,7 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     NgxGanttModule,
     EditorModule,
     DropdownModule,
+    PasswordModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},

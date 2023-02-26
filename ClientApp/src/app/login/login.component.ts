@@ -7,7 +7,7 @@ import { UserService } from '../server-api/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -16,10 +16,17 @@ export class LoginComponent implements OnInit {
   isText: boolean = false
   showIcon: string = "fa-eye-slash"
 
+  formPassword!: string;
+
   //formGroup declared in html
   loginForm!: FormGroup
   
-  constructor(private formbuilder: FormBuilder, private  auth : AuthService, private router: Router, private user: UserService) { }
+  constructor(
+    private formbuilder: FormBuilder,
+    private auth : AuthService,
+    private router: Router,
+    private user: UserService
+  ) { }
 
   ngOnInit(): void {
 

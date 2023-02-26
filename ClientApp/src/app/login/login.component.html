@@ -1,12 +1,35 @@
-<div>
+<div id="login-card">
+  <p-card header="Log in to Cuttlefish">
     <form [formGroup]="loginForm">
-        <input type="text" placeholder="Username or Email" formControlName="username"><br>
-        <input [type]="type" name="password" id="password" placeholder="Password" formControlName="password"> <span (click)="showOrHidePassword()"> Show/Hide Toggle (Click me)</span><br><br>
-        <button [disabled]="loginForm.invalid" type="submit" (click)="Login()">Login</button><br><br>
-        <a href="/forgotpassword">Forgot Password?</a><br>
-        <p>Don't have an account? <a href="/signup">Signup here</a></p>
+      <span class="p-float-label">
+        <input
+          pInputText type="text"
+          formControlName="username"
+        >
+        <label for="username-input">Username or Email</label>
+      </span>
+    
+      <span class="p-float-label">
+        <p-password
+          formControlName="password"
+          [toggleMask]="true"
+        ></p-password>
+        <label for="password-input">Password</label>
+      </span>
+    
+      <p-button id="login-button" label="Log In" [disabled]="loginForm.invalid" type="submit" (click)="Login()"></p-button>
+      <p-button label="Forgot Password?" styleClass="p-button-link" [routerLink]="['/forgotpassword']"></p-button>
+
+      <div id="signup-section">
+        <span class="label-text">Don't have an account?</span>
+        <p-button id="signup-button" label="Sign Up" styleClass="p-button-link" [routerLink]="['/signup']"></p-button>
+      </div>
     </form>
-    <a href="/fb-login">Login in with Facebook [logo]</a><br>
-    <a href="https://www.google.com">Login in with Google  [logo]</a><br>
-    <a href="https://www.github.com">Login in with Github  [logo]</a><br>
+    <ng-template pTemplate="footer">
+      <p class="label-text">Log in with...</p>
+      <p-button id="facebook-button" icon="pi pi-facebook" [routerLink]="['/fb-login']"></p-button>
+      <p-button id="google-button" icon="pi pi-google"></p-button>
+      <p-button id="github-button" icon="pi pi-github"></p-button>
+    </ng-template>
+  </p-card>
 </div>
