@@ -1,7 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {JwtHelperService} from '@auth0/angular-jwt'
+
+import { JwtHelperService } from '@auth0/angular-jwt'
+import {
+  catchError,
+  throwError
+} from 'rxjs';
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -29,7 +39,14 @@ export class AuthService {
 
   login(loginObj : any){
     return this.http.post<any>(`${this.baseUrl}authenticate`, loginObj)
-
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === HttpStatusCode.Unauthorized) {
+            return throwError(() => new Error(err.error.message));
+          }
+          return throwError(() => new Error('Unknown login error'));
+        }),
+      );
   }
 
   storeToken(tokenValue: string){

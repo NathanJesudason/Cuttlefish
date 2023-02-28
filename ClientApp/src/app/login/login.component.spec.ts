@@ -14,6 +14,7 @@ import {
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 
 import { of } from 'rxjs';
@@ -32,6 +33,7 @@ describe('LoginComponent', () => {
       PasswordModule,
       ButtonModule,
       CardModule,
+      MessagesModule,
     ]).mock(AuthService, {
         login: (_loginform: AbstractControl) => {
           return of(new HttpResponse({status: 200, body: body} ))

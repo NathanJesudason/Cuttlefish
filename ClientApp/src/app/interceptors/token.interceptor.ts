@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      catchError((err:any) => {
+      catchError((err) => {
         if(err instanceof HttpErrorResponse){
           if(err.status === 401 ){
             this.auth.signOut()
@@ -40,7 +40,8 @@ export class TokenInterceptor implements HttpInterceptor {
           }
         }
         
-        return throwError(() => new Error('Error occured')) 
+        // return throwError(() => new Error('Error occured')) 
+        return throwError(() => err);
       })
     );
   }

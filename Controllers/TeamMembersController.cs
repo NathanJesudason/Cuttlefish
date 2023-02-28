@@ -41,11 +41,11 @@ namespace Cuttlefish.Controllers
 
             if (teammember == null)
             {
-                return NotFound(new { Message = "User Not Found" });
+                return Unauthorized(new { Message = "Invalid username" });
             }
             if (!PasswordHasher.VerifyPassword(teammemberObj.password, teammember.password))
             {
-                return BadRequest(new { Message = "Username or Password is incorrect" });
+                return Unauthorized(new { Message = "Invalid password" });
             }
 
             teammember.token = CreateJwtToken(teammember);

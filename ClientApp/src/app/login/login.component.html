@@ -16,8 +16,10 @@
         ></p-password>
         <label for="password-input">Password</label>
       </span>
+
+      <p-messages></p-messages>
     
-      <p-button id="login-button" label="Log In" [disabled]="loginForm.invalid" type="submit" (click)="Login()"></p-button>
+      <p-button id="login-button" label="Log In" [disabled]="loginForm.invalid" [loading]="loginButtonLoading" type="submit" (onClick)="Login()"></p-button>
       <p-button label="Forgot Password?" styleClass="p-button-link" [routerLink]="['/forgotpassword']"></p-button>
 
       <div id="signup-section">
