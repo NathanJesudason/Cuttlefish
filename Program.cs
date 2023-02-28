@@ -19,8 +19,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddEndpointsApiExplorer();
 
-
-
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 
@@ -51,17 +49,12 @@ app.UseCors(options => options.WithOrigins(builder.Configuration.GetValue<string
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
-
-
-
 
 app.UseStaticFiles();
 
