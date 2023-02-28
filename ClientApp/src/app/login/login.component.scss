@@ -2,10 +2,6 @@
   display: grid;
 }
 
-#login-button, #signup-section {
-  margin-top: calc(var(--content-padding) * 2);
-}
-
 .label-text {
   font-weight: 500;
   color: var(--text-color);
@@ -30,7 +26,7 @@
     width: 100%;
   }
 
-  .p-float-label:has(.p-password) {
-    margin-top: calc(var(--content-padding) + 0.5rem);
+  .p-float-label:has(.p-password), #login-button, #signup-section {
+    margin-top: calc(var(--content-padding) * 1.25);
   }
 }
