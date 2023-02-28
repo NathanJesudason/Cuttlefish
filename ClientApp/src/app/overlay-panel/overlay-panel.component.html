@@ -1,17 +1,20 @@
-<p-tag styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{data.progress}}"></p-tag>
+<p-tag styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{selectedProgress}}"></p-tag>
 <p-overlayPanel
   [dismissable]="true"
   [showCloseIcon]="true"
   [style]="{width: '300px'}"
   #overlayPanel
+  (onBeforeHide)="updateProgress()"
 >
-
-<ng-template pTemplate>
-  <ul>
-    <li *ngFor="let option of progressOptions" (click)="updateProgress(option)">{{option}}</li>
-  </ul>
-</ng-template>
-
+  <div class="options">
+    <button (click)="showOption('Backlog')">Backlog</button>
+    <button (click)="showOption('In Progress')">In Progress</button>
+    <button (click)="showOption('In Review')">In Review</button>
+    <button (click)="showOption('Done')">Done</button>
+  </div>
+  <div class="content" (click)="overlayPanel.hide()">
+    <p>Progress: {{ selectedProgress }}</p>
+  </div>
 </p-overlayPanel>
 
 <p-toast></p-toast>

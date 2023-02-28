@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 import { ProjectData } from '../../types/project';
 import { TaskData } from '../../types/task';
@@ -19,23 +19,32 @@ import { SprintData } from '../../types/sprint';
   providers: [MessageService],
 })
 export class OverlayPanelComponent implements OnInit {
+  @ViewChild('panel')
+  panel!: OverlayPanel;
+
   @Input() data!: TaskData;
   @Input() whichProgress!: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
   @Input() disabled!: boolean;
 
-  selectedProgress!: string | undefined;
+  progress!: string;
   progressOptions: string[] = ['Backlog', 'In Progress', 'In Review', 'Done'];
+  selectedProgress!: string;
 
   constructor(
     private messageService: MessageService,
   ) { }
 
   ngOnInit() {
-    this.selectedProgress = this.whichProgress;
+    this.progress = this.whichProgress;
   }
 
-  updateProgress(string: any) {
-    this.selectedProgress = string;
+  showOption(option: string) {
+    this.selectedProgress = option;
+    this.panel.hide();
+  }
+
+  updateProgress() {
+    this.progress = this.selectedProgress;
   }
 
   approveChanges(event: any) {
