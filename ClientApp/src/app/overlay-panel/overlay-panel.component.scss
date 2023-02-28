@@ -1,8 +1,25 @@
 :host ::ng-deep {
+
+  // I'm at a loss as to what is wrong with the styling. I've tried everything
+  // I can think of other than using !important tags, which I'm assuming we don't
+  // want to have in our code in general.
+  .options {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  
+    button {
+      padding: 8px 16px;
+      margin-right: 8px;
+  
+      transform: scale(0.8);
+    }
+  }
+
   .p-inplace-display, .p-inplace-content .p-inputtext {
     color: var(--text-color);
   }
-    
+  
   p-inplace.size-large {
     .p-inplace-display, .p-inplace-content .p-inputtext {
       font-size: xx-large;
