@@ -24,7 +24,8 @@ Build succeeded.
 
 Time Elapsed 00:00:04.85
 
-$ dotnet run
+$ dotnet watch run
+...
 info: Microsoft.Hosting.Lifetime[14]
      Now listening on: http://localhost:5277
 ...
@@ -32,7 +33,7 @@ info: Microsoft.Hosting.Lifetime[14]
 
 ...then navigating to the specified URL. Once navigated to for the first time, the SPA proxy will boot up, allowing for the Angular frontend to connect to the backend, and you'll be shown Cuttlefish in all its glory.
 
-While running in this state, any changes made to the frontend Angular code (and maybe backend???) will cause the site to auto-refresh and reflect those changes without restarting.
+While running in this state, the frontend and backend will both hot reload for quick development.
 
 The frontend can also be run in isolation like so...
 
@@ -51,7 +52,7 @@ $ npm start
 ...
 ```
 
-...then navigating to the specified URL. This version also auto-refreshes, but is limited since there's no backend capabilities.
+...then navigating to the specified URL. This version also hot reloads, but is limited since there's no backend capabilities.
 
 ### Run Unit Tests
 
