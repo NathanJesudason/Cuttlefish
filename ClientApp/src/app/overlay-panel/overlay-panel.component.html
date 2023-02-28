@@ -6,13 +6,11 @@
   #overlayPanel
 >
 
-  <p-overlayPanel #op>
-    <ng-template pTemplate>
-      <ul>
-        <li *ngFor="let option of progressOptions" (click)="updateProgress(option)">{{option}}</li>
-      </ul>
-    </ng-template>
-  </p-overlayPanel>
+<ng-template pTemplate>
+  <ul>
+    <li *ngFor="let option of progressOptions" (click)="updateProgress(option)">{{option}}</li>
+  </ul>
+</ng-template>
 
 </p-overlayPanel>
 

@@ -34,8 +34,8 @@ export class OverlayPanelComponent implements OnInit {
     this.selectedProgress = this.whichProgress;
   }
 
-  updateProgress(event: any) {
-    this.selectedProgress = event.target.value;
+  updateProgress(string: any) {
+    this.selectedProgress = string;
   }
 
   approveChanges(event: any) {
