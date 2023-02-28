@@ -17,10 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(connecti
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddCors();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(x =>
 {
@@ -50,6 +47,7 @@ app.UseCors(options => options.WithOrigins(builder.Configuration.GetValue<string
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    // for verifiying http requests without frontend
     app.UseSwagger();
     app.UseSwaggerUI();
 }
