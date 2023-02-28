@@ -7,54 +7,42 @@ import { AuthService } from '../server-api/auth.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+  //for signup form
+  signUpForm!: FormGroup
+  
+  signupButtonLoading: boolean = false;
 
-
-   // for showing and hiding the password
-   type: string = "password" // used to replace text with password in login.component.html
-   isText: boolean = false
-   isText2: boolean = false
-   showIcon: string = "fa-eye-slash"
-
-   //for signup form
-   signUpForm!: FormGroup
-
-  constructor(private formbuilder : FormBuilder, private auth : AuthService, private router: Router) { }
+  constructor(
+    private formbuilder: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
 
     this.signUpForm = this.formbuilder.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
-      password: ['', Validators.required]
-    })
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+    });
   }
-
-
-  showOrHidePassword(){
-    this.isText = !this.isText
-    this.isText ? this.type = "text" : this.type = "password"
-  }
-
 
   Signup(){
-      this.auth.signUp(this.signUpForm.value)
-      .subscribe(
-        {
-          next:(res =>{
-            alert(res.message)
-            this.signUpForm.reset()
-            this.auth.login(this.signUpForm.value)
-            this.router.navigate(['projects'])
-          }),
-          error: (err) =>{
-            console.log(err)
-        }
-        }
-      )
+    this.auth.signUp(this.signUpForm.value)
+      .subscribe({
+        next: (res) => {
+          alert(res.message)
+          this.signUpForm.reset()
+          this.auth.login(this.signUpForm.value)
+          this.router.navigate(['projects'])
+        },
+        error: (error) => {
+          console.log(error)
+        },
+      });
   }
-
-
 }
