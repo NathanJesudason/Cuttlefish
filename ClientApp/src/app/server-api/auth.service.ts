@@ -35,6 +35,14 @@ export class AuthService {
 
   signUp(teammemberObj : any){
     return this.http.post<any>(`${this.baseUrl}register`, teammemberObj)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.status === HttpStatusCode.Conflict) {
+            return throwError(() => new Error(err.error.message));
+          }
+          return throwError(() => new Error('Unknown signup error'));
+        }),
+      );
   }
 
   login(loginObj : any){

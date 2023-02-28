@@ -70,19 +70,12 @@ namespace Cuttlefish.Controllers
             //check username
             if (await CheckUserNameExistAsync(teammemberObj.username))
             {
-                return BadRequest(new { Message = "Username Already Exists" });
+                return Conflict(new { Message = "Username already taken" });
             }
             //check email
             if (await CheckEmailExistAsync(teammemberObj.email))
             {
-                return BadRequest(new { Message = "Email Already Exists" });
-            }
-
-            //check password strength
-            var password = CheckPasswordStrength(teammemberObj.password);
-            if (!string.IsNullOrEmpty(password))
-            {
-                return BadRequest(new { Message = password.ToString() });
+                return Conflict(new { Message = "Email already taken" });
             }
 
             teammemberObj.password = PasswordHasher.HashPassword(teammemberObj.password); // hash password in Authentication 
@@ -101,24 +94,6 @@ namespace Cuttlefish.Controllers
         private async Task<bool> CheckEmailExistAsync(string email)
         {
             return await _context.TeamMembers.AnyAsync(x => x.email == email);
-        }
-
-        private string CheckPasswordStrength(string password)
-        {
-            StringBuilder stringbuilder = new StringBuilder();
-            if (password.Length < 8)
-            {
-                stringbuilder.Append("Minimum password length should be 8" + Environment.NewLine);
-            }
-            if (!(Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[0-9]")))
-            {
-                stringbuilder.Append("Password should contain upper and lower case letters" + Environment.NewLine);
-            }
-            if (!Regex.IsMatch(password, "[$,&,+,,,:,;,=,?,@,#,|,',<,>,.,-,^,*,(,),%,!,{,},`,~,_,\\[,\\]]"))
-            {
-                stringbuilder.Append("Password should contain special character" + Environment.NewLine);
-            }
-            return stringbuilder.ToString();
         }
 
         // GET: api/TeamMembers

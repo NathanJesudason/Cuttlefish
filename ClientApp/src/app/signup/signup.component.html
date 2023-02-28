@@ -21,7 +21,22 @@
         <p-password
           formControlName="password"
           [toggleMask]="true"
-        ></p-password>
+          weakLabel="Invalid, too weak"
+          [mediumRegex]="medStrongRegex"
+          strongLabel="Valid, strong password"
+          [strongRegex]="medStrongRegex"
+        >
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p>Requirements</p>
+            <ul>
+              <li>At least 8 characters</li>
+              <li>At least one number</li>
+              <li>At least one uppercase letter</li>
+              <li>At least one special character <code>{{"!@#$%^&*()_+={};:|,.<>?"}}</code></li>
+            </ul>
+          </ng-template>
+        </p-password>
         <label for="password-input">Password</label>
       </span>
 
@@ -36,7 +51,7 @@
 
       <p-messages></p-messages>
     
-      <p-button id="signup-button" label="Sign Up" [disabled]="signUpForm.invalid" [loading]="signupButtonLoading" type="submit" (onClick)="Signup()"></p-button>
+      <p-button id="signup-button" label="Sign Up" [disabled]="signUpForm.invalid" [loading]="signUpButtonLoading" type="submit" (onClick)="Signup()"></p-button>
 
       <div id="login-section">
         <span class="label-text">Have an account?</span>
