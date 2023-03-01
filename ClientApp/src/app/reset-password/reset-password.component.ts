@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordService } from '../server-api/reset-password.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup
   email!: string
   emailToken!: string
-  constructor(private formbuilder: FormBuilder, private resetService: ResetPasswordService, private route: ActivatedRoute) { }
+  constructor(private formbuilder: FormBuilder, private resetService: ResetPasswordService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params =>{
@@ -31,21 +31,16 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword(){
-    console.log("email:", this.email)
-    console.log("reset password form b4:", this.resetPasswordForm.value)
-
-    // this.resetPasswordForm.addControl('email', this.email)
     this.resetPasswordForm.value['email'] = this.email 
-    // this.resetPasswordForm.addControl('emailToken', this.emailToken)
     this.resetPasswordForm.value['emailToken'] = this.emailToken
 
-    console.log("reset password form after:", this.resetPasswordForm.value)
 
     this.resetService.resetPassword(this.resetPasswordForm.value).subscribe({
       next:(res)=>{
         alert('password reset')
         console.log("res: ", res)
         this.resetPasswordForm.reset()
+        this.router.navigate(['login'])
       },
       error:(err)=>{
         alert('error resetting password')
