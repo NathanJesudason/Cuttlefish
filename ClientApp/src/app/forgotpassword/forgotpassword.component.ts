@@ -31,7 +31,6 @@ export class ForgotpasswordComponent implements OnInit {
     this.resetService.sendResetPasswordLink(this.forgotPasswordForm.value['email']).subscribe({
       next: (res)=>{
         alert('Reset password link sent')
-        console.log("res: ", res)
         this.forgotPasswordForm.reset()
         this.email = ""
       },

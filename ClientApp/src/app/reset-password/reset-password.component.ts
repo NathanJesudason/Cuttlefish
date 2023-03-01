@@ -38,7 +38,6 @@ export class ResetPasswordComponent implements OnInit {
     this.resetService.resetPassword(this.resetPasswordForm.value).subscribe({
       next:(res)=>{
         alert('password reset')
-        console.log("res: ", res)
         this.resetPasswordForm.reset()
         this.router.navigate(['login'])
       },
