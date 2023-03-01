@@ -1,8 +1,5 @@
 :host ::ng-deep {
 
-  // I'm at a loss as to what is wrong with the styling. I've tried everything
-  // I can think of other than using !important tags, which I'm assuming we don't
-  // want to have in our code in general.
   .options {
     display: flex;
     justify-content: space-between;
@@ -44,4 +41,9 @@
   
 .p-buttonset {
   display: block;
+}
+
+.p-overlaypanel {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }

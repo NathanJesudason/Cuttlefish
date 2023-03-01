@@ -4,16 +4,13 @@
   [showCloseIcon]="true"
   [style]="{width: '300px'}"
   #overlayPanel
-  (onBeforeHide)="updateProgress()"
+  (onHide)="cancelInput()"
 >
   <div class="options">
-    <button pButton (click)="showOption('Backlog')">Backlog</button>
-    <button pButton (click)="showOption('In Progress')">In Progress</button>
-    <button pButton (click)="showOption('In Review')">In Review</button>
-    <button pButton (click)="showOption('Done')">Done</button>
-  </div>
-  <div class="content" (click)="overlayPanel.hide()">
-    <p>Progress: {{ selectedProgress }}</p>
+    <button pButton (click)="showOption('Backlog'); overlayPanel.hide()">Backlog</button>
+    <button pButton (click)="showOption('In Progress'); overlayPanel.hide()">In Progress</button>
+    <button pButton (click)="showOption('In Review'); overlayPanel.hide()">In Review</button>
+    <button pButton (click)="showOption('Done'); overlayPanel.hide()">Done</button>
   </div>
 </p-overlayPanel>
 

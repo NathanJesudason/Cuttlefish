@@ -19,8 +19,8 @@ import { SprintData } from '../../types/sprint';
   providers: [MessageService],
 })
 export class OverlayPanelComponent implements OnInit {
-  @ViewChild('panel')
-  panel!: OverlayPanel;
+  @ViewChild('overlayPanel')
+  overlayPanel!: OverlayPanel;
 
   @Input() data!: TaskData;
   @Input() whichProgress!: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
@@ -35,12 +35,13 @@ export class OverlayPanelComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.progress = this.whichProgress;
+    this.selectedProgress = this.data.progress;
   }
 
   showOption(option: string) {
     this.selectedProgress = option;
-    this.panel.hide();
+    this.overlayPanel.hide();
+    this.approveChanges(option);
   }
 
   updateProgress() {
@@ -52,7 +53,8 @@ export class OverlayPanelComponent implements OnInit {
     // when the time comes, add a serverApi call here to send change to backend
   }
 
-  cancelInput(event: any) {
+  cancelInput() {
+    this.overlayPanel.hide();
     this.messageService.add({severity: 'info', summary: 'Progress update was cancelled'});
   }
 }
