@@ -9,7 +9,6 @@
                 <th>Email</th>
                 <th>Role</th>
         </tr>
-            
             <tr *ngFor = "let member of service.list">
             <td (click)="populateForm(member)">{{member.username}}</td>
             <td (click)="populateForm(member)">{{member.password}}</td>
@@ -19,6 +18,5 @@
                 <i  (click)="onDelete(member.id)">Delete</i>
             </td>
             </tr>
-        </tbody>
     </table>
 </div>
