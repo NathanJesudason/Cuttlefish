@@ -31,6 +31,11 @@ export class NavMenuComponent implements OnInit {
         items: [],
       },
       {
+        icon: 'pi pi-tag',
+        label: 'Tasks By Label',
+        routerLink: ['/label'],
+      },
+      {
         icon: 'pi pi-stopwatch',
         label: 'Counter',
         routerLink: ['/counter'],

@@ -1,0 +1,28 @@
+.availableLabel-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: min-content auto;
+  column-gap: 0.5rem;
+}
+
+.availableLabel-item .label-color-swatch {
+  display: inline-block;
+
+  margin-top: auto;
+  margin-bottom: auto;
+
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 3px;
+}
+
+:host ::ng-deep {
+  p-accordion {
+    display: block;
+  }
+
+  .p-dropdown-label, .p-dropdown-label code, .p-dropdown-item code {
+    font-size: 2rem;
+    color: var(--text-color-secondary);
+  }
+}
