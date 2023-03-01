@@ -42,6 +42,20 @@ namespace Cuttlefish.Controllers
             return tasks;
         }
 
+        // GET: api/Tasks/progress/string
+        [HttpGet("progress/{progress}")]
+        public async Task<ActionResult<IEnumerable<Tasks>>> GetTasksByProgress(string progress)
+        {
+            var tasks = await _context.Tasks.Where(t => t.progress == progress).ToListAsync();
+
+            if (tasks == null)
+            {
+                return NotFound();
+            }
+
+            return tasks;
+        }
+
         // PUT: api/Tasks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -78,10 +92,22 @@ namespace Cuttlefish.Controllers
         [HttpPost]
         public async Task<ActionResult<Tasks>> PostTasks(Tasks tasks)
         {
+            //Check if Sprint ID is valid
+            if (await _context.Sprints.FindAsync(tasks.sprintID) == null)
+            {
+                return BadRequest();
+            }
+
+            if (tasks.assignee != null && (await _context.TeamMembers.FindAsync(tasks.assignee) == null))
+            {
+                return BadRequest();
+            }
+
             _context.Tasks.Add(tasks);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTasks", new { id = tasks.id }, tasks);
+
         }
 
         // DELETE: api/Tasks/5

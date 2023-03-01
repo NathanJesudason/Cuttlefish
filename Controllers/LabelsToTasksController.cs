@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Data;
 using Cuttlefish.Models;
+using NuGet.Versioning;
 
 namespace Cuttlefish.Controllers
 {
@@ -42,35 +43,32 @@ namespace Cuttlefish.Controllers
             return labelsToTasks;
         }
 
-        // PUT: api/LabelsToTasks/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutLabelsToTasks(int id, LabelsToTasks labelsToTasks)
+        // GET: api/LabelsToTasks/5/labels
+        [HttpGet("{taskID}/labels")]
+        public async Task<ActionResult<IEnumerable<LabelsToTasks>>> GetLabelsToTasksByTaskID(int taskID)
         {
-            if (id != labelsToTasks.Id)
+            var labelsToTasks = await _context.LabelsToTasks.Where(l => l.taskID == taskID).ToListAsync();
+
+            if (labelsToTasks == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(labelsToTasks).State = EntityState.Modified;
+            return labelsToTasks;
+        }
 
-            try
+        // GET: api/LabelsToTasks/sprint/tasks
+        [HttpGet("{label}/tasks")]
+        public async Task<ActionResult<IEnumerable<LabelsToTasks>>> GetLabelsToTasksByLabel(string label)
+        {
+            var labelsToTasks = await _context.LabelsToTasks.Where(l => l.label == label).ToListAsync();
+
+            if (labelsToTasks == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LabelsToTasksExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-            return NoContent();
+            return labelsToTasks;
         }
 
         // POST: api/LabelsToTasks
@@ -78,6 +76,17 @@ namespace Cuttlefish.Controllers
         [HttpPost]
         public async Task<ActionResult<LabelsToTasks>> PostLabelsToTasks(LabelsToTasks labelsToTasks)
         {
+
+            if (await _context.Labels.FindAsync(labelsToTasks.label) == null)
+            {
+                return BadRequest();
+            }
+
+            if (await _context.Tasks.FindAsync(labelsToTasks.taskID) == null)
+            {
+                return BadRequest();
+            }
+
             _context.LabelsToTasks.Add(labelsToTasks);
             await _context.SaveChangesAsync();
 

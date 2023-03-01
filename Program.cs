@@ -10,16 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddEndpointsApiExplorer();
 
 string connectionString = builder.Configuration.GetConnectionString("default");
 builder.Services.AddDbContext<ApplicationDbContext>(c => c.UseSqlServer(connectionString));
-
-builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddCors();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(x =>
 {
@@ -54,11 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
-
-
-
 
 app.UseStaticFiles();
 
@@ -66,7 +60,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 app.MapControllerRoute(
