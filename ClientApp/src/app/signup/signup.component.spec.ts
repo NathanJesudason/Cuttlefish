@@ -48,7 +48,7 @@ describe('SignupComponent', () => {
   });
 
   it('should validate passwords correctly', () => {
-    const fixture = MockRender(SignupComponent)
+    const fixture = MockRender(SignupComponent);
     const component = fixture.point.componentInstance;
 
     const pw1 = 'Password1';

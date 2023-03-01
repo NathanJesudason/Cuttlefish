@@ -39,8 +39,7 @@ export class TokenInterceptor implements HttpInterceptor {
             return throwError(() => new Error('token expired, login again')) // console.log's this. might be better way to implement instead of console.logging it
           }
         }
-        
-        // return throwError(() => new Error('Error occured')) 
+ 
         return throwError(() => err);
       })
     );

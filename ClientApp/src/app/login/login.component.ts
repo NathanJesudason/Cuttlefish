@@ -22,13 +22,13 @@ import { UserService } from '../server-api/user.service';
 })
 export class LoginComponent implements OnInit {
   //formGroup declared in html
-  loginForm!: FormGroup
+  loginForm!: FormGroup;
 
   loginButtonLoading: boolean = false;
   
   constructor(
     private formbuilder: FormBuilder,
-    private auth : AuthService,
+    private auth: AuthService,
     private router: Router,
     private user: UserService,
     private messageService: MessageService,

@@ -51,13 +51,26 @@
 
       <p-messages></p-messages>
     
-      <p-button id="signup-button" label="Sign Up" [disabled]="signUpForm.invalid" [loading]="signUpButtonLoading" type="submit" (onClick)="Signup()"></p-button>
+      <p-button
+        id="signup-button"
+        label="Sign Up"
+        [disabled]="signUpForm.invalid"
+        [loading]="signUpButtonLoading"
+        type="submit"
+        (onClick)="Signup()"
+      ></p-button>
 
       <div id="login-section">
         <span class="label-text">Have an account?</span>
-        <p-button id="login-button" label="Log In" styleClass="p-button-link" [routerLink]="['/login']"></p-button>
+        <p-button
+          id="login-button"
+          label="Log In"
+          styleClass="p-button-link"
+          [routerLink]="['/login']"
+        ></p-button>
       </div>
     </form>
+
     <ng-template pTemplate="footer">
       <p class="label-text">Sign up with...</p>
       <p-button id="facebook-button" icon="pi pi-facebook" [routerLink]="['/fb-login']"></p-button>
