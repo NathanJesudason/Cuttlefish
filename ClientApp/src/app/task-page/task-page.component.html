@@ -4,7 +4,7 @@
 
 <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
 
-<overlay-panel [data]="taskData" #overlayPanel></overlay-panel>
+<app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
 
 <span>{{ taskData.assignee }}</span>
 

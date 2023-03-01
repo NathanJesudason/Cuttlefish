@@ -53,7 +53,7 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
-import { OverlayPanelComponent} from './overlay-panel/overlay-panel.component'
+import { ProgressPickerComponent } from './progress-picker/progress-picker.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,7 @@ import { OverlayPanelComponent} from './overlay-panel/overlay-panel.component'
     CreateSprintModalComponent,
     CreateTaskModalComponent,
     CreateProjectModalComponent,
-    OverlayPanelComponent,
+    ProgressPickerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

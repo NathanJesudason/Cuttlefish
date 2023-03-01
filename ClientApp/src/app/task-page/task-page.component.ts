@@ -12,7 +12,7 @@ import {
   TaskData,
   TaskNotFoundError
 } from '../../types/task';
-import { OverlayPanelComponent } from '../overlay-panel/overlay-panel.component';
+import { ProgressPickerComponent } from '../progress-picker/progress-picker.component';
 import { ServerApi } from '../server-api/server-api.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { ServerApi } from '../server-api/server-api.service';
 })
 export class TaskPageComponent implements OnInit {
   taskData!: TaskData;
-  @ViewChild('overlayPanel') overlayPanel!: OverlayPanelComponent;
+  @ViewChild('progressPicker') progressPicker !: ProgressPickerComponent;
 
   constructor(
     private serverApi: ServerApi,
