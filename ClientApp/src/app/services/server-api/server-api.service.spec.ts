@@ -25,6 +25,10 @@ describe('ServerApi', () => {
     serverApi.setHttpClient(httpClientSpy);
   });
 
+  it('should be created', () => {
+    expect(serverApi).toBeTruthy();
+  });
+
   // an example test to use for reference, until we don't need it anymore
   // it('should return mock getWeatherForecast', () => {
   //   const testData: WeatherForecast[] = [{
