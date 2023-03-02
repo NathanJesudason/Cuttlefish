@@ -276,7 +276,10 @@ namespace Cuttlefish.Controllers
             teammember.resetPasswordToken = emailToken;
             teammember.resetPasswordExpire = DateTime.UtcNow.AddHours(24);
             string from = _config["EmailSettings:From"];
-            var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
+
+            var emailStringBody = new EmailBody(_config);
+            string body = emailStringBody.EmailStringBody(email, emailToken);
+            var emailModel = new EmailModel(email, "Reset Password", body);
             _emailService.SendEmail(emailModel);
             //update teammember
             _context.Entry(teammember).State = EntityState.Modified;
