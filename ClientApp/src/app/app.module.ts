@@ -39,8 +39,6 @@ import { NgxGanttModule } from '@worktile/gantt';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SprintDropdownComponent } from './sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page/project-page.component';
 import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
@@ -72,8 +70,6 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     AppComponent,
     NavMenuComponent,
     HomePageComponent,
-    CounterComponent,
-    FetchDataComponent,
     SprintDropdownComponent,
     ProjectPageComponent,
     TaskDropdownComponent,
@@ -139,8 +135,6 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
       { path: 'signup', component: SignupComponent},
       { path: 'forgotpassword', component: ForgotPasswordComponent},
       { path: 'reset', component: ResetPasswordComponent},
-      { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
-      { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
       { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
       { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
