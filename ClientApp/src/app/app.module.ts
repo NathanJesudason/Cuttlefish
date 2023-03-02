@@ -46,14 +46,12 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
-
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component'
 import { AuthGuard } from './server-api/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
@@ -80,12 +78,10 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
-
     TeamMembersComponent,
     TeamMembersFormComponent,
     LoginComponent,
     SignupComponent,
-
     DateInplaceComponent,
     ProjectsPageComponent,
     DescriptionInplaceComponent,
@@ -130,8 +126,6 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     EditorModule,
     DropdownModule,
     RouterModule.forRoot([
-     
-     
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
