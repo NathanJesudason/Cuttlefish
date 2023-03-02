@@ -7,7 +7,7 @@ import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
-import { ProjectData } from '../../../../types/project';
+import { ProjectData } from 'src/types/project';
 
 @Component({
   selector: 'home-page',
