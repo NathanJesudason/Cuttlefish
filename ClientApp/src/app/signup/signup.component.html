@@ -1,15 +1,81 @@
-<div>
-  <form action="" [formGroup]="signUpForm">
+<div id="signup-card">
+  <p-card header="Sign up for Cuttlefish">
+    <form [formGroup]="signUpForm">
+      <span class="p-float-label">
+        <input
+          pInputText type="text"
+          formControlName="username"
+        >
+        <label for="username-input">Username</label>
+      </span>
 
-    <input type="text" placeholder="Username" required formControlName="username"><br>
-    <input type="text" placeholder="Email" required formControlName="email"><br>
-    <input [type]="type" name="password" id="password" placeholder="Password" formControlName="password"> <span (click)="showOrHidePassword()"> Show/Hide Toggle (Click me)</span><br>
-    <!-- <input [type]="type" name="password" id="password" placeholder="Confirm Password"> <span (click)="showOrHidePassword()"> Show/Hide Toggle (Click me) //fix here to show or hide individual</span><br><br> -->
-    <button [disabled]="signUpForm.invalid" (click)="Signup()">Signup</button><br><br>
-    <p>Have an account? <a href="/login">login here</a></p>
+      <span class="p-float-label">
+        <input
+          pInputText type="text"
+          formControlName="email"
+        >
+        <label for="email-input">Email</label>
+      </span>
+    
+      <span class="p-float-label">
+        <p-password
+          formControlName="password"
+          [toggleMask]="true"
+          weakLabel="Invalid, too weak"
+          [mediumRegex]="medStrongRegex"
+          strongLabel="Valid, strong password"
+          [strongRegex]="medStrongRegex"
+        >
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p>Requirements</p>
+            <ul>
+              <li>At least 8 characters</li>
+              <li>At least one number</li>
+              <li>At least one uppercase letter</li>
+              <li>At least one special character <code>{{specialCharsRegex}}</code></li>
+            </ul>
+          </ng-template>
+        </p-password>
+        <label for="password-input">Password</label>
+      </span>
 
-  </form>
-  <a href="https://www.facebook.com">Signin in with Facebook [logo]</a><br>
-  <a href="https://www.google.com">Signin in with Google  [logo]</a><br>
-  <a href="https://www.github.com">Signin in with Github  [logo]</a><br>
+      <span class="p-float-label">
+        <p-password
+          formControlName="confirmPassword"
+          [toggleMask]="true"
+          [feedback]="false"
+        ></p-password>
+        <label for="password-input">Confirm Password</label>
+      </span>
+
+      <p-messages></p-messages>
+    
+      <p-button
+        id="signup-button"
+        label="Sign Up"
+        [disabled]="signUpForm.invalid"
+        [loading]="signUpButtonLoading"
+        type="submit"
+        (onClick)="Signup()"
+      ></p-button>
+
+      <div id="login-section">
+        <span class="label-text">Have an account?</span>
+        <p-button
+          id="login-button"
+          label="Log In"
+          styleClass="p-button-link"
+          [routerLink]="['/login']"
+        ></p-button>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <p class="label-text">Sign up with...</p>
+      <p-button id="facebook-button" icon="pi pi-facebook" [routerLink]="['/fb-login']"></p-button>
+      <p-button id="google-button" icon="pi pi-google"></p-button>
+      <p-button id="github-button" icon="pi pi-github"></p-button>
+    </ng-template>
+  </p-card>
 </div>

@@ -1,0 +1,32 @@
+#login-card {
+  display: grid;
+}
+
+.label-text {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+#google-button, #github-button {
+  margin-left: var(--content-padding);
+}
+
+:host ::ng-deep {
+  #signup-button button.p-button {
+    margin-left: 0.5rem;
+    padding: 0;
+  }
+  
+  p-card {
+    width: 50vw;
+    margin: 5rem auto;
+  }
+
+  .p-password, .p-inputtext {
+    width: 100%;
+  }
+
+  .p-float-label:has(.p-password), #login-button, #signup-section {
+    margin-top: calc(var(--content-padding) * 1.25);
+  }
+}
