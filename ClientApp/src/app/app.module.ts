@@ -60,7 +60,7 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
-import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { LabelsPageComponent } from './labels-page/labels-page.component';
 
@@ -93,7 +93,7 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     CreateTaskModalComponent,
     CreateProjectModalComponent,
     LabelsPageComponent,
-    ForgotpasswordComponent,
+    ForgotPasswordComponent,
     ResetPasswordComponent
   ],
   imports: [
@@ -135,7 +135,7 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
-      { path: 'forgotpassword', component: ForgotpasswordComponent},
+      { path: 'forgotpassword', component: ForgotPasswordComponent},
       { path: 'reset', component: ResetPasswordComponent},
       { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },

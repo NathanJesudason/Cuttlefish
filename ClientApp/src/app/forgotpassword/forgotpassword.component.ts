@@ -7,7 +7,7 @@ import { ResetPasswordService } from '../server-api/reset-password.service';
   templateUrl: './forgotpassword.component.html',
   styleUrls: ['./forgotpassword.component.css']
 })
-export class ForgotpasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
 
 
   forgotPasswordForm!: FormGroup

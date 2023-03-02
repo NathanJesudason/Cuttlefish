@@ -8,15 +8,15 @@ import { of } from 'rxjs';
 import { AppModule } from '../app.module';
 import { AuthService } from '../server-api/auth.service';
 
-import { ForgotpasswordComponent } from './forgotpassword.component';
+import { ForgotPasswordComponent } from './forgotpassword.component';
 
-describe('ForgotpasswordComponent', () => {
-  let component: ForgotpasswordComponent;
-  let fixture: ComponentFixture<ForgotpasswordComponent>;
+describe('ForgotPasswordComponent', () => {
+  let component: ForgotPasswordComponent;
+  let fixture: ComponentFixture<ForgotPasswordComponent>;
 
   let res = " "
   beforeEach(async () => {
-    return MockBuilder([ForgotpasswordComponent, RouterModule, RouterTestingModule.withRoutes([]), NG_MOCKS_ROOT_PROVIDERS, FormBuilder], AppModule).mock(
+    return MockBuilder([ForgotPasswordComponent, RouterModule, RouterTestingModule.withRoutes([]), NG_MOCKS_ROOT_PROVIDERS, FormBuilder], AppModule).mock(
       AuthService,{
         login: (_loginform: AbstractControl) => {
           return of(new HttpResponse({status: 200, body: res} ))
@@ -28,7 +28,7 @@ describe('ForgotpasswordComponent', () => {
   });
 
   it('should create', () => {
-    MockRender(ForgotpasswordComponent)
-    expect(ngMocks.findAll(ForgotpasswordComponent)[0]).toBeTruthy();
+    MockRender(ForgotPasswordComponent)
+    expect(ngMocks.findAll(ForgotPasswordComponent)[0]).toBeTruthy();
   });
 });
