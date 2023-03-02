@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Models;
 using System.Text.RegularExpressions;
 using System.Text;
@@ -13,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Data;
 using System.Security.Cryptography;
 using Cuttlefish.EmailService;
@@ -36,7 +36,6 @@ namespace Cuttlefish.Controllers
             _config = config;
             _emailService = emailService;
         }
-
 
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] TeamMembers teammemberObj) // will be sending a body (username and password)

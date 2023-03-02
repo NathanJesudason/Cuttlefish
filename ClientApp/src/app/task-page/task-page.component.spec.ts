@@ -15,6 +15,8 @@ import { TagModule } from 'primeng/tag';
 import { TaskData } from '../../types/task';
 import { TitleInplaceComponent } from '../title-inplace/title-inplace.component';
 import { DescriptionInplaceComponent } from '../description-inplace/description-inplace.component';
+import { ProgressPickerComponent } from '../progress-picker/progress-picker.component';
+import { DateInplaceComponent } from '../date-inplace/date-inplace.component';
 
 import { ServerApi } from '../server-api/server-api.service';
 import { TaskPageComponent } from './task-page.component';
@@ -34,7 +36,9 @@ describe('TaskPageComponent', () => {
   beforeEach(() => {
     return MockBuilder(TaskPageComponent, [TagModule, ChipModule, ButtonModule, RouterModule])
       .mock(DescriptionInplaceComponent, { export: true })
-      .mock(TitleInplaceComponent, { export: true })    
+      .mock(TitleInplaceComponent, { export: true })
+      .mock(ProgressPickerComponent, { export: true })
+      .mock(DateInplaceComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
