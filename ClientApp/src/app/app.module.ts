@@ -59,12 +59,9 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
-
 import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
 import { ProgressPickerComponent } from './progress-picker/progress-picker.component';
-
 import { LabelsPageComponent } from './labels-page/labels-page.component';
 
 
@@ -95,12 +92,8 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     CreateProjectModalComponent,
     ProgressPickerComponent,
     LabelsPageComponent,
-
     ForgotPasswordComponent,
     ResetPasswordComponent
-
-    
-
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
