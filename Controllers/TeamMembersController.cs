@@ -14,6 +14,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Cuttlefish.Data;
+using System.Security.Cryptography;
+using Cuttlefish.EmailService;
+using Cuttlefish.Email;
+using Cuttlefish.EmailService.Utility;
+using Cuttlefish.Models.Dtos;
 
 namespace Cuttlefish.Controllers
 {
@@ -22,10 +27,14 @@ namespace Cuttlefish.Controllers
     public class TeamMembersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _config;
+        private readonly IEmailService _emailService;
 
-        public TeamMembersController(ApplicationDbContext context)
+        public TeamMembersController(ApplicationDbContext context, IConfiguration config, IEmailService emailService)
         {
             _context = context;
+            _config = config;
+            _emailService = emailService;
         }
 
         [HttpPost("authenticate")]
@@ -38,9 +47,19 @@ namespace Cuttlefish.Controllers
 
             var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username); // && x.Password == teammemberObj.Password);
 
+            var teammember_email = await _context.TeamMembers.FirstOrDefaultAsync(x => x.email == teammemberObj.username);
+
+
             if (teammember == null)
             {
-                return NotFound(new { Message = "User Not Found" });
+                if (teammember_email == null)
+                {
+                    return NotFound(new { Message = "User Not Found" });
+                }
+                else
+                {
+                    teammember = teammember_email;
+                }
             }
             if (!PasswordHasher.VerifyPassword(teammemberObj.password, teammember.password))
             {
@@ -123,9 +142,19 @@ namespace Cuttlefish.Controllers
         // GET: api/TeamMembers
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TeamMembers>>> GetTeamMembers_1()
+        public IQueryable<TeamMemberDto> GetTeamMembers_1()
         {
-            return await _context.TeamMembers.ToListAsync();
+            var teamMembers = from t in _context.TeamMembers
+                              select new TeamMemberDto()
+                              {
+                                  username = t.username,
+                                  email = t.email,
+                                  roles = t.roles
+                              };
+
+            //return await _context.TeamMembers.ToListAsync();
+            return teamMembers;
+
         }
 
         // GET: api/TeamMembers/5
@@ -226,6 +255,76 @@ namespace Cuttlefish.Controllers
             };
             var token = jwtTokenHandler.CreateToken(tokenDecriptor);
             return jwtTokenHandler.WriteToken(token);
+        }
+
+        [HttpPost("send-reset-email/{email}")]
+        public async Task<IActionResult> SendEmail(string email)
+        {
+            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(t => t.email == email);
+            if (teammember is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "Email is not registered"
+                });
+            }
+
+            var tokenBytes = RandomNumberGenerator.GetBytes(64);
+            var emailToken = Convert.ToBase64String(tokenBytes);
+            teammember.resetPasswordToken = emailToken;
+            teammember.resetPasswordExpire = DateTime.UtcNow.AddHours(24);
+            string from = _config["EmailSettings:From"];
+
+            var emailStringBody = new EmailBody(_config);
+            string body = emailStringBody.EmailStringBody(email, emailToken);
+            var emailModel = new EmailModel(email, "Reset Password", body);
+            _emailService.SendEmail(emailModel);
+            //update teammember
+            _context.Entry(teammember).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(
+                    new
+                    {
+                        StatusCode = 200,
+                        Message = "Email sent"
+                    }
+                );
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+            var newToken = resetPasswordDto.EmailToken.Replace(" ", "+");
+            var teammember = await _context.TeamMembers.AsNoTracking().FirstOrDefaultAsync(t => t.email == resetPasswordDto.Email);
+            if (teammember is null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "Email is not registered"
+                });
+            }
+            var tokenCode = teammember.resetPasswordToken;
+            DateTime emailTokenExpire = teammember.resetPasswordExpire;
+            if (tokenCode != newToken || DateTime.UtcNow > emailTokenExpire)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Invalid reset link"
+                });
+            }
+            teammember.password = PasswordHasher.HashPassword(resetPasswordDto.NewPassword);
+            _context.Entry(teammember).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(
+                    new
+                    {
+                        StatusCode = 200,
+                        Message = "Password was reset"
+                    }
+                );
         }
     }
 }
