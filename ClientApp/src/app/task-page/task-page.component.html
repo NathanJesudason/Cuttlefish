@@ -3,11 +3,20 @@
 <title-inplace [entityData]="taskData" size="large"></title-inplace>
 
 <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
-<p-tag styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
+
+<app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
+
 <span>{{ taskData.assignee }}</span>
 
 <h4>Description:</h4>
 <description-inplace [entityData]="taskData"></description-inplace>
 
-<p>Start Date: {{ taskData.startDate }}</p>
-<p>End Date: {{ taskData.endDate }}</p>
+<date-inplace
+    [entityData]="taskData"
+    whichDate="start"
+></date-inplace>
+<i class="pi pi-minus date-minus"></i>
+<date-inplace
+    [entityData]="taskData"
+    whichDate="end"
+></date-inplace>

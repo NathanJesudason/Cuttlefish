@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   ActivatedRoute,
@@ -11,6 +12,7 @@ import {
   TaskData,
   TaskNotFoundError
 } from '../../types/task';
+import { ProgressPickerComponent } from '../progress-picker/progress-picker.component';
 import { ServerApi } from '../server-api/server-api.service';
 
 @Component({
@@ -20,6 +22,7 @@ import { ServerApi } from '../server-api/server-api.service';
 })
 export class TaskPageComponent implements OnInit {
   taskData!: TaskData;
+  @ViewChild('progressPicker') progressPicker !: ProgressPickerComponent;
 
   constructor(
     private serverApi: ServerApi,
