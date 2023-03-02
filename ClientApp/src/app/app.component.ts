@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 import { HomePageComponent } from './home-page/home-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent {
     // pages on which we want to hide the nav bar
     const hideNavMenuPages: any[] = [
       HomePageComponent,
-      LoginPageComponent,
+      LoginComponent,
+      SignupComponent,
     ];
 
     for (const component of hideNavMenuPages) {

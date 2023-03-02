@@ -4,13 +4,22 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
+import { BehaviorSubject } from 'rxjs';
+import { UserService } from '../server-api/user.service';
 
 import { HomePageComponent } from './home-page.component';
 
 describe('HomePageComponent', () => {
 
   beforeEach(() => {
-    return MockBuilder(HomePageComponent, [RouterModule]);
+    return MockBuilder(HomePageComponent, [RouterModule]).mock(
+      UserService, {
+        getUserName: () => {
+          return new BehaviorSubject<string>("").asObservable()
+        } 
+
+      } as Partial<UserService>
+    );
   });
 
   it('should create', () => {
