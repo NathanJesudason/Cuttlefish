@@ -4,17 +4,19 @@
 <div>
     <h1>Get team members from database</h1>
     <table>
-        <thead></thead>
-        <tbody>
+        <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+        </tr>
             <tr *ngFor = "let member of service.list">
             <td (click)="populateForm(member)">{{member.username}}</td>
             <td (click)="populateForm(member)">{{member.password}}</td>
             <td (click)="populateForm(member)">{{member.email}}</td>
-            <td (click)="populateForm(member)">{{member.role}}</td>
-            <td>
-                <i (click)="onDelete(member.id)">Delete</i>
+            <td (click)="populateForm(member)">{{member.roles}}</td>
+            <td *ngIf="role === 'Admin'">
+                <i  (click)="onDelete(member.id)">Delete</i>
             </td>
             </tr>
-        </tbody>
     </table>
 </div>

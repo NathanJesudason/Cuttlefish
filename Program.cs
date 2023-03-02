@@ -1,4 +1,5 @@
 ﻿using Cuttlefish.Data;
+using Cuttlefish.EmailService.Utility;
 using Cuttlefish.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddCors();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddAuthentication(x =>
 {

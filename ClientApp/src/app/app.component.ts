@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SignupComponent } from './signup/signup.component';
 
 @Component({
@@ -18,6 +20,8 @@ export class AppComponent {
       HomePageComponent,
       LoginComponent,
       SignupComponent,
+      ResetPasswordComponent,
+      ForgotPasswordComponent
     ];
 
     for (const component of hideNavMenuPages) {

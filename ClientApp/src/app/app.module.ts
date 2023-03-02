@@ -49,20 +49,20 @@ import { GanttPageComponent } from './gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
-
 import { TeamMembersComponent } from './team-members/team-members.component';
 import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component'
 import { AuthGuard } from './server-api/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-
 import { DateInplaceComponent } from './date-inplace/date-inplace.component';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
 import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
+import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ProgressPickerComponent } from './progress-picker/progress-picker.component';
 import { LabelsPageComponent } from './labels-page/labels-page.component';
 
@@ -82,12 +82,10 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     NotFoundPageComponent,
     FooterComponent,
     TitleInplaceComponent,
-
     TeamMembersComponent,
     TeamMembersFormComponent,
     LoginComponent,
     SignupComponent,
-
     DateInplaceComponent,
     ProjectsPageComponent,
     DescriptionInplaceComponent,
@@ -96,7 +94,8 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     CreateProjectModalComponent,
     ProgressPickerComponent,
     LabelsPageComponent,
-    
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -138,15 +137,16 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
+      { path: 'forgotpassword', component: ForgotPasswordComponent},
+      { path: 'reset', component: ResetPasswordComponent},
       { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
       { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
       { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
-      { path: 'label', component: LabelsPageComponent, canActivate:[AuthGuard] },
       { path: 'task/:id', component: TaskPageComponent, canActivate:[AuthGuard] },
       { path: 'projects', component: ProjectsPageComponent, canActivate: [AuthGuard] },     // route to here after successfully logging in
-      
+      { path: 'label', component: LabelsPageComponent, canActivate:[AuthGuard] },
       { path: 'not-found/*', component: NotFoundPageComponent },
       { path: '**', component: NotFoundPageComponent },    // fallback route, keep at bottom of route list
     ])
