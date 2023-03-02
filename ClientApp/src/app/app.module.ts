@@ -29,6 +29,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
 
 import { NgxGanttModule } from '@worktile/gantt';
@@ -58,8 +59,12 @@ import { DescriptionInplaceComponent } from './description-inplace/description-i
 import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
 import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
+
 import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
+import { ProgressPickerComponent } from './progress-picker/progress-picker.component';
+
 import { LabelsPageComponent } from './labels-page/labels-page.component';
 
 
@@ -88,9 +93,14 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     CreateSprintModalComponent,
     CreateTaskModalComponent,
     CreateProjectModalComponent,
+    ProgressPickerComponent,
     LabelsPageComponent,
+
     ForgotPasswordComponent,
     ResetPasswordComponent
+
+    
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -124,7 +134,9 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     ColorPickerModule,
     NgxGanttModule,
     EditorModule,
+    OverlayPanelModule,
     DropdownModule,
+
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},

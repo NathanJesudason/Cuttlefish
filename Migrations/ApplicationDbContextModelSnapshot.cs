@@ -159,7 +159,7 @@ namespace Cuttlefish.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
-                    b.Property<int>("assignee")
+                    b.Property<int?>("assignee")
                         .HasColumnType("int");
 
                     b.Property<double>("cost")
