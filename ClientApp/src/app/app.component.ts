@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ForgotPasswordComponent } from 'src/app/components/pages/forgotpassword/forgotpassword.component';
 
-import { HomePageComponent } from './home-page/home-page.component';
-import { LoginComponent } from './login/login.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { SignupComponent } from './signup/signup.component';
+import { HomePageComponent } from 'src/app/components/pages/home-page/home-page.component';
+import { LoginComponent } from 'src/app/components/pages/login/login.component';
+import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/reset-password.component';
+import { SignupComponent } from 'src/app/components/pages/signup/signup.component';
 
 @Component({
   selector: 'app-root',

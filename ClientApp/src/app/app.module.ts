@@ -36,35 +36,33 @@ import { MessagesModule } from 'primeng/messages';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
-import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { SprintDropdownComponent } from './sprint-dropdown/sprint-dropdown.component';
-import { ProjectPageComponent } from './project-page/project-page.component';
-import { TaskDropdownComponent } from './task-dropdown/task-dropdown.component';
-import { TaskPageComponent } from './task-page/task-page.component';
-import { GanttPageComponent } from './gantt-page/gantt-page.component';
-import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import { FooterComponent } from './footer/footer.component';
-import { TitleInplaceComponent } from './title-inplace/title-inplace.component';
-import { TeamMembersComponent } from './team-members/team-members.component';
-import { TeamMembersFormComponent } from './team-members/team-members-form/team-members-form.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component'
-import { AuthGuard } from './server-api/auth.guard';
-import { TokenInterceptor } from './interceptors/token.interceptor';
-import { DateInplaceComponent } from './date-inplace/date-inplace.component';
-import { ProjectsPageComponent } from './projects-page/projects-page.component';
-import { DescriptionInplaceComponent } from './description-inplace/description-inplace.component';
-import { CreateSprintModalComponent } from './create-sprint-modal/create-sprint-modal.component';
-import { CreateTaskModalComponent } from './create-task-modal/create-task-modal.component';
-import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
-import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ProgressPickerComponent } from './progress-picker/progress-picker.component';
-import { LabelsPageComponent } from './labels-page/labels-page.component';
+import { AppComponent } from 'src/app/app.component';
+import { NavMenuComponent } from 'src/app/components/miscellaneous/nav-menu/nav-menu.component';
+import { HomePageComponent } from 'src/app/components/pages/home-page/home-page.component';
+import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
+import { ProjectPageComponent } from 'src/app/components/pages/project-page/project-page.component';
+import { TaskDropdownComponent } from 'src/app/components/miscellaneous/task-dropdown/task-dropdown.component';
+import { TaskPageComponent } from 'src/app/components/pages/task-page/task-page.component';
+import { GanttPageComponent } from 'src/app/components/pages/gantt-page/gantt-page.component';
+import { NotFoundPageComponent } from 'src/app/components/pages/not-found-page/not-found-page.component';
+import { FooterComponent } from 'src/app/components/miscellaneous/footer/footer.component';
+import { TitleInplaceComponent } from 'src/app/components/inplaces/title-inplace/title-inplace.component';
+import { TeamMembersComponent } from 'src/app/components/pages/team-members/team-members.component';
+import { TeamMembersFormComponent } from 'src/app/components/miscellaneous/team-members-form/team-members-form.component';
+import { LoginComponent } from 'src/app/components/pages/login/login.component';
+import { SignupComponent } from 'src/app/components/pages/signup/signup.component'
+import { AuthGuard } from 'src/app/guards/auth/auth.guard';
+import { TokenInterceptor } from 'src/app/interceptors/token/token.interceptor';
+import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/date-inplace.component';
+import { ProjectsPageComponent } from 'src/app/components/pages/projects-page/projects-page.component';
+import { DescriptionInplaceComponent } from 'src/app/components/inplaces/description-inplace/description-inplace.component';
+import { CreateSprintModalComponent } from 'src/app/components/modals/create-sprint-modal/create-sprint-modal.component';
+import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
+import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
+import { ForgotPasswordComponent } from 'src/app/components/pages/forgotpassword/forgotpassword.component';
+import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/reset-password.component';
+import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
+import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
 
 
 @NgModule({
@@ -72,8 +70,6 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
     AppComponent,
     NavMenuComponent,
     HomePageComponent,
-    CounterComponent,
-    FetchDataComponent,
     SprintDropdownComponent,
     ProjectPageComponent,
     TaskDropdownComponent,
@@ -139,8 +135,6 @@ import { LabelsPageComponent } from './labels-page/labels-page.component';
       { path: 'signup', component: SignupComponent},
       { path: 'forgotpassword', component: ForgotPasswordComponent},
       { path: 'reset', component: ResetPasswordComponent},
-      { path: 'counter', component: CounterComponent, canActivate:[AuthGuard] },
-      { path: 'fetch-data', component: FetchDataComponent, canActivate:[AuthGuard] },
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},
       { path: 'project/:id', component: ProjectPageComponent, canActivate:[AuthGuard] },
       { path: 'project/:id/gantt', component: GanttPageComponent, canActivate:[AuthGuard] },
