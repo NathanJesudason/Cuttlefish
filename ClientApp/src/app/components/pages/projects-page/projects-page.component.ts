@@ -6,6 +6,8 @@ import {
 } from '@angular/core';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 import { ProjectData } from 'src/types/project';
 
@@ -19,12 +21,19 @@ import { CreateProjectModalComponent } from 'src/app/components/modals/create-pr
 export class ProjectsPageComponent implements OnInit {
   projects!: ProjectData[];
 
+  username!: string;
+
   @ViewChild('createProjectModal') createProjectModal!: ElementRef<CreateProjectModalComponent>;
 
-  constructor(private serverApi: ServerApi) { }
+  constructor(
+    private serverApi: ServerApi,
+    private authService: AuthService,
+    private userService: UserService,
+  ) { }
 
   ngOnInit(): void {
     this.fetchProjectData();
+    this.getCurrentUser();
   }
 
   fetchProjectData() {
@@ -40,5 +49,13 @@ export class ProjectsPageComponent implements OnInit {
 
   showCreateProjectModal() {
     (this.createProjectModal as any).showCreateProjectModal();
+  }
+
+  getCurrentUser() {
+    this.userService.getUserName().subscribe({
+      next: (username: string) => {
+        this.username = username || this.authService.getUsernameFromToken();
+      },
+    });
   }
 }

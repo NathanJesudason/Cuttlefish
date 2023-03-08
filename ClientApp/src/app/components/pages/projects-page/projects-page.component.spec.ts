@@ -12,6 +12,8 @@ import { CardModule } from 'primeng/card';
 import { Observable, of } from 'rxjs';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 import { ProjectsPageComponent } from './projects-page.component';
 import { ProjectData } from 'src/types/project';
@@ -53,7 +55,13 @@ describe('ProjectsPageComponent', () => {
       .mock(CreateProjectModalComponent, { export: true })
       .mock(ServerApi, {
         getAllProjects: (id: number): Observable<ProjectData[]> => of(data),
-      } as Partial<ServerApi>);
+      } as Partial<ServerApi>)
+      .mock(AuthService, {
+        getUsernameFromToken: (): string => 'Test User',
+      })
+      .mock(UserService, {
+        getUserName: (): Observable<string> => of('Test User'),
+      });
   });
 
   it('should create', () => {
