@@ -12,11 +12,13 @@ import { UserService } from 'src/app/services/user/user.service';
 import { ProjectData } from 'src/types/project';
 
 import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'projects-page',
   templateUrl: './projects-page.component.html',
   styleUrls: ['./projects-page.component.css'],
+  providers: [MessageService],
 })
 export class ProjectsPageComponent implements OnInit {
   projects!: ProjectData[];
@@ -29,6 +31,7 @@ export class ProjectsPageComponent implements OnInit {
     private serverApi: ServerApi,
     private authService: AuthService,
     private userService: UserService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +48,11 @@ export class ProjectsPageComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  deleteProject(projectId: number) {
+    this.projects = this.projects.filter((p) => p.id !== projectId);
+    this.messageService.add({severity: 'success', summary: `Project ${projectId} deleted`});
   }
 
   showCreateProjectModal() {

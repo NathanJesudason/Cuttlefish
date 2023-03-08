@@ -359,6 +359,20 @@ export class ServerApi {
       );
   }
 
+  /**
+   * Delete a project with the given id
+   * @param id the id of the project to delete
+   * @returns an `Observable` that completes when the project is deleted
+   */
+  deleteProject(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}Projects/${id}`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error deleting project: ${err.error.message}`));
+        }),
+      );
+  }
+
   getLabel(name: string): LabelData {
     if (name === 'frontend') {
       return {
