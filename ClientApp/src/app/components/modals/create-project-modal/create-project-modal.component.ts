@@ -6,6 +6,8 @@ import {
 
 import { MessageService } from 'primeng/api';
 
+import { ServerApi } from 'src/app/services/server-api/server-api.service';
+
 import { ProjectData } from 'src/types/project';
 
 @Component({
@@ -27,6 +29,7 @@ export class CreateProjectModalComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
+    private serverApi: ServerApi,
   ) { }
 
   ngOnInit(): void {
@@ -42,10 +45,18 @@ export class CreateProjectModalComponent implements OnInit {
   }
 
   acceptModalInput() {
-    this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
-    // call to serverapi with the collected input* values
-    this.projects.push(this.collectInputs());
-    this.hideCreateProjectModal();
+    this.serverApi.createProject(this.collectInputs()).subscribe({
+      next: (project: ProjectData) => {
+        this.projects.push(project);
+        this.hideCreateProjectModal();
+        this.messageService.add({severity: 'success', summary: `Project created! id: ${project.id}, name: ${project.name}`});
+      },
+      error: (err) => {
+        console.log(err);
+        this.hideCreateProjectModal();
+        this.messageService.add({severity: 'error', summary: `Project creation error: ${err.message}`});
+      }
+    });
   }
 
   cancelModalInput() {
@@ -55,7 +66,7 @@ export class CreateProjectModalComponent implements OnInit {
 
   collectInputs(): ProjectData {
     return {
-      id: 2,
+      id: 0,
       name: this.inputName,
       color: this.inputColor,
       description: '',

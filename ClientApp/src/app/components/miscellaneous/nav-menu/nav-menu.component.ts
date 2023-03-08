@@ -62,15 +62,21 @@ export class NavMenuComponent implements OnInit {
       },
     ];
 
-    const projects = this.serverApi.getAllProjects();
-    const projectMenuItems = projects.map(project => {
-      return {
-        icon: 'pi pi-briefcase',
-        label: `${project.id}: ${project.name}`,
-        routerLink: ['/project', project.id],
-      } as MenuItem;
+    this.serverApi.getAllProjects().subscribe({
+      next: (projects) => {
+        const projectMenuItems = projects.map((project) => {
+          return {
+            icon: 'pi pi-briefcase',
+            label: `${project.id}: ${project.name}`,
+            routerLink: ['/project', project.id],
+          } as MenuItem;
+        });
+        this.menuItems[0].items = projectMenuItems;
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
-    this.menuItems[0].items = projectMenuItems;
     
   }
 

@@ -9,6 +9,8 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 
+import { Observable, of } from 'rxjs';
+
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
 
 import { ProjectsPageComponent } from './projects-page.component';
@@ -50,7 +52,7 @@ describe('ProjectsPageComponent', () => {
     return MockBuilder(ProjectsPageComponent, [CardModule, ButtonModule, RouterModule])
       .mock(CreateProjectModalComponent, { export: true })
       .mock(ServerApi, {
-        getAllProjects: (id: number): ProjectData[] => data,
+        getAllProjects: (id: number): Observable<ProjectData[]> => of(data),
       } as Partial<ServerApi>);
   });
 

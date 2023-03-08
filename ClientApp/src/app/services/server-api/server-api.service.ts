@@ -2,7 +2,7 @@ import {
   Injectable,
   Inject
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import {
   SprintData,
@@ -13,18 +13,20 @@ import {
   TaskNotFoundError
 } from 'src/types/task';
 import {
+  BackendProjectData,
   ProjectData,
   ProjectNotFoundError
 } from 'src/types/project';
 import { LabelData, LabelNotFoundError } from 'src/types/label';
+import { environment } from 'src/environments/environment';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
-  baseUrl: string;
+  baseUrl: string = environment.url;
   http: HttpClient;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
+  constructor(http: HttpClient) {
     this.http = http;
   }
 
@@ -282,11 +284,79 @@ export class ServerApi {
     throw new ProjectNotFoundError('Project not found', id);
   }
 
-  getAllProjects(): ProjectData[] {
-    return [
-      this.getProjectData(0),
-      this.getProjectData(1)
-    ];
+  /**
+   * A small helper to convert from the backend's project format to the frontend's `ProjectData` format
+   * @param backendProject the project in the backend's format
+   * @returns the project as a `ProjectData` object
+   */
+  private backendProjectToProjectData(backendProject: BackendProjectData): ProjectData {
+    return {
+      id: backendProject.id,
+      name: backendProject.name,
+      color: `#${backendProject.color}`,
+      description: backendProject.description,
+      startDate: backendProject.startDate ? new Date(backendProject.startDate) : undefined,
+      endDate: backendProject.dueDate ? new Date(backendProject.dueDate) : undefined,
+      funds: backendProject.funds,
+      sprints: [],
+    };
+  }
+
+  /**
+   * A small helper to convert from the frontend's `ProjectData` format to the backend's project format
+   * @param project the project to convert to the backend's format
+   * @returns the project in the backend's format
+   */
+  private projectDataToBackendProject(project: ProjectData): BackendProjectData {
+    return {
+      id: project.id,
+      name: project.name,
+      color: project.color.slice(1),
+      description: project.description,
+      startDate: project.startDate ? project.startDate.toISOString() : "",
+      dueDate: project.endDate ? project.endDate.toISOString() : "",
+      funds: project.funds,
+    };
+  }
+
+  /**
+   * Create a project with the given data
+   * @param project the data to create the project with
+   *  - `id` will be ignored, the backend will assign the next available id
+   * @returns `Observable<ProjectData>` the created project
+   */
+  createProject(project: ProjectData): Observable<ProjectData> {
+    project.id = 0;
+    const backendProject = this.projectDataToBackendProject(project);
+    return this.http.post(`${this.baseUrl}Projects`, backendProject)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+        }),
+        map((data: any) => {
+          return this.backendProjectToProjectData(data);
+        }),
+      );
+  }
+
+  /**
+   * Get all projects that the logged in user is a part of
+   * @returns `Observable<ProjectData[]>`, all projects, which have empty `sprints` arrays
+   */
+  getAllProjects(): Observable<ProjectData[]> {
+    return this.http.get(`${this.baseUrl}Projects`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error getting projects: ${err.error.message}`));
+        }),
+        map((data: any) => {
+          let projects: ProjectData[] = [];
+          for (let project of data) {
+            projects.push(this.backendProjectToProjectData(project));
+          }
+          return projects;
+        }),
+      );
   }
 
   getLabel(name: string): LabelData {

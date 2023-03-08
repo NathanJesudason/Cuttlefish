@@ -11,6 +11,16 @@ export type ProjectData = {
   sprints: SprintData[];
 };
 
+export type BackendProjectData = {
+  id: number;
+  name: string;
+  color: string;
+  description: string;
+  startDate?: string;
+  dueDate?: string;
+  funds: number;
+}
+
 export class ProjectNotFoundError extends Error {
   id: number;
   

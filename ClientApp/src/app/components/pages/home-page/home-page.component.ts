@@ -42,11 +42,5 @@ export class HomePageComponent implements OnInit {
     //     this.role = value || rolefromToken
     //     // this.role = 'Admin' // for testing
     //   })
-
-    this.fetchProjectData();
-  }
-
-  fetchProjectData() {
-    this.projects = this.serverApi.getAllProjects();
   }
 }

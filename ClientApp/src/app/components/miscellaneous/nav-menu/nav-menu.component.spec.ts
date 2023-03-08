@@ -6,6 +6,8 @@ import {
 
 import { MenubarModule } from 'primeng/menubar';
 
+import { Observable, of } from 'rxjs';
+
 import { ProjectData } from 'src/types/project';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
@@ -46,7 +48,7 @@ describe('NavMenuComponent', () => {
   beforeEach(() => {
     return MockBuilder(NavMenuComponent, [MenubarModule])
       .mock(ServerApi, {
-        getAllProjects: (id: number): ProjectData[] => [data],
+        getAllProjects: (id: number): Observable<ProjectData[]> => of([data]),
       } as Partial<ServerApi>);
   });
 
