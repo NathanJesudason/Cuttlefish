@@ -1,60 +1,65 @@
-<title-inplace [entityData]="projectData" size="large"></title-inplace>
-<button
-  pButton
-  id="gantt-chart-button"
-  class="p-button-raised p-button-sm"
-  type="button"
-  label="Gantt Chart"
-  icon="pi pi-chart-bar"
-  [routerLink]="['/project', projectData.id, 'gantt']"
-></button>
+<div id="page-loading" *ngIf="pageLoading" [@basicFadeAnimation]>
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div *ngIf="!pageLoading" [@basicFadeAnimation]>
+  <title-inplace [entityData]="projectData" size="large"></title-inplace>
+  <button
+    pButton
+    id="gantt-chart-button"
+    class="p-button-raised p-button-sm"
+    type="button"
+    label="Gantt Chart"
+    icon="pi pi-chart-bar"
+    [routerLink]="['/project', projectData ? projectData.id : -1, 'gantt']"
+  ></button>
 
-<p-divider></p-divider>
+  <p-divider></p-divider>
 
-<p-toolbar>
-  <div class="p-toolbar-group-start">
-    <button
-      pButton pRipple
-      type="button"
-      label="Create Sprint"
-      class="p-button-success p-button-sm"
-      icon="pi pi-plus"
-      (click)="showCreateSprintModal()"
-    ></button>
-  </div>
-
-  <div class="p-toolbar-group-end">
-    <div class="sprint-options">
-      <p-button
-        id="collapse-all-button"
-        icon="pi pi-list"
-        [label]="collapseButtonText"
-        styleClass="p-button-sm sprint-option"
-        (onClick)="toggleCollapseSprints()"
-      ></p-button>
-      
-      <p-checkbox
-        [(ngModel)]="completedSprintsShown"
-        label="Show Completed Sprints"
-        [binary]="true"
-        (onChange)="toggleHideCompletedSprints($event)"
-        class="sprint-option"
-      ></p-checkbox>
+  <p-toolbar>
+    <div class="p-toolbar-group-start">
+      <button
+        pButton pRipple
+        type="button"
+        label="Create Sprint"
+        class="p-button-success p-button-sm"
+        icon="pi pi-plus"
+        (click)="showCreateSprintModal()"
+      ></button>
     </div>
-  </div>
 
-</p-toolbar>
+    <div class="p-toolbar-group-end">
+      <div class="sprint-options">
+        <p-button
+          id="collapse-all-button"
+          icon="pi pi-list"
+          [label]="collapseButtonText"
+          styleClass="p-button-sm sprint-option"
+          (onClick)="toggleCollapseSprints()"
+        ></p-button>
+        
+        <p-checkbox
+          [(ngModel)]="completedSprintsShown"
+          label="Show Completed Sprints"
+          [binary]="true"
+          (onChange)="toggleHideCompletedSprints($event)"
+          class="sprint-option"
+        ></p-checkbox>
+      </div>
+    </div>
 
-<p-accordion [multiple]="true">
-  <ng-container *ngFor="let sprint of projectData.sprints; let i = index">
-    <p-divider *ngIf="sprint.isBacklog && projectData.sprints.length > 1 && !projectData.sprints[i-1].isBacklog"></p-divider>
-    <sprint-dropdown #sprintDropdown [data]="sprint"></sprint-dropdown>
-  </ng-container>
-</p-accordion>
+  </p-toolbar>
 
-<p-toast></p-toast>
+  <p-accordion [multiple]="true">
+    <ng-container *ngFor="let sprint of projectData.sprints; let i = index">
+      <p-divider *ngIf="sprint.isBacklog && projectData.sprints.length > 1 && !projectData.sprints[i-1].isBacklog"></p-divider>
+      <sprint-dropdown #sprintDropdown [data]="sprint"></sprint-dropdown>
+    </ng-container>
+  </p-accordion>
 
-<create-sprint-modal
-  #createSprintModal
-  [projectData]="projectData"
-></create-sprint-modal>
+  <p-toast></p-toast>
+
+  <create-sprint-modal
+    #createSprintModal
+    [projectData]="projectData"
+  ></create-sprint-modal>
+</div>

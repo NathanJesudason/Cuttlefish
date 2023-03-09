@@ -5,6 +5,15 @@ import {
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import {
+  catchError,
+  map,
+  Observable,
+  of,
+  switchMap,
+  throwError
+} from 'rxjs';
+
+import {
   SprintData,
   SprintNotFoundError
 } from 'src/types/sprint';
@@ -17,9 +26,12 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from 'src/types/project';
-import { LabelData, LabelNotFoundError } from 'src/types/label';
+import {
+  LabelData,
+  LabelNotFoundError
+} from 'src/types/label';
+
 import { environment } from 'src/environments/environment';
-import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
@@ -336,6 +348,10 @@ export class ServerApi {
         map((data: any) => {
           return this.backendProjectToProjectData(data);
         }),
+        switchMap((project: ProjectData) => {
+          // return this.createSprintInProject(project.id, { name: 'Backlog', startDate: undefined, endDate: undefined });
+          return of(project);
+        }),
       );
   }
 
@@ -355,6 +371,31 @@ export class ServerApi {
             projects.push(this.backendProjectToProjectData(project));
           }
           return projects;
+        }),
+      );
+  }
+
+  /**
+   * Get a project with the given id
+   * @param id the id of the project to get
+   * @param getSprints whether to get the sprints for the project
+   * @param getTasks whether to get the tasks for the sprints
+   * @returns the project `Observable<ProjectData>`
+   */
+  getProject(id: number, getSprints: boolean, getTasks: boolean): Observable<ProjectData> {
+    return this.http.get<ProjectData>(`${this.baseUrl}Projects/${id}`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new ProjectNotFoundError(`Error getting project: ${err.error.message}`, id));
+        }),
+        map((data: any) => {
+          return this.backendProjectToProjectData(data);
+        }),
+        switchMap((project: ProjectData) => {
+          // if (getSprints) {
+          //   return this.getSprintsForProject(project.id, getTasks);
+          // }
+          return of(project);
         }),
       );
   }

@@ -5,6 +5,7 @@ import {
   RouterModule
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   MockBuilder,
@@ -20,6 +21,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import { DividerModule } from 'primeng/divider';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
 
@@ -73,6 +75,8 @@ describe('ProjectPageComponent', () => {
         FormsModule,
         ToastModule,
         DividerModule,
+        BrowserAnimationsModule,
+        ProgressSpinnerModule,
       ])
       .mock(SprintDropdownComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })

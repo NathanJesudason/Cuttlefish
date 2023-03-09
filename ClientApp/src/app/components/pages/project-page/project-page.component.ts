@@ -15,6 +15,7 @@ import { MessageService } from 'primeng/api';
 import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
 import { CreateSprintModalComponent } from 'src/app/components/modals/create-sprint-modal/create-sprint-modal.component';
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { BasicFadeAmination } from 'src/app/animations/animations';
 
 import {
   ProjectData,
@@ -27,8 +28,11 @@ import { SprintData } from 'src/types/sprint';
   templateUrl: './project-page.component.html',
   styleUrls: ['./project-page.component.scss'],
   providers: [MessageService],
+  animations: [BasicFadeAmination],
 })
 export class ProjectPageComponent {
+  pageLoading: boolean = true;
+  
   projectData!: ProjectData;
 
   collapseButtonText: 'Collapse All' | 'Expand All' = 'Collapse All';
@@ -47,6 +51,7 @@ export class ProjectPageComponent {
 
   ngOnInit() {
     this.route.params.subscribe(_routeParams => {
+      this.pageLoading = true;
       this.loadProjectData();
     });
   }
@@ -54,16 +59,21 @@ export class ProjectPageComponent {
   loadProjectData() {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
 
-    try {
-      this.projectData = this.serverApi.getProjectData(id);
-    } catch (error) {
-      if (error instanceof ProjectNotFoundError) {
-        this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
-        return;
+    this.serverApi.getProject(id, false, false).subscribe({
+      next: (projectData: ProjectData) => {
+        console.log(projectData);
+        this.projectData = projectData;
+        this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
+        this.pageLoading = false;
+      },
+      error: (err) => {
+        if (err instanceof ProjectNotFoundError) {
+          this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
+          return;
+        }
+        console.log(err);
       }
-    }
-
-    this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
+    });
   }
 
   toggleCollapseSprints() {
