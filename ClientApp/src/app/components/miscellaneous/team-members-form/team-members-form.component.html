@@ -1,29 +1,27 @@
-<form novalidate #form="ngForm" (submit)="onSubmit(form)" >
+<form novalidate #form="ngForm" (submit)="onSubmit(form)" *ngIf="role === 'Admin'">
     <input type="hidden" name="id"
-    [value]="service.teamMemberData.id"/>
+    [value]="teamMemberService.teamMemberData.id"/>
     <div>
-        <label>Team Member Name/Username</label>
-        <input placeholder="Name/Username"
-        name="username" #username="ngModel" [(ngModel)]="service.teamMemberData.username"/>
+        <input type="text" pInputText name="username" [(ngModel)]="username" placeholder="Enter team member's username"/>
     </div>
     <div>
-        <label>Password</label>
-        <input placeholder="Enter password here"
-        name="password" #password="ngModel" [(ngModel)]="service.teamMemberData.password"/>
+        <p-dropdown
+        [options]="projects"
+        [(ngModel)]="selectedProject"
+        optionLabel="name"
+        placeholder="Select a Project..."
+        name="project"
+        >
+        </p-dropdown>
     </div>
     <div>
-        <label>Email</label>
-        <input placeholder="Enter email here"
-        name="email" #email="ngModel" [(ngModel)]="service.teamMemberData.email"/>
-    </div>
+        <input type="text" pInputText name="createUserRole" [(ngModel)]="createUserRole" placeholder="Enter a role for the team member"/>
 
-    <div>
-        <label>Role</label>
-        <input placeholder="Enter role here"
-        name="role" #role="ngModel" [(ngModel)]="service.teamMemberData.roles"/>
     </div>
     <div>
-        <button type="submit">Submit</button> 
+        <button pButton type="submit">Add team member to Project</button> 
     </div>
 
 </form>
+
+<p-toast></p-toast>

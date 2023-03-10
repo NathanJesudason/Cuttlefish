@@ -1,12 +1,11 @@
 <app-team-members-form>
 </app-team-members-form>
 
-<div>
+<!-- <div>
     <h1>Get team members from database</h1>
     <table>
         <tr>
                 <th>Username</th>
-                <th>Email</th>
                 <th>Role</th>
         </tr>
             <tr *ngFor = "let member of service.list">
@@ -19,4 +18,20 @@
             </td>
             </tr>
     </table>
-</div>
+</div> -->
+
+<p-table [value]="teammemberToProjectService.teamMemberToProjectList">
+    <ng-template pTemplate="header" let-teamMemberToProjectList>
+        <tr>
+            <th>Team members Per Project </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-teamMembersToProjectList>
+        <tr>
+            <th>{{teamMembersToProjectList.projectID}}</th>
+        </tr>
+        <tr>
+            <td>{{teamMembersToProjectList.teamMemberID}}</td>
+        </tr>
+    </ng-template>
+</p-table>

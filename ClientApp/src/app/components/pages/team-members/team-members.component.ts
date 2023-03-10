@@ -4,8 +4,10 @@ import {
 } from '@angular/core';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { TeamMemberToProjectService } from 'src/app/services/team-member-to-project/team-member-to-project.service';
 import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { TeamMemberToProject } from 'src/types/team-member-to-project';
 
 import { TeamMember } from 'src/types/team-member.model';
 
@@ -16,9 +18,11 @@ import { TeamMember } from 'src/types/team-member.model';
 })
 export class TeamMembersComponent implements OnInit {
 
-  constructor(public service: TeamMemberService, private auth: AuthService, private user: UserService) { }
+  constructor(public service: TeamMemberService, private auth: AuthService, private user: UserService, public teammemberToProjectService: TeamMemberToProjectService) { }
 
   public role!: string
+  // public teamMembersToProjectList!: TeamMemberToProject[]
+  // public teamMembersToProject!: TeamMemberToProject
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn())
@@ -31,12 +35,18 @@ export class TeamMembersComponent implements OnInit {
         this.role = value || rolefromToken
         
       })
+
+    this.teammemberToProjectService.refreshList()
   }
 
   populateForm(selectedItem: TeamMember){
     this.service.teamMemberData = Object.assign({}, selectedItem)
   }
 
+  populateTable(){
+    // this.service.getTeamMemberByID(this.teammemberToProjectService.)
+    //stopped at getting data for project name and team member by it and displaying it on the table. 
+  }
    
 
 

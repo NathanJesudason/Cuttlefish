@@ -15,6 +15,18 @@ export class TeamMemberService {
   list: TeamMember[] = []
   readonly baseURL = environment.url // this is the server port
  
+  getTeamMember(){
+    return this.http.get(`${this.baseURL}TeamMembers`)
+  }
+
+  getTeamMemberByID(id: number){
+    return this.http.get(`${this.baseURL}TeamMembers/${id}`)
+  }
+
+  getTeamMemberByUsername(username: String){
+    return this.http.get(`${this.baseURL}TeamMembers/username/${username}`)
+  }
+
   postTeamMember(){
     return this.http.post(this.baseURL, this.teamMemberData)
   }

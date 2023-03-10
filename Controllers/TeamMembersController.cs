@@ -132,6 +132,20 @@ namespace Cuttlefish.Controllers
 
         }
 
+        // GET: api/TeamMembers/username
+        [HttpGet("username/{username}")]
+        public async Task<ActionResult<TeamMembers>> GetTeamMembersByUsername(string username)
+        {
+            var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(t=> t.username == username);
+
+            if (teamMember == null)
+            {
+                return NotFound();
+            }
+
+            return teamMember;
+        }
+
         // GET: api/TeamMembers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TeamMembers>> GetTeamMembers(int id)
@@ -225,7 +239,7 @@ namespace Cuttlefish.Controllers
             {
                 Subject = identity,
 
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = credentials,
             };
             var token = jwtTokenHandler.CreateToken(tokenDecriptor);
