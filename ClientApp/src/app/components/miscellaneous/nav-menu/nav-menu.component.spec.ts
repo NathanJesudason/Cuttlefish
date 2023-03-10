@@ -4,13 +4,16 @@ import {
   ngMocks
 } from 'ng-mocks';
 
-import { MenubarModule } from 'primeng/menubar';
+import {
+  Observable,
+  of
+} from 'rxjs';
 
-import { Observable, of } from 'rxjs';
+import { MenubarModule } from 'primeng/menubar';
 
 import { ProjectData } from 'src/types/project';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 import { NavMenuComponent } from './nav-menu.component';
 
@@ -47,9 +50,9 @@ describe('NavMenuComponent', () => {
   
   beforeEach(() => {
     return MockBuilder(NavMenuComponent, [MenubarModule])
-      .mock(ServerApi, {
+      .mock(ProjectService, {
         getAllProjects: (id: number): Observable<ProjectData[]> => of([data]),
-      } as Partial<ServerApi>);
+      } as Partial<ProjectService>);
   });
 
   it('should create', () => {

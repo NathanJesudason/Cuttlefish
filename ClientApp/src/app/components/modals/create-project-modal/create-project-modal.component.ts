@@ -6,7 +6,7 @@ import {
 
 import { MessageService } from 'primeng/api';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 import { ProjectData } from 'src/types/project';
 
@@ -29,7 +29,7 @@ export class CreateProjectModalComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
-    private serverApi: ServerApi,
+    private projectService: ProjectService,
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class CreateProjectModalComponent implements OnInit {
   }
 
   acceptModalInput() {
-    this.serverApi.createProject(this.collectInputs()).subscribe({
+    this.projectService.createProject(this.collectInputs()).subscribe({
       next: (project: ProjectData) => {
         this.projects.push(project);
         this.hideCreateProjectModal();

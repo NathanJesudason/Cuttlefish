@@ -11,7 +11,7 @@ import {
   MenuItem
 } from 'primeng/api';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 import { ProjectData } from 'src/types/project';
 
@@ -34,7 +34,7 @@ export class ProjectCardComponent implements OnInit {
   ];
 
   constructor(
-    private serverApi: ServerApi,
+    private projectService: ProjectService,
     private confirmationService: ConfirmationService,
   ) { }
 
@@ -48,7 +48,7 @@ export class ProjectCardComponent implements OnInit {
   }
 
   deleteThisProject() {
-    this.serverApi.deleteProject(this.project.id).subscribe({
+    this.projectService.deleteProject(this.project.id).subscribe({
       next: () => {
         this.deleteProject.emit(this.project.id);
       },

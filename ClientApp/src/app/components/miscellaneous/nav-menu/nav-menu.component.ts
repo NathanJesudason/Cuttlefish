@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -14,7 +17,8 @@ export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
 
   constructor(
-    private serverApi: ServerApi, private auth: AuthService
+    private auth: AuthService,
+    private projectService: ProjectService,
   ) {}
 
   
@@ -62,7 +66,7 @@ export class NavMenuComponent implements OnInit {
       },
     ];
 
-    this.serverApi.getAllProjects().subscribe({
+    this.projectService.getAllProjects().subscribe({
       next: (projects) => {
         const projectMenuItems = projects.map((project) => {
           return {

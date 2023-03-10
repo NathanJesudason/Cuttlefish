@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
 
 import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
 import { CreateSprintModalComponent } from 'src/app/components/modals/create-sprint-modal/create-sprint-modal.component';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { BasicFadeAmination } from 'src/app/animations/animations';
 
 import {
@@ -43,7 +43,7 @@ export class ProjectPageComponent {
   @ViewChild('createSprintModal') createSprintModal!: ElementRef<CreateSprintModalComponent>;
   
   constructor(
-    private serverApi: ServerApi,
+    private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -59,7 +59,7 @@ export class ProjectPageComponent {
   loadProjectData() {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
 
-    this.serverApi.getProject(id, false, false).subscribe({
+    this.projectService.getProject(id, true, false).subscribe({
       next: (projectData: ProjectData) => {
         console.log(projectData);
         this.projectData = projectData;

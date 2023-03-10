@@ -1,17 +1,6 @@
-import {
-  Injectable,
-  Inject
-} from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import {
-  catchError,
-  map,
-  Observable,
-  of,
-  switchMap,
-  throwError
-} from 'rxjs';
 
 import {
   SprintData,
@@ -22,7 +11,6 @@ import {
   TaskNotFoundError
 } from 'src/types/task';
 import {
-  BackendProjectData,
   ProjectData,
   ProjectNotFoundError
 } from 'src/types/project';
@@ -294,124 +282,6 @@ export class ServerApi {
       };
     }
     throw new ProjectNotFoundError('Project not found', id);
-  }
-
-  /**
-   * A small helper to convert from the backend's project format to the frontend's `ProjectData` format
-   * @param backendProject the project in the backend's format
-   * @returns the project as a `ProjectData` object
-   */
-  private backendProjectToProjectData(backendProject: BackendProjectData): ProjectData {
-    return {
-      id: backendProject.id,
-      name: backendProject.name,
-      color: `#${backendProject.color}`,
-      description: backendProject.description,
-      startDate: backendProject.startDate ? new Date(backendProject.startDate) : undefined,
-      endDate: backendProject.dueDate ? new Date(backendProject.dueDate) : undefined,
-      funds: backendProject.funds,
-      sprints: [],
-    };
-  }
-
-  /**
-   * A small helper to convert from the frontend's `ProjectData` format to the backend's project format
-   * @param project the project to convert to the backend's format
-   * @returns the project in the backend's format
-   */
-  private projectDataToBackendProject(project: ProjectData): BackendProjectData {
-    return {
-      id: project.id,
-      name: project.name,
-      color: project.color.slice(1),
-      description: project.description,
-      startDate: project.startDate ? project.startDate.toISOString() : "",
-      dueDate: project.endDate ? project.endDate.toISOString() : "",
-      funds: project.funds,
-    };
-  }
-
-  /**
-   * Create a project with the given data
-   * @param project the data to create the project with
-   *  - `id` will be ignored, the backend will assign the next available id
-   * @returns `Observable<ProjectData>` the created project
-   */
-  createProject(project: ProjectData): Observable<ProjectData> {
-    project.id = 0;
-    const backendProject = this.projectDataToBackendProject(project);
-    return this.http.post(`${this.baseUrl}Projects`, backendProject)
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error creating project: ${err.error.message}`));
-        }),
-        map((data: any) => {
-          return this.backendProjectToProjectData(data);
-        }),
-        switchMap((project: ProjectData) => {
-          // return this.createSprintInProject(project.id, { name: 'Backlog', startDate: undefined, endDate: undefined });
-          return of(project);
-        }),
-      );
-  }
-
-  /**
-   * Get all projects that the logged in user is a part of
-   * @returns `Observable<ProjectData[]>`, all projects, which have empty `sprints` arrays
-   */
-  getAllProjects(): Observable<ProjectData[]> {
-    return this.http.get(`${this.baseUrl}Projects`)
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error getting projects: ${err.error.message}`));
-        }),
-        map((data: any) => {
-          let projects: ProjectData[] = [];
-          for (let project of data) {
-            projects.push(this.backendProjectToProjectData(project));
-          }
-          return projects;
-        }),
-      );
-  }
-
-  /**
-   * Get a project with the given id
-   * @param id the id of the project to get
-   * @param getSprints whether to get the sprints for the project
-   * @param getTasks whether to get the tasks for the sprints
-   * @returns the project `Observable<ProjectData>`
-   */
-  getProject(id: number, getSprints: boolean, getTasks: boolean): Observable<ProjectData> {
-    return this.http.get<ProjectData>(`${this.baseUrl}Projects/${id}`)
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          return throwError(() => new ProjectNotFoundError(`Error getting project: ${err.error.message}`, id));
-        }),
-        map((data: any) => {
-          return this.backendProjectToProjectData(data);
-        }),
-        switchMap((project: ProjectData) => {
-          // if (getSprints) {
-          //   return this.getSprintsForProject(project.id, getTasks);
-          // }
-          return of(project);
-        }),
-      );
-  }
-
-  /**
-   * Delete a project with the given id
-   * @param id the id of the project to delete
-   * @returns an `Observable` that completes when the project is deleted
-   */
-  deleteProject(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}Projects/${id}`)
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error deleting project: ${err.error.message}`));
-        }),
-      );
   }
 
   getLabel(name: string): LabelData {

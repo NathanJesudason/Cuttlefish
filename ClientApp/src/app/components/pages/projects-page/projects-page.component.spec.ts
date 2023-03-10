@@ -12,7 +12,7 @@ import { ToastModule } from 'primeng/toast';
 
 import { Observable, of } from 'rxjs';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -57,9 +57,9 @@ describe('ProjectsPageComponent', () => {
     return MockBuilder(ProjectsPageComponent, [CardModule, ButtonModule, RouterModule, ToastModule])
       .mock(CreateProjectModalComponent, { export: true })
       .mock(ProjectCardComponent, { export: true })
-      .mock(ServerApi, {
+      .mock(ProjectService, {
         getAllProjects: (id: number): Observable<ProjectData[]> => of(data),
-      } as Partial<ServerApi>)
+      } as Partial<ProjectService>)
       .mock(AuthService, {
         getUsernameFromToken: (): string => 'Test User',
       })

@@ -33,3 +33,38 @@ export class ProjectNotFoundError extends Error {
     this.message = `Project with id ${this.id} not found`;
   }
 };
+
+/**
+   * A small helper to convert from the backend's project format to the frontend's `ProjectData` format
+   * @param backendProject the project in the backend's format
+   * @returns the project as a `ProjectData` object
+   */
+export function backendProjectToProjectData(backendProject: BackendProjectData): ProjectData {
+  return {
+    id: backendProject.id,
+    name: backendProject.name,
+    color: `#${backendProject.color}`,
+    description: backendProject.description,
+    startDate: backendProject.startDate ? new Date(backendProject.startDate) : undefined,
+    endDate: backendProject.dueDate ? new Date(backendProject.dueDate) : undefined,
+    funds: backendProject.funds,
+    sprints: [],
+  };
+}
+
+/**
+ * A small helper to convert from the frontend's `ProjectData` format to the backend's project format
+ * @param project the project to convert to the backend's format
+ * @returns the project in the backend's format
+ */
+export function projectDataToBackendProject(project: ProjectData): BackendProjectData {
+  return {
+    id: project.id,
+    name: project.name,
+    color: project.color.slice(1),
+    description: project.description,
+    startDate: project.startDate ? project.startDate.toISOString() : "",
+    dueDate: project.endDate ? project.endDate.toISOString() : "",
+    funds: project.funds,
+  };
+}

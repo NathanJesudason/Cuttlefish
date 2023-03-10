@@ -5,7 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -28,7 +28,7 @@ export class ProjectsPageComponent implements OnInit {
   @ViewChild('createProjectModal') createProjectModal!: ElementRef<CreateProjectModalComponent>;
 
   constructor(
-    private serverApi: ServerApi,
+    private projectService: ProjectService,
     private authService: AuthService,
     private userService: UserService,
     private messageService: MessageService,
@@ -40,7 +40,7 @@ export class ProjectsPageComponent implements OnInit {
   }
 
   fetchProjectData() {
-    this.serverApi.getAllProjects().subscribe({
+    this.projectService.getAllProjects().subscribe({
       next: (projects: ProjectData[]) => {
         this.projects = projects;
       },
