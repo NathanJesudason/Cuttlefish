@@ -33,6 +33,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { MessagesModule } from 'primeng/messages';
+import {SelectButtonModule} from 'primeng/selectbutton';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -63,6 +64,7 @@ import { ForgotPasswordComponent } from 'src/app/components/pages/forgotpassword
 import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/reset-password.component';
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
+import { CreateLabelModalComponent } from './components/modals/create-label-modal/create-label-modal.component';
 
 
 @NgModule({
@@ -91,7 +93,8 @@ import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels
     ProgressPickerComponent,
     LabelsPageComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    CreateLabelModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -107,6 +110,7 @@ import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels
     CardModule,
     PanelModule,
     ButtonModule,
+    SelectButtonModule,
     DividerModule,
     ChipModule,
     TagModule,

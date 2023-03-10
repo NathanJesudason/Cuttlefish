@@ -1,5 +1,5 @@
 export type LabelData = {
-  name: string;
+  label: string;
   color: string;
 }
 

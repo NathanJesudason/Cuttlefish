@@ -292,17 +292,17 @@ export class ServerApi {
   getLabel(name: string): LabelData {
     if (name === 'frontend') {
       return {
-        name: 'frontend',
+        label: 'frontend',
         color: '#F782CA',
       };
     } else if (name === 'backend') {
       return {
-        name: 'backend',
+        label: 'backend',
         color: '#CEEF49',
       };
     } else if (name === 'database') {
       return {
-        name: 'database',
+        label: 'database',
         color: '#A3EE82',
       };
     }

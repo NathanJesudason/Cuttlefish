@@ -2,7 +2,7 @@
   [(ngModel)]="currentLabel"
   [disabled]="taskPickerDisabled"
   [options]="availableLabels"
-  optionLabel="name"
+  optionLabel="label"
   placeholder="Select a label..."
   [showClear]="true"
   (onChange)="updateSelectedLabel($event)"
@@ -10,17 +10,26 @@
   <ng-template pTemplate="selectedItem">
     <div class="availableLabel-item" *ngIf="currentLabel">
       <span class="label-color-swatch" [ngStyle]="{'background-color': currentLabel.color}"></span>
-      <code>{{ currentLabel.name }}</code>
+      <code>{{ currentLabel.label }}</code>
     </div>
   </ng-template>
 
   <ng-template pTemplate="item" let-availableLabel>
     <div class="availableLabel-item">
       <span class="label-color-swatch" [ngStyle]="{'background-color': availableLabel.color}"></span>
-      <code>{{ availableLabel.name }}</code>
+      <code>{{ availableLabel.label }}</code>
+      
     </div>
+
   </ng-template>
+
+
 </p-dropdown>
+
+<button id="editBtn" *ngIf="currentLabel" pButton type="submit" (click)="showEditLabelModal()">Edit Label</button>
+<!-- <button id="cancelBtn" *ngIf="currentLabel" pButton type="submit" (click)="cancelLabelSelection()">Cancel Label Selection</button> -->
+
+<button pButton type="submit"  *ngIf="!currentLabel" (click)="showCreateLabelModal()">Create a Label</button>
 
 <p-accordion
   [multiple]="true"
@@ -28,3 +37,10 @@
 >
   <task-dropdown *ngFor="let task of tasksByLabel" [taskData]="task"></task-dropdown>
 </p-accordion>
+
+
+<create-label-modal
+  #createLabelModal
+  [labels]="availableLabels ? availableLabels : []">
+</create-label-modal>
+
