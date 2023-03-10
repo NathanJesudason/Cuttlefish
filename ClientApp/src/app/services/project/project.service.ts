@@ -22,6 +22,7 @@ import {
   projectDataToBackendProject,
   ProjectNotFoundError
 } from 'src/types/project';
+import { SprintData } from 'src/types/sprint';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -57,8 +58,25 @@ export class ProjectService {
           return backendProjectToProjectData(data);
         }),
         switchMap((project: ProjectData) => {
-          // return this.createSprintInProject(project.id, { name: 'Backlog', startDate: undefined, endDate: undefined });
-          return of(project);
+          // when creating a sprint, populate it with a backlog
+          const basicBacklog: SprintData = {
+            id: -1,
+            name: 'Backlog',
+            startDate: new Date(),
+            endDate: new Date(),
+            isCompleted: false,
+            pointsCompleted: 0,
+            pointsAttempted: 0,
+            projectId: project.id,
+            isBacklog: true,
+            tasks: [],
+          };
+          return this.sprintService.createSprint(project.id, basicBacklog)
+            .pipe(
+              map((sprint) => {
+                return {...project, sprints: [sprint]};
+              }),
+            );
         }),
       );
   }
