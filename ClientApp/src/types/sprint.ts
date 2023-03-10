@@ -46,7 +46,7 @@ export class SprintNotFoundError extends Error {
 export function backendSprintToSprintData(backendSprint: BackendSprintData): SprintData {
   return {
     id: backendSprint.id,
-    name: '',
+    name: `Sprint ${backendSprint.id}`,
     startDate: new Date(backendSprint.startDate),
     endDate: new Date(backendSprint.endDate),
     isCompleted: backendSprint.isCompleted,
@@ -72,7 +72,7 @@ export function sprintDataToBackendSprint(sprint: SprintData): BackendSprintData
     storyPointsCompleted: sprint.pointsCompleted,
     isBacklog: sprint.isBacklog,
     isCompleted: sprint.isCompleted,
-    startDate: sprint.startDate.toISOString(),
-    endDate: sprint.endDate.toISOString(),
+    startDate: sprint.startDate ? sprint.startDate.toISOString() : '',
+    endDate: sprint.endDate ? sprint.endDate.toISOString() : '',
   };
 }

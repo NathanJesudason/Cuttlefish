@@ -6,8 +6,9 @@ import {
 
 import { MessageService } from 'primeng/api';
 
-import { ProjectPageComponent } from 'src/app/components/pages/project-page/project-page.component';
+import { SprintService } from 'src/app/services/sprint/sprint.service';
 
+import { ProjectPageComponent } from 'src/app/components/pages/project-page/project-page.component';
 import { ProjectData } from 'src/types/project';
 import { SprintData } from 'src/types/sprint';
 
@@ -28,6 +29,7 @@ export class CreateSprintModalComponent implements OnInit {
   inputIsBacklog: boolean = false;
 
   constructor(
+    private sprintService: SprintService,
     private messageService: MessageService,
   ) { }
 
@@ -44,11 +46,18 @@ export class CreateSprintModalComponent implements OnInit {
   }
 
   acceptModalInput() {
-    this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
-    // call to serverapi with the collected input* values
-    this.projectData.sprints.push(this.collectInputs());
-    this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
-    this.hideCreateSprintModal();
+    this.sprintService.createSprint(this.projectData.id, this.collectInputs()).subscribe({
+      next: (sprint: SprintData) => {
+        this.projectData.sprints.push(sprint);
+        this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
+        this.messageService.add({severity: 'success', summary: `Created sprint with id: ${sprint.id}`});
+        this.hideCreateSprintModal();
+      },
+      error: (err: Error) => {
+        this.messageService.add({severity: 'error', summary: `Error creating sprint: ${err.message}`});
+        this.hideCreateSprintModal();
+      },
+    });
   }
 
   cancelModalInput() {
@@ -58,7 +67,7 @@ export class CreateSprintModalComponent implements OnInit {
 
   collectInputs(): SprintData {
     return {
-      id: 2,
+      id: -1,
       name: this.inputName,
       startDate: this.inputStartDate,
       endDate: this.inputEndDate,

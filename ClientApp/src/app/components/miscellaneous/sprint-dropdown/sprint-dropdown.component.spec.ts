@@ -3,7 +3,9 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
 import { AccordionModule } from 'primeng/accordion';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
@@ -33,7 +35,7 @@ describe('SprintDropdownComponent', () => {
   };
   
   beforeEach(() => {
-    return MockBuilder(SprintDropdownComponent, AccordionModule)
+    return MockBuilder(SprintDropdownComponent, [AccordionModule, ConfirmDialogModule])
       .mock(CreateTaskModalComponent, { export: true });
   });
     

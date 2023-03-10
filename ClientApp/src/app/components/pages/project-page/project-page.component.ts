@@ -61,7 +61,6 @@ export class ProjectPageComponent {
 
     this.projectService.getProject(id, true, false).subscribe({
       next: (projectData: ProjectData) => {
-        console.log(projectData);
         this.projectData = projectData;
         this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
         this.pageLoading = false;
@@ -140,5 +139,10 @@ export class ProjectPageComponent {
 
   showCreateSprintModal() {
     (this.createSprintModal as any).showCreateSprintModal();
+  }
+
+  deleteSprint(sprintId: number) {
+    this.projectData.sprints = this.projectData.sprints.filter(sprint => sprint.id !== sprintId);
+    this.messageService.add({severity: 'success', summary: `Sprint ${sprintId} deleted`});
   }
 }
