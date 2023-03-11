@@ -24,6 +24,10 @@ describe('LabelsPageComponent', () => {
   ];
   const mockTasks: TaskData[] = [{
     id: 12345,
+    sprintID: 0,
+    priority: 0,
+    type: "",
+    cost: 0,
     name: 'Task Name',
     assignee: 'Me',
     storyPoints: 3,

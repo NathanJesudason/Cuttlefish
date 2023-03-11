@@ -19,7 +19,7 @@ import {
   isSprintData,
   SprintData
 } from 'src/types/sprint';
-import { TaskData } from 'src/types/task';
+import { isTaskData, TaskData } from 'src/types/task';
 
 @Component({
   selector: 'description-inplace',
@@ -38,6 +38,7 @@ export class DescriptionInplaceComponent implements OnInit {
     private projectService: ProjectService,
     private sprintService: SprintService,
     private messageService: MessageService,
+    private taskApi: TaskApi
   ) { }
 
   @ViewChild('descriptionInplace') descriptionInplace!: Inplace;
@@ -104,15 +105,28 @@ export class DescriptionInplaceComponent implements OnInit {
           if (isProjectData(this.entityData)) {
             this.entityData.description = this.text;
           }
+        }
+      })
+    }else if (isTaskData(this.entityData)){
+      if(this.text == this.entityData.description){
+        this.unSelect();
+        return;
+      }
+      const updatedTask = { ...this.entityData, description: this.text};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Description was updated'});
+          if(isTaskData(this.entityData)){
+          this.entityData.description = this.text;
+          this.unSelect();
+          }
+        },
+        error: (err: any) => {
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
           this.unSelect();
         },
-        error: (err) => {
-          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
-        },
       });
-    } /* else if (isTaskData(this.entityData)) {
-      ...
-    } */
+    }
   }
 
   cancelInput(event: any) {
