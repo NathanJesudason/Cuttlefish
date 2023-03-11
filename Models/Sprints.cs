@@ -13,6 +13,7 @@ namespace Cuttlefish.Models
         public int id { get; set; }
         [ForeignKey("Projects")]
         public int projectID { get; set; }
+        public string name { get; set; }
         public string goal { get; set; }
         public int storyPointsAttempted { get; set; }
         public int storyPointsCompleted { get; set; }
