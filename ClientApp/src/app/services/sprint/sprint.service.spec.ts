@@ -37,6 +37,7 @@ describe('SprintService', () => {
 
     const mockSprints: BackendSprintData[] = [{
       id: 1,
+      name: 'Sprint 1',
       projectID: 1,
       goal: 'Sprint 1 description',
       storyPointsAttempted: 10,

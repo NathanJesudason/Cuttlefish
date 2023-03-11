@@ -8,9 +8,18 @@ import {
 import { MessageService } from 'primeng/api';
 import { Inplace } from 'primeng/inplace';
 
-import { ProjectData } from 'src/types/project';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { SprintService } from 'src/app/services/sprint/sprint.service';
+
+import {
+  ProjectData,
+  isProjectData
+} from 'src/types/project';
 import { TaskData } from 'src/types/task';
-import { SprintData } from 'src/types/sprint';
+import {
+  SprintData,
+  isSprintData
+} from 'src/types/sprint';
 
 @Component({
   selector: 'title-inplace',
@@ -27,6 +36,8 @@ export class TitleInplaceComponent implements OnInit {
   updatedTitle!: string;
 
   constructor(
+    private projectService: ProjectService,
+    private sprintService: SprintService,
     private messageService: MessageService,
   ) { }
 
@@ -35,10 +46,35 @@ export class TitleInplaceComponent implements OnInit {
   }
 
   approveChanges() {
-    this.messageService.add({severity: 'success', summary: `Title was changed to ${this.updatedTitle}!`});
-    this.entityData.name = this.updatedTitle;
-    // when the time comes, add a serverApi call here to send change to backend
-    this.titleInplace.deactivate();
+    if (isProjectData(this.entityData)) {
+      const updatedProject = {...this.entityData, name: this.updatedTitle};
+      this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: `Title was changed to ${this.updatedTitle}!`});
+          this.entityData.name = this.updatedTitle;
+          this.titleInplace.deactivate();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating title: ${err.message}`});
+          this.titleInplace.deactivate();
+        },
+      });
+    } else if (isSprintData(this.entityData)) {
+      const updatedSprint = {...this.entityData, name: this.updatedTitle};
+      this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: `Title was changed to ${this.updatedTitle}!`});
+          this.entityData.name = this.updatedTitle;
+          this.titleInplace.deactivate();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating title: ${err.message}`});
+          this.titleInplace.deactivate();
+        },
+      });
+    } /* else if (isTaskData(this.entityData)) {
+      ...
+    } */
   }
 
   cancelInput() {

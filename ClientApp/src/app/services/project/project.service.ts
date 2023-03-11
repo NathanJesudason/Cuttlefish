@@ -139,4 +139,22 @@ export class ProjectService {
         }),
       );
   }
+
+  /**
+   * Update a project with the given data
+   * @param id the project to update
+   * @param project the data to update the project with
+   *  - `id` will be ignored, use the `id` parameter instead
+   * @returns an `Observable` that completes when the project is updated
+   */
+  updateProject(id: number, project: ProjectData): Observable<void> {
+    project.id = id;
+    const backendProject = projectDataToBackendProject(project);
+    return this.http.put<void>(`${this.baseUrl}Projects/${id}`, backendProject)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error updating project: ${err.error.message}`));
+        }),
+      );
+  }
 }

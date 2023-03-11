@@ -13,8 +13,23 @@ export type SprintData = {
   tasks: TaskData[];
 };
 
+export function isSprintData(obj: any): obj is SprintData {
+  return obj
+    && obj.id !== undefined && typeof obj.id === 'number'
+    && obj.name !== undefined && typeof obj.name === 'string'
+    && obj.startDate !== undefined
+    && obj.endDate !== undefined
+    && obj.isCompleted !== undefined && typeof obj.isCompleted === 'boolean'
+    && obj.pointsCompleted !== undefined && typeof obj.pointsCompleted === 'number'
+    && obj.pointsAttempted !== undefined && typeof obj.pointsAttempted === 'number'
+    && obj.projectId !== undefined && typeof obj.projectId === 'number'
+    && obj.isBacklog !== undefined && typeof obj.isBacklog === 'boolean'
+    && obj.tasks !== undefined && Array.isArray(obj.tasks);
+}
+
 export type BackendSprintData = {
   id: number;
+  name: string;
   projectID: number;
   goal: string;
   storyPointsAttempted: number;
@@ -46,7 +61,7 @@ export class SprintNotFoundError extends Error {
 export function backendSprintToSprintData(backendSprint: BackendSprintData): SprintData {
   return {
     id: backendSprint.id,
-    name: `Sprint ${backendSprint.id}`,
+    name: backendSprint.name,
     startDate: new Date(backendSprint.startDate),
     endDate: new Date(backendSprint.endDate),
     isCompleted: backendSprint.isCompleted,
@@ -66,6 +81,7 @@ export function backendSprintToSprintData(backendSprint: BackendSprintData): Spr
 export function sprintDataToBackendSprint(sprint: SprintData): BackendSprintData {
   return {
     id: sprint.id,
+    name: sprint.name,
     projectID: sprint.projectId,
     goal: '',
     storyPointsAttempted: sprint.pointsAttempted,

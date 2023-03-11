@@ -67,10 +67,14 @@ export class SprintService {
    * @returns an `Observable<SprintData>` that stores the created sprint
    */
   createSprint(projectId: number, sprint: SprintData): Observable<SprintData> {
-    sprint.pointsCompleted = 0;
-    sprint.pointsAttempted = 0;
-    sprint.projectId = projectId;
-    return this.http.post<BackendSprintData>(`${this.baseUrl}Sprints`, {...sprintDataToBackendSprint(sprint), id: undefined})
+    const newSprint: Partial<BackendSprintData> = {
+      ...sprintDataToBackendSprint(sprint),
+      id: undefined,
+      storyPointsCompleted: 0,
+      storyPointsAttempted: 0,
+      projectID: projectId,
+    }
+    return this.http.post<BackendSprintData>(`${this.baseUrl}Sprints`, newSprint)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error creating sprint: ${err.error.message}`));
@@ -91,6 +95,26 @@ export class SprintService {
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * Update a sprint with the given data
+   * @param id the id of the sprint to update
+   * @param sprint the data to update the sprint with
+   * - `id` will be ignored, the given `id` will be used
+   * @returns an `Observable<void>` that completes when the sprint is updated
+   */
+  updateSprint(id: number, sprint: SprintData): Observable<void> {
+    const backendSprint: BackendSprintData = {
+      ...sprintDataToBackendSprint(sprint),
+      id: id,
+    };
+    return this.http.put<void>(`${this.baseUrl}Sprints/${id}`, backendSprint)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error updating sprint: ${err.error.message}`));
         })
       );
   }
