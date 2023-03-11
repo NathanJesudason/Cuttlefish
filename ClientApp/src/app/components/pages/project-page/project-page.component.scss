@@ -27,3 +27,12 @@ title-inplace {
   display: grid;
   grid-template-columns: 100%;
 }
+
+#date-minus {
+  margin: auto 0.7rem;
+}
+
+#gantt-chart-button {
+  display: block;
+  margin-top: var(--content-padding);
+}

@@ -3,14 +3,25 @@
 </div>
 <div *ngIf="!pageLoading" [@basicFadeAnimation]>
   <title-inplace [entityData]="projectData" size="large"></title-inplace>
+
+  <date-inplace
+    [entityData]="projectData"
+    whichDate="start"
+  ></date-inplace>
+  <i class="pi pi-minus" id="date-minus"></i>
+  <date-inplace
+    [entityData]="projectData"
+    whichDate="end"
+  ></date-inplace>
+
   <button
     pButton
     id="gantt-chart-button"
-    class="p-button-raised p-button-sm"
+    class="p-button-sm"
     type="button"
     label="Gantt Chart"
     icon="pi pi-chart-bar"
-    [routerLink]="['/project', projectData ? projectData.id : -1, 'gantt']"
+    [routerLink]="['/project', projectData.id, 'gantt']"
   ></button>
 
   <p-divider></p-divider>
