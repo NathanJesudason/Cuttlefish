@@ -19,6 +19,20 @@
   margin-bottom: auto;
 }
 
+#dates-container {
+  grid-column: 1 / span 2;
+}
+
+#goal-container {
+  grid-column: 1 / span 2;
+}
+
+#goal-label {
+  margin: var(--content-padding) 0 0;
+  font-size: large;
+  font-weight: 600;
+}
+
 .sprint-dropdown-header-chip {
   margin-left: -0.5rem;
 }

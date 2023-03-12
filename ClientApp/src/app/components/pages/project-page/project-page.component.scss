@@ -36,3 +36,9 @@ title-inplace {
   display: block;
   margin-top: var(--content-padding);
 }
+
+#description-label {
+  margin: var(--content-padding) 0 0;
+  font-size: large;
+  font-weight: 600;
+}
