@@ -95,6 +95,9 @@ export class CreateSprintModalComponent implements OnInit {
   }
 
   verifyInputs(): boolean {
+    if (this.inputIsBacklog === true) {
+      return this.inputName != undefined;
+    }
     return this.inputName != undefined
       && this.inputStartDate !== undefined && this.inputStartDate !== null
       && this.inputEndDate !== undefined && this.inputEndDate !== null;
