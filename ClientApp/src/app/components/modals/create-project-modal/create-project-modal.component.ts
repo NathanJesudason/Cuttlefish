@@ -25,6 +25,7 @@ export class CreateProjectModalComponent implements OnInit {
   inputColor: string = '#ff0000';
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
+  inputDescription!: string;
   inputFunds!: number;
 
   constructor(
@@ -60,7 +61,6 @@ export class CreateProjectModalComponent implements OnInit {
   }
 
   cancelModalInput() {
-    this.messageService.add({severity: 'info', summary: 'Create project input cancelled'});
     this.hideCreateProjectModal();
   }
 
@@ -69,7 +69,7 @@ export class CreateProjectModalComponent implements OnInit {
       id: 0,
       name: this.inputName,
       color: this.inputColor,
-      description: '',
+      description: this.inputDescription || '',
       startDate: this.inputStartDate,
       endDate: this.inputEndDate,
       funds: this.inputFunds,

@@ -9,7 +9,7 @@
       'border-top-right-radius': 'var(--border-radius)'
     }"></div>
   </ng-template>
-  <p>{{ project.description }}</p>
+  <div [innerHTML]="project.description"></div>
   <ng-template pTemplate="footer">
     <div id="project-card-footer">
       <div class="project-card-footer-item">
