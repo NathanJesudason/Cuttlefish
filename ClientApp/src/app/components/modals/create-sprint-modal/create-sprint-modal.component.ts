@@ -23,10 +23,11 @@ export class CreateSprintModalComponent implements OnInit {
   
   createSprintModalShown: boolean = false;
 
-  inputName!: string;
+  inputName: string = '';
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
   inputIsBacklog: boolean = false;
+  inputGoal: string = '';
 
   constructor(
     private sprintService: SprintService,
@@ -46,6 +47,11 @@ export class CreateSprintModalComponent implements OnInit {
   }
 
   acceptModalInput() {
+    if (!this.verifyInputs()) {
+      this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
+      return;
+    }
+
     this.sprintService.createSprint(this.projectData.id, this.collectInputs()).subscribe({
       next: (sprint: SprintData) => {
         this.projectData.sprints.push(sprint);
@@ -61,7 +67,6 @@ export class CreateSprintModalComponent implements OnInit {
   }
 
   cancelModalInput() {
-    this.messageService.add({severity: 'info', summary: 'Create sprint input cancelled'});
     this.hideCreateSprintModal();
   }
 
@@ -69,6 +74,7 @@ export class CreateSprintModalComponent implements OnInit {
     return {
       id: -1,
       name: this.inputName,
+      goal: this.inputGoal,
       startDate: this.inputStartDate,
       endDate: this.inputEndDate,
       isCompleted: false,
@@ -81,9 +87,16 @@ export class CreateSprintModalComponent implements OnInit {
   }
 
   clearInputs() {
-    this.inputName = "";
+    this.inputName = '';
+    this.inputGoal = '';
     this.inputStartDate = null;
     this.inputEndDate = null;
     this.inputIsBacklog = false;
+  }
+
+  verifyInputs(): boolean {
+    return this.inputName != undefined
+      && this.inputStartDate !== undefined && this.inputStartDate !== null
+      && this.inputEndDate !== undefined && this.inputEndDate !== null;
   }
 }

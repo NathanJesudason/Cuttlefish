@@ -21,7 +21,7 @@ export class CreateProjectModalComponent implements OnInit {
   
   createProjectModalShown: boolean = false;
 
-  inputName!: string;
+  inputName: string = '';
   inputColor: string = '#ff0000';
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
