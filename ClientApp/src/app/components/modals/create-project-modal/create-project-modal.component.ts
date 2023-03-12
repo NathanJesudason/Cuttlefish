@@ -26,7 +26,7 @@ export class CreateProjectModalComponent implements OnInit {
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
   inputDescription!: string;
-  inputFunds!: number;
+  inputFunds: number = 0;
 
   constructor(
     private messageService: MessageService,
@@ -46,6 +46,11 @@ export class CreateProjectModalComponent implements OnInit {
   }
 
   acceptModalInput() {
+    if (!this.verifyInputs()) {
+      this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
+      return;
+    }
+
     this.projectService.createProject(this.collectInputs()).subscribe({
       next: (project: ProjectData) => {
         this.projects.push(project);
@@ -83,5 +88,12 @@ export class CreateProjectModalComponent implements OnInit {
     this.inputStartDate = null;
     this.inputEndDate = null;
     this.inputFunds = 0;
+    this.inputDescription = '';
+  }
+
+  verifyInputs(): boolean {
+    return this.inputName !== ''
+      && this.inputStartDate !== undefined && this.inputStartDate !== null
+      && this.inputEndDate !== undefined && this.inputEndDate !== null;
   }
 }
