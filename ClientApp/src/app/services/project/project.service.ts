@@ -62,6 +62,7 @@ export class ProjectService {
           const basicBacklog: SprintData = {
             id: -1,
             name: 'Backlog',
+            goal: '<p>A backlog to store all tasks not in a sprint</p>',
             startDate: new Date(),
             endDate: new Date(),
             isCompleted: false,

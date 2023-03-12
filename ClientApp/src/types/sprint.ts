@@ -3,6 +3,7 @@ import { TaskData } from './task';
 export type SprintData = {
   id: number;
   name: string;
+  goal: string;
   startDate: Date;
   endDate: Date;
   isCompleted: boolean;
@@ -17,6 +18,7 @@ export function isSprintData(obj: any): obj is SprintData {
   return obj
     && obj.id !== undefined && typeof obj.id === 'number'
     && obj.name !== undefined && typeof obj.name === 'string'
+    && obj.goal !== undefined && typeof obj.goal === 'string'
     && obj.startDate !== undefined
     && obj.endDate !== undefined
     && obj.isCompleted !== undefined && typeof obj.isCompleted === 'boolean'
@@ -62,6 +64,7 @@ export function backendSprintToSprintData(backendSprint: BackendSprintData): Spr
   return {
     id: backendSprint.id,
     name: backendSprint.name,
+    goal: backendSprint.goal,
     startDate: new Date(backendSprint.startDate),
     endDate: new Date(backendSprint.endDate),
     isCompleted: backendSprint.isCompleted,
@@ -83,7 +86,7 @@ export function sprintDataToBackendSprint(sprint: SprintData): BackendSprintData
     id: sprint.id,
     name: sprint.name,
     projectID: sprint.projectId,
-    goal: '',
+    goal: sprint.goal,
     storyPointsAttempted: sprint.pointsAttempted,
     storyPointsCompleted: sprint.pointsCompleted,
     isBacklog: sprint.isBacklog,

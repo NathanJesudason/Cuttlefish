@@ -27,6 +27,7 @@ describe('TitleInplaceComponent', () => {
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
+      goal: '',
       startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
       endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
       isCompleted: false,

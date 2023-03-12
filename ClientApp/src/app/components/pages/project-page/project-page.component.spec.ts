@@ -45,6 +45,7 @@ describe('ProjectPageComponent', () => {
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
+      goal: '',
       startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
       endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
       isCompleted: false,
@@ -103,6 +104,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -115,6 +117,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -129,6 +132,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -141,6 +145,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -159,6 +164,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -171,6 +177,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: true,
@@ -185,6 +192,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: true,
@@ -197,6 +205,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -215,6 +224,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: new Date('19 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
@@ -227,6 +237,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: new Date('18 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
@@ -241,6 +252,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: new Date('18 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
@@ -253,6 +265,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: new Date('19 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
