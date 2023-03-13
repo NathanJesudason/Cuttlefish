@@ -16,6 +16,7 @@ import {
 } from '@worktile/gantt';
 
 import { format } from 'date-fns';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import {
@@ -30,9 +31,9 @@ import { TaskData } from 'src/types/task';
   styleUrls: ['./gantt-page.component.css']
 })
 export class GanttPageComponent implements OnInit {
-  projectData!: ProjectData;
-
   items: GanttItem[] = [];
+
+  projectId!: number;
 
   // these strings come from date-fns format()
   viewOptions: GanttViewOptions = {
@@ -49,7 +50,7 @@ export class GanttPageComponent implements OnInit {
   selectedViewMode!: GanttViewType;
   
   constructor(
-    private serverApi: ServerApi,
+    private projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute,
   ) { }
@@ -60,20 +61,21 @@ export class GanttPageComponent implements OnInit {
   }
 
   loadProjectData() {
-    const id = Number(this.route.snapshot.paramMap.get('id')!);
+    this.projectId = Number(this.route.snapshot.paramMap.get('id')!);
 
-    try {
-      this.projectData = this.serverApi.getProjectData(id);
-    } catch (error) {
-      if (error instanceof ProjectNotFoundError) {
-        this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
-        return;
-      }
-    }
-
-    for (const sprint of this.projectData.sprints) {
-      this.items.push(...sprint.tasks.map(this.taskToGanttItem));
-    }
+    this.projectService.getProject(this.projectId, true, true).subscribe({
+      next: (data) => {
+        for (const sprint of data.sprints) {
+          this.items.push(...sprint.tasks.map(this.taskToGanttItem));
+        }
+      },
+      error: (error) => {
+        if (error instanceof ProjectNotFoundError) {
+          this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
+          return;
+        }
+      },
+    });
   }
 
   private taskToGanttItem(task: TaskData): GanttItem {
