@@ -92,7 +92,6 @@ export class ProjectPageComponent {
       this.collapseButtonText = 'Collapse All';
     }
     this.sprintsCollapsed = !this.sprintsCollapsed;
-    this.messageService.add({severity: 'success', summary: `Sprints are collapsed? ${this.sprintsCollapsed}`});
   }
 
   toggleHideCompletedSprints(event: {checked: boolean}) {
@@ -107,7 +106,6 @@ export class ProjectPageComponent {
         }
       }
     }
-    this.messageService.add({severity: 'success', summary: `Completed sprints are shown? ${event.checked}`});
   }
 
   // for use within the array's builtin sort()
