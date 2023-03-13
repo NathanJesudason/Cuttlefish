@@ -67,6 +67,7 @@ import { ProgressPickerComponent } from 'src/app/components/pickers/progress-pic
 import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
 import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-card/project-card.component';
 import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace/color-inplace.component';
+import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 
 
 @NgModule({
@@ -98,6 +99,7 @@ import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace
     ResetPasswordComponent,
     ProjectCardComponent,
     ColorInplaceComponent,
+    FundsInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

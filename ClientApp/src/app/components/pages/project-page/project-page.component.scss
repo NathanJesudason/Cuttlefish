@@ -48,4 +48,10 @@ color-inplace, title-inplace {
   margin: var(--content-padding) 0 0;
   font-size: large;
   font-weight: 600;
+  color: var(--text-color);
+}
+
+#sprints-header {
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
 }

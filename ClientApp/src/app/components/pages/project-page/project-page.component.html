@@ -25,6 +25,10 @@
     whichDate="end"
   ></date-inplace>
 
+  <funds-inplace
+    [projectData]="projectData"
+  ></funds-inplace>
+
   <p id="description-label">Description</p>
   <description-inplace
     [entityData]="projectData"
@@ -42,6 +46,8 @@
   ></button>
 
   <p-divider></p-divider>
+
+  <h2 id="sprints-header">Sprints</h2>
 
   <p-toolbar>
     <div class="p-toolbar-group-start">

@@ -32,7 +32,7 @@ describe('ColorInplaceComponent', () => {
   });
 
   it('should have correct inplace structure', () => {
-    const fixture = MockRender(ColorInplaceComponent, {projectData: data});
+    MockRender(ColorInplaceComponent, {projectData: data});
 
     const colorpicker = ngMocks.find('p-colorpicker');
     expect(colorpicker).withContext('primeng\'s colorpicker HTML element exists').toBeTruthy();
