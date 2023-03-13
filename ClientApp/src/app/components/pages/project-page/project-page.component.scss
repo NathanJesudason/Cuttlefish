@@ -1,6 +1,13 @@
-title-inplace {
-  display: block;
-  margin-bottom: 0.6em;
+#color-and-title {
+  width: 100%;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  column-gap: calc(var(--content-padding) * 0.3);
+  margin-bottom: var(--content-padding);
+}
+
+color-inplace, title-inplace {
+  margin: auto 0;
 }
 
 :host ::ng-deep {

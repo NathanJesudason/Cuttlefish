@@ -78,7 +78,6 @@ export class TitleInplaceComponent implements OnInit {
   }
 
   cancelInput() {
-    this.messageService.add({severity: 'info', summary: 'Title update was cancelled'});
     this.updatedTitle = this.entityData.name;
     this.titleInplace.deactivate();
   }

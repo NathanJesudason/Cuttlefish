@@ -1,8 +1,19 @@
 <div id="page-loading" *ngIf="pageLoading" [@basicFadeAnimation]>
   <p-progressSpinner></p-progressSpinner>
 </div>
-<div *ngIf="!pageLoading" [@basicFadeAnimation]>
-  <title-inplace [entityData]="projectData" size="large"></title-inplace>
+<div
+  *ngIf="!pageLoading"
+  [@basicFadeAnimation]
+>
+  <div id="color-and-title">
+    <color-inplace
+      [projectData]="projectData"
+    ></color-inplace>
+    <title-inplace
+      [entityData]="projectData"
+      size="large"
+    ></title-inplace>
+  </div>
 
   <date-inplace
     [entityData]="projectData"

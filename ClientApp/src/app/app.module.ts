@@ -66,6 +66,7 @@ import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
 import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-card/project-card.component';
+import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace/color-inplace.component';
 
 
 @NgModule({
@@ -96,6 +97,7 @@ import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-c
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ProjectCardComponent,
+    ColorInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
