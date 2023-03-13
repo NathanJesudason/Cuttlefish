@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+
 import {
   MockBuilder,
   MockRender,
@@ -22,7 +24,7 @@ describe('ColorInplaceComponent', () => {
     sprints: [],
   };
   
-  beforeEach(() => MockBuilder(ColorInplaceComponent, [ColorPickerModule, ToastModule]));
+  beforeEach(() => MockBuilder(ColorInplaceComponent, [ColorPickerModule, ToastModule, FormsModule]));
 
   it('should create', () => {
     MockRender(ColorInplaceComponent, {projectData: data});
