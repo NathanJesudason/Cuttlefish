@@ -8,6 +8,7 @@ import {
   catchError,
   map,
   Observable,
+  switchMap,
   throwError
 } from 'rxjs';
 
@@ -52,7 +53,14 @@ export class SprintService {
             project.sprints.push(backendSprintToSprintData(sprint));
           });
           return project;
-        })
+        }),
+        /*
+        switchMap((project: ProjectData) => {
+          if (getTasks) {
+            // figure out how to get tasks for each sprint
+          }
+        }),
+        */
       );
   }
 

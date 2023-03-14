@@ -60,3 +60,8 @@
 .date-minus {
   margin: auto 0.7rem;
 }
+
+#tasks-header {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}

@@ -71,7 +71,7 @@ export class CreateProjectModalComponent implements OnInit {
 
   collectInputs(): ProjectData {
     return {
-      id: 0,
+      id: -1,
       name: this.inputName,
       color: this.inputColor,
       description: this.inputDescription || '',

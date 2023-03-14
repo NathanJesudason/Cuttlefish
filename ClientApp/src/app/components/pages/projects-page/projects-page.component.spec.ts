@@ -10,7 +10,10 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 
-import { Observable, of } from 'rxjs';
+import {
+  Observable,
+  of
+} from 'rxjs';
 
 import { ProjectService } from 'src/app/services/project/project.service';
 import { AuthService } from 'src/app/services/auth/auth.service';

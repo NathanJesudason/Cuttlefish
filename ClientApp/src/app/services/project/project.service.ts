@@ -107,6 +107,7 @@ export class ProjectService {
    * @param id the id of the project to get
    * @param getSprints whether to get the sprints for the project
    * @param getTasks whether to get the tasks for the sprints
+   * - ignored if `getSprints` is false
    * @returns the project `Observable<ProjectData>`
    */
   getProject(id: number, getSprints: boolean, getTasks: boolean): Observable<ProjectData> {

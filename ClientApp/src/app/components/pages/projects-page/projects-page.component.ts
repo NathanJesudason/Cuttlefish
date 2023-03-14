@@ -45,7 +45,7 @@ export class ProjectsPageComponent implements OnInit {
         this.projects = projects;
       },
       error: (err) => {
-        console.log(err);
+        this.messageService.add({severity: 'error', summary: err.error.message});
       }
     });
   }

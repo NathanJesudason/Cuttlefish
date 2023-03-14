@@ -118,9 +118,9 @@ export class DescriptionInplaceComponent implements OnInit {
           this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
         },
       });
-    } else {
-      // update task here
-    }
+    } /* else if (isTaskData(this.entityData)) {
+      ...
+    } */
   }
 
   cancelInput(event: any) {

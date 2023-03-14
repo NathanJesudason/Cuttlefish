@@ -93,6 +93,8 @@ export class DateInplaceComponent implements OnInit {
           this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
         },
       });
-    }
+    } /* else if (isTaskData(this.entityData)) {
+      ...
+    } */
   }
 }

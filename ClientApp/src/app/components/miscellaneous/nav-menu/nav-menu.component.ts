@@ -78,7 +78,7 @@ export class NavMenuComponent implements OnInit {
         this.menuItems[0].items = projectMenuItems;
       },
       error: (err) => {
-        console.log(err);
+        this.menuItems[0].items?.push({label: 'Error loading projects'});
       },
     });
     

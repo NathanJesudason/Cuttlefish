@@ -44,5 +44,4 @@ export class ColorInplaceComponent implements OnInit {
       });
     }
   }
-
 }
