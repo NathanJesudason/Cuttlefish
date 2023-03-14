@@ -55,14 +55,6 @@ export class DescriptionInplaceComponent implements OnInit {
     }
   }
 
-  generateLabel(): string {
-    if (isSprintData(this.entityData)) {
-      return 'goal';
-    } else {
-      return 'description';
-    }
-  }
-
   select() {
     if (this.text === this.defaultText) {
       this.text = '';
@@ -115,7 +107,7 @@ export class DescriptionInplaceComponent implements OnInit {
           this.unSelect();
         },
         error: (err) => {
-          this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
         },
       });
     } /* else if (isTaskData(this.entityData)) {
