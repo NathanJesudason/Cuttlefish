@@ -9,6 +9,7 @@ export type TaskData = {
   progress: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
   startDate?: Date;
   endDate?: Date;
+  dependencies?: string[];
   labels?: LabelData[];
 };
 
