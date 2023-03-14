@@ -61,8 +61,17 @@ export class SprintDropdownComponent implements OnInit {
         label: 'Hide completed sprint',
         icon: 'pi pi-eye-slash',
         command: () => this.hide(),
-      })
+      });
     }
+
+    if (!this.data.isBacklog && this.sprintStarted && !this.data.isCompleted) {
+      this.optionsMenuItems.push({
+        label: 'Complete sprint',
+        icon: 'pi pi-check',
+        command: () => this.completeThisSprint(),
+      });
+    }
+
     this.optionsMenuItems.push({
       label: this.data.isBacklog ? 'Delete backlog' : 'Delete sprint',
       icon: 'pi pi-trash',
@@ -119,6 +128,27 @@ export class SprintDropdownComponent implements OnInit {
       error: (err) => {
         console.log(err);
       }
+    });
+  }
+
+  completeThisSprint() {
+    /*
+      need to do lots of things here:
+        - give user the choice of what to do with incomplete tasks
+          - move them to the next sprint
+          - move them to the backlog
+          - stop completing sprint to deal with them manually
+        - show sprint report (how many tasks completed, how many incomplete, etc)
+        - mark sprint as completed
+     */
+    const updatedSprint = {...this.data, isCompleted: true };
+    this.sprintService.updateSprint(this.data.id, updatedSprint).subscribe({
+      next: () => {
+        this.data.isCompleted = true;
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 
