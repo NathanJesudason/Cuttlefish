@@ -11,6 +11,11 @@ import {
   ngMocks
 } from 'ng-mocks';
 
+import {
+  Observable,
+  of
+} from 'rxjs';
+
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
 
@@ -18,7 +23,7 @@ import { NgxGanttModule } from '@worktile/gantt';
 
 import { GanttPageComponent } from './gantt-page.component';
 import { ProjectData } from 'src/types/project';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 describe('GanttPageComponent', () => {
   const data: ProjectData = {
@@ -31,6 +36,7 @@ describe('GanttPageComponent', () => {
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
+      goal: '',
       startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
       endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
       isCompleted: false,
@@ -59,9 +65,9 @@ describe('GanttPageComponent', () => {
           paramMap: convertToParamMap({ 'id': data.id })
         },
       } as Partial<ActivatedRoute>, { export: true })
-      .mock(ServerApi, {
-        getProjectData: (id: number): ProjectData => data,
-      } as Partial<ServerApi>);
+      .mock(ProjectService, {
+        getProject: (id: number, getSprints: boolean, getTasks: boolean): Observable<ProjectData> => of(data),
+      } as Partial<ProjectService>);
   });
 
   it('should create', () => {

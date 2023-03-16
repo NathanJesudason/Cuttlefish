@@ -5,6 +5,7 @@ import {
   RouterModule
 } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   MockBuilder,
@@ -20,6 +21,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import { DividerModule } from 'primeng/divider';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
 
@@ -43,6 +45,7 @@ describe('ProjectPageComponent', () => {
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
+      goal: '',
       startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
       endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
       isCompleted: false,
@@ -74,6 +77,8 @@ describe('ProjectPageComponent', () => {
         FormsModule,
         ToastModule,
         DividerModule,
+        BrowserAnimationsModule,
+        ProgressSpinnerModule,
       ])
       .mock(SprintDropdownComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
@@ -100,6 +105,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -112,6 +118,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -126,6 +133,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -138,6 +146,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -156,6 +165,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -168,6 +178,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: true,
@@ -182,6 +193,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: true,
@@ -194,6 +206,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: blankDate,
         endDate: blankDate,
         isCompleted: false,
@@ -212,6 +225,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: new Date('19 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
@@ -224,6 +238,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: new Date('18 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
@@ -238,6 +253,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 1,
         name: '',
+        goal: '',
         startDate: new Date('18 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,
@@ -250,6 +266,7 @@ describe('ProjectPageComponent', () => {
       {
         id: 0,
         name: '',
+        goal: '',
         startDate: new Date('19 Jan 2023 00:00:00 GMT'),
         endDate: blankDate,
         isCompleted: false,

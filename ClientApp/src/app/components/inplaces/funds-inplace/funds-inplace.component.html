@@ -1,0 +1,25 @@
+<p id="funds-label">Funds</p>
+<p-inplace
+  (preventClick)="true"
+  #fundsInplace
+>
+  <ng-template pTemplate="display">
+    <span>{{ funds | currency: 'USD': 'symbol-narrow' }}</span>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <p-inputNumber
+      [(ngModel)]="funds"
+      mode="currency"
+      currency="USD"
+      locale="en-US"
+    ></p-inputNumber>
+    <span class="p-buttonset">
+      <button pButton icon="pi pi-check" (click)="approveChanges($event)"></button>
+      <button pButton icon="pi pi-times" (click)="cancelInput($event)"></button>
+    </span>
+  </ng-template>
+</p-inplace>
+
+
+<p-toast></p-toast>

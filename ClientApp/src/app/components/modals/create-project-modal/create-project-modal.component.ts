@@ -6,6 +6,8 @@ import {
 
 import { MessageService } from 'primeng/api';
 
+import { ProjectService } from 'src/app/services/project/project.service';
+
 import { ProjectData } from 'src/types/project';
 
 @Component({
@@ -19,14 +21,16 @@ export class CreateProjectModalComponent implements OnInit {
   
   createProjectModalShown: boolean = false;
 
-  inputName!: string;
+  inputName: string = '';
   inputColor: string = '#ff0000';
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
-  inputFunds!: number;
+  inputDescription!: string;
+  inputFunds: number = 0;
 
   constructor(
     private messageService: MessageService,
+    private projectService: ProjectService,
   ) { }
 
   ngOnInit(): void {
@@ -42,23 +46,35 @@ export class CreateProjectModalComponent implements OnInit {
   }
 
   acceptModalInput() {
-    this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
-    // call to serverapi with the collected input* values
-    this.projects.push(this.collectInputs());
-    this.hideCreateProjectModal();
+    if (!this.verifyInputs()) {
+      this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
+      return;
+    }
+
+    this.projectService.createProject(this.collectInputs()).subscribe({
+      next: (project: ProjectData) => {
+        this.projects.push(project);
+        this.hideCreateProjectModal();
+        this.messageService.add({severity: 'success', summary: `Project created! id: ${project.id}, name: ${project.name}`});
+      },
+      error: (err) => {
+        console.log(err);
+        this.hideCreateProjectModal();
+        this.messageService.add({severity: 'error', summary: `Project creation error: ${err.message}`});
+      }
+    });
   }
 
   cancelModalInput() {
-    this.messageService.add({severity: 'info', summary: 'Create project input cancelled'});
     this.hideCreateProjectModal();
   }
 
   collectInputs(): ProjectData {
     return {
-      id: 2,
+      id: -1,
       name: this.inputName,
       color: this.inputColor,
-      description: '',
+      description: this.inputDescription || '',
       startDate: this.inputStartDate,
       endDate: this.inputEndDate,
       funds: this.inputFunds,
@@ -72,5 +88,12 @@ export class CreateProjectModalComponent implements OnInit {
     this.inputStartDate = null;
     this.inputEndDate = null;
     this.inputFunds = 0;
+    this.inputDescription = '';
+  }
+
+  verifyInputs(): boolean {
+    return this.inputName !== ''
+      && this.inputStartDate !== undefined && this.inputStartDate !== null
+      && this.inputEndDate !== undefined && this.inputEndDate !== null;
   }
 }

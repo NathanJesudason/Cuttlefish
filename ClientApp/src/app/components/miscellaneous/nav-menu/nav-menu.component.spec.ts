@@ -4,11 +4,16 @@ import {
   ngMocks
 } from 'ng-mocks';
 
+import {
+  Observable,
+  of
+} from 'rxjs';
+
 import { MenubarModule } from 'primeng/menubar';
 
 import { ProjectData } from 'src/types/project';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 import { NavMenuComponent } from './nav-menu.component';
 
@@ -23,6 +28,7 @@ describe('NavMenuComponent', () => {
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
+      goal: '',
       startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
       endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
       isCompleted: false,
@@ -46,9 +52,9 @@ describe('NavMenuComponent', () => {
   
   beforeEach(() => {
     return MockBuilder(NavMenuComponent, [MenubarModule])
-      .mock(ServerApi, {
-        getAllProjects: (id: number): ProjectData[] => [data],
-      } as Partial<ServerApi>);
+      .mock(ProjectService, {
+        getAllProjects: (id: number): Observable<ProjectData[]> => of([data]),
+      } as Partial<ProjectService>);
   });
 
   it('should create', () => {

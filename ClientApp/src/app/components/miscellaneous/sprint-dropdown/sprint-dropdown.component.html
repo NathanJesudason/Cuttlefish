@@ -35,7 +35,7 @@
     <div class="sprint-dropdown-content">
       <title-inplace class="sprint-dropdown-content-item" [entityData]="data" size="medium"></title-inplace>
 
-      <span *ngIf="!data.isBacklog" class="sprint-dropdown-content-item">
+      <span class="sprint-dropdown-content-item">
         <button
           pButton pRipple
           type="button" icon="pi pi-ellipsis-v"
@@ -45,7 +45,7 @@
         <p-menu #optionsMenu [popup]="true" [model]="optionsMenuItems"></p-menu>
       </span>
 
-      <span *ngIf="!data.isBacklog" class="sprint-dropdown-content-item">
+      <span *ngIf="!data.isBacklog" id="dates-container" class="sprint-dropdown-content-item">
         <date-inplace
           [entityData]="data"
           whichDate="start"
@@ -58,9 +58,19 @@
           [disabled]="data.isCompleted"
         ></date-inplace>
       </span>
+
+      <div id="goal-container">
+        <p id="goal-label">Goal</p>
+        <description-inplace
+          [entityData]="data"
+          defaultText="Enter a goal..."
+        ></description-inplace>
+      </div>
     </div>
 
     <p-divider></p-divider>
+
+    <h4 id="tasks-header">Tasks</h4>
 
     <button
       pButton pRipple
@@ -82,3 +92,14 @@
   #createTaskModal
   [sprintData]="data"
 ></create-task-modal>
+
+<p-confirmDialog
+  header="Confirm Sprint Deletion"
+  icon="pi pi-exclamation-triangle"
+  acceptIcon="pi pi-trash"
+  acceptLabel="Delete"
+  acceptButtonStyleClass="p-button-danger"
+  rejectIcon=""
+  rejectLabel="Cancel"
+  rejectButtonStyleClass="p-button-text p-button-secondary"
+></p-confirmDialog>

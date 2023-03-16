@@ -8,12 +8,22 @@ import {
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { ToastModule } from 'primeng/toast';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import {
+  Observable,
+  of
+} from 'rxjs';
+
+import { ProjectService } from 'src/app/services/project/project.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
+
+import { ProjectData } from 'src/types/project';
 
 import { ProjectsPageComponent } from './projects-page.component';
-import { ProjectData } from 'src/types/project';
 import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
+import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-card/project-card.component';
 
 describe('ProjectsPageComponent', () => {
   const data: ProjectData[] = [{
@@ -26,6 +36,7 @@ describe('ProjectsPageComponent', () => {
     sprints: [{
       id: 234597,
       name: 'Sprint Name',
+      goal: '',
       startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
       endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
       isCompleted: false,
@@ -48,11 +59,18 @@ describe('ProjectsPageComponent', () => {
   }];
 
   beforeEach(() => {
-    return MockBuilder(ProjectsPageComponent, [CardModule, ButtonModule, RouterModule])
+    return MockBuilder(ProjectsPageComponent, [CardModule, ButtonModule, RouterModule, ToastModule])
       .mock(CreateProjectModalComponent, { export: true })
-      .mock(ServerApi, {
-        getAllProjects: (id: number): ProjectData[] => data,
-      } as Partial<ServerApi>);
+      .mock(ProjectCardComponent, { export: true })
+      .mock(ProjectService, {
+        getAllProjects: (id: number): Observable<ProjectData[]> => of(data),
+      } as Partial<ProjectService>)
+      .mock(AuthService, {
+        getUsernameFromToken: (): string => 'Test User',
+      })
+      .mock(UserService, {
+        getUserName: (): Observable<string> => of('Test User'),
+      });
   });
 
   it('should create', () => {

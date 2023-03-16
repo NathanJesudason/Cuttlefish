@@ -1,24 +1,11 @@
-<h1>Welcome, user!</h1>
+<h1>Welcome, {{username}}!</h1>
 
 <div id="project-cards-container">
-  <p-card
-    class="project-card"
+  <project-card
     *ngFor="let project of projects"
-    header="{{ project.id }}: {{ project.name }}"
-  >
-    <ng-template pTemplate="header">
-      <div [ngStyle]="{
-        'background-color': project.color,
-        'height': '10em',
-        'border-top-left-radius': 'var(--border-radius)',
-        'border-top-right-radius': 'var(--border-radius)'
-      }"></div>
-    </ng-template>
-    <p>{{ project.description }}</p>
-    <ng-template pTemplate="footer">
-      <button pButton type="button" class="p-button-raised p-button-sm" label="Go to Project" icon="pi pi-briefcase" [routerLink]="['/project', project.id]"></button>
-    </ng-template>
-  </p-card>
+    [project]="project"
+    (deleteProject)="deleteProject(project.id)"
+  ></project-card>
 </div>
 
 <div id="project-modal-button-container">
@@ -35,3 +22,5 @@
   #createProjectModal
   [projects]="projects"
 ></create-project-modal>
+
+<p-toast></p-toast>

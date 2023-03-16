@@ -25,3 +25,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+h1 {
+  color: var(--text-color);
+}

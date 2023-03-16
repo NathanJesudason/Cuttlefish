@@ -14,7 +14,8 @@ import { MessageService } from 'primeng/api';
 
 import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
 import { CreateSprintModalComponent } from 'src/app/components/modals/create-sprint-modal/create-sprint-modal.component';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { BasicFadeAmination } from 'src/app/animations/animations';
 
 import {
   ProjectData,
@@ -27,8 +28,11 @@ import { SprintData } from 'src/types/sprint';
   templateUrl: './project-page.component.html',
   styleUrls: ['./project-page.component.scss'],
   providers: [MessageService],
+  animations: [BasicFadeAmination],
 })
 export class ProjectPageComponent {
+  pageLoading: boolean = true;
+  
   projectData!: ProjectData;
 
   collapseButtonText: 'Collapse All' | 'Expand All' = 'Collapse All';
@@ -39,7 +43,7 @@ export class ProjectPageComponent {
   @ViewChild('createSprintModal') createSprintModal!: ElementRef<CreateSprintModalComponent>;
   
   constructor(
-    private serverApi: ServerApi,
+    private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -47,6 +51,7 @@ export class ProjectPageComponent {
 
   ngOnInit() {
     this.route.params.subscribe(_routeParams => {
+      this.pageLoading = true;
       this.loadProjectData();
     });
   }
@@ -54,16 +59,20 @@ export class ProjectPageComponent {
   loadProjectData() {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
 
-    try {
-      this.projectData = this.serverApi.getProjectData(id);
-    } catch (error) {
-      if (error instanceof ProjectNotFoundError) {
-        this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
-        return;
+    this.projectService.getProject(id, true, false).subscribe({
+      next: (projectData: ProjectData) => {
+        this.projectData = projectData;
+        this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
+        this.pageLoading = false;
+      },
+      error: (err) => {
+        if (err instanceof ProjectNotFoundError) {
+          this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
+          return;
+        }
+        console.log(err);
       }
-    }
-
-    this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
+    });
   }
 
   toggleCollapseSprints() {
@@ -83,7 +92,6 @@ export class ProjectPageComponent {
       this.collapseButtonText = 'Collapse All';
     }
     this.sprintsCollapsed = !this.sprintsCollapsed;
-    this.messageService.add({severity: 'success', summary: `Sprints are collapsed? ${this.sprintsCollapsed}`});
   }
 
   toggleHideCompletedSprints(event: {checked: boolean}) {
@@ -98,7 +106,6 @@ export class ProjectPageComponent {
         }
       }
     }
-    this.messageService.add({severity: 'success', summary: `Completed sprints are shown? ${event.checked}`});
   }
 
   // for use within the array's builtin sort()
@@ -130,5 +137,10 @@ export class ProjectPageComponent {
 
   showCreateSprintModal() {
     (this.createSprintModal as any).showCreateSprintModal();
+  }
+
+  deleteSprint(sprintId: number) {
+    this.projectData.sprints = this.projectData.sprints.filter(sprint => sprint.id !== sprintId);
+    this.messageService.add({severity: 'success', summary: `Sprint ${sprintId} deleted`});
   }
 }
