@@ -9,7 +9,10 @@
 <span>{{ taskData.assignee }}</span>
 
 <h4>Description:</h4>
-<description-inplace [entityData]="taskData"></description-inplace>
+<description-inplace
+    [entityData]="taskData"
+    defaultText="Enter a description..."
+></description-inplace>
 
 <date-inplace
     [entityData]="taskData"

@@ -1,4 +1,12 @@
-<button pButton id="project-back-button" class="p-button-raised p-button-sm" type="button" label="Back to Project" icon="pi pi-arrow-left" [routerLink]="['/project', projectData.id]"></button>
+<button
+  pButton
+  id="project-back-button"
+  class="p-button-raised p-button-sm"
+  type="button"
+  label="Back to Project"
+  icon="pi pi-arrow-left"
+  [routerLink]="['/project', projectId]"
+></button>
 
 <div id="view-modes-container">
   <p-radioButton id="day-view-selector" name="viewModes" value="day" label="Day" [(ngModel)]="selectedViewMode"></p-radioButton>
