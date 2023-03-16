@@ -1,0 +1,26 @@
+.options {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(4, min-content + 1em);
+    row-gap: 0.5em;
+  }
+  
+  :host ::ng-deep {  
+    .p-overlaypanel {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      width: min-content;
+      height: min-content;
+    }
+  }
+  
+  .progressTag {
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+  }
+  
+  .dependencyHead:hover {
+    cursor: pointer;
+  }

@@ -1,0 +1,18 @@
+<p-tag class="dependencyListHead" styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{selectedDependency}}"></p-tag>
+<p-overlayPanel
+  [dismissable]="true"
+  [showCloseIcon]="true"
+  #overlayPanel
+>
+  <div class="options">
+    
+<!--
+    This HTML should load the appropriate dependencies in the dropdown.
+    Clicking on a dependency should forward the user to the correct
+    link (/task/<task_id>) and close the dropdown.
+-->
+
+  </div>
+</p-overlayPanel>
+
+<p-toast></p-toast>
