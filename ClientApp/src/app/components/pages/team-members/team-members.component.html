@@ -1,37 +1,18 @@
 <app-team-members-form>
 </app-team-members-form>
 
-<!-- <div>
-    <h1>Get team members from database</h1>
-    <table>
-        <tr>
-                <th>Username</th>
-                <th>Role</th>
-        </tr>
-            <tr *ngFor = "let member of service.list">
-            <td (click)="populateForm(member)">{{member.username}}</td>
-            <td (click)="populateForm(member)">{{member.password}}</td>
-            <td (click)="populateForm(member)">{{member.email}}</td>
-            <td (click)="populateForm(member)">{{member.roles}}</td>
-            <td *ngIf="role === 'Admin'">
-                <i  (click)="onDelete(member.id)">Delete</i>
-            </td>
-            </tr>
-    </table>
-</div> -->
-
-<p-table [value]="teammemberToProjectService.teamMemberToProjectList">
-    <ng-template pTemplate="header" let-teamMemberToProjectList>
+<p-table [columns]="listofMembers" [value]="listofProjects">
+    <ng-template pTemplate="header" >
         <tr>
             <th>Team members Per Project </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-teamMembersToProjectList>
+    <ng-template pTemplate="body"  let-projects let-columns="columns">
         <tr>
-            <th>{{teamMembersToProjectList.projectID}}</th>
+
+        <th >{{projects}}</th>
+        <!-- <td >{{listofMembers}}</td> -->
         </tr>
-        <tr>
-            <td>{{teamMembersToProjectList.teamMemberID}}</td>
-        </tr>
+        
     </ng-template>
 </p-table>
