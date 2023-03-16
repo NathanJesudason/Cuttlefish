@@ -12,13 +12,14 @@ import { UserService } from 'src/app/services/user/user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TeamMemberToProjectService } from 'src/app/services/team-member-to-project/team-member-to-project.service';
 import { MessageService } from 'primeng/api';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 
 
 @Component({
   selector: 'app-team-members-form',
   templateUrl: './team-members-form.component.html',
-  styles: [],
+  styleUrls: ['./team-members-form.component.css'],
   providers: [MessageService]
 })
 export class TeamMembersFormComponent implements OnInit {
@@ -35,11 +36,13 @@ export class TeamMembersFormComponent implements OnInit {
   
   
 
-  constructor(public teamMemberService: TeamMemberService, private serverApi: ServerApi, private user: UserService, private auth: AuthService,
+  constructor(public teamMemberService: TeamMemberService, private projectsApi: ProjectService, private user: UserService, private auth: AuthService,
     private teammemberToProject: TeamMemberToProjectService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.projects = this.serverApi.getAllProjects()
+    this.projectsApi.getAllProjects().subscribe(
+      res => this.projects = res 
+    )
 
 
     this.user.getRole().subscribe(value =>
@@ -49,14 +52,6 @@ export class TeamMembersFormComponent implements OnInit {
         
       })
 
-    // const projectMenuItems = this.projects.map(project => {
-    //   return {
-    //     icon: 'pi pi-briefcase',
-    //     label: `${project.id}: ${project.name}`,
-    //     routerLink: ['/project', project.id],
-    //   } as MenuItem;
-    // });
-    // this.menuItems[0].items = projectMenuItems;
   }
   
 
@@ -66,17 +61,12 @@ export class TeamMembersFormComponent implements OnInit {
       console.log("project", this.projects)
       console.log("form", form.value)
       this.addTeamMemberToProject(form)
-      // this.insertRecord(form)
     }
-    // else{
-      // this.updateRecord(form)
-    // }
   }
 
   addTeamMemberToProject(form: NgForm){
     this.teamMemberService.getTeamMemberByUsername(form.value.username).subscribe(
       res =>{
-        console.log("res",res)
         this.teamMember = res as TeamMember
         this.teammemberToProject.teamMemberToProject = {
           projectID: form.value.project.id,
@@ -84,7 +74,6 @@ export class TeamMembersFormComponent implements OnInit {
         }
         this.teammemberToProject.postTeamMemberToProject().subscribe(
           res =>{
-            console.log("res",res)
             this.messageService.add({severity: 'success', summary: 'Team member added'})
           },
           err => {

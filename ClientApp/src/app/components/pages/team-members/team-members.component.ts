@@ -4,9 +4,11 @@ import {
 } from '@angular/core';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { TeamMemberToProjectService } from 'src/app/services/team-member-to-project/team-member-to-project.service';
 import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { ProjectData } from 'src/types/project';
 import { TeamMemberToProject } from 'src/types/team-member-to-project';
 
 import { TeamMember } from 'src/types/team-member.model';
@@ -18,18 +20,27 @@ import { TeamMember } from 'src/types/team-member.model';
 })
 export class TeamMembersComponent implements OnInit {
 
-  constructor(public service: TeamMemberService, private auth: AuthService, private user: UserService, public teammemberToProjectService: TeamMemberToProjectService) { }
+  constructor(public service: TeamMemberService, private auth: AuthService, private user: UserService, private projectsApi: ProjectService, public teammemberToProjectService: TeamMemberToProjectService) { }
 
   public role!: string
-  public list!: TeamMemberToProject[]
-  public listofProjects: number[] = []
-  public listofProjects2: number[] = []
-  public listofMembers: number[] = []
+  public listProjectsToTeamMembers!: TeamMemberToProject[]
+
+  public listofProjects!: ProjectData[]
+
+  public listofMembers!: TeamMember[]
+
   public teamMembersToProject!: TeamMemberToProject
 
   ngOnInit(): void {
     if(this.auth.isLoggedIn())
       this.service.refreshList()
+      this.projectsApi.getAllProjects().subscribe(
+        res=> this.listofProjects = res
+      )
+      this.service.getTeamMember().subscribe(
+        res=> this.listofMembers = res as TeamMember[]
+      )
+      
 
       // check which role the user is and display certain things in the UI. 
     this.user.getRole().subscribe(value =>
@@ -42,29 +53,30 @@ export class TeamMembersComponent implements OnInit {
       
   }
 
-  
+  userInProject(projId: number, teamMemberId: number ){
+
+    
+    var inProject = false
+    var teammember: any
+    for(teammember in this.listProjectsToTeamMembers){
+      if (this.listProjectsToTeamMembers[teammember].projectID === projId && 
+        this.listProjectsToTeamMembers[teammember].teamMemberID === teamMemberId)
+        {
+          inProject = true
+        }
+    }
+
+    this.teammemberToProjectService.refreshList()
+    return inProject
+  }
   
   populateTable(){
     //stopped at getting data for project name and team member by it and displaying it on the table. 
     this.teammemberToProjectService.refreshList().subscribe(
       res =>{
-          this.teammemberToProjectService.teamMemberToProjectList = res as TeamMemberToProject[]
-          this.list = this.teammemberToProjectService.teamMemberToProjectList
-          console.log("this.listtt", this.list)
+          this.listProjectsToTeamMembers = res as TeamMemberToProject[]
 
-          // assign two arrays: one for projectIDs and one for teammemberIDs
-          this.teammemberToProjectService.teamMemberToProjectList.map(
-            list =>{
-              this.listofProjects.push(list.projectID)
-              this.listofMembers.push(list.teamMemberID)
-            }
-          )
-            // remove duplicate values
-          this.listofProjects = [...new Set(this.listofProjects)]
-          this.listofMembers = [...new Set(this.listofMembers)]
 
-          
-          console.log("this.list", this.list, this.listofProjects2, this.listofMembers)
           
       }
     )

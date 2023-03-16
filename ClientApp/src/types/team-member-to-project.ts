@@ -1,5 +1,5 @@
-export class TeamMemberToProject {
-    teamMemberID: number =0
-    projectID: number  = 0
+export type TeamMemberToProject = {
+    teamMemberID: number 
+    projectID: number 
   }
   

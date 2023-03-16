@@ -15,7 +15,6 @@ export class TeamMemberToProjectService {
   public teamMemberToProject!: TeamMemberToProject
 
   postTeamMemberToProject(){
-    console.log('post teammember:', this.teamMemberToProject)
     return this.http.post(this.baseURL, this.teamMemberToProject)
   }
 
