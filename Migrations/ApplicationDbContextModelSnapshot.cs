@@ -109,6 +109,9 @@ namespace Cuttlefish.Migrations
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("startDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("id");
 
                     b.ToTable("Projects");
@@ -133,6 +136,9 @@ namespace Cuttlefish.Migrations
 
                     b.Property<bool>("isCompleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("projectID")
                         .HasColumnType("int");

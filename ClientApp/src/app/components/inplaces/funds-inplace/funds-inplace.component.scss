@@ -1,0 +1,12 @@
+#funds-label {
+  margin: var(--content-padding) 0 0.6rem;
+  font-size: large;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+:host ::ng-deep {
+  .p-inplace-display {
+    font-size: large;
+  }
+}

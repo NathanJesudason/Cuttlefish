@@ -14,6 +14,9 @@ namespace Cuttlefish.Models
         [MaxLength(7)]
         public string color { get; set; }
         public string description { get; set; }
+
+        public string startDate { get; set; }
+
         public string dueDate { get; set; }
         public double funds { get; set; }
 

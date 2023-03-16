@@ -23,10 +23,29 @@
   margin-bottom: var(--content-padding);
 }
 
+#accept-button, #cancel-button {
+  width: 3rem;
+  aspect-ratio: 1 / 1;
+  margin: 0;
+}
+
+#cancel-button {
+  margin-left: 0.75rem;
+}
+
 :host ::ng-deep {
   .p-dialog {
     width: 560px;
     height: 860px;
+  }
+
+  .p-dialog-footer {
+    text-align: left;
+    padding-top: 1.5rem;
+  }
+
+  p-checkbox {
+    margin-top: var(--content-padding);
   }
   
   @media only screen and (max-width: 768px) {

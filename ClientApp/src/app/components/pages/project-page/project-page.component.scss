@@ -1,11 +1,23 @@
-title-inplace {
-  display: block;
-  margin-bottom: 0.6em;
+#color-and-title {
+  width: 100%;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  column-gap: calc(var(--content-padding) * 0.3);
+  margin-bottom: var(--content-padding);
+}
+
+color-inplace, title-inplace {
+  margin: auto 0;
 }
 
 :host ::ng-deep {
   .p-toolbar {
     margin-bottom: var(--content-padding);
+  }
+
+  p-progressSpinner {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -15,4 +27,31 @@ title-inplace {
   column-gap: 0.75rem;
   grid-template-columns: repeat(2, auto);
   grid-template-rows: 100%;
+}
+
+#page-loading {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+#date-minus {
+  margin: auto 0.7rem;
+}
+
+#gantt-chart-button {
+  display: block;
+  margin-top: var(--content-padding);
+}
+
+#description-label {
+  margin: var(--content-padding) 0 0;
+  font-size: large;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+#sprints-header {
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
 }

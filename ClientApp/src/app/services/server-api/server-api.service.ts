@@ -1,8 +1,6 @@
-import {
-  Injectable,
-  Inject
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 
 import {
   SprintData,
@@ -16,15 +14,19 @@ import {
   ProjectData,
   ProjectNotFoundError
 } from 'src/types/project';
-import { LabelData, LabelNotFoundError } from 'src/types/label';
+import {
+  LabelData,
+  LabelNotFoundError
+} from 'src/types/label';
+
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class ServerApi {
-  baseUrl: string;
+  baseUrl: string = environment.url;
   http: HttpClient;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
+  constructor(http: HttpClient) {
     this.http = http;
   }
 
@@ -70,6 +72,7 @@ export class ServerApi {
       return {
         id: 0,
         name: 'Team Cuttlefish - Sprint 0',
+        goal: '',
         startDate: new Date(Date.parse('17 Jan 2023 00:00:00 GMT')),
         endDate: new Date(Date.parse('31 Jan 2023 00:00:00 GMT')),
         isCompleted: true,
@@ -91,6 +94,7 @@ export class ServerApi {
       return {
         id: 1,
         name: 'Team Cuttlefish - Sprint 1',
+        goal: '',
         startDate: new Date(Date.parse('1 Feb 2023 00:00:00 GMT')),
         endDate: new Date(Date.parse('15 Feb 2023 00:00:00 GMT')),
         isCompleted: false,
@@ -112,6 +116,7 @@ export class ServerApi {
       return {
         id: 2,
         name: 'Different Team Cuttlefish - Sprint 2',
+        goal: '',
         startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
         endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
         isCompleted: false,
@@ -131,6 +136,7 @@ export class ServerApi {
       return {
         id: 3,
         name: 'Backlog',
+        goal: '',
         startDate: new Date(0),
         endDate: new Date(0),
         isCompleted: false,
@@ -150,6 +156,7 @@ export class ServerApi {
       return {
         id: 4,
         name: 'Backlog',
+        goal: '',
         startDate: new Date(0),
         endDate: new Date(0),
         isCompleted: false,
@@ -280,13 +287,6 @@ export class ServerApi {
       };
     }
     throw new ProjectNotFoundError('Project not found', id);
-  }
-
-  getAllProjects(): ProjectData[] {
-    return [
-      this.getProjectData(0),
-      this.getProjectData(1)
-    ];
   }
 
   getLabel(name: string): LabelData {

@@ -1,0 +1,47 @@
+<p-card
+  header="{{ project.id }}: {{ project.name }}"
+>
+  <ng-template pTemplate="header">
+    <div [ngStyle]="{
+      'background-color': project.color,
+      'height': '10em',
+      'border-top-left-radius': 'var(--border-radius)',
+      'border-top-right-radius': 'var(--border-radius)'
+    }"></div>
+  </ng-template>
+  <div [innerHTML]="project.description"></div>
+  <ng-template pTemplate="footer">
+    <div id="project-card-footer">
+      <div class="project-card-footer-item">
+        <button
+          pButton type="button"
+          class="p-button-raised p-button-sm"
+          label="Go to Project"
+          icon="pi pi-briefcase"
+          [routerLink]="['/project', project.id]"
+        ></button>
+      </div>
+
+      <div class="project-card-footer-item">
+        <button
+          pButton pRipple
+          type="button" icon="pi pi-ellipsis-v"
+          class="p-button-rounded p-button-secondary p-button-text"
+          (click)="optionsMenu.toggle($event)"
+        ></button>
+        <p-menu #optionsMenu [popup]="true" [model]="projectOptionsMenuItems"></p-menu>
+      </div>
+    </div>
+  </ng-template>
+</p-card>
+
+<p-confirmDialog
+  header="Confirm Project Deletion"
+  icon="pi pi-exclamation-triangle"
+  acceptIcon="pi pi-trash"
+  acceptLabel="Delete"
+  acceptButtonStyleClass="p-button-danger"
+  rejectIcon=""
+  rejectLabel="Cancel"
+  rejectButtonStyleClass="p-button-text p-button-secondary"
+></p-confirmDialog>

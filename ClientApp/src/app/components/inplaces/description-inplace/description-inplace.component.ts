@@ -8,7 +8,17 @@ import {
 import { MessageService } from 'primeng/api';
 import { Inplace } from 'primeng/inplace';
 
-import { ProjectData } from 'src/types/project';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { SprintService } from 'src/app/services/sprint/sprint.service';
+
+import {
+  isProjectData,
+  ProjectData
+} from 'src/types/project';
+import {
+  isSprintData,
+  SprintData
+} from 'src/types/sprint';
 import { TaskData } from 'src/types/task';
 
 @Component({
@@ -18,12 +28,15 @@ import { TaskData } from 'src/types/task';
   providers: [MessageService],
 })
 export class DescriptionInplaceComponent implements OnInit {
-  @Input() entityData!: TaskData | ProjectData;
+  @Input() entityData!: TaskData | SprintData | ProjectData;
+  @Input() defaultText!: string;
 
   text!: string;
   selected!: boolean;
 
   constructor(
+    private projectService: ProjectService,
+    private sprintService: SprintService,
     private messageService: MessageService,
   ) { }
 
@@ -31,26 +44,78 @@ export class DescriptionInplaceComponent implements OnInit {
 
   ngOnInit() {
     this.selected = false;
-    this.text = this.entityData.description;
+    if (isSprintData(this.entityData)) {
+      this.text = this.entityData.goal;
+    } else {
+      this.text = this.entityData.description;
+    }
+
+    if (this.text === '' || this.text === null || this.text === undefined) {
+      this.text = this.defaultText;
+    }
   }
 
   select() {
+    if (this.text === this.defaultText) {
+      this.text = '';
+    }
     this.selected = true;
   }
 
   unSelect() {
+    if (this.text === '' || this.text === null || this.text === undefined) {
+      this.text = this.defaultText;
+    }
     this.selected = false;
   }
 
   approveChanges(event: any) {
-    this.messageService.add({severity: 'success', summary: 'Description was updated'});
-    this.entityData.description = this.text;
-    // when the time comes, add a serverApi call here to send change to backend
-    this.unSelect();
+    if (this.text === null || this.text === undefined) {
+      this.text = '';
+    }
+
+    if (isSprintData(this.entityData)) {
+      if (this.text === this.entityData.goal) {
+        this.unSelect();
+        return;
+      }
+      const updatedSprint = { ...this.entityData, goal: this.text };
+      this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
+        next: (data) => {
+          this.messageService.add({severity: 'success', summary: 'Goal was updated'});
+          if (isSprintData(this.entityData)) {
+            this.entityData.goal = this.text;
+          }
+          this.unSelect();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
+        },
+      });
+    } else if (isProjectData(this.entityData)) {
+      if (this.text === this.entityData.description) {
+        this.unSelect();
+        return;
+      }
+      const updatedProject = { ...this.entityData, description: this.text };
+      this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
+        next: (data) => {
+          this.messageService.add({severity: 'success', summary: 'Description was updated'});
+          if (isProjectData(this.entityData)) {
+            this.entityData.description = this.text;
+          }
+          this.unSelect();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
+        },
+      });
+    } /* else if (isTaskData(this.entityData)) {
+      ...
+    } */
   }
 
   cancelInput(event: any) {
-    this.messageService.add({severity: 'info', summary: 'Description update was cancelled'});
     this.unSelect();
   }
 }

@@ -3,7 +3,9 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
+
 import { AccordionModule } from 'primeng/accordion';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
@@ -13,6 +15,7 @@ describe('SprintDropdownComponent', () => {
   const data: SprintData = {
     id: 234597,
     name: 'Sprint Name',
+    goal: '',
     startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     endDate: new Date(Date.parse('2 Feb 2023 00:00:00 GMT')),
     isCompleted: false,
@@ -33,7 +36,7 @@ describe('SprintDropdownComponent', () => {
   };
   
   beforeEach(() => {
-    return MockBuilder(SprintDropdownComponent, AccordionModule)
+    return MockBuilder(SprintDropdownComponent, [AccordionModule, ConfirmDialogModule])
       .mock(CreateTaskModalComponent, { export: true });
   });
     

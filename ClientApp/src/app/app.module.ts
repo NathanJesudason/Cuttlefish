@@ -33,6 +33,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
 import { MessagesModule } from 'primeng/messages';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {SelectButtonModule} from 'primeng/selectbutton';
 
 import { NgxGanttModule } from '@worktile/gantt';
@@ -64,6 +66,9 @@ import { ForgotPasswordComponent } from 'src/app/components/pages/forgotpassword
 import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/reset-password.component';
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
+import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-card/project-card.component';
+import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace/color-inplace.component';
+import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 import { CreateLabelModalComponent } from './components/modals/create-label-modal/create-label-modal.component';
 
 
@@ -94,6 +99,9 @@ import { CreateLabelModalComponent } from './components/modals/create-label-moda
     LabelsPageComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    ProjectCardComponent,
+    ColorInplaceComponent,
+    FundsInplaceComponent,
     CreateLabelModalComponent,
   ],
   imports: [
@@ -133,6 +141,8 @@ import { CreateLabelModalComponent } from './components/modals/create-label-moda
     DropdownModule,
     PasswordModule,
     MessagesModule,
+    ConfirmDialogModule,
+    ProgressSpinnerModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},

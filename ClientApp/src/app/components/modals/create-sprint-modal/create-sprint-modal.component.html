@@ -22,23 +22,46 @@
         <p-calendar [(ngModel)]="inputEndDate" [showIcon]="true" [disabled]="inputIsBacklog"></p-calendar>
       </div>
 
+      <p style="margin-bottom: 0px;">Goal</p>
+      <p-editor
+        [(ngModel)]="inputGoal"
+        [style]="{ height: '18em' }"
+      >
+        <ng-template pTemplate="header">
+          <span class="ql-formats">
+            <select class="ql-header"></select>
+          </span>
+          <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+          </span>
+          <span class="ql-formats">
+            <button type="button" class="ql-list" value="ordered" aria-label="Ordered List"></button>
+            <button type="button" class="ql-list" value="bullet" aria-label="Bullet List"></button>
+          </span>
+        </ng-template>
+      </p-editor>
+
       <p-checkbox [(ngModel)]="inputIsBacklog" [binary]="true" inputId="backlog-input" label="Sprint is a backlog?"></p-checkbox>
     </div>
+  </div>
 
-    <div id="action-buttons">
-      <button
-        pButton class="p-button-success"
-        icon="pi pi-check"
-        (click)="acceptModalInput()"
-      ></button>
+  <ng-template pTemplate="footer">
+    <button
+      pButton class="p-button-success"
+      id="accept-button"
+      icon="pi pi-check"
+      (click)="acceptModalInput()"
+    ></button>
+    <button
+      pButton class="p-button-danger"
+      id="cancel-button"
+      icon="pi pi-times"
+      (click)="cancelModalInput()"
+    ></button>
+  </ng-template>
 
-      <button
-        pButton class="p-button-danger"
-        icon="pi pi-times"
-        (click)="cancelModalInput()"
-      ></button>
-    </div>
-</div>
 </p-dialog>
 
 <p-toast></p-toast>
