@@ -1,0 +1,12 @@
+<p-tag class="delDependencyHead" styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{selectedDependency}}"></p-tag>
+<p-overlayPanel
+  [dismissable]="true"
+  [showCloseIcon]="true"
+  #overlayPanel
+>
+  <div class="options">
+    
+  </div>
+</p-overlayPanel>
+
+<p-toast></p-toast>

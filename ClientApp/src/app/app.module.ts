@@ -63,6 +63,9 @@ import { ForgotPasswordComponent } from 'src/app/components/pages/forgotpassword
 import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/reset-password.component';
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
+import { DependencyPickerComponent } from 'src/app/components/pickers/dependency-picker/dependency-picker.component';
+import { DeleteDependencyPickerComponent } from 'src/app/components/pickers/delete-dependency-picker/delete-dependency-picker.component';
+import { DependencyInplaceComponent } from './components/inplaces/dependency-inplace/dependency-inplace.component';
 
 
 @NgModule({
@@ -89,6 +92,9 @@ import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels
     CreateTaskModalComponent,
     CreateProjectModalComponent,
     ProgressPickerComponent,
+    DependencyPickerComponent,
+    DeleteDependencyPickerComponent,
+    DependencyInplaceComponent,
     LabelsPageComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent
