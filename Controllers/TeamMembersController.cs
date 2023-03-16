@@ -122,6 +122,7 @@ namespace Cuttlefish.Controllers
             var teamMembers = from t in _context.TeamMembers
                               select new TeamMemberDto()
                               {
+                                  id = t.id,
                                   username = t.username,
                                   email = t.email,
                                   roles = t.roles
@@ -145,6 +146,7 @@ namespace Cuttlefish.Controllers
 
             var teamMemberDto = new TeamMemberDto()
             {
+                id = teamMember.id,
                 username = teamMember.username,
                 email = teamMember.email,
                 roles = teamMember.roles
