@@ -18,7 +18,7 @@ a {
   width: 100%;
 
   display: grid;
-  grid-template-columns: repeat(5, calc(100% / 5));
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 100%;
 }
 
