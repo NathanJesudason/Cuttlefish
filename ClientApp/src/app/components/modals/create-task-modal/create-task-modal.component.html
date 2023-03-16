@@ -34,6 +34,41 @@
         ></p-inputNumber>
       </div>
 
+      <app-type-picker [data]="inputType" #typePicker></app-type-picker>
+
+      
+      <div class="story-points-input">
+        <p style="margin-bottom: 0px;">Story Points</p>
+        <p-inputNumber
+          [(ngModel)]="inputCost"
+          mode="decimal" [step]="1"
+          [min]="0"
+          [showButtons]="true" buttonLayout="vertical" spinnerMode="vertical"
+          incrementButtonClass="p-button-primary" incrementButtonIcon="pi pi-plus"
+          decrementButtonClass="p-button-primary" decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+      </div>
+
+      <div class="description-input">
+        <p style="margin-bottom: 0px;">Description:</p>
+        <p-editor [(ngModel)]="inputDescription" [style]="{'height':'120px'}">
+          <ng-template pTemplate="header">
+            <span class="ql-formats">
+              <select class="ql-header"></select>
+            </span>
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button type="button" class="ql-italic" aria-label="Italic"></button>
+              <button type="button" class="ql-underline" aria-label="Underline"></button>
+            </span>
+            <span class="ql-formats">
+              <button type="button" class="ql-list" value="ordered" aria-label="Ordered List"></button>
+              <button type="button" class="ql-list" value="bullet" aria-label="Bullet List"></button>
+            </span>
+          </ng-template>
+        </p-editor>
+      </div>
+
       <p>Need to add more inputs in here when we're ready</p>
     </div>
 

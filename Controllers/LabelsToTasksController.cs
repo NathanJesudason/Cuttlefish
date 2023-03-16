@@ -109,6 +109,22 @@ namespace Cuttlefish.Controllers
             return NoContent();
         }
 
+        // DELETE: api/LabelsToTasks/LabelName/TaskID
+        [HttpDelete("{labelName}/{taskID}")]
+        public async Task<IActionResult> DeleteLabelsToTasksByForeignKeys(string labelName, int taskID)
+        {
+            var labelsToTasks = _context.LabelsToTasks.Where(i => i.taskID == taskID && i.label == labelName).FirstAsync().Result;
+            if (labelsToTasks == null)
+            {
+                return NotFound();
+            }
+
+            _context.LabelsToTasks.Remove(labelsToTasks);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         private bool LabelsToTasksExists(int id)
         {
             return _context.LabelsToTasks.Any(e => e.Id == id);

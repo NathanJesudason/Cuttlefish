@@ -10,6 +10,7 @@ import { Inplace } from 'primeng/inplace';
 
 import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import {
   isProjectData,
@@ -75,7 +76,25 @@ export class DescriptionInplaceComponent implements OnInit {
       this.text = '';
     }
 
-    if (isSprintData(this.entityData)) {
+    if (isTaskData(this.entityData)){
+      if(this.text == this.entityData.description){
+        this.unSelect();
+        return;
+      }
+      const updatedTask = { ...this.entityData, description: this.text};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: (data) => {
+          this.messageService.add({severity: 'success', summary: 'Description was updated'});
+          if(isTaskData(this.entityData)) {
+            this.entityData.description = this.text;
+          }
+          this.unSelect();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`})
+        }
+      })
+    } else if (isSprintData(this.entityData)) {
       if (this.text === this.entityData.goal) {
         this.unSelect();
         return;
@@ -107,25 +126,6 @@ export class DescriptionInplaceComponent implements OnInit {
           }
         }
       })
-    }else if (isTaskData(this.entityData)){
-      if(this.text == this.entityData.description){
-        this.unSelect();
-        return;
-      }
-      const updatedTask = { ...this.entityData, description: this.text};
-      this.taskApi.putTask(updatedTask).subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: 'Description was updated'});
-          if(isTaskData(this.entityData)){
-          this.entityData.description = this.text;
-          this.unSelect();
-          }
-        },
-        error: (err: any) => {
-          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
-          this.unSelect();
-        },
-      });
     }
   }
 

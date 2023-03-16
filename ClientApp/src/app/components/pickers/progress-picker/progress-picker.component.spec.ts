@@ -10,13 +10,14 @@ import { TagModule } from 'primeng/tag';
 import { ProgressPickerComponent } from './progress-picker.component'
 import { TaskData } from 'src/types/task';
 import { AppModule } from 'src/app/app.module';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 describe('ProgressPickerComponent', () => {
   const data: TaskData = {
     id: 12345,
     sprintID: 0,
     priority: 0,
-    type: "",
+    type: "Bug",
     cost: 0,
     name: 'Task Name',
     assignee: 'Me',

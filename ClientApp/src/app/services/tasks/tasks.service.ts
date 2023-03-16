@@ -2,7 +2,7 @@ import {
     Injectable,
     Inject
   } from '@angular/core';
-  import { HttpClient } from '@angular/common/http';
+  import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   
   import {
     SprintData,
@@ -16,17 +16,25 @@ import {
     ProjectData,
     ProjectNotFoundError
   } from 'src/types/project';
+
+  import {
+    catchError,
+    map,
+    Observable,
+    of,
+    switchMap,
+    throwError
+  } from 'rxjs';
+  
   import { LabelData, LabelNotFoundError } from 'src/types/label';
   import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
   
   @Injectable({providedIn: 'root'})
   export class TaskApi {
-    baseUrl: string;
+    baseUrl: string = environment.url;
     http: HttpClient;
   
-    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-      this.baseUrl = baseUrl;
+    constructor(http: HttpClient) {
       this.http = http;
     }
   
@@ -66,7 +74,7 @@ import { Observable } from 'rxjs';
     }
 
     getLabelRelationsByID(id: number) {
-        return this.http.get<string[]>(`${environment.url}LabelsToTasks/${id}/labels`, {	
+        return this.http.get<{id: number, label:string, taskID:number;}[]>(`${environment.url}LabelsToTasks/${id}/labels`, {	
             observe: 'body',
             responseType: 'json'
         });
@@ -88,6 +96,19 @@ import { Observable } from 'rxjs';
         });
     }
 
+       /**
+     * Updates the label relations for a task. 
+     * @param oldLabel the old label relation
+     * @param id the Task ID
+     */
+    deleteLabelRelations(oldLabel: LabelData, id: number){
+        return this.http.delete(`${environment.url}LabelsToTasks/${oldLabel.name}/${id}`)
+   }
+
+   AddLabelRelation(newLabel: LabelData, id: number){
+        return this.http.post(`${environment.url}LabelsToTasks/`, {taskID: id, label: newLabel.name})
+   }
+
     getAllTasksWithProgress(progress: string): Observable<TaskData[]> {
         return this.http.get<TaskData[]>(`${environment.url}Tasks/progress/${progress}`, {	
             observe: 'body',
@@ -95,9 +116,72 @@ import { Observable } from 'rxjs';
         });
     }
 
+    getTaskDataWithLabels(id: number) {
+        return this.getTaskData(id).pipe(
+            catchError((err: HttpErrorResponse) => {
+                return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+            }),
+            switchMap((task) => {
+                return this.getLabelRelationsByID(task.id).pipe(
+                    catchError((err: HttpErrorResponse) => {
+                        return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+                    }),
+                    switchMap((labelRelations) => {
+                        return this.getLabels().pipe(
+                            catchError((err: HttpErrorResponse) => {
+                                return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+                            }),
+                            map((allLabels) => {
+                                  var listofIds: string[] = []
+                                  labelRelations.forEach(r => {
+                                    listofIds.push(r.label)
+                                  })
+                                  console.log("list of label IDs: ", listofIds)
+                                  var newLabels = allLabels.filter(r => listofIds.includes(r.label));
+                                task.labels = []
+                                newLabels.forEach(r => {
+                                    task.labels!.push({name: r.label, color: r.color});
+                                });
+                                return task;
+                            }),
+                        )
+                    }),
+                )
+            }),
+        )
+    }
+
+    labelAdaptor(input: {label: string, color: string;}): LabelData {
+        return {name: input.label, color: input.color};
+      }
+
+    //TODO
+    getAllTasksWithLabel(Label: LabelData) {
+        return this.getAllTasks().pipe(
+            catchError((err: HttpErrorResponse) => {
+                return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
+                }),
+                switchMap((tasks) => {
+                    return this.getLabelRelations().pipe(switchMap((labelRelations) => {
+                        return this.getLabels().pipe(map((labels) => {
+                            var usefulIds: number[] = [];
+                            labelRelations.filter(r => r.label == Label.name).forEach(t => {usefulIds.push(t.taskID)});
+                            labelRelations = labelRelations.filter(r => labelRelations.some(item => usefulIds.includes(item.taskID)));
+                            tasks = tasks.filter(t => labelRelations.some(item => item.taskID == t.id))
+                            
+                            labelRelations.forEach(relation => {
+                                tasks.find(task => {return task.id == relation.taskID})?.labels?.push(this.labelAdaptor(labels.find(label => {return label.label == relation.label})!))
+                                });
+                            return tasks;
+                        }))
+                    }))
+                })
+        )
+    }
+
     putTask(task: TaskData){
         return this.http.put<TaskData>(`${environment.url}Tasks/${task.id}`, {id: task.id, sprintID: task.sprintID, name: task.name, assignee: task.assignee, storyPoints: task.storyPoints,
-        description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost});
+        description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type});
     }
 
     //TODO: Currently not connected with API for team members, so don't post with assignee because it's likely invalid.
@@ -108,6 +192,19 @@ import { Observable } from 'rxjs';
 
     deleteTask(id: number){
         return this.http.delete<TaskData>(`${environment.url}Tasks/${id}`);
+    }
+
+    // DELETE: api/TasksToTasks/inID/depID
+    deleteTaskRelation(independentID: number, dependentID: number){
+        return this.http.delete(`${environment.url}TasksToTasks/${independentID}/${dependentID}`);
+    }
+
+    addTaskRelation(independentID: number, dependentID: number){
+        return this.http.post(`${environment.url}TasksToTasks`, {independentTaskID: independentID, dependentTaskID: dependentID});
+    }
+
+    getTaskRelations(){
+        return this.http.get(`${environment.url}TasksToTasks`)
     }
 
   

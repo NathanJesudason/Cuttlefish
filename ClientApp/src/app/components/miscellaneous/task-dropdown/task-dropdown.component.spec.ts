@@ -18,6 +18,10 @@ describe('TaskDropdownComponent', () => {
     progress: 'In Progress',
     startDate: new Date(Date.parse('12/23/2022')),
     endDate: new Date(Date.parse('12/26/2022')),
+    sprintID: 0,
+    priority: 0,
+    type: 'Epic',
+    cost: 0
   };
 
   beforeEach(() => MockBuilder(TaskDropdownComponent, AccordionModule));

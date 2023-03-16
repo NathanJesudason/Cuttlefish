@@ -48,7 +48,7 @@ describe('ProjectsPageComponent', () => {
         id: 12345,
         sprintID: 0,
         priority: 0,
-        type: "",
+        type: "Epic",
         cost: 0,
         name: 'Task Name',
         assignee: 'Me',

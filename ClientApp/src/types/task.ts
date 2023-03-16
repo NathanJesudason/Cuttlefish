@@ -4,14 +4,15 @@ export type TaskData = {
   id: number;
   sprintID: number;
   name: string;
-  assignee: number;
+  assignee: string;
+  assignee_id?: number;
   storyPoints: number;
   description: string;
   progress: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
   startDate?: Date;
   endDate?: Date;
   priority: number;
-  type: string;
+  type: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask';
   cost: number;
   labels?: LabelData[];
 };

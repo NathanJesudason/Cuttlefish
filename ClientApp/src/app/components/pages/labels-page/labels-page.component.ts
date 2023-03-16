@@ -23,6 +23,7 @@ export class LabelsPageComponent implements OnInit {
 
   currentLabel!: LabelData;
   tasksByLabel: TaskData[] = [];
+  queryParamLabel!: string | null;
 
   taskPickerDisabled: boolean = false;
   
@@ -37,10 +38,10 @@ export class LabelsPageComponent implements OnInit {
   }
 
   getCurrentLabel() {
-    const queryParamLabel = this.route.snapshot.queryParamMap.get('name');
-    if (queryParamLabel === null) return;
+    this.queryParamLabel = this.route.snapshot.queryParamMap.get('name');
+    if (this.queryParamLabel === null) return;
     for (const label of this.availableLabels) {
-      if (label.name === queryParamLabel) {
+      if (label.name === this.queryParamLabel) {
         this.currentLabel = label;
         this.getTasksByCurrentLabel();
         return;
@@ -56,34 +57,9 @@ export class LabelsPageComponent implements OnInit {
     if (this.currentLabel === undefined || this.currentLabel === null) return;
     console.log(this.currentLabel);
     //Get all tasks, get all labelrelations with currentLabel, filter
-    this.taskApi.getAllTasks().subscribe({
+    this.taskApi.getAllTasksWithLabel(this.currentLabel).subscribe({
       next: tasks => {
-        this.taskApi.getLabelRelations().subscribe({
-          next: labelRelations => {
-            this.taskApi.getLabels().subscribe({
-              next: labels => {
-                console.log("tasks: ", tasks, "labelRelations: ", labelRelations, "labels: ", labels);
-
-                var usefulIds: number[] = [];
-
-                labelRelations.filter(r => r.label == this.currentLabel.name).forEach(t => {usefulIds.push(t.taskID)});
-
-                console.log("IDS: ", usefulIds);
-                //Grabs all relations with the current label, and then filters all relations if the taskID is in the list of tasks with the current label.
-                labelRelations = labelRelations.filter(r => labelRelations.some(item => usefulIds.includes(item.taskID)));
-
-                console.log(labelRelations);
-                //filters to only tasks with this filter
-                tasks = tasks.filter(t => labelRelations.some(item => item.taskID == t.id));
-
-                labelRelations.forEach(relation => {
-                  tasks.find(task => {return task.id == relation.taskID})?.labels?.push(this.labelAdaptor(labels.find(label => {return label.label == relation.label})!))
-                });
-                this.tasksByLabel = tasks;
-              }
-            });
-          }
-        });
+        this.tasksByLabel = tasks;
       }
     });
   }
@@ -91,7 +67,6 @@ export class LabelsPageComponent implements OnInit {
   getAvailableLabels() {
     this.taskApi.getLabels().subscribe({
       next: values => {
-        console.log(values);
         var labels: LabelData[] = [];
         values.forEach(value => labels.push(this.labelAdaptor(value)));
         this.availableLabels = labels;

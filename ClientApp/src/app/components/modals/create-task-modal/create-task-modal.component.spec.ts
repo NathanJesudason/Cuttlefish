@@ -12,6 +12,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ToastModule } from 'primeng/toast';
+import { TaskTypePickerComponent } from '../../pickers/task-type-picker/task-type-picker.component';
 
 import { CreateTaskModalComponent } from './create-task-modal.component';
 
@@ -25,7 +26,7 @@ describe('CreateTaskModalComponent', () => {
       FormsModule, 
       CalendarModule,
       InputNumberModule,
-    ]);
+    ]).mock(TaskTypePickerComponent, { export: true });
   });
 
   it('should create', () => {

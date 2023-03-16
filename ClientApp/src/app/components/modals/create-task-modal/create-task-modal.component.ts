@@ -25,6 +25,11 @@ export class CreateTaskModalComponent implements OnInit {
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
   inputStoryPoints!: number | undefined;
+  inputDescription!: string;
+  inputProgress!: string;
+  inputPriority!: number;
+  inputCost!: number;
+  inputType!: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask';
 
   constructor(
     private messageService: MessageService,
@@ -49,6 +54,7 @@ export class CreateTaskModalComponent implements OnInit {
       next: data =>{
         this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
         this.sprintData.tasks.push(data);
+        this.sprintData.pointsAttempted += data.storyPoints
       },
       error: err => {
         this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
@@ -69,11 +75,11 @@ export class CreateTaskModalComponent implements OnInit {
       startDate: this.inputStartDate,
       endDate: this.inputEndDate,
       storyPoints: this.inputStoryPoints || 0,
-      description: '',
+      description: this.inputDescription,
       progress: 'Backlog',
       priority: 0,
-      type: "",
-      cost: 0.0,
+      type: this.inputType,
+      cost: this.inputCost,
     } as TaskData;
   }
 
@@ -82,5 +88,11 @@ export class CreateTaskModalComponent implements OnInit {
     this.inputStartDate = null;
     this.inputEndDate = null;
     this.inputStoryPoints = undefined;
+
+    this.inputDescription = "";
+    this.inputProgress = 'In Progress';
+    this.inputPriority = 0;
+    this.inputCost = 0;
+    this.inputType = 'Story';
   }
 }

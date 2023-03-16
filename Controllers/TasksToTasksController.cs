@@ -78,10 +78,23 @@ namespace Cuttlefish.Controllers
         [HttpPost]
         public async Task<ActionResult<TasksToTasks>> PostTasksToTasks(TasksToTasks tasksToTasks)
         {
-            _context.TasksToTasks.Add(tasksToTasks);
-            await _context.SaveChangesAsync();
+            if (tasksToTasks == null)
+            {
+                return NotFound();
+            }
+            //check if unique
+            var check = _context.TasksToTasks.Where(i => i.independentTaskID == tasksToTasks.independentTaskID && i.dependentTaskID == tasksToTasks.dependentTaskID).FirstAsync().Result;
+            //check if IDs are valid
+            var validIDs = _context.Tasks.Any(i => i.id.Equals(tasksToTasks.independentTaskID)) && _context.TasksToTasks.Any(i => i.Id.Equals(tasksToTasks.dependentTaskID));
+            if (check == null && validIDs)
+            {
+                _context.TasksToTasks.Add(tasksToTasks);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTasksToTasks", new { id = tasksToTasks.Id }, tasksToTasks);
+                return CreatedAtAction("GetTasksToTasks", new { id = tasksToTasks.Id }, tasksToTasks);
+
+            }
+            return NotFound();
         }
 
         // DELETE: api/TasksToTasks/5
@@ -89,6 +102,22 @@ namespace Cuttlefish.Controllers
         public async Task<IActionResult> DeleteTasksToTasks(int id)
         {
             var tasksToTasks = await _context.TasksToTasks.FindAsync(id);
+            if (tasksToTasks == null)
+            {
+                return NotFound();
+            }
+
+            _context.TasksToTasks.Remove(tasksToTasks);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/TasksToTasks/inID/depID
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTasksToTasksByIDS(int independentID, int dependentID)
+        {
+            var tasksToTasks = _context.TasksToTasks.Where(i => i.independentTaskID == independentID && i.dependentTaskID == dependentID).FirstAsync().Result;
             if (tasksToTasks == null)
             {
                 return NotFound();
