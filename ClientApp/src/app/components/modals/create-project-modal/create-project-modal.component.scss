@@ -39,7 +39,10 @@
   }
 
   .p-colorpicker-panel {
-    margin-top: var(--content-padding);
     border-radius: calc(var(--border-radius)/1.5);
+  }
+
+  .p-editor-container {
+    margin-bottom: var(--content-padding);
   }
 }
