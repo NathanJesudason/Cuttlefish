@@ -63,7 +63,6 @@ export class LabelsPageComponent implements OnInit {
     this.labelService.getLabels().subscribe(
         res=>{
           this.availableLabels = res as LabelData[]
-          console.log(this.availableLabels)
           this.getCurrentLabel();
           this.getTasksByCurrentLabel();
         },
@@ -73,7 +72,6 @@ export class LabelsPageComponent implements OnInit {
 
   updateSelectedLabel(event: { value: LabelData }) {
     this.taskPickerDisabled = true;
-    console.log("current label", this.currentLabel)
     if (event.value === null) {
       this.router.navigate(['/label'])
         .then(() => {
@@ -90,7 +88,6 @@ export class LabelsPageComponent implements OnInit {
   }
 
   insertLabel(){
-    console.log("label inserted: ", this.labelService.label)
     this.labelService.postLabel()
     .subscribe(
       res=>{
@@ -124,7 +121,6 @@ export class LabelsPageComponent implements OnInit {
   }
 
   deleteLabel(){
-    console.log("deleteLabel",this.currentLabel)
     this.labelService.label = this.currentLabel!
     this.labelService.deleteLabel().subscribe(
       res=>{

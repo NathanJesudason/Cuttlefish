@@ -58,8 +58,6 @@ export class TeamMembersFormComponent implements OnInit {
 
   onSubmit(form: NgForm){
     if(this.teamMemberService.teamMemberData.id == 0){
-      console.log("project", this.projects)
-      console.log("form", form.value)
       this.addTeamMemberToProject(form)
     }
   }
@@ -90,31 +88,4 @@ export class TeamMembersFormComponent implements OnInit {
         console.log("Error: ",err)}
     )
   }
-
-  insertRecord(form: NgForm){
-    this.teamMemberService.postTeamMember().subscribe(
-      res=>{
-        this.resetForm(form)
-        this.teamMemberService.refreshList()
-        console.log(res, "Submitted")
-    },
-    err => {console.log(err)})
-  }
-
-  updateRecord(form: NgForm){
-    this.teamMemberService.putTeamMember().subscribe(
-      res=>{
-        this.resetForm(form)
-        this.teamMemberService.refreshList()
-        console.log(res, "Submitted")
-    },
-    err => {console.log(err)})
-  }
-
-  resetForm(form: NgForm){
-    form.form.reset()
-    this.teamMemberService.teamMemberData = new TeamMember()
-  }
-
-  
 }
