@@ -134,7 +134,7 @@ namespace Cuttlefish.Controllers
 
         // GET: api/TeamMembers/username
         [HttpGet("username/{username}")]
-        public async Task<ActionResult<TeamMembers>> GetTeamMembersByUsername(string username)
+        public async Task<ActionResult<TeamMemberDto>> GetTeamMembersByUsername(string username)
         {
             var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(t=> t.username == username);
 
@@ -143,7 +143,14 @@ namespace Cuttlefish.Controllers
                 return NotFound();
             }
 
-            return teamMember;
+            var teamMemberDto = new TeamMemberDto()
+                                {
+                                    username = teamMember.username,
+                                    email = teamMember.email,
+                                    roles = teamMember.roles
+                                };
+
+            return teamMemberDto;
         }
 
         // GET: api/TeamMembers/5

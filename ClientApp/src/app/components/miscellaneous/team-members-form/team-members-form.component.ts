@@ -85,6 +85,7 @@ export class TeamMembersFormComponent implements OnInit {
         this.teammemberToProject.postTeamMemberToProject().subscribe(
           res =>{
             console.log("res",res)
+            this.messageService.add({severity: 'success', summary: 'Team member added'})
           },
           err => {
             if(err.status === 400){

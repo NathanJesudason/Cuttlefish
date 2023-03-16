@@ -30,15 +30,7 @@ export class TeamMemberToProjectService {
 
 
   refreshList(){
-    this.http.get(`${this.baseURL}`).toPromise().then(
-      res => {
-        this.teamMemberToProjectList = res as TeamMemberToProject[]
-        console.log(this.teamMemberToProjectList)
-        console.log(this.teamMemberToProject)
-      }, err=> {
-      console.log(err)
-    }
-    )
+    return this.http.get(`${this.baseURL}`)
   }
 
 
