@@ -1,5 +1,11 @@
 # Cuttlefish
 
+<img src="./ClientApp/src/assets/cuttlefish_logo.png" width="300px" alt="Cuttlefish Logo" />
+
+Cuttlefish is an open-source project management software that maintains important agile-focused features like Gantt charts and sprint management.
+
+[See our wiki](https://github.com/NathanJesudason/Cuttlefish/wiki) for more long-form information about the project.
+
 ## Development
 
 ### Development Prerequisites
