@@ -8,6 +8,8 @@ Cuttlefish is an open-source project management software that maintains importan
 
 [See our wiki](https://github.com/NathanJesudason/Cuttlefish/wiki) for more long-form information about the project.
 
+[Submit an issue](https://github.com/NathanJesudason/Cuttlefish/issues) with any questions or bugs to report.
+
 ## Development
 
 ### Development Prerequisites
