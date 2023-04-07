@@ -22,9 +22,9 @@
           formControlName="password"
           [toggleMask]="true"
           weakLabel="Invalid, too weak"
-          [mediumRegex]="medStrongRegex"
+          [mediumRegex]="medStrong"
           strongLabel="Valid, strong password"
-          [strongRegex]="medStrongRegex"
+          [strongRegex]="medStrong"
         >
           <ng-template pTemplate="footer">
             <p-divider></p-divider>
@@ -33,7 +33,7 @@
               <li>At least 8 characters</li>
               <li>At least one number</li>
               <li>At least one uppercase letter</li>
-              <li>At least one special character <code>{{specialCharsRegex}}</code></li>
+              <li>At least one special character <code>{{specialChars}}</code></li>
             </ul>
           </ng-template>
         </p-password>
