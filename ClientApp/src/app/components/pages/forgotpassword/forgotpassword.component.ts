@@ -8,21 +8,27 @@ import {
   Validators
 } from '@angular/forms';
 
+import { MessageService } from 'primeng/api';
+
 import { ResetPasswordService } from 'src/app/services/reset-password/reset-password.service';
 
 @Component({
   selector: 'app-forgotpassword',
   templateUrl: './forgotpassword.component.html',
-  styleUrls: ['./forgotpassword.component.css']
+  styleUrls: ['./forgotpassword.component.scss'],
+  providers: [MessageService],
 })
 export class ForgotPasswordComponent implements OnInit {
-
-
   forgotPasswordForm!: FormGroup
   public email!: string
 
+  forgotPasswordButtonLoading: boolean = false;
 
-  constructor(private formbuilder: FormBuilder, private resetService: ResetPasswordService) { }
+  constructor(
+    private formbuilder: FormBuilder,
+    private resetService: ResetPasswordService,
+    private messageService: MessageService,
+  ) { }
 
   ngOnInit(): void {
     this.forgotPasswordForm = this.formbuilder.group({
@@ -33,26 +39,21 @@ export class ForgotPasswordComponent implements OnInit {
 
 
   sendEmail(){
+    this.forgotPasswordButtonLoading = true;
     this.email = this.forgotPasswordForm.value
 
     // call api
     this.resetService.sendResetPasswordLink(this.forgotPasswordForm.value['email']).subscribe({
       next: (res)=>{
-        alert('Reset password link sent')
+        this.messageService.add({severity: 'success', summary: 'Reset password link sent', life: 10000});
         this.forgotPasswordForm.reset()
         this.email = ""
+        this.forgotPasswordButtonLoading = false;
       },
-      error:(err)=>{
-        if (err.status === 500)
-          alert('Error sending link. Check email entered.')
-        else if(err.status === 404)
-          alert('Email does not exist.')
-        else
-          alert('Error sending link.')
-        console.log("error: ", err)
-      }
-    })
-    
-    
+      error: (err: Error) => {
+        this.messageService.add({severity: 'error', summary: err.message, life: 10000});
+        this.forgotPasswordButtonLoading = false;
+      },
+    });
   }
 }
