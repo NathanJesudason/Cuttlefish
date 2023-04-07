@@ -37,7 +37,6 @@ export class ResetPasswordComponent implements OnInit {
     private formbuilder: FormBuilder,
     private resetService: ResetPasswordService,
     private route: ActivatedRoute,
-    private router: Router,
     private messageService: MessageService,
     private verifyPasswordService: VerifyPasswordService,
   ) { }
