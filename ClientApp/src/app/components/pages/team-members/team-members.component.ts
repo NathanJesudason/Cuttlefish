@@ -35,10 +35,12 @@ export class TeamMembersComponent implements OnInit {
     if(this.auth.isLoggedIn())
       this.service.refreshList()
       this.projectsApi.getAllProjects().subscribe(
-        res=> this.listofProjects = res
+        res=> this.listofProjects = res,
+        err => console.log("Error occured:", err)
       )
       this.service.getTeamMember().subscribe(
-        res=> this.listofMembers = res as TeamMember[]
+        res=> this.listofMembers = res as TeamMember[],
+        err => console.log("Error occured:", err)
       )
       
 
@@ -71,14 +73,11 @@ export class TeamMembersComponent implements OnInit {
   }
   
   populateTable(){
-    //stopped at getting data for project name and team member by it and displaying it on the table. 
     this.teammemberToProjectService.refreshList().subscribe(
       res =>{
           this.listProjectsToTeamMembers = res as TeamMemberToProject[]
-
-
-          
-      }
+      },
+      err => console.log("Error occured:", err)
     )
   }
    
@@ -87,9 +86,9 @@ export class TeamMembersComponent implements OnInit {
   onDelete(id:number){
     if(confirm('Delete this team member?')){
       this.service.deleteTeamMember(id).subscribe(
-       ( res) => {
+       res => {
           this.service.refreshList()
-          console.log("Team member deleted")
+          console.log("Team member deleted", res)
         }
       ,
       err => {console.log(err)}

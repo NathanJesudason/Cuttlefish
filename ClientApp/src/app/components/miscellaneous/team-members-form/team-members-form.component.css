@@ -1,16 +1,16 @@
 input{
-    width: 300px;
-    margin: 10px 0px;
+	width: 300px;
+	margin: 10px 0px;
 }
 
 button{
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 form{
-    width: fit-content;
-    background-color: aliceblue;
-    margin: 10px;
-    border-radius: 10px;
-    padding: 10px;
+	width: fit-content;
+	background-color: aliceblue;
+	margin: 10px;
+	border-radius: 10px;
+	padding: 10px;
 }

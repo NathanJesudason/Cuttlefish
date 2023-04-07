@@ -41,7 +41,8 @@ export class TeamMembersFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectsApi.getAllProjects().subscribe(
-      res => this.projects = res 
+      res => this.projects = res,
+      err => this.messageService.add({severity: 'error', summary: `Error occured ${err}. Could not retrieve all projects.`})
     )
 
 

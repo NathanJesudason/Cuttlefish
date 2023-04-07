@@ -27,6 +27,7 @@ export class LabelsPageComponent implements OnInit {
   @ViewChild('createLabelModal') createLabelModal!: ElementRef<CreateLabelModalComponent>;
   
   availableLabels!: LabelData[];
+  label: LabelData = { label: "", color: "#ff0000"}
   currentLabel!: LabelData | null;
   tasksByLabel: TaskData[] = [];
   taskPickerDisabled: boolean = false;
@@ -88,7 +89,7 @@ export class LabelsPageComponent implements OnInit {
   }
 
   insertLabel(){
-    this.labelService.postLabel()
+    this.labelService.postLabel(this.label)
     .subscribe(
       res=>{
         // this.resetForm(form)
@@ -100,9 +101,9 @@ export class LabelsPageComponent implements OnInit {
   }
   
   editLabel(editLabel: LabelData){
-    this.labelService.label.label = this.currentLabel!.label 
-    this.labelService.label.color = editLabel.color
-    this.labelService.putLabel().subscribe(
+    this.label.label = this.currentLabel!.label 
+    this.label.color = editLabel.color
+    this.labelService.putLabel(this.label).subscribe(
       res=>{
         console.log("res",res)
         this.currentLabel!.color = editLabel.color
@@ -121,8 +122,8 @@ export class LabelsPageComponent implements OnInit {
   }
 
   deleteLabel(){
-    this.labelService.label = this.currentLabel!
-    this.labelService.deleteLabel().subscribe(
+    this.label = this.currentLabel!
+    this.labelService.deleteLabel(this.label.label).subscribe(
       res=>{
         console.log("res",res)
         this.availableLabels.splice(this.availableLabels.indexOf(this.currentLabel!),1) // update the dropdown
@@ -148,7 +149,7 @@ export class LabelsPageComponent implements OnInit {
       }
       else{
         // if doesn't exist, insert the label
-        this.labelService.label = createL 
+        this.label = createL 
         this.insertLabel()
         this.availableLabels = this.labelService.refreshLabelList()
         return 0;

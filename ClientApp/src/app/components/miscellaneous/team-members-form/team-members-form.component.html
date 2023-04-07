@@ -1,27 +1,24 @@
 <form novalidate #form="ngForm" (submit)="onSubmit(form)" *ngIf="role === 'Admin'">
-    <input type="hidden" name="id"
-    [value]="teamMemberService.teamMemberData.id"/>
-    <div>
-        <input type="text" pInputText name="username" [(ngModel)]="username" placeholder="Team Member's Username"/>
-    </div>
-    <div>
-        <p-dropdown
-        [options]="projects"
-        [(ngModel)]="selectedProject"
-        optionLabel="name"
-        placeholder="Select a Project..."
-        name="project"
-        >
-        </p-dropdown>
-    </div>
-    <div>
-        <input type="text" pInputText name="createUserRole" [(ngModel)]="createUserRole" placeholder="Team Member Role"/>
-
-    </div>
-    <div>
-        <button pButton type="submit">Add team member to Project</button> 
-    </div>
-
+  <input type="hidden" name="id"
+  [value]="teamMemberService.teamMemberData.id"/>
+  <div>
+    <input type="text" pInputText name="username" [(ngModel)]="username" placeholder="Team Member's Username"/>
+  </div>
+  <div>
+      <p-dropdown
+      [options]="projects"
+      [(ngModel)]="selectedProject"
+      optionLabel="name"
+      placeholder="Select a Project..."
+      name="project"
+      >
+      </p-dropdown>
+  </div>
+  <div>
+    <input type="text" pInputText name="createUserRole" [(ngModel)]="createUserRole" placeholder="Team Member Role"/>
+  </div>
+  <div>
+    <button pButton type="submit">Add team member to Project</button> 
+  </div>
 </form>
-
 <p-toast></p-toast>

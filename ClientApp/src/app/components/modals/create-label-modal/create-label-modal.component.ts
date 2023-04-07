@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { LabelData } from 'src/types/label';
-import { LabelsPageComponent } from '../../pages/labels-page/labels-page.component';
+import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
 
 @Component({
   selector: 'create-label-modal',
@@ -47,7 +47,6 @@ export class CreateLabelModalComponent implements OnInit {
   acceptModalInput() {
     // call to serverapi with the collected input* values
     
-    // this.labels.push(this.collectInputs());
     this.labelCreated = this.collectInputs()
     if (this.title === "Create"){
       var res = this.labelsComponent.createLabel(this.labelCreated)
