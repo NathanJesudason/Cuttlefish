@@ -61,13 +61,14 @@ export class LabelsPageComponent implements OnInit {
 
   getAvailableLabels() {
     this.labelService.refreshLabelList()
-    this.labelService.getLabels().subscribe(
-        res=>{
-          this.availableLabels = res as LabelData[]
+    this.labelService.getLabels().subscribe({
+      next: res=>{
+          this.availableLabels = res 
           this.getCurrentLabel();
           this.getTasksByCurrentLabel();
         },
-        err=> {console.log("Error",err)}
+        error: err=> {console.log("Error",err)}
+      }
     )
   }
 
@@ -90,25 +91,25 @@ export class LabelsPageComponent implements OnInit {
 
   insertLabel(){
     this.labelService.postLabel(this.label)
-    .subscribe(
-      res=>{
-        // this.resetForm(form)
+    .subscribe({
+      next: res =>{
         console.log("label:",res)
-        this.availableLabels.unshift(res as LabelData) // update the dropdown
+        this.availableLabels.unshift(res) // update the dropdown
       },
-      err=> {console.log("Error",err)}
+      error: err=> {console.log("Error",err)}
+    }
+      
     )
   }
   
   editLabel(editLabel: LabelData){
     this.label.label = this.currentLabel!.label 
     this.label.color = editLabel.color
-    this.labelService.putLabel(this.label).subscribe(
-      res=>{
-        console.log("res",res)
+    this.labelService.putLabel(this.label).subscribe({
+      next: ()=> { 
         this.currentLabel!.color = editLabel.color
       },
-      err=> {console.log("Error",err)}
+      error: err => {console.log("Error",err)}}
       )
   }
 
@@ -123,13 +124,13 @@ export class LabelsPageComponent implements OnInit {
 
   deleteLabel(){
     this.label = this.currentLabel!
-    this.labelService.deleteLabel(this.label.label).subscribe(
-      res=>{
+    this.labelService.deleteLabel(this.label.label).subscribe({
+      next: res=>{
         console.log("res",res)
         this.availableLabels.splice(this.availableLabels.indexOf(this.currentLabel!),1) // update the dropdown
         this.currentLabel = null
       },
-      err=> {console.log("Error",err)}
+      error: err => {console.log("Error",err)}}
       )
 
   }

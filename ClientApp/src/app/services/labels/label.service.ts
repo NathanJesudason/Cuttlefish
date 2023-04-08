@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LabelData } from 'src/types/label'
 
@@ -14,16 +15,37 @@ export class LabelService {
 
   readonly baseURL = `${environment.url}Labels/`
 
-  getLabels(){
-    return this.http.get(this.baseURL)
+  getLabels(): Observable<LabelData[]>{
+    return this.http.get(this.baseURL).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+      }),
+      map(
+        (data:any) => {return data}
+      )
+    )
   }
   
-  postLabel(label: LabelData){
-    return this.http.post(this.baseURL, label)
+  postLabel(label: LabelData): Observable<LabelData>{
+    return this.http.post(this.baseURL, label).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+      }),
+      map(
+        (data:any) => {return data}
+      )
+    )
   }
 
-  putLabel(label: LabelData){
-    return this.http.put(`${this.baseURL}${label.label}`, label)
+  putLabel(label: LabelData): Observable<LabelData>{
+    return this.http.put(`${this.baseURL}${label.label}`, label).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+      }),
+      map(
+        (data:any) => {return data}
+      )
+    )
   }
 
   deleteLabel(label: string){
