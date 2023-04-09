@@ -15,17 +15,20 @@
 
       <i
         *ngIf="!data.isBacklog && !sprintStarted && !data.isCompleted"
-        class="pi pi-times sprint-dropdown-header-item"
+        pTooltip="Sprint has not started yet" tooltipPosition="bottom"
+        class="pi pi-hourglass sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--red-500);"
       ></i>
       <i
         *ngIf="!data.isBacklog && sprintStarted && !data.isCompleted"
+        pTooltip="Sprint is in progress" tooltipPosition="bottom"
         class="pi pi-clock sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--yellow-500);"
       ></i>
       <i
         *ngIf="!data.isBacklog && sprintStarted && data.isCompleted"
-        class="pi pi-check sprint-dropdown-header-item"
+        pTooltip="Sprint is completed" tooltipPosition="bottom"
+        class="pi pi-check-circle sprint-dropdown-header-item"
         style="font-size: 2rem; color: var(--green-500);"
       ></i>
     </div>
