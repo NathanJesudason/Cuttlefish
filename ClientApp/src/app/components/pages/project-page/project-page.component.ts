@@ -36,6 +36,7 @@ export class ProjectPageComponent {
   projectData!: ProjectData;
 
   collapseButtonText: 'Collapse All' | 'Expand All' = 'Collapse All';
+  collapseButtonIcon: 'pi pi-chevron-up' | 'pi pi-chevron-down' = 'pi pi-chevron-up';
   sprintsCollapsed: boolean = false;
   completedSprintsShown: boolean = false;
 
@@ -83,6 +84,7 @@ export class ProjectPageComponent {
         }
       }
       this.collapseButtonText = 'Expand All';
+      this.collapseButtonIcon = 'pi pi-chevron-down';
     } else {
       for (const sprintDropdown of this.sprintDropdowns.toArray()) {
         if (!(sprintDropdown as any).hidden) {
@@ -90,6 +92,7 @@ export class ProjectPageComponent {
         }
       }
       this.collapseButtonText = 'Collapse All';
+      this.collapseButtonIcon = 'pi pi-chevron-up';
     }
     this.sprintsCollapsed = !this.sprintsCollapsed;
   }
