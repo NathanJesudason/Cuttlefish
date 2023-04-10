@@ -7,11 +7,11 @@ import {
   import { OverlayPanelModule } from 'primeng/overlaypanel';
   import { TagModule } from 'primeng/tag';
   
-  import { DependencyInplaceComponent } from './dependency-inplace.component';
+  import { DependencyDropdownComponent } from './dependency-dropdown.component';
   import { TaskData } from 'src/types/task';
   import { AppModule } from 'src/app/app.module';
   
-  describe('DependencyInplaceComponent', () => {
+  describe('DependencyDropdownComponent', () => {
     const data: TaskData = {
       id: 12345,
       name: 'Task Name',

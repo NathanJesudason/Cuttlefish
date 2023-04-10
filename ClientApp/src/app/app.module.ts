@@ -74,8 +74,7 @@ import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace
 import { TaskTypePickerComponent } from './components/pickers/task-type-picker/task-type-picker.component';
 import { DependencyPickerComponent } from 'src/app/components/pickers/dependency-picker/dependency-picker.component';
 import { DeleteDependencyPickerComponent } from 'src/app/components/pickers/delete-dependency-picker/delete-dependency-picker.component';
-import { DependencyInplaceComponent } from './components/inplaces/dependency-inplace/dependency-inplace.component';
-
+import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/dependency-dropdown/dependency-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +103,7 @@ import { DependencyInplaceComponent } from './components/inplaces/dependency-inp
     TaskTypePickerComponent,
     DependencyPickerComponent,
     DeleteDependencyPickerComponent,
-    DependencyInplaceComponent,
+    DependencyDropdownComponent,
     LabelsPageComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,

@@ -1,0 +1,16 @@
+<ng-template let-option pTemplate="item">
+  <div class="p-d-flex p-ai-center">
+    <a *ngIf="option" routerLink="/task/{{option}}" class="p-d-block p-text-truncate p-mr-2">
+      <!--
+      This should correctly display the available dependencies for a given task.
+      Clicking on a dependency should navigate to that task.
+      -->
+
+      {{ option }}
+    </a>
+    <button *ngIf="option" pButton type="button" icon="pi pi-times" class="p-button-danger" (click)="confirmRemoveDependency(option)"></button>
+  </div>
+</ng-template>
+
+
+<ptoast></ptoast>
