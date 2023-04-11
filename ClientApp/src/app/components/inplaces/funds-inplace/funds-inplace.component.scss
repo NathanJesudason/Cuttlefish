@@ -8,5 +8,7 @@
 :host ::ng-deep {
   .p-inplace-display {
     font-size: large;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-d);
   }
 }

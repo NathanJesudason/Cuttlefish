@@ -23,6 +23,11 @@
       font-weight: 400;
     }
   }
+
+  .p-inplace-display {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-d);
+  }
 }
 
 .p-buttonset {
