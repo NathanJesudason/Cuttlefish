@@ -35,6 +35,7 @@ import { PasswordModule } from 'primeng/password';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -139,6 +140,7 @@ import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace
     MessagesModule,
     ConfirmDialogModule,
     ProgressSpinnerModule,
+    TooltipModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
