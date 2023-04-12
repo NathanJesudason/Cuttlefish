@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { VerifyPasswordService } from 'src/app/services/verify-password/verify-password.service';
 
 @Component({
   selector: 'app-signup',
@@ -26,8 +27,8 @@ export class SignupComponent implements OnInit {
   
   signUpButtonLoading: boolean = false;
 
-  specialCharsRegex: string = "!@#$%^&*()_+={};:|,.<>?";
-  medStrongRegex: string = `^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[${this.specialCharsRegex}])(?=.{8,})`;
+  specialChars: string = VerifyPasswordService.specialChars;
+  medStrong: string = VerifyPasswordService.medStrong;
 
   constructor(
     private formbuilder: FormBuilder,
@@ -35,6 +36,7 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private user: UserService,
+    private verifyPasswordService: VerifyPasswordService,
   ) { }
 
   ngOnInit(): void {
@@ -50,44 +52,10 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  verifySignUpForm(password: string, confirmPassword: string): boolean {
-    // check if passwords match
-    if (password !== confirmPassword) {
-      this.messageService.add({severity: 'error', summary: 'Passwords do not match', life: 10000});
-      return false;
-    }
-
-    // check if password is long enough
-    if (password.length < 8) {
-      this.messageService.add({severity: 'error', summary: 'Password must be at least 8 characters long', life: 10000});
-      return false;
-    }
-
-    // check if password has a number
-    if (!/\d/.test(password)) {
-      this.messageService.add({severity: 'error', summary: 'Password must contain at least one number', life: 10000});
-      return false;
-    }
-
-    // check if password has a special character
-    if (!(new RegExp(`[${this.specialCharsRegex}]`)).test(password)) {
-      this.messageService.add({severity: 'error', summary: 'Password must contain at least one special character', life: 10000});
-      return false;
-    }
-
-    // check if password has an uppercase letter
-    if (!/[A-Z]/.test(password)) {
-      this.messageService.add({severity: 'error', summary: 'Password must contain at least one uppercase letter', life: 10000});
-      return false;
-    }
-
-    return true;
-  }
-
   Signup(){
     this.signUpButtonLoading = true;
 
-    if (!this.verifySignUpForm(this.signUpForm.value.password, this.signUpForm.value.confirmPassword)) {
+    if (!this.verifyPasswordService.verifyPassword(this.messageService, this.signUpForm.value.password, this.signUpForm.value.confirmPassword)) {
       this.signUpButtonLoading = false;
       return;
     }
