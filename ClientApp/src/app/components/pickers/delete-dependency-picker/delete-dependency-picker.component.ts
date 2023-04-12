@@ -22,26 +22,38 @@ import {
   
     @Input() data!: TaskData;
   
-    progressOptions!: string[] | undefined;
-    selectedProgress!: string;
+    dependencyOptions!: number[] | undefined;
+    selectedDependency!: number;
   
     constructor(
       private messageService: MessageService,
     ) { }
   
     ngOnInit() {
-      this.progressOptions = this.data.dependencies;
+      this.dependencyOptions = this.data.dependencies;
     }
   
-    showOption(option: string) {
-      this.selectedProgress = option;
-      this.overlayPanel.hide();
-      this.approveChanges(option);
+    showOption(option: number) {
+      this.selectedDependency = option;
+      this.approveChanges();
     }
   
-    approveChanges(event: any) {
-      this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}!`});
-      // when the time comes, add a serverApi call here to send change to backend
+    approveChanges() {
+      const result = this.removeDependency(this.selectedDependency);
+      if (result === 1) {
+        this.messageService.add({severity: 'success', summary: `Dependency ${this.selectedDependency} was successfully removed!`});
+      } else {
+        this.messageService.add({severity: 'error', summary: `Dependency ${this.selectedDependency} does not exist!`});
+      }
+    }
+
+    removeDependency(dependency: number): number {
+      const index = this.data.dependencies?.indexOf(dependency);
+      if (index !== undefined && index !== -1) {
+        this.data.dependencies?.splice(index, 1);
+        return 1;
+      }
+      return -1;
     }
   
     cancelInput() {
