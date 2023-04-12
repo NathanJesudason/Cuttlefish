@@ -18,10 +18,11 @@
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
+
+  margin-bottom: var(--content-padding);
 }
 
 .project-modal-button {
-  margin-top: var(--content-padding);
   margin-left: auto;
   margin-right: auto;
 }

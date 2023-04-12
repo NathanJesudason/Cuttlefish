@@ -16,6 +16,7 @@ import { ProjectData } from 'src/types/project';
 import { ProjectService } from 'src/app/services/project/project.service';
 
 import { NavMenuComponent } from './nav-menu.component';
+import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
 
 describe('NavMenuComponent', () => {
   const data: ProjectData = {
@@ -51,6 +52,7 @@ describe('NavMenuComponent', () => {
   
   beforeEach(() => {
     return MockBuilder(NavMenuComponent, [MenubarModule])
+      .mock(CreateProjectModalComponent, { export: true })
       .mock(ProjectService, {
         getAllProjects: (id: number): Observable<ProjectData[]> => of([data]),
       } as Partial<ProjectService>);
