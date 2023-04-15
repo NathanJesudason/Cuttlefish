@@ -22,6 +22,7 @@
 </div>
 
 <div class="p-toolbar-group-end">
+  <span>{{ taskData.assignee }}</span>
   <button pButton id="project-Delete-button" class="p-button-raised p-button-sm" type="button" icon="pi pi-trash"  (click)="deleteTask()"></button>
 </div>
 </p-toolbar>
@@ -32,8 +33,6 @@
 <app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
 <app-type-picker [data]="taskData" #typePicker></app-type-picker>
 <funds-inplace [entityData]="taskData"></funds-inplace>
-
-<span>{{ taskData.assignee }}</span>
 
 <p-multiSelect [options]="allLabels" [(ngModel)]="taskData.labels" optionLabel="name" defaultLabel="Label Relations" display="chip" (ngModelChange)="updateLabels($event)">
 
