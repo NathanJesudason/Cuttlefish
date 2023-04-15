@@ -49,7 +49,6 @@ export class CreateTaskModalComponent implements OnInit {
   }
 
   acceptModalInput() {
-    console.log(this.collectInputs())
     this.taskApi.postTask(this.collectInputs()).subscribe({
       next: data =>{
         this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
@@ -57,6 +56,7 @@ export class CreateTaskModalComponent implements OnInit {
         this.sprintData.pointsAttempted += data.storyPoints
       },
       error: err => {
+        console.log(err.message);
         this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
       }
     })

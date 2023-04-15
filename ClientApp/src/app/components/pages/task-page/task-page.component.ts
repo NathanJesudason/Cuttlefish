@@ -53,7 +53,7 @@ export class TaskPageComponent implements OnInit {
         this.location.back();
       },
       error: err => {
-        //this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
+        this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
         console.log(err);
       }
     })
@@ -84,7 +84,6 @@ export class TaskPageComponent implements OnInit {
         valueChange.forEach(x => {
           this.taskApi.deleteLabelRelations(x, this.taskData.id).subscribe({
             next: _ => {
-              console.log("updated");
               this.messageService.add({severity: 'success', summary: `Labels Updated`});
             },
             error: (err) => {
@@ -97,7 +96,7 @@ export class TaskPageComponent implements OnInit {
       this.oldLabelRelations = value;
     } catch (error) {
       this.messageService.add({severity: 'error', summary: `Error updating labels: ${error}`});
-      console.log("Error from function, ", error)
+      console.log("Error updating labels: ", error)
       this.taskData.labels = this.oldLabelRelations;
       return;
     }

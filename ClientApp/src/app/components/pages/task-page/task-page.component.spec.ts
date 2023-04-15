@@ -21,9 +21,9 @@ import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/d
 import { TaskPageComponent } from './task-page.component';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { of } from 'rxjs';
-import { TaskTypePickerComponent } from '../../pickers/task-type-picker/task-type-picker.component';
+import { TaskTypePickerComponent } from 'src/app/components/pickers/task-type-picker/task-type-picker.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FundsInplaceComponent } from '../../inplaces/funds-inplace/funds-inplace.component';
+import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
