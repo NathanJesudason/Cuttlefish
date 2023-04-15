@@ -9,7 +9,7 @@ import {
 import { SprintService } from 'src/app/services/sprint/sprint.service';
 
 import { ProjectService } from './project.service';
-import { TaskApi } from '../tasks/tasks.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 describe('ProjectService', () => {
   let projectServiceHttpSpy: jasmine.SpyObj<HttpClient>;

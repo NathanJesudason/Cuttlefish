@@ -123,7 +123,11 @@ export class DescriptionInplaceComponent implements OnInit {
           this.messageService.add({severity: 'success', summary: 'Description was updated'});
           if (isProjectData(this.entityData)) {
             this.entityData.description = this.text;
-          }
+          }        
+          this.unSelect();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
         }
       })
     }

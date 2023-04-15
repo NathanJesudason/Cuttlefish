@@ -13,7 +13,7 @@ import {
 } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { TaskApi } from '../tasks/tasks.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { ProjectData } from 'src/types/project';
 import {
   BackendSprintData,
