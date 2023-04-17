@@ -53,6 +53,10 @@ import {
         to add a dependency that doesn't exist within ProjectData,
         then this should return -1 and addDependency should not
         succeed.
+
+        Do this through a nested loop of the SprintData's, which
+        should be accessible through the ProjectData. This will
+        parse through all the existing tasks.
         */
       }
     
