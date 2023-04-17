@@ -175,7 +175,7 @@ export class ServerApi {
    * @param id the id of the requested task
    * @returns `TaskData`
    * @throws `TaskNotFoundError` on invalid id
-   */
+   *
   getTaskData(id: number): TaskData {
     // simple initial function
     if (id === 10000) {
@@ -202,7 +202,7 @@ export class ServerApi {
       };
     }
     throw new TaskNotFoundError('Task not found', id);
-  }
+  }*/
 
   /**
    * 
@@ -214,6 +214,10 @@ export class ServerApi {
     if (id === 10000) {
       return {
         id: 10000,
+        sprintID: 0,
+        priority: 0,
+        cost: 0,
+        type: "Epic",
         name: 'Work on angular',
         assignee: 'Sebastian Hardin',
         storyPoints: 5,
@@ -226,6 +230,10 @@ export class ServerApi {
     } else if (id === 10001) {
       return {
         id: 10001,
+        sprintID: 0,
+        priority: 0,
+        cost: 0,
+        type: "Epic",
         name: 'Add properties to database',
         assignee: 'Sebastian Hardin',
         storyPoints: 3,
@@ -238,6 +246,10 @@ export class ServerApi {
     } else if (id === 10002) {
       return {
         id: 10002,
+        sprintID: 0,
+        priority: 0,
+        cost: 0,
+        type: "Epic",
         name: 'Backlog task',
         assignee: 'Sebastian Hardin',
         storyPoints: 1,

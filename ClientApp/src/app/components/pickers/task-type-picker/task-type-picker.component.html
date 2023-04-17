@@ -1,0 +1,19 @@
+<p-tag class="progressHead" styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{selectedType}}"></p-tag>
+<p-overlayPanel
+  [dismissable]="true"
+  [showCloseIcon]="true"
+  #overlayPanel
+
+
+>
+  <div class="options">
+    <p-tag class="typeTag" (click)="showOption('Epic')">Epic</p-tag>
+    <p-tag class="typeTag" (click)="showOption('Bug')">Bug</p-tag>
+    <p-tag class="typeTag" (click)="showOption('Spike')">Spike</p-tag>
+    <p-tag class="typeTag" (click)="showOption('Story')">Story</p-tag>
+    <p-tag class="typeTag" (click)="showOption('Kaizen')">Kaizen</p-tag>
+    <p-tag class="typeTag" (click)="showOption('Subtask')">Subtask</p-tag>
+  </div>
+</p-overlayPanel>
+
+<p-toast></p-toast>

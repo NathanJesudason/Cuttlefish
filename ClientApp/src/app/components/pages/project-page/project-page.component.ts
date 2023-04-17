@@ -60,7 +60,7 @@ export class ProjectPageComponent {
   loadProjectData() {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
 
-    this.projectService.getProject(id, true, false).subscribe({
+    this.projectService.getProject(id, true, true).subscribe({
       next: (projectData: ProjectData) => {
         this.projectData = projectData;
         this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);

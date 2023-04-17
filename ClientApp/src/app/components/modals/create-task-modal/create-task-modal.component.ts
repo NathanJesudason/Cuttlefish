@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { SprintData } from 'src/types/sprint';
 import { TaskData } from 'src/types/task';
@@ -24,9 +25,15 @@ export class CreateTaskModalComponent implements OnInit {
   inputStartDate!: Date | null;
   inputEndDate!: Date | null;
   inputStoryPoints!: number | undefined;
+  inputDescription!: string;
+  inputProgress!: string;
+  inputPriority!: number;
+  inputCost!: number;
+  inputType!: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask';
 
   constructor(
     private messageService: MessageService,
+    private taskApi: TaskApi
   ) { }
 
   ngOnInit(): void {
@@ -42,9 +49,17 @@ export class CreateTaskModalComponent implements OnInit {
   }
 
   acceptModalInput() {
-    this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
-    // call to serverapi with the collected input* values
-    this.sprintData.tasks.push(this.collectInputs());
+    this.taskApi.postTask(this.collectInputs()).subscribe({
+      next: data =>{
+        this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
+        this.sprintData.tasks.push(data);
+        this.sprintData.pointsAttempted += data.storyPoints
+      },
+      error: err => {
+        console.log(err.message);
+        this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
+      }
+    })
     this.hideCreateTaskModal();
   }
 
@@ -55,14 +70,16 @@ export class CreateTaskModalComponent implements OnInit {
 
   collectInputs(): TaskData {
     return {
-      id: 10003,
       name: this.inputName,
+      sprintID: this.sprintData.id,
       startDate: this.inputStartDate,
       endDate: this.inputEndDate,
-      assignee: '',
       storyPoints: this.inputStoryPoints || 0,
-      description: '',
+      description: this.inputDescription,
       progress: 'Backlog',
+      priority: 0,
+      type: this.inputType,
+      cost: this.inputCost,
     } as TaskData;
   }
 
@@ -71,5 +88,11 @@ export class CreateTaskModalComponent implements OnInit {
     this.inputStartDate = null;
     this.inputEndDate = null;
     this.inputStoryPoints = undefined;
+
+    this.inputDescription = "";
+    this.inputProgress = 'In Progress';
+    this.inputPriority = 0;
+    this.inputCost = 0;
+    this.inputType = 'Story';
   }
 }

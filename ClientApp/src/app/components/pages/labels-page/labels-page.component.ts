@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 
 import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
@@ -22,39 +23,56 @@ export class LabelsPageComponent implements OnInit {
 
   currentLabel!: LabelData;
   tasksByLabel: TaskData[] = [];
+  queryParamLabel!: string | null;
 
   taskPickerDisabled: boolean = false;
   
   constructor (
-    private serverApi: ServerApi,
+    private taskApi: TaskApi,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.getAvailableLabels();
-    this.getCurrentLabel();
-    this.getTasksByCurrentLabel();
   }
 
   getCurrentLabel() {
-    const queryParamLabel = this.route.snapshot.queryParamMap.get('name');
-    if (queryParamLabel === null) return;
+    this.queryParamLabel = this.route.snapshot.queryParamMap.get('name');
+    if (this.queryParamLabel === null) return;
     for (const label of this.availableLabels) {
-      if (label.name === queryParamLabel) {
+      if (label.name === this.queryParamLabel) {
         this.currentLabel = label;
+        this.getTasksByCurrentLabel();
         return;
       }
     }
   }
 
+  labelAdaptor(input: {label: string, color: string;}): LabelData {
+    return {name: input.label, color: input.color};
+  }
+
   getTasksByCurrentLabel() {
     if (this.currentLabel === undefined || this.currentLabel === null) return;
-    this.tasksByLabel = this.serverApi.getTasksByLabel(this.currentLabel.name);
+    console.log(this.currentLabel);
+    //Get all tasks, get all labelrelations with currentLabel, filter
+    this.taskApi.getAllTasksWithLabel(this.currentLabel).subscribe({
+      next: tasks => {
+        this.tasksByLabel = tasks;
+      }
+    });
   }
 
   getAvailableLabels() {
-    this.availableLabels = this.serverApi.getAllLabels();
+    this.taskApi.getLabels().subscribe({
+      next: values => {
+        var labels: LabelData[] = [];
+        values.forEach(value => labels.push(this.labelAdaptor(value)));
+        this.availableLabels = labels;
+        this.getCurrentLabel();
+      }
+    });
   }
 
   updateSelectedLabel(event: { value: LabelData }) {

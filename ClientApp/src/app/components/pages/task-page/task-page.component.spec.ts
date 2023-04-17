@@ -18,10 +18,21 @@ import { DescriptionInplaceComponent } from 'src/app/components/inplaces/descrip
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/date-inplace.component';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { TaskPageComponent } from './task-page.component';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { of } from 'rxjs';
+import { TaskTypePickerComponent } from 'src/app/components/pickers/task-type-picker/task-type-picker.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TaskPageComponent', () => {
+  const mockLabels: { label: string; color: string; }[] = [
+    { label: 'thisisalabel', color: '#582C8E' },
+    { label: 'thisisanotherlabel', color: '#123472' },
+  ];
+
   const data: TaskData = {
     id: 43572,
     name: 'this is the task name',
@@ -31,22 +42,29 @@ describe('TaskPageComponent', () => {
     progress: 'In Progress',
     startDate: new Date(Date.parse('12/23/2022')),
     endDate: new Date(Date.parse('12/26/2022')),
+    sprintID: 0,
+    priority: 0,
+    type: 'Epic',
+    cost: 0
   };
 
   beforeEach(() => {
-    return MockBuilder(TaskPageComponent, [TagModule, ChipModule, ButtonModule, RouterModule])
+    return MockBuilder(TaskPageComponent, [TagModule, ChipModule, ButtonModule, RouterModule, ProgressSpinnerModule, MultiSelectModule, BrowserAnimationsModule])
       .mock(DescriptionInplaceComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
       .mock(ProgressPickerComponent, { export: true })
+      .mock(TaskTypePickerComponent, { export: true })
+      .mock(FundsInplaceComponent, {export: true })
       .mock(DateInplaceComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
       } as Partial<ActivatedRoute>, { export: true })
-      .mock(ServerApi, {
-        getFullTaskData: (id: number): TaskData => data,
-      } as Partial<ServerApi>);
+      .mock(TaskApi, {
+        getTaskDataWithLabels: (id: number) => of(data),
+        getLabels: () => of(mockLabels),
+      } as Partial<TaskApi>);
   });
 
   it('should create', () => {

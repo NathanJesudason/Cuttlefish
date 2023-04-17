@@ -9,16 +9,19 @@ import {
 import { SprintService } from 'src/app/services/sprint/sprint.service';
 
 import { ProjectService } from './project.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 describe('ProjectService', () => {
   let projectServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let sprintServiceHttpSpy: jasmine.SpyObj<HttpClient>;
+  let taskServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let projectService: ProjectService;
 
   beforeEach(() => {
     projectServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
     sprintServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    projectService = new ProjectService(projectServiceHttpSpy, new SprintService(sprintServiceHttpSpy));
+    taskServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    projectService = new ProjectService(projectServiceHttpSpy, new SprintService(sprintServiceHttpSpy, new TaskApi(taskServiceHttpSpy)));
   });
 
   it('should be created', () => {

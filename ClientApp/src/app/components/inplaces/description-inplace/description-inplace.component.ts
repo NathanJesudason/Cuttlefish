@@ -10,6 +10,7 @@ import { Inplace } from 'primeng/inplace';
 
 import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import {
   isProjectData,
@@ -19,7 +20,7 @@ import {
   isSprintData,
   SprintData
 } from 'src/types/sprint';
-import { TaskData } from 'src/types/task';
+import { isTaskData, TaskData } from 'src/types/task';
 
 @Component({
   selector: 'description-inplace',
@@ -38,6 +39,7 @@ export class DescriptionInplaceComponent implements OnInit {
     private projectService: ProjectService,
     private sprintService: SprintService,
     private messageService: MessageService,
+    private taskApi: TaskApi
   ) { }
 
   @ViewChild('descriptionInplace') descriptionInplace!: Inplace;
@@ -74,7 +76,25 @@ export class DescriptionInplaceComponent implements OnInit {
       this.text = '';
     }
 
-    if (isSprintData(this.entityData)) {
+    if (isTaskData(this.entityData)){
+      if(this.text == this.entityData.description){
+        this.unSelect();
+        return;
+      }
+      const updatedTask = { ...this.entityData, description: this.text};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: (data) => {
+          this.messageService.add({severity: 'success', summary: 'Description was updated'});
+          if(isTaskData(this.entityData)) {
+            this.entityData.description = this.text;
+          }
+          this.unSelect();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`})
+        }
+      })
+    } else if (isSprintData(this.entityData)) {
       if (this.text === this.entityData.goal) {
         this.unSelect();
         return;
@@ -103,16 +123,14 @@ export class DescriptionInplaceComponent implements OnInit {
           this.messageService.add({severity: 'success', summary: 'Description was updated'});
           if (isProjectData(this.entityData)) {
             this.entityData.description = this.text;
-          }
+          }        
           this.unSelect();
         },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
-        },
-      });
-    } /* else if (isTaskData(this.entityData)) {
-      ...
-    } */
+        }
+      })
+    }
   }
 
   cancelInput(event: any) {

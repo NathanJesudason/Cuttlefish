@@ -1,12 +1,42 @@
-<button pButton id="project-back-button" class="p-button-raised p-button-sm" type="button" label="Back to Project" icon="pi pi-arrow-left" [routerLink]="['/project', 0]"></button>
+<div
+  id="page-loading"
+  *ngIf="pageLoading"
+  [@basicFadeAnimation]
+>
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div
+  *ngIf="!pageLoading"
+  [@basicFadeAnimation]
+>
 
-<title-inplace [entityData]="taskData" size="large"></title-inplace>
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <button pButton id="project-back-button" class="p-button-raised p-button-sm" type="button" label="Back" icon="pi pi-arrow-left" (click)="this.location.back()"></button>
+  </div>
 
+
+<div class="p-toolbar-group-center">
+  <!-- (onRemove)="deleteLabelRelation({{i.name}})" -->
+  <title-inplace [entityData]="taskData" size="large"></title-inplace>
+</div>
+
+<div class="p-toolbar-group-end">
+  <span>{{ taskData.assignee }}</span>
+  <button pButton id="project-Delete-button" class="p-button-raised p-button-sm" type="button" icon="pi pi-trash"  (click)="deleteTask()"></button>
+</div>
+</p-toolbar>
+
+<!--TODO: Make sure that this updates sprint data-->
 <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
 
 <app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
+<app-type-picker [data]="taskData" #typePicker></app-type-picker>
+<funds-inplace [entityData]="taskData"></funds-inplace>
 
-<span>{{ taskData.assignee }}</span>
+<p-multiSelect [options]="allLabels" [(ngModel)]="taskData.labels" optionLabel="name" defaultLabel="Label Relations" display="chip" (ngModelChange)="updateLabels($event)">
+
+</p-multiSelect>
 
 <h4>Description:</h4>
 <description-inplace
@@ -23,3 +53,5 @@
     [entityData]="taskData"
     whichDate="end"
 ></date-inplace>
+
+</div>

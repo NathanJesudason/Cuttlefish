@@ -15,11 +15,12 @@ import {
   ProjectData,
   isProjectData
 } from 'src/types/project';
-import { TaskData } from 'src/types/task';
+import { TaskData, isTaskData } from 'src/types/task';
 import {
   SprintData,
   isSprintData
 } from 'src/types/sprint';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 @Component({
   selector: 'title-inplace',
@@ -39,6 +40,7 @@ export class TitleInplaceComponent implements OnInit {
     private projectService: ProjectService,
     private sprintService: SprintService,
     private messageService: MessageService,
+    private taskApi: TaskApi
   ) { }
 
   ngOnInit() {
@@ -54,7 +56,23 @@ export class TitleInplaceComponent implements OnInit {
           this.entityData.name = this.updatedTitle;
           this.titleInplace.deactivate();
         },
-        error: (err) => {
+        error: (err: any) => {
+          this.messageService.add({severity: 'error', summary: `Error updating name: ${err}`});
+        }
+      })
+    } else if (isTaskData(this.entityData)){
+      if(this.updatedTitle == this.entityData.name){
+        this.titleInplace.deactivate();
+        return;
+      }
+      const updatedTask = { ...this.entityData, name: this.updatedTitle};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: 'Name was updated'});
+          this.entityData.name = this.updatedTitle;
+          this.titleInplace.deactivate();
+        },
+        error: (err: { message: any; }) => {
           this.messageService.add({severity: 'error', summary: `Error updating title: ${err.message}`});
           this.titleInplace.deactivate();
         },
@@ -72,9 +90,7 @@ export class TitleInplaceComponent implements OnInit {
           this.titleInplace.deactivate();
         },
       });
-    } /* else if (isTaskData(this.entityData)) {
-      ...
-    } */
+    }
   }
 
   cancelInput() {

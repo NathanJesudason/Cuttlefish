@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { format } from 'date-fns';
 
@@ -15,11 +16,13 @@ import {
   isProjectData,
   ProjectData
 } from 'src/types/project';
-import { TaskData } from 'src/types/task';
+import { isTaskData, TaskData } from 'src/types/task';
 import {
   isSprintData,
   SprintData
 } from 'src/types/sprint';
+
+
 
 @Component({
   selector: 'date-inplace',
@@ -38,6 +41,7 @@ export class DateInplaceComponent implements OnInit {
     private projectService: ProjectService,
     private sprintService: SprintService,
     private messageService: MessageService,
+    private taskApi: TaskApi
   ) { }
 
   ngOnInit() {
@@ -45,16 +49,34 @@ export class DateInplaceComponent implements OnInit {
   }
 
   approveChanges(event: any) {
-    if (this.selectedDate === undefined) {
+    if (this.selectedDate === undefined){
       this.messageService.add({severity: 'error', summary: 'Date cannot be empty'});
       return;
     }
-    
+
     if (this.whichDate === 'start' && this.entityData.startDate == this.selectedDate) {
       return;
     }
     if (this.whichDate === 'end' && this.entityData.endDate == this.selectedDate) {
       return;
+    }
+
+    if(isTaskData(this.entityData)) {
+      const updatedTask: TaskData = this.whichDate === 'start' ? {...this.entityData, startDate: this.selectedDate}
+        : {...this.entityData, endDate: this.selectedDate};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: `Date was updated`});
+          if (this.whichDate === 'start') {
+            this.entityData.startDate = this.selectedDate;
+          } else {
+            this.entityData.endDate = this.selectedDate;
+          }
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
+        }
+      })
     }
 
     if (isProjectData(this.entityData)) {
@@ -93,8 +115,6 @@ export class DateInplaceComponent implements OnInit {
           this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
         },
       });
-    } /* else if (isTaskData(this.entityData)) {
-      ...
-    } */
+    }
   }
 }
