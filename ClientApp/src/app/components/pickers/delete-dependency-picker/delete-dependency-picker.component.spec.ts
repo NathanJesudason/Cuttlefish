@@ -11,7 +11,7 @@ import {
   import { TaskData } from 'src/types/task';
   import { AppModule } from 'src/app/app.module';
   
-  describe('ProgressPickerComponent', () => {
+  describe('DeleteDependencyPickerComponent', () => {
     const data: TaskData = {
       id: 12345,
       name: 'Task Name',
