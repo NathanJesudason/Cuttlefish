@@ -9,11 +9,11 @@ import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
 
 @Component({
-  selector: 'task-dropdown',
-  templateUrl: './task-dropdown.component.html',
-  styleUrls: ['./task-dropdown.component.css']
+  selector: 'task-overview',
+  templateUrl: './task-overview.component.html',
+  styleUrls: ['./task-overview.component.css']
 })
-export class TaskDropdownComponent implements OnInit {
+export class TaskOverviewComponent implements OnInit {
   @Input() taskData!: TaskData;
 
   trimmedDescription!: string;

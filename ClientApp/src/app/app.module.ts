@@ -46,7 +46,7 @@ import { NavMenuComponent } from 'src/app/components/miscellaneous/nav-menu/nav-
 import { HomePageComponent } from 'src/app/components/pages/home-page/home-page.component';
 import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from 'src/app/components/pages/project-page/project-page.component';
-import { TaskDropdownComponent } from 'src/app/components/miscellaneous/task-dropdown/task-dropdown.component';
+import { TaskOverviewComponent } from 'src/app/components/miscellaneous/task-overview/task-overview.component';
 import { TaskPageComponent } from 'src/app/components/pages/task-page/task-page.component';
 import { GanttPageComponent } from 'src/app/components/pages/gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from 'src/app/components/pages/not-found-page/not-found-page.component';
@@ -81,7 +81,7 @@ import { TaskTypePickerComponent } from './components/pickers/task-type-picker/t
     HomePageComponent,
     SprintDropdownComponent,
     ProjectPageComponent,
-    TaskDropdownComponent,
+    TaskOverviewComponent,
     TaskPageComponent,
     GanttPageComponent,
     NotFoundPageComponent,
