@@ -20,7 +20,11 @@ import {
       description: 'Task Description',
       startDate: new Date(),
       endDate: new Date(),
-      progress: 'Backlog'    
+      progress: 'Backlog',
+      sprintID: 0,
+      priority: 0,
+      type: 'Epic',
+      cost: 0
     };
     
     
