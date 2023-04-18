@@ -3,7 +3,10 @@ import {
   MockRender,
   ngMocks
 } from 'ng-mocks';
-import { AccordionModule } from 'primeng/accordion';
+
+import { TagModule } from 'primeng/tag';
+import { ChipModule } from 'primeng/chip';
+import { AvatarModule } from 'primeng/avatar';
 
 import { TaskData } from 'src/types/task';
 import { TaskDropdownComponent } from './task-dropdown.component';
@@ -24,12 +27,14 @@ describe('TaskDropdownComponent', () => {
     cost: 0
   };
 
-  beforeEach(() => MockBuilder(TaskDropdownComponent, AccordionModule));
+  beforeEach(() => MockBuilder(TaskDropdownComponent, [
+    TagModule,
+    ChipModule,
+    AvatarModule
+  ]));
 
   it('should create', () => {
-    MockRender(TaskDropdownComponent, data);
+    MockRender(TaskDropdownComponent, {taskData: data});
     expect(ngMocks.findAll(TaskDropdownComponent)[0]).toBeTruthy();
   });
-
-  // if we ever put anything in the taskdropdown besides a single accordiontab, add more unit tests for that
 });

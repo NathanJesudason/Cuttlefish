@@ -1,16 +1,46 @@
-<p-accordionTab>
-  <ng-template pTemplate="header">
-    <div class="task-dropdown-header">
-      <p class="task-dropdown-header-item">{{ taskData.id }}: {{ taskData.name }}</p>
-      <p-avatar shape="circle" icon="pi pi-user" class="task-dropdown-header-item"></p-avatar>
-      <p-tag class="task-dropdown-header-item" styleClass="mr-2" value="{{taskData.progress}}"></p-tag>
-      <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2" class="task-dropdown-header-item"></p-chip>
-    </div>
-  </ng-template>
+<div id="task-overview">
+  <div id="draggable-handle">
+    <i class="pi pi-arrows-v"></i>
+  </div>
+  
+  <div id="task-title">
+    <p
+      id="task-title-text"
+      [routerLink]="['/task', taskData.id]"
+    >{{taskData.id}}: {{taskData.name}}</p>
+  </div>
 
-  <ng-template pTemplate="body">
-    Assignee: {{ taskData.assignee }}    Story Points: {{ taskData.storyPoints }}
-    <p-divider></p-divider>
-    <button pButton type="button" class="p-button-raised p-button-sm" label="Go to Task" icon="pi pi-check-square" [routerLink]="['/task', taskData.id]"></button>
-  </ng-template>
-</p-accordionTab>
+  <div id="task-description">
+    <p id="task-description-text">{{trimmedDescription}}</p>
+  </div>
+
+  <p-avatar
+    shape="circle"
+    icon="pi pi-user"
+  ></p-avatar>
+
+  <p-tag
+    styleClass="mr-2"
+    value="{{taskData.progress}}"
+  ></p-tag>
+
+  <p-chip
+    label="{{taskData.storyPoints}}"
+    styleClass="p-mr-2"
+  ></p-chip>
+
+  <p-tag
+    styleClass="mr-2"
+    value="{{taskData.type}}"
+  ></p-tag>
+
+  <div id="task-labels">
+    <p-tag
+      *ngFor="let label of trimmedLabels"
+      [rounded]="true"
+      [style]="{'background': label.color}"
+      styleClass="mr-2"
+      [value]="label.name"
+    ></p-tag>
+  </div>
+</div>
