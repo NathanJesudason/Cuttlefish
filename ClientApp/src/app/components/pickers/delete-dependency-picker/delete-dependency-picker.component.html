@@ -1,12 +1,13 @@
-<p-tag class="delDependencyHead" styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{selectedDependency}}"></p-tag>
-<p-overlayPanel
-  [dismissable]="true"
-  [showCloseIcon]="true"
-  #overlayPanel
->
-  <div class="options">
-    
-  </div>
-</p-overlayPanel>
+<overlayPanel #overlayPanel>
+  <h4>Select a dependency to delete:</h4>
+  <ul>
+    <li *ngFor="let dependency of dependencyOptions">
+      <a (click)="showOption(dependency)">{{dependency}}</a>
+    </li>
+  </ul>
+  <button (click)="cancelInput()">Cancel</button>
+</overlayPanel>
+
+<button type="button" pButton icon="pi pi-trash" (click)="overlayPanel.show()"></button>
 
 <p-toast></p-toast>
