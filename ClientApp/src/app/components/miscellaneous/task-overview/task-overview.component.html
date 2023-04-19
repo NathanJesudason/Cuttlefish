@@ -4,35 +4,39 @@
   </div>
   
   <div id="task-title">
-    <p
+    <a
       id="task-title-text"
       [routerLink]="['/task', taskData.id]"
-    >{{taskData.id}}: {{taskData.name}}</p>
+    >{{taskData.id}}: {{taskData.name}}</a>
   </div>
 
   <div id="task-description">
     <p id="task-description-text">{{trimmedDescription}}</p>
   </div>
 
+  <p-tag
+    id="task-type"
+    styleClass="mr-2"
+    value="{{taskData.type}}"
+  ></p-tag>
+
   <p-avatar
+    id="task-avatar"
     shape="circle"
     icon="pi pi-user"
   ></p-avatar>
 
   <p-tag
+    id="task-progress"
     styleClass="mr-2"
     value="{{taskData.progress}}"
   ></p-tag>
 
   <p-chip
+    id="task-story-points"
     label="{{taskData.storyPoints}}"
     styleClass="p-mr-2"
   ></p-chip>
-
-  <p-tag
-    styleClass="mr-2"
-    value="{{taskData.type}}"
-  ></p-tag>
 
   <div id="task-labels">
     <p-tag

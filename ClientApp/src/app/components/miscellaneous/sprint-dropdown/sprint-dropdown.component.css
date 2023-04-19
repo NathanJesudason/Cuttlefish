@@ -65,3 +65,9 @@
   margin-bottom: 1rem;
   color: var(--text-color);
 }
+
+#tasks {
+  width: 100%;
+  display: grid;
+  row-gap: 0.75rem;
+}

@@ -33,7 +33,7 @@ export class TaskOverviewComponent implements OnInit {
     if (descriptionWithoutTags.length === 0) {
       this.trimmedDescription = 'No description';
     } else {
-      this.trimmedDescription = `${descriptionWithoutTags.slice(0, 50)}...`;
+      this.trimmedDescription = `${descriptionWithoutTags.slice(0, 80)}...`;
     }
   }
 
