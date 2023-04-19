@@ -8,6 +8,12 @@
   <button (click)="cancelInput()">Cancel</button>
 </overlayPanel>
 
-<button type="button" pButton icon="pi pi-trash" (click)="overlayPanel.show()"></button>
+<button type="button" pButton icon="pi pi-trash" (click)="confirmationDialog.show()"></button>
+
+<p-confirmDialog #confirmationDialog header="Confirm Deletion" message="Are you sure you want to delete the selected dependency?"
+  icon="pi pi-exclamation-triangle" acceptLabel="Yes" rejectLabel="No"
+  acceptButtonStyleClass="p-button-danger" rejectButtonStyleClass="p-button-secondary"
+  (accept)="approveChanges()" (reject)="confirmationDialog.hide()">
+</p-confirmDialog>
 
 <p-toast></p-toast>
