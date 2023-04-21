@@ -1,0 +1,54 @@
+<div
+  id="task-overview"
+  pDraggable
+  dragHandle="#draggable-handle i"
+>
+  <div id="draggable-handle">
+    <i class="pi pi-arrows-v"></i>
+  </div>
+  
+  <div id="task-title">
+    <a
+      id="task-title-text"
+      [routerLink]="['/task', taskData.id]"
+    >{{taskData.id}}: {{taskData.name}}</a>
+  </div>
+
+  <div id="task-description">
+    <p id="task-description-text">{{trimmedDescription}}</p>
+  </div>
+
+  <div id="task-labels">
+    <p-tag
+      *ngFor="let label of trimmedLabels"
+      [rounded]="true"
+      [style]="{'background': label.color}"
+      styleClass="mr-2"
+      [value]="label.name"
+    ></p-tag>
+  </div>
+
+  <p-tag
+    id="task-type"
+    styleClass="mr-2"
+    value="{{taskData.type}}"
+  ></p-tag>
+
+  <p-avatar
+    id="task-avatar"
+    shape="circle"
+    icon="pi pi-user"
+  ></p-avatar>
+
+  <p-tag
+    id="task-progress"
+    styleClass="mr-2"
+    value="{{taskData.progress}}"
+  ></p-tag>
+
+  <p-chip
+    id="task-story-points"
+    label="{{taskData.storyPoints}}"
+    styleClass="p-mr-2"
+  ></p-chip>
+</div>

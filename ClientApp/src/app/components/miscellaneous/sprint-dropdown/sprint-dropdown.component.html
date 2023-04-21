@@ -85,9 +85,12 @@
       [ngStyle]="{'margin-bottom': data.tasks.length === 0 ? '0' : 'var(--content-padding)'}"
     ></button>
 
-    <p-accordion [multiple]="true">
-      <task-dropdown *ngFor="let task of data.tasks" [taskData]="task"></task-dropdown>
-    </p-accordion>
+    <div id="tasks">
+      <task-overview
+        *ngFor="let task of data.tasks"
+        [taskData]="task"
+      ></task-overview>
+    </div>
   </ng-template>
 </p-accordionTab>
 
