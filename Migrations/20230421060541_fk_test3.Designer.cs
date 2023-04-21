@@ -4,6 +4,7 @@ using Cuttlefish.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cuttlefish.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230421060541_fk_test3")]
+    partial class fk_test3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,9 +127,6 @@ namespace Cuttlefish.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
 
-                    b.Property<int>("Projects.id")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProjectsID")
                         .HasColumnType("int");
 
@@ -156,8 +155,6 @@ namespace Cuttlefish.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
-
-                    b.HasIndex("Projects.id");
 
                     b.ToTable("Sprints");
                 });
@@ -286,17 +283,6 @@ namespace Cuttlefish.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TeamMembersToProjects");
-                });
-
-            modelBuilder.Entity("Cuttlefish.Models.Sprints", b =>
-                {
-                    b.HasOne("Cuttlefish.Models.Projects", "Projects")
-                        .WithMany()
-                        .HasForeignKey("Projects.id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

@@ -80,7 +80,7 @@ namespace Cuttlefish.Controllers
         public async Task<ActionResult<Sprints>> PostSprints(Sprints sprints)
         {
 
-            if (await _context.Projects.FindAsync(sprints.projectID) != null)
+            if (await _context.Projects.FindAsync(sprints.ProjectsID) != null)
             {
                 _context.Sprints.Add(sprints);
                 await _context.SaveChangesAsync();
