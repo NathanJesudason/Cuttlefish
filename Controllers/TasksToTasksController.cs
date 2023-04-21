@@ -114,7 +114,7 @@ namespace Cuttlefish.Controllers
         }
 
         // DELETE: api/TasksToTasks/inID/depID
-        [HttpDelete("{id}")]
+        [HttpDelete("{independentID}/{dependentID}")]
         public async Task<IActionResult> DeleteTasksToTasksByIDS(int independentID, int dependentID)
         {
             var tasksToTasks = _context.TasksToTasks.Where(i => i.independentTaskID == independentID && i.dependentTaskID == dependentID).FirstAsync().Result;
