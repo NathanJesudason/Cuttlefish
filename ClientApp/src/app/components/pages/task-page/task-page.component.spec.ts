@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
   convertToParamMap,
@@ -26,6 +27,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToolbarModule } from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
 
 describe('TaskPageComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -49,7 +52,18 @@ describe('TaskPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(TaskPageComponent, [TagModule, ChipModule, ButtonModule, RouterModule, ProgressSpinnerModule, MultiSelectModule, BrowserAnimationsModule])
+    return MockBuilder(TaskPageComponent, [
+      TagModule,
+      ChipModule,
+      ButtonModule,
+      RouterModule,
+      ProgressSpinnerModule,
+      MultiSelectModule,
+      BrowserAnimationsModule,
+      ToolbarModule,
+      DropdownModule,
+      FormsModule,
+    ])
       .mock(DescriptionInplaceComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
       .mock(ProgressPickerComponent, { export: true })

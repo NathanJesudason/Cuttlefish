@@ -89,6 +89,25 @@ export class SprintService {
   }
 
   /**
+   * Get all sprints within the given project
+   * @param projectId the id of the project to get the sprints for
+   * @returns an `Observable<SprintData[]>` that stores the sprints
+   * - the sprints won't be populated with tasks
+   */
+  getSprintsInProject(projectId: number): Observable<SprintData[]> {
+    return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
+        }),
+        map((sprints: BackendSprintData[]) => {
+          return sprints.filter(sprint => sprint.projectID === projectId)
+            .map(sprint => backendSprintToSprintData(sprint));
+        })
+      );
+  }
+
+  /**
    * Create a new sprint in the given project
    * @param projectId the id of the project to create the sprint in
    * @param sprint the sprint to create, with several ignored fields:

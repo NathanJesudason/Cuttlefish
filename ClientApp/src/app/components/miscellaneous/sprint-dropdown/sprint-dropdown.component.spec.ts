@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+
 import {
   MockBuilder,
   MockRender,
@@ -6,10 +8,17 @@ import {
 
 import { AccordionModule } from 'primeng/accordion';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { MenuModule } from 'primeng/menu';
 
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
 import { SprintDropdownComponent } from './sprint-dropdown.component';
+import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/date-inplace.component';
+import { DescriptionInplaceComponent } from 'src/app/components/inplaces/description-inplace/description-inplace.component';
+
 
 describe('SprintDropdownComponent', () => {
   const data: SprintData = {
@@ -40,8 +49,18 @@ describe('SprintDropdownComponent', () => {
   };
   
   beforeEach(() => {
-    return MockBuilder(SprintDropdownComponent, [AccordionModule, ConfirmDialogModule])
-      .mock(CreateTaskModalComponent, { export: true });
+    return MockBuilder(SprintDropdownComponent, [
+      AccordionModule,
+      ConfirmDialogModule,
+      RadioButtonModule,
+      DialogModule,
+      DropdownModule,
+      MenuModule,
+      FormsModule,
+    ])
+      .mock(CreateTaskModalComponent, { export: true })
+      .mock(DateInplaceComponent, { export: true })
+      .mock(DescriptionInplaceComponent, { export: true });
   });
     
 

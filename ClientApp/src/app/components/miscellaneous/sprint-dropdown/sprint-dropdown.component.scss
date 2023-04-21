@@ -65,3 +65,40 @@
   margin-bottom: 1rem;
   color: var(--text-color);
 }
+
+#manage-incomplete-tasks-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, min-content) 1fr;
+  grid-template-rows: auto;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+}
+
+#manage-incomplete-tasks-body > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+:host ::ng-deep {
+  #manage-incomplete-tasks-dialog .p-dialog {
+    width: 75vw;
+    height: 400px;
+  }
+
+  @media only screen and (max-width: 900px) {
+    #manage-incomplete-tasks-dialog .p-dialog {
+      width: 90vw;
+    }
+  }
+
+  @media only screen and (min-width: 1015px) {
+    #manage-incomplete-tasks-dialog .p-dialog {
+      width: 762px;
+    }
+  }
+}
+
+.radiobutton-label {
+  white-space: nowrap;
+}

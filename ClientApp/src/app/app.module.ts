@@ -38,6 +38,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { MessageModule } from 'primeng/message';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -147,6 +148,7 @@ import { TaskTypePickerComponent } from './components/pickers/task-type-picker/t
     ProgressSpinnerModule,
     TooltipModule,
     MultiSelectModule,
+    MessageModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},

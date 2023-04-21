@@ -97,6 +97,7 @@
 ></create-task-modal>
 
 <p-confirmDialog
+  #deleteSprintDialog
   header="Confirm Sprint Deletion"
   icon="pi pi-exclamation-triangle"
   acceptIcon="pi pi-trash"
@@ -106,3 +107,101 @@
   rejectLabel="Cancel"
   rejectButtonStyleClass="p-button-text p-button-secondary"
 ></p-confirmDialog>
+
+<p-dialog
+  #manageIncompleteTasksDialog
+  id="manage-incomplete-tasks-dialog"
+  header="Completing Sprint: What to do with incomplete tasks?"
+  [(visible)]="manageIncompleteTasksDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div id="manage-incomplete-tasks-body">
+
+    <p-radioButton
+      name="incompleteTasksAction"
+      value="moveToBacklog"
+      [(ngModel)]="incompleteTasksAction"
+      inputId="moveToBacklog"
+    ></p-radioButton>
+    <p
+      class="radiobutton-label"
+      (click)="incompleteTasksAction = 'moveToBacklog'"
+    >Move tasks to backlog:</p>
+    <p-dropdown
+      [options]="availableBacklogs"
+      [(ngModel)]="selectedAvailableBacklog"
+      [disabled]="incompleteTasksAction !== 'moveToBacklog' && availableBacklogErrorVisibility === 'hidden'"
+      scrollHeight="200px"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div>{{selectedAvailableBacklog.id}}: {{selectedAvailableBacklog.name}}</div>
+      </ng-template>
+      <ng-template let-backlog pTemplate="item">
+        <div>{{backlog.id}}: {{backlog.name}}</div>
+      </ng-template>
+    </p-dropdown>
+    <p-message
+      severity="error"
+      text="No backlogs available"
+      [ngStyle]="{'visibility': availableBacklogErrorVisibility}"
+    ></p-message>
+
+    <p-radioButton
+      name="incompleteTasksAction"
+      value="moveToSprint"
+      [(ngModel)]="incompleteTasksAction"
+      inputId="moveToSprint"
+    ></p-radioButton>
+    <p
+      class="radiobutton-label"
+      (click)="incompleteTasksAction = 'moveToSprint'"
+      >Move tasks to sprint: </p>
+    <p-dropdown
+      [options]="availableSprints"
+      [(ngModel)]="selectedAvailableSprint"
+      [disabled]="incompleteTasksAction !== 'moveToSprint' && availableSprintErrorVisibility === 'hidden'"
+      scrollHeight="200px"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div>{{selectedAvailableSprint.id}}: {{selectedAvailableSprint.name}}</div>
+      </ng-template>
+      <ng-template let-sprint pTemplate="item">
+        <div>{{sprint.id}}: {{sprint.name}}</div>
+      </ng-template>
+    </p-dropdown>
+    <p-message
+      severity="error"
+      text="No alternate sprints available"
+      [ngStyle]="{'visibility': availableSprintErrorVisibility}"
+    ></p-message>
+
+    <p-radioButton
+      name="incompleteTasksAction"
+      value="markAsDone"
+      [(ngModel)]="incompleteTasksAction"
+      inputId="markAsDone"
+    ></p-radioButton>
+    <p
+      class="radiobutton-label"
+      (click)="incompleteTasksAction = 'markAsDone'"
+    >Mark tasks as done</p>
+
+  </div> <!-- manage-incomplete-tasks-body -->
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      styleClass="p-button-text p-button-secondary"
+      (click)="manageIncompleteTasksDialogVisible = false;"
+    ></p-button>
+    <p-button
+      label="Continue"
+      icon="pi pi-check"
+      styleClass="p-button-success"
+      (click)="manageIncompleteTasksDialogVisible = false;"
+    ></p-button>
+  </ng-template>
+</p-dialog>

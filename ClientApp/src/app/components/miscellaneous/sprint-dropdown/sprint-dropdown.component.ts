@@ -23,7 +23,7 @@ import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-
 @Component({
   selector: 'sprint-dropdown',
   templateUrl: './sprint-dropdown.component.html',
-  styleUrls: ['./sprint-dropdown.component.css'],
+  styleUrls: ['./sprint-dropdown.component.scss'],
   providers: [ConfirmationService],
 })
 export class SprintDropdownComponent implements OnInit {
@@ -36,6 +36,17 @@ export class SprintDropdownComponent implements OnInit {
   hidden!: boolean;
 
   optionsMenuItems: MenuItem[] = [];
+
+  manageIncompleteTasksDialogVisible = false;
+  incompleteTasksAction: 'moveToBacklog' | 'moveToSprint' | 'markAsDone' = 'moveToBacklog';
+
+  availableSprints: SprintData[] = [];
+  selectedAvailableSprint!: SprintData;
+  availableSprintErrorVisibility: 'hidden' | 'visible' = 'hidden';
+
+  availableBacklogs: SprintData[] = [];
+  selectedAvailableBacklog!: SprintData;
+  availableBacklogErrorVisibility: 'hidden' | 'visible' = 'hidden';
 
   @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
 
@@ -131,6 +142,31 @@ export class SprintDropdownComponent implements OnInit {
     });
   }
 
+  getAvailableSprintsAndBacklogs() {
+    this.sprintService.getSprintsInProject(this.data.projectId).subscribe({
+      next: (sprints) => {
+        this.availableSprints = sprints.filter(s => !s.isBacklog && !s.isCompleted);
+
+        if (this.availableSprints.length === 0) {
+          this.availableSprintErrorVisibility = 'visible';
+        } else {
+          this.selectedAvailableSprint = this.availableSprints[0];
+        }
+
+        this.availableBacklogs = sprints.filter(s => s.isBacklog);
+
+        if (this.availableBacklogs.length === 0) {
+          this.availableBacklogErrorVisibility = 'visible';
+        } else {
+          this.selectedAvailableBacklog = this.availableBacklogs[0];
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
   completeThisSprint() {
     /*
       need to do lots of things here:
@@ -141,15 +177,22 @@ export class SprintDropdownComponent implements OnInit {
         - show sprint report (how many tasks completed, how many incomplete, etc)
         - mark sprint as completed
      */
-    const updatedSprint = {...this.data, isCompleted: true };
-    this.sprintService.updateSprint(this.data.id, updatedSprint).subscribe({
-      next: () => {
-        this.data.isCompleted = true;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+
+
+    this.getAvailableSprintsAndBacklogs();
+
+    // open modal for user to choose what to do with incomplete tasks
+    this.manageIncompleteTasksDialogVisible = true;
+    
+    // const updatedSprint = {...this.data, isCompleted: true };
+    // this.sprintService.updateSprint(this.data.id, updatedSprint).subscribe({
+    //   next: () => {
+    //     this.data.isCompleted = true;
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   },
+    // });
   }
 
   // so that we can use date-fns format() in the html file
