@@ -64,6 +64,13 @@ export class SprintService {
                     element.tasks = filteredTasks
                     const storyPointsSum = filteredTasks.reduce((storyPointsSum, current) => storyPointsSum += current.storyPoints, 0)
                     element.pointsAttempted = storyPointsSum
+                    const completedPointsSum = filteredTasks.reduce((completedPointsSum, current) => {
+                      if(current.progress === 'Done') {
+                        return completedPointsSum += current.storyPoints;
+                      }
+                      return completedPointsSum;
+                    }, 0);
+                    element.pointsCompleted = completedPointsSum;
                   });
                   return project;
                 }),

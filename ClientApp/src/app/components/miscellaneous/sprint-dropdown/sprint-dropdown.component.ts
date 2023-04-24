@@ -16,6 +16,7 @@ import {
 import { format } from 'date-fns';
 
 import { SprintService } from 'src/app/services/sprint/sprint.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
@@ -55,6 +56,7 @@ export class SprintDropdownComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationService,
     private sprintService: SprintService,
+    private taskService: TaskApi,
   ) { }
 
   ngOnInit(): void {
@@ -156,7 +158,7 @@ export class SprintDropdownComponent implements OnInit {
           this.selectedAvailableBacklog = this.availableBacklogs[0];
         }
 
-        this.availableSprints = sprints.filter(s => !s.isBacklog && !s.isCompleted);
+        this.availableSprints = sprints.filter(s => !s.isBacklog && !s.isCompleted && s.id !== this.data.id);
 
         if (this.availableSprints.length === 0) {
           this.availableSprintErrorVisibility = 'visible';
@@ -182,7 +184,54 @@ export class SprintDropdownComponent implements OnInit {
     }
   }
 
-  moveTasksToSelectedSprintOrBacklog() {}
+  moveTasksToSelectedSprintOrBacklog() {
+    if (this.incompleteTasksAction === 'moveToBacklog') {
+      this.moveTasksToBacklog();
+    } else if (this.incompleteTasksAction === 'moveToSprint') {
+      this.moveTasksToSprint();
+    } else {
+      this.markTasksAsDone();
+    }
+  }
+
+  moveTasksToBacklog() {
+    for (const task of this.data.tasks) {
+      task.sprintID = this.selectedAvailableBacklog.id;
+      this.taskService.putTask(task).subscribe({
+        next: () => {
+          this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
+  }
+
+  moveTasksToSprint() {
+    for (const task of this.data.tasks) {
+      task.sprintID = this.selectedAvailableSprint.id;
+      this.taskService.putTask(task).subscribe({
+        next: () => {
+          this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
+  }
+
+  markTasksAsDone() {
+    for (const task of this.data.tasks) {
+      task.progress = 'Done';
+      this.taskService.putTask(task).subscribe({
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
+  }
 
   continueSprintCompletion() {
     this.manageIncompleteTasksDialogVisible = false;
