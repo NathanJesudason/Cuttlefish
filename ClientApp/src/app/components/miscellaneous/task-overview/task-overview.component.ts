@@ -29,6 +29,10 @@ export class TaskOverviewComponent implements OnInit {
   }
 
   getTrimmedDescription() {
+    if (!this.taskData.description) {
+      this.trimmedDescription = 'No description';
+      return;
+    }
     const descriptionWithoutTags = this.taskData.description.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '');
     if (descriptionWithoutTags.length === 0) {
       this.trimmedDescription = 'No description';
