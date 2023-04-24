@@ -48,6 +48,8 @@ export class SprintDropdownComponent implements OnInit {
   selectedAvailableBacklog!: SprintData;
   availableBacklogErrorVisibility: 'hidden' | 'visible' = 'hidden';
 
+  sprintReportDialogVisible = false;
+
   @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
 
   constructor(
@@ -79,7 +81,7 @@ export class SprintDropdownComponent implements OnInit {
       this.optionsMenuItems.push({
         label: 'Complete sprint',
         icon: 'pi pi-check',
-        command: () => this.completeThisSprint(),
+        command: () => this.manageIncompleteTasks(),
       });
     }
 
@@ -145,20 +147,22 @@ export class SprintDropdownComponent implements OnInit {
   getAvailableSprintsAndBacklogs() {
     this.sprintService.getSprintsInProject(this.data.projectId).subscribe({
       next: (sprints) => {
-        this.availableSprints = sprints.filter(s => !s.isBacklog && !s.isCompleted);
-
-        if (this.availableSprints.length === 0) {
-          this.availableSprintErrorVisibility = 'visible';
-        } else {
-          this.selectedAvailableSprint = this.availableSprints[0];
-        }
-
         this.availableBacklogs = sprints.filter(s => s.isBacklog);
 
         if (this.availableBacklogs.length === 0) {
           this.availableBacklogErrorVisibility = 'visible';
+          this.incompleteTasksAction = 'moveToSprint';
         } else {
           this.selectedAvailableBacklog = this.availableBacklogs[0];
+        }
+
+        this.availableSprints = sprints.filter(s => !s.isBacklog && !s.isCompleted);
+
+        if (this.availableSprints.length === 0) {
+          this.availableSprintErrorVisibility = 'visible';
+          this.incompleteTasksAction = 'markAsDone';
+        } else {
+          this.selectedAvailableSprint = this.availableSprints[0];
         }
       },
       error: (err) => {
@@ -167,32 +171,39 @@ export class SprintDropdownComponent implements OnInit {
     });
   }
 
-  completeThisSprint() {
-    /*
-      need to do lots of things here:
-        - give user the choice of what to do with incomplete tasks
-          - move them to the next sprint
-          - move them to the backlog
-          - stop completing sprint to deal with them manually
-        - show sprint report (how many tasks completed, how many incomplete, etc)
-        - mark sprint as completed
-     */
+  // the first step in sprint completion, check if there are any incomplete tasks
+  manageIncompleteTasks() {
+    if (this.data.tasks.filter(t => t.progress !== 'Done').length > 0) {
+      // there are tasks that haven't been completed yet
+      this.getAvailableSprintsAndBacklogs();
+      this.manageIncompleteTasksDialogVisible = true;
+    } else {
+      this.showSprintReport();
+    }
+  }
 
+  moveTasksToSelectedSprintOrBacklog() {}
 
-    this.getAvailableSprintsAndBacklogs();
+  continueSprintCompletion() {
+    this.manageIncompleteTasksDialogVisible = false;
+    this.moveTasksToSelectedSprintOrBacklog();
+    this.showSprintReport();
+  }
 
-    // open modal for user to choose what to do with incomplete tasks
-    this.manageIncompleteTasksDialogVisible = true;
-    
-    // const updatedSprint = {...this.data, isCompleted: true };
-    // this.sprintService.updateSprint(this.data.id, updatedSprint).subscribe({
-    //   next: () => {
-    //     this.data.isCompleted = true;
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //   },
-    // });
+  // the second step in sprint completion, show user the sprint report
+  showSprintReport() {}
+
+  // the third step in sprint completion, mark sprint as completed
+  markSprintAsCompleted() {
+    const updatedSprint = {...this.data, isCompleted: true };
+    this.sprintService.updateSprint(this.data.id, updatedSprint).subscribe({
+      next: () => {
+        this.data.isCompleted = true;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   // so that we can use date-fns format() in the html file
