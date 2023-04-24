@@ -9,6 +9,9 @@ import {
   import { OverlayPanel } from 'primeng/overlaypanel';
   
   import { TaskData } from 'src/types/task';
+  import { ProjectData } from 'src/types/project';
+  import { TaskApi } from 'src/app/services/tasks/tasks.service'
+
   
   @Component({
     selector: 'dependency-picker',
@@ -21,21 +24,28 @@ import {
     overlayPanel!: OverlayPanel;
   
     @Input() data!: TaskData;
+    @Input() projectData!: ProjectData;
   
-    dependencyOptions!: number[] | undefined;
+    dependencyOptions!: { label: string, value: number }[] | undefined;
     selectedDependency!: number;
   
     constructor(
       private messageService: MessageService,
+      private taskService: TaskApi
     ) { }
   
     ngOnInit() {
-      this.dependencyOptions = this.data.dependencies;
-    }
-  
-    showOption(option: number) {
-      this.selectedDependency = option;
-      this.approveChanges(option);
+      // What version of TS will we use? may need to find another solution than .subscribe()
+      this.taskService.getTaskRelations().subscribe(
+        (taskRelations: any) => {
+          this.dependencyOptions = taskRelations.map((taskRelation: any) => {
+            return { label: `Task ${taskRelation.id}`, value: taskRelation.id };
+          });
+        },
+        (error) => {
+          this.messageService.add({severity: 'error', summary: `Failed to retrieve task relations: ${error.message}`});
+        }
+      );
     }
   
     addDependency(dependencyId: number): number {
@@ -44,35 +54,64 @@ import {
       }
     
       if (this.data.dependencies.includes(dependencyId)) {
-        return -1; // dependency already exists
-
-        /*
-        Eventually, we'll want to check if the given dependency
-        exists somewhere in the database. This component should
-        not have the power to create new tasks, so if it attempts
-        to add a dependency that doesn't exist within ProjectData,
-        then this should return -1 and addDependency should not
-        succeed.
-
-        Do this through a nested loop of the SprintData's, which
-        should be accessible through the ProjectData. This will
-        parse through all the existing tasks.
-        */
+        return -1; // dependency already exists within the task
       }
     
-      this.data.dependencies.push(dependencyId);
-      return 1; // successful
+      let dependencyExists = false;
+    
+      // loop through the sprints within the project
+      for (const sprint of this.projectData.sprints) {
+        // loop through the tasks within each sprint
+        for (const task of sprint.tasks) {
+          if (task.id === dependencyId) {
+            dependencyExists = true;
+            break;
+          }
+        }
+
+        if (dependencyExists) {
+          break;
+        }
+      }
+
+      if (!dependencyExists) {
+        return -1; // dependency does not exist
+      }
+
+      return 1; // dependency added
     }
 
-    approveChanges(event: any) {
-      const result = this.addDependency(123); // replace with actual dependency id from HTML
-      if (result === -1) {
-        this.messageService.add({severity: 'error', summary: 'Dependency already exists!'});
-      } else {
-        this.overlayPanel.hide();
-        this.messageService.add({severity: 'success', summary: `Dependency added successfully!`});
-      }
+    showOption(option: number) {
+      this.selectedDependency = option;
+
+      this.approveChanges();
     }
+
+    approveChanges() {
+      if (this.selectedDependency) {
+
+      // calls the frontend addDependency function to check whether the operation is valid
+      const result = this.addDependency(this.selectedDependency);
+      if (result === -1) {
+        this.messageService.add({severity: 'error', summary: 'Dependency already exists or is not valid!'});
+        return;
+      }
+
+    // another instance of deprecated .subscribe()
+    this.taskService.addTaskRelation(this.data.id, this.selectedDependency).subscribe(
+      () => {
+        this.overlayPanel.hide();
+        this.messageService.add({severity: 'success', summary: 'Dependency added successfully!'});
+      },
+      (error) => {
+        this.overlayPanel.hide();
+        this.messageService.add({severity: 'error', summary: 'Error adding dependency!'});
+      }
+    );
+  } else {
+    this.messageService.add({severity: 'error', summary: 'Please select a dependency!'});
+  }
+}
   
     cancelInput() {
       this.overlayPanel.hide();

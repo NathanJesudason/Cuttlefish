@@ -8,13 +8,12 @@ import {
 import { MessageService } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
 
 import { TaskData } from 'src/types/task';
-import { ApiService } from 'src/app/services/api.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service'
 
 @Component({
   selector: 'delete-dependency-picker',
@@ -33,7 +32,7 @@ export class DeleteDependencyPickerComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
-    private apiService: ApiService,
+    private taskApi: TaskApi,
     private http: HttpClient
   ) { }
 
@@ -45,9 +44,9 @@ export class DeleteDependencyPickerComponent implements OnInit {
     this.selectedDependency = option;
     this.approveChanges();
   }
-
+  
   approveChanges() {
-    this.http.delete('/api/tasks/' + this.data.id + '/dependencies/' + this.selectedDependency)
+    this.taskApi.deleteTaskRelation(this.data.id, this.selectedDependency)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.messageService.add({severity: 'error', summary: `Failed to remove dependency ${this.selectedDependency}: ${error.message}`});
