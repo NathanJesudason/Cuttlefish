@@ -71,8 +71,11 @@ export class SprintDropdownComponent implements OnInit {
   textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
   fontFamily = getComputedStyle(document.documentElement).getPropertyValue('--font-family');
 
-  sprintReportTasksChartOptions!: ApexOptions;
-  sprintReportPointsChartOptions!: ApexOptions;
+  primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+
+  tasksPieChartOptions!: ApexOptions;
+  pointsPieChartOptions!: ApexOptions;
+  burndownChartOptions!: ApexOptions;
 
   @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
 
@@ -138,10 +141,12 @@ export class SprintDropdownComponent implements OnInit {
   }
 
   initChartOptions() {
-    this.sprintReportTasksChartOptions = {
+    this.tasksPieChartOptions = {
       series: [],
       chart: {
         type: 'pie',
+        width: '100%',
+        height: 300,
       },
       labels: ['Tasks completed', 'Tasks not completed'],
       title: {
@@ -157,10 +162,12 @@ export class SprintDropdownComponent implements OnInit {
       colors: [this.green500, this.bluegray500],
     };
 
-    this.sprintReportPointsChartOptions = {
+    this.pointsPieChartOptions = {
       series: [],
       chart: {
         type: 'pie',
+        width: '100%',
+        height: 300,
       },
       labels: ['Points completed', 'Points not completed'],
       title: {
@@ -174,6 +181,70 @@ export class SprintDropdownComponent implements OnInit {
         colors: [this.green500, this.bluegray500],
       },
       colors: [this.green500, this.bluegray500],
+    };
+
+    this.burndownChartOptions = {
+      series: [],
+      chart: {
+        type: 'area',
+        width: '100%',
+        height: 300,
+        stacked: false,
+        zoom: {
+          type: 'x',
+          enabled: true,
+          autoScaleYaxis: true,
+        },
+        toolbar: {
+          autoSelected: 'zoom',
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      markers: {
+        size: 0,
+      },
+      title: {
+        text: 'Sprint Burndown',
+        style: {
+          color: this.textColor,
+          fontFamily: this.fontFamily,
+        },
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          inverseColors: false,
+          opacityFrom: 0.5,
+          opacityTo: 0,
+          stops: [0, 95, 100],
+        },
+        colors: [this.primaryColor],
+      },
+      stroke: {
+        curve: 'stepline',
+        colors: [this.primaryColor],
+      },
+      yaxis: {
+        title: {
+          text: 'Remaining Story Points',
+          style: {
+            color: this.textColor,
+            fontFamily: this.fontFamily,
+          },
+        },
+        min: 0,
+        labels: {
+          formatter: (value: any) => {
+            return value.toFixed(0);
+          },
+        },
+      },
+      xaxis: {
+        type: 'datetime',
+      },
     };
   }
 
@@ -270,11 +341,11 @@ export class SprintDropdownComponent implements OnInit {
   moveTasksToSelectedSprintOrBacklog() {
     const incompleteTasks = this.data.tasks.filter(t => t.progress !== 'Done');
     if (this.incompleteTasksAction === 'moveToBacklog') {
-      // this.moveTasksToBacklog(incompleteTasks);
+      this.moveTasksToBacklog(incompleteTasks);
     } else if (this.incompleteTasksAction === 'moveToSprint') {
-      // this.moveTasksToSprint(incompleteTasks);
+      this.moveTasksToSprint(incompleteTasks);
     } else {
-      // this.markTasksAsDone(incompleteTasks);
+      this.markTasksAsDone(incompleteTasks);
     }
   }
 
@@ -308,8 +379,7 @@ export class SprintDropdownComponent implements OnInit {
 
   markTasksAsDone(tasks: TaskData[]) {
     for (const task of tasks) {
-      task.progress = 'Done';
-      this.taskService.putTask(task).subscribe({
+      this.taskService.completeTask(task).subscribe({
         error: (err) => {
           console.error(err);
         },
@@ -319,27 +389,80 @@ export class SprintDropdownComponent implements OnInit {
 
   continueSprintCompletion() {
     this.manageIncompleteTasksDialogVisible = false;
-    this.moveTasksToSelectedSprintOrBacklog();
     this.showSprintReport();
   }
 
   // the second step in sprint completion, show user the sprint report
   showSprintReport() {
-    this.sprintReportTasksChartOptions = {
-      ...this.sprintReportTasksChartOptions,
+    this.tasksPieChartOptions = {
+      ...this.tasksPieChartOptions,
       series: [this.numCompleteTasks, this.numIncompleteTasks],
     };
 
-    this.sprintReportPointsChartOptions = {
-      ...this.sprintReportPointsChartOptions,
+    this.pointsPieChartOptions = {
+      ...this.pointsPieChartOptions,
       series: [this.completePoints, this.incompletePoints],
     };
+
+    this.generateSprintReportGraphData();
 
     this.sprintReportDialogVisible = true;
   }
 
+  generateSprintReportGraphData() {
+    const tasks = [...this.data.tasks];
+    tasks.sort((a, b) => {
+      if (!a.endDate || a.progress !== 'Done') {
+        return 1;
+      }
+      if (!b.endDate || b.progress !== 'Done') {
+        return -1;
+      }
+      return a.endDate.getTime() - b.endDate.getTime();
+    });
+
+    // loop between sprint start and now
+    const loopGranularityMillis = 1000 * 60 * 60; // 1 hour
+    const sprintStartMillis = this.data.startDate.getTime();
+    const nowMillis = new Date().getTime();
+  
+    const storyPointsData = [];
+    let yValue = this.incompletePoints + this.completePoints;
+
+    storyPointsData.push([sprintStartMillis, yValue]);
+    for (let loopMillis = sprintStartMillis; loopMillis <= nowMillis; loopMillis += loopGranularityMillis) {
+      if (tasks.length === 0 || tasks[0].progress !== 'Done' || !tasks[0].endDate) {
+        // finish looping without subtracting story points from yValue
+        for (let innerLoopMillis = loopMillis; innerLoopMillis <= nowMillis; innerLoopMillis += loopGranularityMillis) {
+          storyPointsData.push([innerLoopMillis, yValue]);
+        }
+        break;
+      }
+      
+      if (tasks[0].endDate && loopMillis >= tasks[0].endDate.getTime()) {
+        // we have reached the end of a task
+        yValue -= tasks[0].storyPoints;
+        tasks.shift();
+      }
+      storyPointsData.push([loopMillis, yValue]);
+    }
+
+    this.burndownChartOptions = {
+      ...this.burndownChartOptions,
+      series: [{
+        name: 'Story Points',
+        data: storyPointsData,
+      }],
+      yaxis: {
+        ...this.burndownChartOptions.yaxis,
+        tickAmount: this.incompletePoints + this.completePoints,
+      },
+    };
+  }
+
   completeSprintReport() {
     this.sprintReportDialogVisible = false;
+    // this.moveTasksToSelectedSprintOrBacklog();
     // this.markSprintAsCompleted();
   }
 

@@ -65,9 +65,18 @@ export class TaskApi {
       responseType: 'json'
     })
     .pipe(
+      map((taskData: TaskData[]) => {
+        return taskData.map((task: TaskData) => {
+          return {
+            ...task,
+            startDate: task.startDate ? new Date(task.startDate as any) : undefined,
+            endDate: task.endDate ? new Date(task.endDate as any) : undefined,
+          };
+        });
+      }),
       catchError((err: HttpErrorResponse) => {
         return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
-      })
+      }),
     );
   }
 

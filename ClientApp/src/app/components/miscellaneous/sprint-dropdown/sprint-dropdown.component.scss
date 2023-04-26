@@ -86,10 +86,46 @@
   margin-bottom: auto;
 }
 
+#sprint-report-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, min-content);
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+}
+
+#sprint-report-goal {
+  grid-column: 1 / span 2;
+}
+
+#sprint-report-burndown-chart {
+  grid-column: 1 / span 2;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#sprint-report-dates h4 {
+  display: inline;
+}
+
+#sprint-report-dates {
+  grid-column: 1 / span 2;
+}
+
+#sprint-report-start-date {
+  margin-right: 0.8rem;
+}
+
 :host ::ng-deep {
   #manage-incomplete-tasks-dialog .p-dialog {
     width: 75vw;
     height: 400px;
+  }
+
+  #sprint-report-dialog .p-dialog {
+    width: 80vw;
+    height: 900px;
   }
 
   @media only screen and (max-width: 900px) {

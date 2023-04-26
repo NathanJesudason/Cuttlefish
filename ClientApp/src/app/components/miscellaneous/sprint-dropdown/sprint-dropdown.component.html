@@ -212,7 +212,7 @@
 <p-dialog
   #sprintReportDialog
   id="sprint-report-dialog"
-  header="Completing Sprint: Sprint Report"
+  header="Sprint Report"
   [(visible)]="sprintReportDialogVisible"
   [modal]="true"
   [draggable]="false"
@@ -220,28 +220,45 @@
   [closable]="false"
 >
   <div id="sprint-report-body">
-    <h4>Start Date: {{ sprintFormattedStartDate }}</h4>
-    <h4>End Date: {{ sprintFormattedEndDate }}</h4>
+    <div id="sprint-report-dates">
+      <h4 id="sprint-report-start-date">Start Date: {{ sprintFormattedStartDate }}</h4>
+      <h4 id="sprint-report-end-date">End Date: {{ sprintFormattedEndDate }}</h4>
+    </div>
 
-    <h4>Goal:</h4>
-    <div [innerHTML]="data.goal ? data.goal : 'No goal'"></div>
+    <div id="sprint-report-goal">
+      <h4>Goal:</h4>
+      <div [innerHTML]="data.goal ? data.goal : 'No goal'"></div>
+    </div>
 
     <apx-chart
-      [series]="sprintReportTasksChartOptions.series ?? []"
-      [chart]="sprintReportTasksChartOptions.chart ?? {'type': 'pie'}"
-      [labels]="sprintReportTasksChartOptions.labels ?? []"
-      [title]="sprintReportTasksChartOptions.title ?? {'text': ''}"
-      [fill]="sprintReportTasksChartOptions.fill ?? {}"
-      [colors]="sprintReportTasksChartOptions.colors ?? []"
+      [series]="tasksPieChartOptions.series ?? []"
+      [chart]="tasksPieChartOptions.chart ?? {'type': 'pie'}"
+      [labels]="tasksPieChartOptions.labels ?? []"
+      [title]="tasksPieChartOptions.title ?? {'text': ''}"
+      [fill]="tasksPieChartOptions.fill ?? {}"
+      [colors]="tasksPieChartOptions.colors ?? []"
     ></apx-chart>
 
     <apx-chart
-      [series]="sprintReportPointsChartOptions.series ?? []"
-      [chart]="sprintReportPointsChartOptions.chart ?? {'type': 'pie'}"
-      [labels]="sprintReportPointsChartOptions.labels ?? []"
-      [title]="sprintReportPointsChartOptions.title ?? {'text': ''}"
-      [fill]="sprintReportPointsChartOptions.fill ?? {}"
-      [colors]="sprintReportPointsChartOptions.colors ?? []"
+      [series]="pointsPieChartOptions.series ?? []"
+      [chart]="pointsPieChartOptions.chart ?? {'type': 'pie'}"
+      [labels]="pointsPieChartOptions.labels ?? []"
+      [title]="pointsPieChartOptions.title ?? {'text': ''}"
+      [fill]="pointsPieChartOptions.fill ?? {}"
+      [colors]="pointsPieChartOptions.colors ?? []"
+    ></apx-chart>
+
+    <apx-chart
+      id="sprint-report-burndown-chart"
+      [series]="burndownChartOptions.series ?? []"
+      [chart]="burndownChartOptions.chart ?? {'type': 'pie'}"
+      [dataLabels]="burndownChartOptions.dataLabels ?? {}"
+      [markers]="burndownChartOptions.markers ?? {}"
+      [title]="burndownChartOptions.title ?? {'text': ''}"
+      [fill]="burndownChartOptions.fill ?? {}"
+      [stroke]="burndownChartOptions.stroke ?? {}"
+      [yaxis]="burndownChartOptions.yaxis ?? {}"
+      [xaxis]="burndownChartOptions.xaxis ?? {}"
     ></apx-chart>
   </div>
 
