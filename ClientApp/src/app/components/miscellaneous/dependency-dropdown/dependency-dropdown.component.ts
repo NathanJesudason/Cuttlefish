@@ -1,15 +1,12 @@
 import {
   Component,
-  OnInit,
   Input,
-  ViewChild,
   OnChanges,
   SimpleChanges
 } from '@angular/core';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { DropdownModule } from 'primeng/dropdown';
 
 import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
