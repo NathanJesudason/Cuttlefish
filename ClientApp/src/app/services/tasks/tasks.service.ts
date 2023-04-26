@@ -42,6 +42,13 @@ export class TaskApi {
       responseType: 'json'
     })
     .pipe(
+      map((taskData: TaskData) => {
+        return {
+          ...taskData,
+          startDate: taskData.startDate ? new Date(taskData.startDate as any) : undefined,
+          endDate: taskData.endDate ? new Date(taskData.endDate as any) : undefined,
+        };
+      }),
       catchError((err: HttpErrorResponse) => {
         return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
       })
@@ -250,6 +257,17 @@ export class TaskApi {
         }))
       })
     )
+  }
+
+  /**
+   * Complete the given task, marking it as complete and updating the end date to now
+   * @param task the Task to complete
+   * @throws `HTTPErrorResponse` on any error
+   */
+  completeTask(task: TaskData) {
+    task.progress = 'Done';
+    task.endDate = new Date();
+    return this.putTask(task);
   }
 
   /**
