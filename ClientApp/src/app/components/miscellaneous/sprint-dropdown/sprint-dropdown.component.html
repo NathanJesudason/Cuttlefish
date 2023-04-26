@@ -4,7 +4,7 @@
 >
   <ng-template pTemplate="header">
     <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
-      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.endDate, 'MM/dd/yyyy') }}</p>
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ sprintFormattedStartDate }} - {{ sprintFormattedEndDate }}</p>
       <p *ngIf="data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }}</p>
 
       <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item">Completed:</p>
@@ -114,7 +114,7 @@
 <p-dialog
   #manageIncompleteTasksDialog
   id="manage-incomplete-tasks-dialog"
-  header="Completing Sprint: What to do with incomplete tasks?"
+  [header]="'Completing Sprint: What to do with ' + numIncompleteTasks + ' incomplete task(s)?'"
   [(visible)]="manageIncompleteTasksDialogVisible"
   [modal]="true"
   [draggable]="false"
@@ -205,6 +205,52 @@
       icon="pi pi-check"
       styleClass="p-button-success"
       (click)="continueSprintCompletion()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  #sprintReportDialog
+  id="sprint-report-dialog"
+  header="Completing Sprint: Sprint Report"
+  [(visible)]="sprintReportDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+>
+  <div id="sprint-report-body">
+    <h4>Start Date: {{ sprintFormattedStartDate }}</h4>
+    <h4>End Date: {{ sprintFormattedEndDate }}</h4>
+
+    <h4>Goal:</h4>
+    <div [innerHTML]="data.goal ? data.goal : 'No goal'"></div>
+
+    <apx-chart
+      [series]="sprintReportTasksChartOptions.series ?? []"
+      [chart]="sprintReportTasksChartOptions.chart ?? {'type': 'pie'}"
+      [labels]="sprintReportTasksChartOptions.labels ?? []"
+      [title]="sprintReportTasksChartOptions.title ?? {'text': ''}"
+      [fill]="sprintReportTasksChartOptions.fill ?? {}"
+      [colors]="sprintReportTasksChartOptions.colors ?? []"
+    ></apx-chart>
+
+    <apx-chart
+      [series]="sprintReportPointsChartOptions.series ?? []"
+      [chart]="sprintReportPointsChartOptions.chart ?? {'type': 'pie'}"
+      [labels]="sprintReportPointsChartOptions.labels ?? []"
+      [title]="sprintReportPointsChartOptions.title ?? {'text': ''}"
+      [fill]="sprintReportPointsChartOptions.fill ?? {}"
+      [colors]="sprintReportPointsChartOptions.colors ?? []"
+    ></apx-chart>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Done"
+      icon="pi pi-check"
+      styleClass="p-button-success"
+      (click)="completeSprintReport()"
     ></p-button>
   </ng-template>
 </p-dialog>

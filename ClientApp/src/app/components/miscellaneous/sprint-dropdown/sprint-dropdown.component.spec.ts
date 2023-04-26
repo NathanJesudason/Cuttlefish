@@ -18,6 +18,7 @@ import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-
 import { SprintDropdownComponent } from './sprint-dropdown.component';
 import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/date-inplace.component';
 import { DescriptionInplaceComponent } from 'src/app/components/inplaces/description-inplace/description-inplace.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 describe('SprintDropdownComponent', () => {
@@ -57,6 +58,7 @@ describe('SprintDropdownComponent', () => {
       DropdownModule,
       MenuModule,
       FormsModule,
+      NgApexchartsModule,
     ])
       .mock(CreateTaskModalComponent, { export: true })
       .mock(DateInplaceComponent, { export: true })

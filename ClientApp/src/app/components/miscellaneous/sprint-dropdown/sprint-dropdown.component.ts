@@ -14,12 +14,14 @@ import {
 } from 'primeng/api';
 
 import { format } from 'date-fns';
+import { ApexOptions } from 'ng-apexcharts';
 
 import { SprintService } from 'src/app/services/sprint/sprint.service';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
+import { TaskData } from 'src/types/task';
 
 @Component({
   selector: 'sprint-dropdown',
@@ -32,6 +34,9 @@ export class SprintDropdownComponent implements OnInit {
   @Output() deleteSprint = new EventEmitter<number>();
 
   sprintStarted!: boolean;
+
+  sprintFormattedStartDate: string | undefined = '';
+  sprintFormattedEndDate: string | undefined = '';
 
   collapsed!: boolean;
   hidden!: boolean;
@@ -49,7 +54,25 @@ export class SprintDropdownComponent implements OnInit {
   selectedAvailableBacklog!: SprintData;
   availableBacklogErrorVisibility: 'hidden' | 'visible' = 'hidden';
 
+  numIncompleteTasks = 0;
+  numCompleteTasks = 0;
+
+  incompletePoints = 0;
+  completePoints = 0;
+
   sprintReportDialogVisible = false;
+
+  sprintReportTasksData!: any;
+  sprintReportPointsData!: any;
+
+  green500 = getComputedStyle(document.documentElement).getPropertyValue('--green-500');
+  bluegray500 = getComputedStyle(document.documentElement).getPropertyValue('--bluegray-500');
+
+  textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+  fontFamily = getComputedStyle(document.documentElement).getPropertyValue('--font-family');
+
+  sprintReportTasksChartOptions!: ApexOptions;
+  sprintReportPointsChartOptions!: ApexOptions;
 
   @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
 
@@ -60,10 +83,22 @@ export class SprintDropdownComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getSprintDateRange();
     this.updateProgress();
     this.assignOptionsMenuItems();
     this.initAssignHidden();
     this.initAssignCollapsed();
+    this.initChartOptions();
+  }
+
+  getSprintDateRange() {
+    if (this.data.isBacklog) {
+      this.sprintFormattedStartDate = undefined;
+      this.sprintFormattedEndDate = undefined;
+      return;
+    }
+    this.sprintFormattedStartDate = format(this.data.startDate, 'MM/dd/yyyy');
+    this.sprintFormattedEndDate = format(this.data.endDate, 'MM/dd/yyyy');
   }
 
   updateProgress() {
@@ -100,6 +135,46 @@ export class SprintDropdownComponent implements OnInit {
 
   initAssignCollapsed() {
     this.collapsed = !this.data.isBacklog && this.data.isCompleted;
+  }
+
+  initChartOptions() {
+    this.sprintReportTasksChartOptions = {
+      series: [],
+      chart: {
+        type: 'pie',
+      },
+      labels: ['Tasks completed', 'Tasks not completed'],
+      title: {
+        text: 'Number of Tasks Completed',
+        style: {
+          color: this.textColor,
+          fontFamily: this.fontFamily,
+        },
+      },
+      fill: {
+        colors: [this.green500, this.bluegray500],
+      },
+      colors: [this.green500, this.bluegray500],
+    };
+
+    this.sprintReportPointsChartOptions = {
+      series: [],
+      chart: {
+        type: 'pie',
+      },
+      labels: ['Points completed', 'Points not completed'],
+      title: {
+        text: 'Number of Story Points Completed',
+        style: {
+          color: this.textColor,
+          fontFamily: this.fontFamily,
+        },
+      },
+      fill: {
+        colors: [this.green500, this.bluegray500],
+      },
+      colors: [this.green500, this.bluegray500],
+    };
   }
 
   collapse() {
@@ -175,7 +250,15 @@ export class SprintDropdownComponent implements OnInit {
 
   // the first step in sprint completion, check if there are any incomplete tasks
   manageIncompleteTasks() {
-    if (this.data.tasks.filter(t => t.progress !== 'Done').length > 0) {
+    const incompleteTasks = this.data.tasks.filter(t => t.progress !== 'Done');
+    const completeTasks = this.data.tasks.filter(t => t.progress === 'Done');
+
+    this.numIncompleteTasks = incompleteTasks.length;
+    this.numCompleteTasks = completeTasks.length;
+
+    this.incompletePoints = incompleteTasks.reduce((acc, t) => acc + t.storyPoints, 0);
+    this.completePoints = completeTasks.reduce((acc, t) => acc + t.storyPoints, 0);
+    if (this.numIncompleteTasks > 0) {
       // there are tasks that haven't been completed yet
       this.getAvailableSprintsAndBacklogs();
       this.manageIncompleteTasksDialogVisible = true;
@@ -185,17 +268,18 @@ export class SprintDropdownComponent implements OnInit {
   }
 
   moveTasksToSelectedSprintOrBacklog() {
+    const incompleteTasks = this.data.tasks.filter(t => t.progress !== 'Done');
     if (this.incompleteTasksAction === 'moveToBacklog') {
-      this.moveTasksToBacklog();
+      // this.moveTasksToBacklog(incompleteTasks);
     } else if (this.incompleteTasksAction === 'moveToSprint') {
-      this.moveTasksToSprint();
+      // this.moveTasksToSprint(incompleteTasks);
     } else {
-      this.markTasksAsDone();
+      // this.markTasksAsDone(incompleteTasks);
     }
   }
 
-  moveTasksToBacklog() {
-    for (const task of this.data.tasks) {
+  moveTasksToBacklog(tasks: TaskData[]) {
+    for (const task of tasks) {
       task.sprintID = this.selectedAvailableBacklog.id;
       this.taskService.putTask(task).subscribe({
         next: () => {
@@ -208,8 +292,8 @@ export class SprintDropdownComponent implements OnInit {
     }
   }
 
-  moveTasksToSprint() {
-    for (const task of this.data.tasks) {
+  moveTasksToSprint(tasks: TaskData[]) {
+    for (const task of tasks) {
       task.sprintID = this.selectedAvailableSprint.id;
       this.taskService.putTask(task).subscribe({
         next: () => {
@@ -222,8 +306,8 @@ export class SprintDropdownComponent implements OnInit {
     }
   }
 
-  markTasksAsDone() {
-    for (const task of this.data.tasks) {
+  markTasksAsDone(tasks: TaskData[]) {
+    for (const task of tasks) {
       task.progress = 'Done';
       this.taskService.putTask(task).subscribe({
         error: (err) => {
@@ -240,7 +324,24 @@ export class SprintDropdownComponent implements OnInit {
   }
 
   // the second step in sprint completion, show user the sprint report
-  showSprintReport() {}
+  showSprintReport() {
+    this.sprintReportTasksChartOptions = {
+      ...this.sprintReportTasksChartOptions,
+      series: [this.numCompleteTasks, this.numIncompleteTasks],
+    };
+
+    this.sprintReportPointsChartOptions = {
+      ...this.sprintReportPointsChartOptions,
+      series: [this.completePoints, this.incompletePoints],
+    };
+
+    this.sprintReportDialogVisible = true;
+  }
+
+  completeSprintReport() {
+    this.sprintReportDialogVisible = false;
+    // this.markSprintAsCompleted();
+  }
 
   // the third step in sprint completion, mark sprint as completed
   markSprintAsCompleted() {
@@ -253,10 +354,5 @@ export class SprintDropdownComponent implements OnInit {
         console.log(err);
       },
     });
-  }
-
-  // so that we can use date-fns format() in the html file
-  format(date: Date | number, str: string) {
-    return format(date, str);
   }
 }
