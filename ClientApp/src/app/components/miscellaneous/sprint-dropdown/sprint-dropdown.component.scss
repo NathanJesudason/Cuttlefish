@@ -90,7 +90,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, min-content);
+  grid-template-rows: repeat(5, min-content);
   column-gap: 0.75rem;
   row-gap: 0.75rem;
 }
@@ -113,6 +113,10 @@
   grid-column: 1 / span 2;
 }
 
+#sprint-report-name {
+  grid-column: 1 / span 2;
+}
+
 #sprint-report-start-date {
   margin-right: 0.8rem;
 }
@@ -126,6 +130,10 @@
   #sprint-report-dialog .p-dialog {
     width: 80vw;
     height: 900px;
+  }
+
+  #delete-sprint-dialog .p-confirm-dialog {
+    width: 75vw;
   }
 
   @media only screen and (max-width: 900px) {

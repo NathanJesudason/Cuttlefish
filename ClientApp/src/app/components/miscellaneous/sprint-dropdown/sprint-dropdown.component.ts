@@ -45,6 +45,7 @@ export class SprintDropdownComponent implements OnInit {
 
   manageIncompleteTasksDialogVisible = false;
   incompleteTasksAction: 'moveToBacklog' | 'moveToSprint' | 'markAsDone' = 'moveToBacklog';
+  incompleteTasksProcess: 'sprintCompletion' | 'sprintDeletion' = 'sprintCompletion';
 
   availableSprints: SprintData[] = [];
   selectedAvailableSprint!: SprintData;
@@ -274,14 +275,12 @@ export class SprintDropdownComponent implements OnInit {
 
   confirmSprintDeletion() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this sprint?',
-      accept: () => this.deleteThisSprint(),
+      message: 'Are you sure you want to delete this sprint? All completed tasks will be deleted, the next screen will prompt for how to handle incomplete tasks, if there are any.',
+      accept: () => this.manageSprintDeletion(),
     });
   }
 
   deleteThisSprint() {
-    // need to handle the tasks in this sprint before deleting
-    // move them to the first available backlog
     this.sprintService.deleteSprint(this.data.id).subscribe({
       next: () => {
         this.deleteSprint.emit(this.data.id);
@@ -290,6 +289,25 @@ export class SprintDropdownComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  manageSprintDeletion() {
+    this.incompleteTasksProcess = 'sprintDeletion';
+    const incompleteTasks = this.data.tasks.filter(t => t.progress !== 'Done');
+    this.numIncompleteTasks = incompleteTasks.length;
+    if (this.numIncompleteTasks > 0) {
+      // there are tasks that haven't been completed yet
+      this.getAvailableSprintsAndBacklogs();
+      this.manageIncompleteTasksDialogVisible = true;
+    } else {
+      this.deleteThisSprint();
+    }
+  }
+
+  continueSprintDeletion() {
+    this.manageIncompleteTasksDialogVisible = false;
+    this.moveTasksToSelectedSprintOrBacklog();
+    this.deleteThisSprint();
   }
 
   getAvailableSprintsAndBacklogs() {
@@ -321,6 +339,7 @@ export class SprintDropdownComponent implements OnInit {
 
   // the first step in sprint completion, check if there are any incomplete tasks
   manageIncompleteTasks() {
+    this.incompleteTasksProcess = 'sprintCompletion';
     const incompleteTasks = this.data.tasks.filter(t => t.progress !== 'Done');
     const completeTasks = this.data.tasks.filter(t => t.progress === 'Done');
 
@@ -387,6 +406,14 @@ export class SprintDropdownComponent implements OnInit {
     }
   }
 
+  completeManageIncompleteTasksModal() {
+    if (this.incompleteTasksProcess === 'sprintDeletion') {
+      this.continueSprintDeletion();
+    } else {
+      this.continueSprintCompletion();
+    }
+  }
+
   continueSprintCompletion() {
     this.manageIncompleteTasksDialogVisible = false;
     this.showSprintReport();
@@ -446,6 +473,7 @@ export class SprintDropdownComponent implements OnInit {
       }
       storyPointsData.push([loopMillis, yValue]);
     }
+    storyPointsData.push([nowMillis, this.incompletePoints]);
 
     this.burndownChartOptions = {
       ...this.burndownChartOptions,
@@ -462,12 +490,12 @@ export class SprintDropdownComponent implements OnInit {
 
   completeSprintReport() {
     this.sprintReportDialogVisible = false;
-    // this.moveTasksToSelectedSprintOrBacklog();
-    // this.markSprintAsCompleted();
+    this.moveTasksToSelectedSprintOrBacklog();
+    this.markThisSprintAsCompleted();
   }
 
   // the third step in sprint completion, mark sprint as completed
-  markSprintAsCompleted() {
+  markThisSprintAsCompleted() {
     const updatedSprint = {...this.data, isCompleted: true };
     this.sprintService.updateSprint(this.data.id, updatedSprint).subscribe({
       next: () => {

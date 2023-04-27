@@ -101,6 +101,7 @@
 
 <p-confirmDialog
   #deleteSprintDialog
+  id="delete-sprint-dialog"
   header="Confirm Sprint Deletion"
   icon="pi pi-exclamation-triangle"
   acceptIcon="pi pi-trash"
@@ -114,7 +115,7 @@
 <p-dialog
   #manageIncompleteTasksDialog
   id="manage-incomplete-tasks-dialog"
-  [header]="'Completing Sprint: What to do with ' + numIncompleteTasks + ' incomplete task(s)?'"
+  [header]="'What do you want to do with ' + numIncompleteTasks + ' incomplete task(s)?'"
   [(visible)]="manageIncompleteTasksDialogVisible"
   [modal]="true"
   [draggable]="false"
@@ -189,7 +190,7 @@
     <p
       class="radiobutton-label"
       (click)="incompleteTasksAction = 'markAsDone'"
-    >Mark tasks as done</p>
+    >{{incompleteTasksProcess === 'sprintCompletion' ? 'Mark tasks as done' : 'Delete incomplete tasks too'}}</p>
 
   </div> <!-- manage-incomplete-tasks-body -->
 
@@ -201,10 +202,10 @@
       (click)="manageIncompleteTasksDialogVisible = false;"
     ></p-button>
     <p-button
-      label="Continue"
+      [label]="incompleteTasksProcess === 'sprintCompletion' ? 'Continue' : 'Finish'"
       icon="pi pi-check"
       styleClass="p-button-success"
-      (click)="continueSprintCompletion()"
+      (click)="completeManageIncompleteTasksModal()"
     ></p-button>
   </ng-template>
 </p-dialog>
@@ -220,6 +221,10 @@
   [closable]="false"
 >
   <div id="sprint-report-body">
+    <div id="sprint-report-name">
+      <h3>{{data.id}}: {{ data.name }}</h3>
+    </div>
+
     <div id="sprint-report-dates">
       <h4 id="sprint-report-start-date">Start Date: {{ sprintFormattedStartDate }}</h4>
       <h4 id="sprint-report-end-date">End Date: {{ sprintFormattedEndDate }}</h4>
