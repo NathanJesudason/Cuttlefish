@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cuttlefish.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230311040135_projDate_sprintName")]
-    partial class projDate_sprintName
+    [Migration("20230428184834_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,9 +38,6 @@ namespace Cuttlefish.Migrations
                     b.Property<string>("date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("projectID")
-                        .HasColumnType("int");
-
                     b.Property<int>("taskID")
                         .HasColumnType("int");
 
@@ -48,6 +45,10 @@ namespace Cuttlefish.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("taskID");
+
+                    b.HasIndex("teamMemberID");
 
                     b.ToTable("Comments");
                 });
@@ -75,14 +76,16 @@ namespace Cuttlefish.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("label")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(1);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("taskID")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("label");
+
+                    b.HasIndex("taskID");
 
                     b.ToTable("LabelsToTasks");
                 });
@@ -156,6 +159,8 @@ namespace Cuttlefish.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("projectID");
+
                     b.ToTable("Sprints");
                 });
 
@@ -182,6 +187,9 @@ namespace Cuttlefish.Migrations
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("order")
+                        .HasColumnType("int");
+
                     b.Property<int>("priority")
                         .HasColumnType("int");
 
@@ -202,6 +210,10 @@ namespace Cuttlefish.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("assignee");
+
+                    b.HasIndex("sprintID");
+
                     b.ToTable("Tasks");
                 });
 
@@ -214,14 +226,16 @@ namespace Cuttlefish.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("dependentTaskID")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
+                        .HasColumnType("int");
 
                     b.Property<int>("independentTaskID")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("dependentTaskID");
+
+                    b.HasIndex("independentTaskID");
 
                     b.ToTable("TasksToTasks");
                 });
@@ -273,16 +287,120 @@ namespace Cuttlefish.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("projectID")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
+                        .HasColumnType("int");
 
                     b.Property<int>("teamMemberID")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("projectID");
+
+                    b.HasIndex("teamMemberID");
+
                     b.ToTable("TeamMembersToProjects");
+                });
+
+            modelBuilder.Entity("Cuttlefish.Models.Comments", b =>
+                {
+                    b.HasOne("Cuttlefish.Models.Tasks", "Tasks")
+                        .WithMany()
+                        .HasForeignKey("taskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cuttlefish.Models.TeamMembers", "TeamMembers")
+                        .WithMany()
+                        .HasForeignKey("teamMemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tasks");
+
+                    b.Navigation("TeamMembers");
+                });
+
+            modelBuilder.Entity("Cuttlefish.Models.LabelsToTasks", b =>
+                {
+                    b.HasOne("Cuttlefish.Models.Labels", "Labels")
+                        .WithMany()
+                        .HasForeignKey("label");
+
+                    b.HasOne("Cuttlefish.Models.Tasks", "Tasks")
+                        .WithMany()
+                        .HasForeignKey("taskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Labels");
+
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("Cuttlefish.Models.Sprints", b =>
+                {
+                    b.HasOne("Cuttlefish.Models.Projects", "Projects")
+                        .WithMany()
+                        .HasForeignKey("projectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Cuttlefish.Models.Tasks", b =>
+                {
+                    b.HasOne("Cuttlefish.Models.TeamMembers", "assigneeTM")
+                        .WithMany()
+                        .HasForeignKey("assignee");
+
+                    b.HasOne("Cuttlefish.Models.Sprints", "Sprints")
+                        .WithMany()
+                        .HasForeignKey("sprintID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sprints");
+
+                    b.Navigation("assigneeTM");
+                });
+
+            modelBuilder.Entity("Cuttlefish.Models.TasksToTasks", b =>
+                {
+                    b.HasOne("Cuttlefish.Models.Tasks", "dependentTasks")
+                        .WithMany()
+                        .HasForeignKey("dependentTaskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cuttlefish.Models.Tasks", "independentTasks")
+                        .WithMany()
+                        .HasForeignKey("independentTaskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("dependentTasks");
+
+                    b.Navigation("independentTasks");
+                });
+
+            modelBuilder.Entity("Cuttlefish.Models.TeamMembersToProjects", b =>
+                {
+                    b.HasOne("Cuttlefish.Models.Projects", "Projects")
+                        .WithMany()
+                        .HasForeignKey("projectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cuttlefish.Models.TeamMembers", "TeamMembers")
+                        .WithMany()
+                        .HasForeignKey("teamMemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projects");
+
+                    b.Navigation("TeamMembers");
                 });
 #pragma warning restore 612, 618
         }

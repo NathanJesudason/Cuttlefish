@@ -10,12 +10,14 @@ namespace Cuttlefish.Models
     public class TasksToTasks
     {
         [Key] public int Id { get; set; }
-        [ForeignKey("Tasks")]
+        [ForeignKey("independentTaskID")]
         [Column(Order = 1)]
+        public virtual Tasks independentTasks { get; set; }
         public int independentTaskID { get; set; }
 
-        [ForeignKey("Tasks")]
+        [ForeignKey("dependentTaskID")]
         [Column(Order = 2)]
+        public virtual Tasks dependentTasks { get; set; }
         public int dependentTaskID { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
