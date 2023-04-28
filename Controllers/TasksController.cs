@@ -122,7 +122,7 @@ namespace Cuttlefish.Controllers
 
             _context.Tasks.Remove(tasks);
             //find relationships to remove
-            var relations = await _context.TasksToTasks.Where(x => x.independentTaskID== id || x.dependentTaskID == id).ToListAsync();
+            var relations = await _context.TasksToTasks.Where(x => x.independentTaskID == id || x.dependentTaskID == id).ToListAsync();
             relations.ForEach(x => _context.TasksToTasks.Remove(x));
             await _context.SaveChangesAsync();
 
