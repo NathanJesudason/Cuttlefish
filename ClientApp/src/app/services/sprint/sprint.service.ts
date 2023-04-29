@@ -64,6 +64,13 @@ export class SprintService {
                     element.tasks = filteredTasks
                     const storyPointsSum = filteredTasks.reduce((storyPointsSum, current) => storyPointsSum += current.storyPoints, 0)
                     element.pointsAttempted = storyPointsSum
+                    const completedPointsSum = filteredTasks.reduce((completedPointsSum, current) => {
+                      if(current.progress === 'Done') {
+                        return completedPointsSum += current.storyPoints;
+                      }
+                      return completedPointsSum;
+                    }, 0);
+                    element.pointsCompleted = completedPointsSum;
                   });
                   return project;
                 }),
@@ -86,6 +93,25 @@ export class SprintService {
         })
       );
     }
+  }
+
+  /**
+   * Get all sprints within the given project
+   * @param projectId the id of the project to get the sprints for
+   * @returns an `Observable<SprintData[]>` that stores the sprints
+   * - the sprints won't be populated with tasks
+   */
+  getSprintsInProject(projectId: number): Observable<SprintData[]> {
+    return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
+        }),
+        map((sprints: BackendSprintData[]) => {
+          return sprints.filter(sprint => sprint.projectID === projectId)
+            .map(sprint => backendSprintToSprintData(sprint));
+        })
+      );
   }
 
   /**

@@ -11,6 +11,7 @@ import { ProgressPickerComponent } from './progress-picker.component'
 import { TaskData } from 'src/types/task';
 import { AppModule } from 'src/app/app.module';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { of } from 'rxjs';
 
 describe('ProgressPickerComponent', () => {
   const data: TaskData = {
@@ -28,7 +29,17 @@ describe('ProgressPickerComponent', () => {
     progress: 'Backlog'    
   };
   
-  beforeEach(() => MockBuilder(ProgressPickerComponent, [OverlayPanelModule, AppModule, TagModule]));
+  beforeEach(() => {
+    return MockBuilder(ProgressPickerComponent, [OverlayPanelModule, AppModule, TagModule])
+      .mock(TaskApi, {
+        completeTask: (task: TaskData) => {
+          return of();
+        },
+        putTask: (task: TaskData) => {
+          return of();
+        },
+      } as Partial<TaskApi>)
+  });
 
   it('should create', () => {
     MockRender(ProgressPickerComponent, {data: data});

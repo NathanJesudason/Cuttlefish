@@ -39,8 +39,10 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DragDropModule } from 'primeng/dragdrop';
+import { MessageModule } from 'primeng/message';
 
 import { NgxGanttModule } from '@worktile/gantt';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { AppComponent } from 'src/app/app.component';
 import { NavMenuComponent } from 'src/app/components/miscellaneous/nav-menu/nav-menu.component';
@@ -149,6 +151,8 @@ import { TaskTypePickerComponent } from './components/pickers/task-type-picker/t
     TooltipModule,
     MultiSelectModule,
     DragDropModule,
+    MessageModule,
+    NgApexchartsModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
