@@ -12,11 +12,15 @@ namespace Cuttlefish.Models
     {
         [Key]
         public int id { get; set; }
-        [ForeignKey("Sprints")]
+        [ForeignKey("sprintID")]
+        public virtual Sprints Sprints { get; set; }
         public int sprintID { get; set; }
         public string name { get; set; }
-        [ForeignKey("TeamMembers")]
+        [ForeignKey("assignee")]
+        public virtual TeamMembers assigneeTM { get; set; }
         public int? assignee { get; set; }
+
+        public int order { get; set; }
         public int storyPoints { get; set; }
         public string description { get; set; }
         public string progress { get; set; }

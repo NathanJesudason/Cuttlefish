@@ -11,12 +11,12 @@ namespace Cuttlefish.Models
     {
         [Key]
         public int id { get; set; }
-        [ForeignKey("TeamMembers")]
+        [ForeignKey("teamMemberID")]
+        public virtual TeamMembers TeamMembers { get; set; }
         public int teamMemberID { get; set; }
-        [ForeignKey("Tasks")]
+        [ForeignKey("taskID")]
+        public virtual Tasks Tasks { get; set; }
         public int taskID { get; set; }
-        [ForeignKey("Projects")]
-        public int projectID { get; set; }
         public string date { get; set; }
         public string content { get; set; }
 

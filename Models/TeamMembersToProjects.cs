@@ -10,11 +10,13 @@ namespace Cuttlefish.Models
     public class TeamMembersToProjects
     {
         [Key] public int Id { get; set; }
-        [ForeignKey("TeamMembers")]
+        [ForeignKey("teamMemberID")]
         [Column(Order = 1)]
+        public virtual TeamMembers TeamMembers { get; set; }
         public int teamMemberID { get; set; }
-        [ForeignKey("Projects")]
+        [ForeignKey("projectID")]
         [Column(Order = 2)]
+        public virtual Projects Projects { get; set; }
         public int projectID { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
