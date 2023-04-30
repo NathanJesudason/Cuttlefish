@@ -77,19 +77,23 @@
 
     <button
       pButton pRipple
+      id="create-task-button"
       type="button"
       label="Create Task"
       class="p-button-success p-button-sm task-modal-button"
       icon="pi pi-plus"
       (click)="showCreateTaskModal()"
-      [ngStyle]="{'margin-bottom': data.tasks.length === 0 ? '0' : 'var(--content-padding)'}"
     ></button>
 
     <div id="tasks">
-      <task-overview
-        *ngFor="let task of data.tasks"
-        [taskData]="task"
-      ></task-overview>
+      <div class="droppable-slot" pDroppable (onDrop)="onTaskDrop($event)"></div>
+      <ng-container *ngFor="let task of data.tasks">
+        <task-overview
+          [taskData]="task"
+          (taskMovingSprints)="removeTaskFromThisSprint(task)"
+        ></task-overview>
+        <div class="droppable-slot" pDroppable (onDrop)="onTaskDrop($event)"></div>
+      </ng-container>
     </div>
   </ng-template>
 </p-accordionTab>

@@ -1,7 +1,9 @@
 import {
   Component,
   OnInit,
-  Input
+  Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { LabelData } from 'src/types/label';
@@ -15,6 +17,7 @@ import { TaskData } from 'src/types/task';
 })
 export class TaskOverviewComponent implements OnInit {
   @Input() taskData!: TaskData;
+  @Output() taskMovingSprints = new EventEmitter<number>();
 
   trimmedDescription!: string;
   trimmedLabels: LabelData[] = [];
@@ -60,6 +63,17 @@ export class TaskOverviewComponent implements OnInit {
       this.trimmedLabels = [];
     } else {
       this.trimmedLabels = this.taskData.labels.slice(0, 2);
+    }
+  }
+
+  onDragStart(event: DragEvent) {
+    event.dataTransfer?.setData('application/json', JSON.stringify(this.taskData));
+  }
+
+  onDragEnd(event: DragEvent) {
+    const successfulDrag = event.dataTransfer?.dropEffect === 'copy';
+    if (successfulDrag) {
+      this.taskMovingSprints.emit(this.taskData.id);
     }
   }
 }

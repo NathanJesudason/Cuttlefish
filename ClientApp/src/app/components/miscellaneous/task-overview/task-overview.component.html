@@ -2,6 +2,8 @@
   id="task-overview"
   pDraggable
   dragHandle="#draggable-handle i"
+  (onDragStart)="onDragStart($event)"
+  (onDragEnd)="onDragEnd($event)"
 >
   <div id="draggable-handle">
     <i class="pi pi-arrows-v"></i>

@@ -10,7 +10,8 @@ import {
 
 import {
   ConfirmationService,
-  MenuItem
+  MenuItem,
+  MessageService
 } from 'primeng/api';
 
 import { format } from 'date-fns';
@@ -77,6 +78,8 @@ export class SprintDropdownComponent implements OnInit {
   tasksPieChartOptions!: ApexOptions;
   pointsPieChartOptions!: ApexOptions;
   burndownChartOptions!: ApexOptions;
+
+  draggedTask!: TaskData;
 
   @ViewChild('createTaskModal') createTaskModal!: ElementRef<CreateTaskModalComponent>;
 
@@ -505,5 +508,26 @@ export class SprintDropdownComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  onTaskDrop(event: DragEvent) {
+    const droppedTask = JSON.parse(event.dataTransfer?.getData('application/json') as string) as TaskData;
+    if (droppedTask.sprintID === this.data.id) {
+      return;
+    }
+
+    droppedTask.sprintID = this.data.id;
+    this.taskService.putTask(droppedTask).subscribe({
+      next: () => {
+        this.data.tasks.push(droppedTask);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  removeTaskFromThisSprint(task: TaskData) {
+    this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
   }
 }
