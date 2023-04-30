@@ -31,6 +31,8 @@ describe('TaskService', () => {
       priority: 1,
       type: "Bug",
       cost: 10,
+      startDate: new Date(),
+      endDate: new Date(),
     }];
 
     taskServiceHttpSpy.get.and.returnValue(of(mockTasks));

@@ -8,6 +8,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
 
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { TaskData } from 'src/types/task';
 
 @Component({
@@ -23,25 +24,43 @@ export class ProgressPickerComponent implements OnInit {
   @Input() data!: TaskData;
 
   progressOptions: string[] = ['Backlog', 'In Progress', 'In Review', 'Done'];
-  selectedProgress!: string;
+  selectedProgress!: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
 
   constructor(
     private messageService: MessageService,
+    private taskService: TaskApi,
   ) { }
 
   ngOnInit() {
     this.selectedProgress = this.data.progress;
   }
 
-  showOption(option: string) {
+  showOption(option: 'Backlog' | 'In Progress' | 'In Review' | 'Done') {
     this.selectedProgress = option;
     this.overlayPanel.hide();
     this.approveChanges(option);
   }
 
   approveChanges(event: any) {
-    this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}!`});
-    // when the time comes, add a serverApi call here to send change to backend
+    if (this.selectedProgress === 'Done') {
+      this.taskService.completeTask(this.data).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}`});
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error completing task: ${err}`});
+        },
+      });
+    } else {
+      this.taskService.putTask({...this.data, progress: this.selectedProgress}).subscribe({
+        next: () => {
+          this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}`});
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating task: ${err}`});
+        }
+      });
+    }
   }
 
   cancelInput() {

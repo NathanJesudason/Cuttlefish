@@ -4,7 +4,7 @@
 >
   <ng-template pTemplate="header">
     <div [class.backlog-dropdown-header]="data.isBacklog" class="sprint-dropdown-header">
-      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ format(data.startDate, 'MM/dd/yyyy') }} - {{ format(data.endDate, 'MM/dd/yyyy') }}</p>
+      <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }} | {{ sprintFormattedStartDate }} - {{ sprintFormattedEndDate }}</p>
       <p *ngIf="data.isBacklog" class="sprint-dropdown-header-item" id="sprint-dropdown-header-title">{{ data.name }}</p>
 
       <p *ngIf="!data.isBacklog" class="sprint-dropdown-header-item">Completed:</p>
@@ -100,6 +100,8 @@
 ></create-task-modal>
 
 <p-confirmDialog
+  #deleteSprintDialog
+  id="delete-sprint-dialog"
   header="Confirm Sprint Deletion"
   icon="pi pi-exclamation-triangle"
   acceptIcon="pi pi-trash"
@@ -109,3 +111,168 @@
   rejectLabel="Cancel"
   rejectButtonStyleClass="p-button-text p-button-secondary"
 ></p-confirmDialog>
+
+<p-dialog
+  #manageIncompleteTasksDialog
+  id="manage-incomplete-tasks-dialog"
+  [header]="'What do you want to do with ' + numIncompleteTasks + ' incomplete task(s)?'"
+  [(visible)]="manageIncompleteTasksDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div id="manage-incomplete-tasks-body">
+
+    <p-radioButton
+      name="incompleteTasksAction"
+      value="moveToBacklog"
+      [(ngModel)]="incompleteTasksAction"
+      inputId="moveToBacklog"
+    ></p-radioButton>
+    <p
+      class="radiobutton-label"
+      (click)="incompleteTasksAction = 'moveToBacklog'"
+    >Move tasks to backlog:</p>
+    <p-dropdown
+      [options]="availableBacklogs"
+      [(ngModel)]="selectedAvailableBacklog"
+      [disabled]="incompleteTasksAction !== 'moveToBacklog' && availableBacklogErrorVisibility === 'hidden'"
+      scrollHeight="200px"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div>{{selectedAvailableBacklog.id}}: {{selectedAvailableBacklog.name}}</div>
+      </ng-template>
+      <ng-template let-backlog pTemplate="item">
+        <div>{{backlog.id}}: {{backlog.name}}</div>
+      </ng-template>
+    </p-dropdown>
+    <p-message
+      severity="error"
+      text="No backlogs available"
+      [ngStyle]="{'visibility': availableBacklogErrorVisibility}"
+    ></p-message>
+
+    <p-radioButton
+      name="incompleteTasksAction"
+      value="moveToSprint"
+      [(ngModel)]="incompleteTasksAction"
+      inputId="moveToSprint"
+    ></p-radioButton>
+    <p
+      class="radiobutton-label"
+      (click)="incompleteTasksAction = 'moveToSprint'"
+      >Move tasks to sprint: </p>
+    <p-dropdown
+      [options]="availableSprints"
+      [(ngModel)]="selectedAvailableSprint"
+      [disabled]="incompleteTasksAction !== 'moveToSprint' && availableSprintErrorVisibility === 'hidden'"
+      scrollHeight="200px"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div>{{selectedAvailableSprint.id}}: {{selectedAvailableSprint.name}}</div>
+      </ng-template>
+      <ng-template let-sprint pTemplate="item">
+        <div>{{sprint.id}}: {{sprint.name}}</div>
+      </ng-template>
+    </p-dropdown>
+    <p-message
+      severity="error"
+      text="No alternate sprints available"
+      [ngStyle]="{'visibility': availableSprintErrorVisibility}"
+    ></p-message>
+
+    <p-radioButton
+      name="incompleteTasksAction"
+      value="markAsDone"
+      [(ngModel)]="incompleteTasksAction"
+      inputId="markAsDone"
+    ></p-radioButton>
+    <p
+      class="radiobutton-label"
+      (click)="incompleteTasksAction = 'markAsDone'"
+    >{{incompleteTasksProcess === 'sprintCompletion' ? 'Mark tasks as done' : 'Delete incomplete tasks too'}}</p>
+
+  </div> <!-- manage-incomplete-tasks-body -->
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      styleClass="p-button-text p-button-secondary"
+      (click)="manageIncompleteTasksDialogVisible = false;"
+    ></p-button>
+    <p-button
+      [label]="incompleteTasksProcess === 'sprintCompletion' ? 'Continue' : 'Finish'"
+      icon="pi pi-check"
+      styleClass="p-button-success"
+      (click)="completeManageIncompleteTasksModal()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  #sprintReportDialog
+  id="sprint-report-dialog"
+  header="Sprint Report"
+  [(visible)]="sprintReportDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+>
+  <div id="sprint-report-body">
+    <div id="sprint-report-name">
+      <h3>{{data.id}}: {{ data.name }}</h3>
+    </div>
+
+    <div id="sprint-report-dates">
+      <h4 id="sprint-report-start-date">Start Date: {{ sprintFormattedStartDate }}</h4>
+      <h4 id="sprint-report-end-date">End Date: {{ sprintFormattedEndDate }}</h4>
+    </div>
+
+    <div id="sprint-report-goal">
+      <h4>Goal:</h4>
+      <div [innerHTML]="data.goal ? data.goal : 'No goal'"></div>
+    </div>
+
+    <apx-chart
+      [series]="tasksPieChartOptions.series ?? []"
+      [chart]="tasksPieChartOptions.chart ?? {'type': 'pie'}"
+      [labels]="tasksPieChartOptions.labels ?? []"
+      [title]="tasksPieChartOptions.title ?? {'text': ''}"
+      [fill]="tasksPieChartOptions.fill ?? {}"
+      [colors]="tasksPieChartOptions.colors ?? []"
+    ></apx-chart>
+
+    <apx-chart
+      [series]="pointsPieChartOptions.series ?? []"
+      [chart]="pointsPieChartOptions.chart ?? {'type': 'pie'}"
+      [labels]="pointsPieChartOptions.labels ?? []"
+      [title]="pointsPieChartOptions.title ?? {'text': ''}"
+      [fill]="pointsPieChartOptions.fill ?? {}"
+      [colors]="pointsPieChartOptions.colors ?? []"
+    ></apx-chart>
+
+    <apx-chart
+      id="sprint-report-burndown-chart"
+      [series]="burndownChartOptions.series ?? []"
+      [chart]="burndownChartOptions.chart ?? {'type': 'pie'}"
+      [dataLabels]="burndownChartOptions.dataLabels ?? {}"
+      [markers]="burndownChartOptions.markers ?? {}"
+      [title]="burndownChartOptions.title ?? {'text': ''}"
+      [fill]="burndownChartOptions.fill ?? {}"
+      [stroke]="burndownChartOptions.stroke ?? {}"
+      [yaxis]="burndownChartOptions.yaxis ?? {}"
+      [xaxis]="burndownChartOptions.xaxis ?? {}"
+    ></apx-chart>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Done"
+      icon="pi pi-check"
+      styleClass="p-button-success"
+      (click)="completeSprintReport()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
