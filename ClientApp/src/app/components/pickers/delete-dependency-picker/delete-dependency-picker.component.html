@@ -1,19 +1,12 @@
-<overlayPanel #overlayPanel>
-  <h4>Select a dependency to delete:</h4>
-  <ul>
-    <li *ngFor="let dependency of dependencyOptions">
-      <a (click)="showOption(dependency)">{{dependency}}</a>
-    </li>
-  </ul>
-  <button (click)="cancelInput()">Cancel</button>
-</overlayPanel>
-
-<button type="button" pButton icon="pi pi-trash" (click)="confirmationDialog.show()"></button>
-
-<p-confirmDialog #confirmationDialog header="Confirm Deletion" message="Are you sure you want to delete the selected dependency?"
-  icon="pi pi-exclamation-triangle" acceptLabel="Yes" rejectLabel="No"
-  acceptButtonStyleClass="p-button-danger" rejectButtonStyleClass="p-button-secondary"
-  (accept)="approveChanges()" (reject)="confirmationDialog.hide()">
-</p-confirmDialog>
+<overlay-panel #overlayPanel>
+  <div *ngIf="dependencyOptions">
+    <ul>
+      <li *ngFor="let dependency of dependencyOptions">
+        <a (click)="showConfirmation(dependency)">{{dependency}}</a>
+      </li>
+    </ul>
+  </div>
+  <button type="button" pButton icon="pi pi-times" (click)="cancelInput()"></button>
+</overlay-panel>
 
 <p-toast></p-toast>

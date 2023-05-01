@@ -6,14 +6,14 @@ import {
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-import { OverlayPanel } from 'primeng/overlaypanel';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
+import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { OverlayPanel } from 'primeng/overlaypanel';
+
 import { TaskData } from 'src/types/task';
-import { TaskApi } from 'src/app/services/tasks/tasks.service'
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 @Component({
   selector: 'delete-dependency-picker',
@@ -32,19 +32,28 @@ export class DeleteDependencyPickerComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
-    private taskApi: TaskApi,
-    private http: HttpClient
+    private confirmationService: ConfirmationService,
+    private taskApi: TaskApi
   ) { }
 
   ngOnInit() {
     this.dependencyOptions = this.data.dependencies;
   }
 
-  showOption(option: number) {
-    this.selectedDependency = option;
-    this.approveChanges();
+  showConfirmation(dependency: number) {
+    this.selectedDependency = dependency;
+    this.confirmationService.confirm({
+      message: `Are you sure you want to remove dependency ${this.selectedDependency}?`,
+      accept: () => {
+        this.approveChanges();
+      },
+      reject: () => {
+        this.overlayPanel.hide();
+        this.messageService.add({severity: 'info', summary: 'Dependency deletion was cancelled'});
+      },
+    });
   }
-  
+
   approveChanges() {
     this.taskApi.deleteTaskRelation(this.data.id, this.selectedDependency)
       .pipe(
@@ -63,7 +72,7 @@ export class DeleteDependencyPickerComponent implements OnInit {
           }
         }
       });
-  }
+  }  
 
   removeDependency(dependency: number): number {
     const index = this.data.dependencies?.indexOf(dependency);
@@ -72,11 +81,6 @@ export class DeleteDependencyPickerComponent implements OnInit {
       return 1;
     }
     return -1;
-  }
-
-  deleteTaskRelation(taskId: number, dependencyId: number): Observable<any> {
-    const url = `api/tasks/${taskId}/dependencies/${dependencyId}`;
-    return this.http.delete(url);
   }
 
   cancelInput() {

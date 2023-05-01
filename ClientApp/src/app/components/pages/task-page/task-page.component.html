@@ -38,7 +38,7 @@
 
 </p-multiSelect>
 
-<dependency-dropdown [dependencies]="taskData" #dependencyDropdown></dependency-dropdown>
+<dependency-dropdown [dependencies]="taskData.dependencies ?? null" #dependencyDropdown></dependency-dropdown>
 
 <dependency-picker [data]="taskData" #dependencyPicker></dependency-picker>
 

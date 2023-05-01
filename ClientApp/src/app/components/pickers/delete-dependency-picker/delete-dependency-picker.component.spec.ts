@@ -9,10 +9,12 @@ import {
 } from 'ng-mocks';
 
 import { TaskData } from 'src/types/task';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { DeleteDependencyPickerComponent } from './delete-dependency-picker.component';
-import { TaskApi } from 'src/app/services/tasks/tasks.service';
+
 import { of } from 'rxjs';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 describe('DeleteDependencyPickerComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -36,7 +38,7 @@ describe('DeleteDependencyPickerComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(DeleteDependencyPickerComponent, [])
+    return MockBuilder(DeleteDependencyPickerComponent, [OverlayPanelModule])
       .mock(DeleteDependencyPickerComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
