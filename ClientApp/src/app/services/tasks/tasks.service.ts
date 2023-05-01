@@ -286,7 +286,7 @@ export class TaskApi {
    */
   putTask(task: TaskData){
     return this.http.put<TaskData>(`${environment.url}Tasks/${task.id}`, {id: task.id, sprintID: task.sprintID, name: task.name, assignee: task.assignee, storyPoints: task.storyPoints,
-      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type})
+      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type, order: task.order})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
@@ -303,7 +303,7 @@ export class TaskApi {
    */
   postTask(task: TaskData){
     return this.http.post<TaskData>(`${environment.url}Tasks`, {sprintID: task.sprintID, name: task.name, storyPoints: task.storyPoints,
-      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type})
+      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type, order: task.order})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
