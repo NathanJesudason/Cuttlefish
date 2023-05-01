@@ -1,4 +1,9 @@
 import {
+  ActivatedRoute,
+  convertToParamMap,
+} from '@angular/router';
+import {
+  MockBuilder,
   MockRender,
   ngMocks
 } from 'ng-mocks';
@@ -6,6 +11,8 @@ import {
 import { TaskData } from 'src/types/task';
 
 import { DependencyPickerComponent } from './dependency-picker.component';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { of } from 'rxjs';
 
 describe('DependencyPickerComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -27,6 +34,20 @@ describe('DependencyPickerComponent', () => {
     type: 'Epic',
     cost: 0
   };
+
+  beforeEach(() => {
+    return MockBuilder(DependencyPickerComponent, [])
+      .mock(DependencyPickerComponent, { export: true })
+      .mock(ActivatedRoute, {
+        snapshot: {
+          paramMap: convertToParamMap({ 'id': data.id })
+        },
+      } as Partial<ActivatedRoute>, { export: true })
+      .mock(TaskApi, {
+        getTaskDataWithLabels: (id: number) => of(data),
+        getLabels: () => of(mockLabels),
+      } as Partial<TaskApi>);
+  });
 
   it('should create', () => {
     MockRender(DependencyPickerComponent);

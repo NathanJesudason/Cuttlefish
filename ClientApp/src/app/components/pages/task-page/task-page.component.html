@@ -38,6 +38,12 @@
 
 </p-multiSelect>
 
+<dependency-dropdown [dependencies]="taskData" #dependencyDropdown></dependency-dropdown>
+
+<dependency-picker [data]="taskData" #dependencyPicker></dependency-picker>
+
+<delete-dependency-picker [data]="taskData" #deleteDependencyPicker></delete-dependency-picker>
+
 <h4>Description:</h4>
 <description-inplace
     [entityData]="taskData"

@@ -11,22 +11,27 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { TagModule } from 'primeng/tag';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TaskData } from 'src/types/task';
 import { TitleInplaceComponent } from 'src/app/components/inplaces/title-inplace/title-inplace.component';
 import { DescriptionInplaceComponent } from 'src/app/components/inplaces/description-inplace/description-inplace.component';
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/date-inplace.component';
-
 import { TaskPageComponent } from './task-page.component';
+
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { of } from 'rxjs';
+
 import { TaskTypePickerComponent } from 'src/app/components/pickers/task-type-picker/task-type-picker.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarModule } from 'primeng/toolbar';
+import { DependencyDropdownComponent } from '../../miscellaneous/dependency-dropdown/dependency-dropdown.component';
+import { DependencyPickerComponent } from '../../pickers/dependency-picker/dependency-picker.component';
+import { DeleteDependencyPickerComponent } from '../../pickers/delete-dependency-picker/delete-dependency-picker.component';
 
 describe('TaskPageComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -50,13 +55,19 @@ describe('TaskPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(TaskPageComponent, [TagModule, ChipModule, ButtonModule, RouterModule, ProgressSpinnerModule, MultiSelectModule, BrowserAnimationsModule, ToolbarModule, MultiSelectModule])
+    return MockBuilder(TaskPageComponent,
+       [TagModule, ChipModule, ButtonModule, RouterModule, ProgressSpinnerModule, 
+        MultiSelectModule, BrowserAnimationsModule, ToolbarModule, MultiSelectModule,
+        FormsModule, ReactiveFormsModule])
       .mock(DescriptionInplaceComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
       .mock(ProgressPickerComponent, { export: true })
       .mock(TaskTypePickerComponent, { export: true })
       .mock(FundsInplaceComponent, {export: true })
       .mock(DateInplaceComponent, { export: true })
+      .mock(DependencyDropdownComponent, { export: true })
+      .mock(DependencyPickerComponent, { export: true })
+      .mock(DeleteDependencyPickerComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
