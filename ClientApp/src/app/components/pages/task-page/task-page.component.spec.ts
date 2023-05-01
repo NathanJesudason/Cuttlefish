@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
   convertToParamMap,
@@ -29,6 +30,7 @@ import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarModule } from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
 import { DependencyDropdownComponent } from '../../miscellaneous/dependency-dropdown/dependency-dropdown.component';
 import { DependencyPickerComponent } from '../../pickers/dependency-picker/dependency-picker.component';
 import { DeleteDependencyPickerComponent } from '../../pickers/delete-dependency-picker/delete-dependency-picker.component';
@@ -56,9 +58,9 @@ describe('TaskPageComponent', () => {
 
   beforeEach(() => {
     return MockBuilder(TaskPageComponent,
-       [TagModule, ChipModule, ButtonModule, RouterModule, ProgressSpinnerModule, 
-        MultiSelectModule, BrowserAnimationsModule, ToolbarModule, MultiSelectModule,
-        FormsModule, ReactiveFormsModule])
+      [TagModule, ChipModule, ButtonModule, RouterModule,
+       ProgressSpinnerModule, MultiSelectModule, BrowserAnimationsModule,
+       ToolbarModule, DropdownModule, FormsModule, ReactiveFormsModule])
       .mock(DescriptionInplaceComponent, { export: true })
       .mock(TitleInplaceComponent, { export: true })
       .mock(ProgressPickerComponent, { export: true })

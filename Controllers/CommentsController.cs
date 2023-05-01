@@ -60,10 +60,6 @@ namespace Cuttlefish.Controllers
             {
                 return BadRequest();
             }
-            if (await _context.Projects.FindAsync(comments.projectID) == null)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(comments).State = EntityState.Modified;
 
@@ -96,10 +92,6 @@ namespace Cuttlefish.Controllers
                 return BadRequest();
             }
             if (await _context.Tasks.FindAsync(comments.taskID) == null)
-            {
-                return BadRequest();
-            }
-            if (await _context.Projects.FindAsync(comments.projectID) == null)
             {
                 return BadRequest();
             }
