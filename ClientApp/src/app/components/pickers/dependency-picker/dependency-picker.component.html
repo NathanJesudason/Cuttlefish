@@ -1,10 +1,10 @@
-<p-overlayPanel #overlayPanel showCloseIcon="true" dismissable="false">
+<p-overlayPanel #overlayPanel [showCloseIcon]=true [dismissable]=false>
   <div class="overlay-header">
     Add dependency
   </div>
   <div class="overlay-content">
-    <p-dropdown [options]="dependencyOptions" [(ngModel)]="selectedDependency"></p-dropdown>
-    <button class="approve-button" (click)="approveChanges($event)">Approve</button>
+    <p-dropdown [options]="dependencyOptions || []" [(ngModel)]="selectedDependency"></p-dropdown>
+    <button class="approve-button" (click)="approveChanges()">Approve</button>
     <button class="cancel-button" (click)="cancelInput()">Cancel</button>
   </div>
 </p-overlayPanel>

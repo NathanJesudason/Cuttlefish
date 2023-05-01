@@ -38,6 +38,9 @@ export class DeleteDependencyPickerComponent implements OnInit {
 
   ngOnInit() {
     this.dependencyOptions = this.data.dependencies;
+    if (!this.dependencyOptions || this.dependencyOptions.length === 0) {
+      this.showNoDependenciesToast();
+    }
   }
 
   showConfirmation(dependency: number) {
@@ -86,5 +89,9 @@ export class DeleteDependencyPickerComponent implements OnInit {
   cancelInput() {
     this.overlayPanel.hide();
     this.messageService.add({severity: 'info', summary: 'Dependency deletion was cancelled'});
+  }
+
+  showNoDependenciesToast() {
+    this.messageService.add({severity: 'info', summary: 'No dependencies available'});
   }
 }

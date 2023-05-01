@@ -25,7 +25,7 @@ export class DependencyPickerComponent implements OnInit {
   @Input() data!: TaskData;
   @Input() projectData!: ProjectData;
 
-  dependencyOptions!: { label: string, value: number }[] | undefined;
+  dependencyOptions: { label: string, value: number }[] = [];
   selectedDependency!: number;
 
   constructor(
@@ -34,6 +34,7 @@ export class DependencyPickerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // Deprecated subscribe call
     this.taskService.getTaskRelations().subscribe(
       (taskRelations: any) => {
         this.dependencyOptions = taskRelations.map((taskRelation: any) => {
@@ -77,11 +78,6 @@ export class DependencyPickerComponent implements OnInit {
     }
 
     return 1; // dependency added
-  }
-
-  showOption(option: number) {
-    this.selectedDependency = option;
-    this.approveChanges();
   }
 
   approveChanges() {

@@ -1,4 +1,4 @@
-<overlay-panel #overlayPanel>
+<p-overlayPanel #overlayPanel>
   <div *ngIf="dependencyOptions">
     <ul>
       <li *ngFor="let dependency of dependencyOptions">
@@ -7,6 +7,6 @@
     </ul>
   </div>
   <button type="button" pButton icon="pi pi-times" (click)="cancelInput()"></button>
-</overlay-panel>
+</p-overlayPanel>
 
 <p-toast></p-toast>
