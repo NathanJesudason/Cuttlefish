@@ -1,4 +1,3 @@
-import { FormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
   convertToParamMap,
