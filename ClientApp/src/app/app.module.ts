@@ -40,6 +40,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MessageModule } from 'primeng/message';
+import { ConfirmationService } from 'primeng/api';
 
 import { NgxGanttModule } from '@worktile/gantt';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -158,6 +159,7 @@ import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/de
     DragDropModule,
     MessageModule,
     NgApexchartsModule,
+    ConfirmationService,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
