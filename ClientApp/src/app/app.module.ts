@@ -177,7 +177,7 @@ import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/de
     ])
   ],
   providers: [
-    
+    ConfirmationService,
     {
       provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,
