@@ -116,7 +116,7 @@ namespace Cuttlefish.Controllers
             {
                 return NotFound(new { message = "Sprint with given id not found" });
             }
-            
+
             Tasks task = await _context.Tasks.FindAsync(body.taskId);
             if (task == null)
             {
@@ -142,7 +142,7 @@ namespace Cuttlefish.Controllers
             }
 
             _context.Database.ExecuteSqlRaw("UPDATE Tasks SET [order] = {0} WHERE [id] = {1};", newOrder, body.taskId);
-            
+
             return Ok();
         }
 
