@@ -159,7 +159,6 @@ import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/de
     DragDropModule,
     MessageModule,
     NgApexchartsModule,
-    ConfirmationService,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
