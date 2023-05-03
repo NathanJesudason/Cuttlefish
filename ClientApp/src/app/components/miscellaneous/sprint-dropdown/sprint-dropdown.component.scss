@@ -164,8 +164,18 @@
   cursor: pointer;
 }
 
-.droppable-slot {
+.cdk-drop-list-receiving {
+  min-height: 82px;
+  border: 2px solid var(--primary-color);
+}
+
+#no-tasks-placeholder {
   width: 100%;
-  height: 4px;
-  border-radius: var(--border-radius);
+  height: 82px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
 }

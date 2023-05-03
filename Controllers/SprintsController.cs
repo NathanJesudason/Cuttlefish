@@ -107,6 +107,94 @@ namespace Cuttlefish.Controllers
             return NoContent();
         }
 
+        // PATCH: api/Sprints/5/reorder
+        [HttpPatch("{id}/swap-reorder")]
+        public async Task<IActionResult> SwapReorderTasksInSprint(int id, [FromBody] SwapReorderBody body)
+        {
+            Sprints sprint = await _context.Sprints.FindAsync(id);
+            if (sprint == null)
+            {
+                return NotFound(new { message = "Sprint with given id not found" });
+            }
+            
+            Tasks task = await _context.Tasks.FindAsync(body.taskId);
+            if (task == null)
+            {
+                return NotFound(new { message = "Task with given id not found" });
+            }
+
+            int oldOrder = task.order;
+            int newOrder = body.newOrder;
+            if (oldOrder == newOrder)
+            {
+                return Ok();
+            }
+
+            if (oldOrder < newOrder)
+            {
+                // item moved down the list, items between orders need to move up (decrement order)
+                _context.Database.ExecuteSqlRaw("UPDATE [Tasks] SET [order] = [order]-1 WHERE [sprintID] = {0} AND [order] > {1} AND [order] <= {2};", id, oldOrder, newOrder);
+            }
+            else
+            {
+                // item moved up the list, items between orders need to move down (increment order)
+                _context.Database.ExecuteSqlRaw("UPDATE [Tasks] SET [order] = [order]+1 WHERE [sprintID] = {0} AND [order] < {1} AND [order] >= {2};", id, oldOrder, newOrder);
+            }
+
+            _context.Database.ExecuteSqlRaw("UPDATE Tasks SET [order] = {0} WHERE [id] = {1};", newOrder, body.taskId);
+            
+            return Ok();
+        }
+
+        public class SwapReorderBody
+        {
+            public int taskId { get; set; }
+            public int newOrder { get; set; }
+        }
+
+        // PATCH: api/Sprints/5/reorder
+        [HttpPatch("{id}/remove-reorder")]
+        public async Task<IActionResult> RemoveReorderTasksInSprint(int id, [FromBody] RemoveReorderBody body)
+        {
+            Sprints sprint = await _context.Sprints.FindAsync(id);
+            if (sprint == null)
+            {
+                return NotFound(new { message = "Sprint with given id not found" });
+            }
+
+            int oldOrder = body.oldOrder;
+
+            _context.Database.ExecuteSqlRaw("UPDATE [Tasks] SET [order] = [order]-1 WHERE [sprintID] = {0} AND [order] > {1};", id, oldOrder);
+
+            return Ok();
+        }
+
+        public class RemoveReorderBody
+        {
+            public int oldOrder { get; set; }
+        }
+
+        [HttpPatch("{id}/add-reorder")]
+        public async Task<IActionResult> AddReorderTasksInSprint(int id, [FromBody] AddReorderBody body)
+        {
+            Sprints sprint = await _context.Sprints.FindAsync(id);
+            if (sprint == null)
+            {
+                return NotFound(new { message = "Sprint with given id not found" });
+            }
+
+            int newOrder = body.newOrder;
+
+            _context.Database.ExecuteSqlRaw("UPDATE [Tasks] SET [order] = [order]+1 WHERE [sprintID] = {0} AND [order] >= {1};", id, newOrder);
+
+            return Ok();
+        }
+
+        public class AddReorderBody
+        {
+            public int newOrder { get; set; }
+        }
+
         private bool SprintsExists(int id)
         {
             return _context.Sprints.Any(e => e.id == id);

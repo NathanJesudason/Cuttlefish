@@ -85,15 +85,21 @@
       (click)="showCreateTaskModal()"
     ></button>
 
-    <div id="tasks">
-      <div class="droppable-slot" pDroppable (onDrop)="onTaskDrop($event)"></div>
-      <ng-container *ngFor="let task of data.tasks">
-        <task-overview
-          [taskData]="task"
-          (taskMovingSprints)="removeTaskFromThisSprint(task)"
-        ></task-overview>
-        <div class="droppable-slot" pDroppable (onDrop)="onTaskDrop($event)"></div>
-      </ng-container>
+    <div
+      id="no-tasks-placeholder"
+      *ngIf="data.tasks.length === 0"
+    >No tasks in this sprint yet, create one or move another here</div>
+    
+    <div
+      id="tasks"
+      cdkDropList
+      (cdkDropListDropped)="onTaskDrop($event)"
+      [cdkDropListData]="data.tasks"
+    >
+      <task-overview
+        *ngFor="let task of data.tasks"
+        [taskData]="task"
+      ></task-overview>
     </div>
   </ng-template>
 </p-accordionTab>

@@ -1,10 +1,14 @@
 import {
+  CdkDragMove,
+  CdkDragRelease,
+  CdkDragStart
+} from '@angular/cdk/drag-drop';
+import {
   Component,
   OnInit,
   Input,
-  Output,
-  EventEmitter,
 } from '@angular/core';
+
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { LabelData } from 'src/types/label';
 
@@ -17,10 +21,11 @@ import { TaskData } from 'src/types/task';
 })
 export class TaskOverviewComponent implements OnInit {
   @Input() taskData!: TaskData;
-  @Output() taskMovingSprints = new EventEmitter<number>();
 
   trimmedDescription!: string;
   trimmedLabels: LabelData[] = [];
+
+  scrollFrameNumber: number = 0;
 
   constructor(
     private taskService: TaskApi,
@@ -66,14 +71,42 @@ export class TaskOverviewComponent implements OnInit {
     }
   }
 
-  onDragStart(event: DragEvent) {
-    event.dataTransfer?.setData('application/json', JSON.stringify(this.taskData));
+  onDragMoved(event: CdkDragMove<TaskData>) {
+    this.scrollFrameNumber++;
+    if (this.scrollFrameNumber <= 30) {
+      return;
+    }
+
+    const scrollSpeed = 400;
+    const distanceFromScreenEdge = 250;
+
+    if (event.pointerPosition.y < distanceFromScreenEdge) {
+      const scrollFactor = (distanceFromScreenEdge - event.pointerPosition.y) / distanceFromScreenEdge;
+      const scrollDistance = -scrollSpeed * scrollFactor;
+      window.scrollBy({
+        top: scrollDistance,
+        left: 0,
+        behavior: 'smooth',
+      });
+    } else if (event.pointerPosition.y > window.innerHeight - distanceFromScreenEdge) {
+      const scrollFactor = (distanceFromScreenEdge - (window.innerHeight - event.pointerPosition.y)) / distanceFromScreenEdge;
+      const scrollDistance = scrollSpeed * scrollFactor;
+      window.scrollBy({
+        top: scrollDistance,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+    this.scrollFrameNumber = 0;
   }
 
-  onDragEnd(event: DragEvent) {
-    const successfulDrag = event.dataTransfer?.dropEffect === 'copy';
-    if (successfulDrag) {
-      this.taskMovingSprints.emit(this.taskData.id);
-    }
+  onDragStarted(_event: CdkDragStart<TaskData>) {
+    document.body.classList.add('inherit-cursors');
+    document.body.style.cursor = 'grabbing';
+  }
+
+  onDragReleased(_event: CdkDragRelease<TaskData>) {
+    document.body.classList.remove('inherit-cursors');
+    document.body.style.cursor = 'auto';
   }
 }

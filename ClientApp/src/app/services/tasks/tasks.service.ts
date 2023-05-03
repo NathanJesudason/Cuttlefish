@@ -17,13 +17,17 @@ import {
   
 import { LabelData } from 'src/types/label';
 import { environment } from 'src/environments/environment';
+import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
   
 @Injectable({providedIn: 'root'})
 export class TaskApi {
   baseUrl: string = environment.url;
   http: HttpClient;
 
-  constructor(http: HttpClient) {
+  constructor(
+    http: HttpClient,
+    private sprintOrderingService: SprintOrderingService,
+  ) {
     this.http = http;
   }
 
@@ -307,7 +311,14 @@ export class TaskApi {
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
-        })
+        }),
+        switchMap((task) => {
+          return this.sprintOrderingService.addReorderTasksInSprint(task.sprintID, task.order).pipe(
+            map(() => {
+              return task;
+            }),
+          );
+        }),
       );
   }
 
@@ -316,13 +327,18 @@ export class TaskApi {
    * @param id the Task ID
    * @throws error if it catches HttpError
    */
-  deleteTask(id: number){
-    return this.http.delete<TaskData>(`${environment.url}Tasks/${id}`)
-    .pipe(
-      catchError((err: HttpErrorResponse) => {
-        return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
-      })
-    );
+  deleteTask(task: TaskData){
+    return this.sprintOrderingService.removeReorderTasksInSprint(task.sprintID, task.order)
+      .pipe(
+        switchMap(() => {
+          return this.http.delete<TaskData>(`${environment.url}Tasks/${task.id}`)
+            .pipe(
+              catchError((err: HttpErrorResponse) => {
+                return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+              })
+            );
+        }),
+      );
   }
 
   /**

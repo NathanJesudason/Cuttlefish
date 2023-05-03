@@ -1,4 +1,5 @@
 import { RouterModule } from '@angular/router';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import {
   MockBuilder,
@@ -47,6 +48,7 @@ describe('TaskOverviewComponent', () => {
     ChipModule,
     AvatarModule,
     RouterModule,
+    DragDropModule,
   ])
   .mock(TaskApi, {
     getTaskDataWithlabels: (id: number): Observable<TaskData> => of(data),
