@@ -15,6 +15,7 @@ import { DeleteDependencyPickerComponent } from './delete-dependency-picker.comp
 
 import { of } from 'rxjs';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DropdownModule } from 'primeng/dropdown';
 
 describe('DeleteDependencyPickerComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -38,7 +39,7 @@ describe('DeleteDependencyPickerComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(DeleteDependencyPickerComponent, [OverlayPanelModule])
+    return MockBuilder(DeleteDependencyPickerComponent, [OverlayPanelModule, DropdownModule])
       .mock(DeleteDependencyPickerComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {

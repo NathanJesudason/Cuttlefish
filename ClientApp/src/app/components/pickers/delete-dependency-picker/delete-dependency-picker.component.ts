@@ -11,6 +11,7 @@ import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { Dropdown } from 'primeng/dropdown';
 
 import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
@@ -25,9 +26,12 @@ export class DeleteDependencyPickerComponent implements OnInit {
   @ViewChild('overlayPanel')
   overlayPanel!: OverlayPanel;
 
+  @ViewChild('dropdown')
+  dropdown!: Dropdown;
+
   @Input() data!: TaskData;
 
-  dependencyOptions!: number[] | undefined;
+  dependencyOptions!: { label: string, value: number }[] | undefined;
   selectedDependency!: number;
 
   constructor(
@@ -37,14 +41,17 @@ export class DeleteDependencyPickerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dependencyOptions = this.data.dependencies;
-    if (!this.dependencyOptions || this.dependencyOptions.length === 0) {
+    if (this.data.dependencies) {
+      this.dependencyOptions = this.data.dependencies.map((dependency: number) => {
+        return { label: `Task ${dependency}`, value: dependency };
+      });
+    } else {
       this.showNoDependenciesToast();
     }
   }
 
-  showConfirmation(dependency: number) {
-    this.selectedDependency = dependency;
+  showConfirmation(dependency: { label: string, value: number }) {
+    this.selectedDependency = dependency.value;
     this.confirmationService.confirm({
       message: `Are you sure you want to remove dependency ${this.selectedDependency}?`,
       accept: () => {

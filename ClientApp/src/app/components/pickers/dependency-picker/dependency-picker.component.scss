@@ -1,26 +1,45 @@
-.options {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 100%;
-    grid-template-rows: repeat(4, min-content + 1em);
-    row-gap: 0.5em;
+.custom-overlay {
+  width: 300px; // Adjust the width of the overlay panel
+}
+
+.overlay-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.custom-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+
+  &:hover {
+    background-color: #0056b3;
   }
-  
-  :host ::ng-deep {  
-    .p-overlaypanel {
-      background-color: var(--background-color);
-      color: var(--text-color);
-      width: min-content;
-      height: min-content;
-    }
+
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
   }
-  
-  .progressTag {
-    margin-left: auto;
-    margin-right: auto;
-    cursor: pointer;
+}
+
+.add-dependency-button {
+  background-color: #28a745; // Change the color of the "Add dependency" button
+  &:hover {
+    background-color: #218838;
   }
-  
-  .dependencyHead:hover {
-    cursor: pointer;
-  }
+}

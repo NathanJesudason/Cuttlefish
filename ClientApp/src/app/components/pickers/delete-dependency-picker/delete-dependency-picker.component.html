@@ -1,12 +1,11 @@
 <p-overlayPanel #overlayPanel>
-  <div *ngIf="dependencyOptions">
-    <ul>
-      <li *ngFor="let dependency of dependencyOptions">
-        <a (click)="showConfirmation(dependency)">{{dependency}}</a>
-      </li>
-    </ul>
+  <div class="overlay-content">
+    <p-dropdown [options]="dependencyOptions" [(ngModel)]="selectedDependency"></p-dropdown>
+    <button class="approve-button" (click)="showConfirmation(selectedDependency)">Remove</button>
+    <button class="cancel-button" (click)="cancelInput()">Cancel</button>
   </div>
-  <button type="button" pButton icon="pi pi-times" (click)="cancelInput()"></button>
 </p-overlayPanel>
+
+<button class="remove-dependency-button" (click)="overlayPanel.toggle($event)">Remove dependency</button>
 
 <p-toast></p-toast>
