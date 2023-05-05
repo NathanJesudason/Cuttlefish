@@ -169,11 +169,21 @@ describe('NotFoundPageComponent', () => {
   });
 
   it('should create the component when URL path is /404', () => {
-    history.pushState(null, '', '/404');
-    
-    const fixture = MockRender(NotFoundPageComponent);
-    
-    expect(fixture.point.componentInstance).toBeTruthy();
-  });
+    const urlArray = ['404'];
+    MockInstance(
+      ActivatedRoute,
+      'snapshot',
+      jasmine.createSpy(),
+      'get'
+    ).and.returnValue({
+      url: urlArray.map(
+        urlItem => ({ toString: () => urlItem })
+      )
+    });
   
+    MockRender(NotFoundPageComponent);
+  
+    expect(ngMocks.findAll(NotFoundPageComponent)[0]).toBeTruthy();
+  });
+
 });
