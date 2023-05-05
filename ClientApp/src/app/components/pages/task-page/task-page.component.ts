@@ -68,9 +68,6 @@ export class TaskPageComponent implements OnInit {
 
         valueChange.forEach(x => {
           this.taskApi.AddLabelRelation(x, this.taskData.id).subscribe({
-            next: _ => {
-              this.messageService.add({severity: 'success', summary: `Labels Updated`});
-            },
             error: (err) => {
               this.messageService.add({severity: 'error', summary: err.error.message});
               console.log(err);
@@ -83,9 +80,6 @@ export class TaskPageComponent implements OnInit {
 
         valueChange.forEach(x => {
           this.taskApi.deleteLabelRelations(x, this.taskData.id).subscribe({
-            next: _ => {
-              this.messageService.add({severity: 'success', summary: `Labels Updated`});
-            },
             error: (err) => {
               this.messageService.add({severity: 'error', summary: err.error.message});
               console.log(err);

@@ -144,6 +144,5 @@ export class ProjectPageComponent {
 
   deleteSprint(sprintId: number) {
     this.projectData.sprints = this.projectData.sprints.filter(sprint => sprint.id !== sprintId);
-    this.messageService.add({severity: 'success', summary: `Sprint ${sprintId} deleted`});
   }
 }
