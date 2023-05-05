@@ -54,7 +54,6 @@ export class TaskPageComponent implements OnInit {
       },
       error: err => {
         this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
-        console.log(err);
       }
     })
   }
@@ -70,7 +69,6 @@ export class TaskPageComponent implements OnInit {
           this.taskApi.AddLabelRelation(x, this.taskData.id).subscribe({
             error: (err) => {
               this.messageService.add({severity: 'error', summary: err.error.message});
-              console.log(err);
             }
           })
         })
@@ -82,7 +80,6 @@ export class TaskPageComponent implements OnInit {
           this.taskApi.deleteLabelRelations(x, this.taskData.id).subscribe({
             error: (err) => {
               this.messageService.add({severity: 'error', summary: err.error.message});
-              console.log(err);
             }
           })
         })
@@ -90,7 +87,6 @@ export class TaskPageComponent implements OnInit {
       this.oldLabelRelations = value;
     } catch (error) {
       this.messageService.add({severity: 'error', summary: `Error updating labels: ${error}`});
-      console.log("Error updating labels: ", error)
       this.taskData.labels = this.oldLabelRelations;
       return;
     }
@@ -119,7 +115,6 @@ export class TaskPageComponent implements OnInit {
         this.router.navigate(['not-found', 'task', this.route.snapshot.paramMap.get('id')!]);
         return;
       }
-      console.log(error);
     }
   }
 }

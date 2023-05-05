@@ -3,6 +3,9 @@ import {
   OnInit,
   Input
 } from '@angular/core';
+
+import { MessageService } from 'primeng/api';
+
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { LabelData } from 'src/types/label';
 
@@ -11,7 +14,8 @@ import { TaskData } from 'src/types/task';
 @Component({
   selector: 'task-overview',
   templateUrl: './task-overview.component.html',
-  styleUrls: ['./task-overview.component.css']
+  styleUrls: ['./task-overview.component.css'],
+  providers: [MessageService],
 })
 export class TaskOverviewComponent implements OnInit {
   @Input() taskData!: TaskData;
@@ -21,6 +25,7 @@ export class TaskOverviewComponent implements OnInit {
 
   constructor(
     private taskService: TaskApi,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -48,8 +53,8 @@ export class TaskOverviewComponent implements OnInit {
           this.taskData = taskData;
           this.getTrimmedLabels();
         },
-        error: (error) => {
-          console.error(error);
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: err.message})
         }
       });
     }

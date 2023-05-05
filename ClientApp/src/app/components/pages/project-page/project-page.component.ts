@@ -71,7 +71,6 @@ export class ProjectPageComponent {
           this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
           return;
         }
-        console.log(err);
       }
     });
   }

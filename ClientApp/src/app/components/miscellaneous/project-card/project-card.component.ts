@@ -8,7 +8,8 @@ import {
 
 import {
   ConfirmationService,
-  MenuItem
+  MenuItem,
+  MessageService
 } from 'primeng/api';
 
 import { ProjectService } from 'src/app/services/project/project.service';
@@ -19,7 +20,7 @@ import { ProjectData } from 'src/types/project';
   selector: 'project-card',
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.css'],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, MessageService],
 })
 export class ProjectCardComponent implements OnInit {
   @Input() project!: ProjectData;
@@ -36,6 +37,7 @@ export class ProjectCardComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void { }
@@ -53,7 +55,7 @@ export class ProjectCardComponent implements OnInit {
         this.deleteProject.emit(this.project.id);
       },
       error: (err) => {
-        console.log(err);
+        this.messageService.add({severity: 'error', summary: err.message});
       }
     });
   }

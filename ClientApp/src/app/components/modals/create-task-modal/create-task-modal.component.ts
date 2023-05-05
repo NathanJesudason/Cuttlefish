@@ -55,7 +55,6 @@ export class CreateTaskModalComponent implements OnInit {
         this.sprintData.pointsAttempted += data.storyPoints
       },
       error: err => {
-        console.log(err.message);
         this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
       }
     })

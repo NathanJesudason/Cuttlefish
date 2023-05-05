@@ -10,7 +10,8 @@ import {
 
 import {
   ConfirmationService,
-  MenuItem
+  MenuItem,
+  MessageService
 } from 'primeng/api';
 
 import { format } from 'date-fns';
@@ -27,7 +28,7 @@ import { TaskData } from 'src/types/task';
   selector: 'sprint-dropdown',
   templateUrl: './sprint-dropdown.component.html',
   styleUrls: ['./sprint-dropdown.component.scss'],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, MessageService],
 })
 export class SprintDropdownComponent implements OnInit {
   @Input() data!: SprintData;
@@ -84,6 +85,7 @@ export class SprintDropdownComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private sprintService: SprintService,
     private taskService: TaskApi,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -286,7 +288,7 @@ export class SprintDropdownComponent implements OnInit {
         this.deleteSprint.emit(this.data.id);
       },
       error: (err) => {
-        console.log(err);
+        this.messageService.add({severity: 'error', summary: err.message});
       }
     });
   }
@@ -332,7 +334,7 @@ export class SprintDropdownComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error(err);
+        this.messageService.add({severity: 'error', summary: err.message});
       },
     });
   }
@@ -376,7 +378,7 @@ export class SprintDropdownComponent implements OnInit {
           this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
         },
         error: (err) => {
-          console.error(err);
+          this.messageService.add({severity: 'error', summary: err.message});
         },
       });
     }
@@ -390,7 +392,7 @@ export class SprintDropdownComponent implements OnInit {
           this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
         },
         error: (err) => {
-          console.error(err);
+          this.messageService.add({severity: 'error', summary: err.message});
         },
       });
     }
@@ -400,7 +402,7 @@ export class SprintDropdownComponent implements OnInit {
     for (const task of tasks) {
       this.taskService.completeTask(task).subscribe({
         error: (err) => {
-          console.error(err);
+          this.messageService.add({severity: 'error', summary: err.message});
         },
       });
     }
@@ -502,7 +504,7 @@ export class SprintDropdownComponent implements OnInit {
         this.data.isCompleted = true;
       },
       error: (err) => {
-        console.log(err);
+        this.messageService.add({severity: 'error', summary: err.message});
       },
     });
   }

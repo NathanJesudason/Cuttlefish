@@ -37,7 +37,6 @@ export class ColorInplaceComponent implements OnInit {
           this.projectData.color = this.color;
         },
         error: (err) => {
-          console.log(err);
           this.messageService.add({severity: 'error', summary: `Error updating color: ${err.message}`});
         },
       });

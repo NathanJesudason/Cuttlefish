@@ -205,17 +205,26 @@ export class TaskApi {
   getTaskDataWithLabels(id: number) {
     return this.getTaskData(id).pipe(
       catchError((err: HttpErrorResponse) => {
-        return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+        if (err.error.message) {
+          return throwError(() => new Error(`Error getting task: ${err.error.message}`));
+        }
+        return throwError(() => new Error(`Error getting task: ${err.message}`));
       }),
       switchMap((task) => {
         return this.getLabelRelationsByID(task.id).pipe(
           catchError((err: HttpErrorResponse) => {
-            return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+            if (err.error.message) {
+              return throwError(() => new Error(`Error getting task: ${err.error.message}`));
+            }
+            return throwError(() => new Error(`Error getting task: ${err.message}`));
           }),
           switchMap((labelRelations) => {
             return this.getLabels().pipe(
               catchError((err: HttpErrorResponse) => {
-                return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+                if (err.error.message) {
+                  return throwError(() => new Error(`Error getting task: ${err.error.message}`));
+                }
+                return throwError(() => new Error(`Error getting task: ${err.message}`));
               }),
               map((allLabels) => {
                 var listofIds: string[] = []
@@ -289,7 +298,10 @@ export class TaskApi {
       description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type})
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+          if (err.error.message) {
+            return throwError(() => new Error(`Error updating task: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error updating task: ${err.message}`));
         })
       );
   }
