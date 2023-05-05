@@ -13,13 +13,15 @@ import {
   NotFoundPageComponent,
   NotFoundReason
 } from './not-found-page.component';
+
 import { AppModule } from 'src/app/app.module';
+import { Location } from '@angular/common';
 
 describe('NotFoundPageComponent', () => {
   MockInstance.scope();
 
   beforeEach(() => {
-    return MockBuilder(NotFoundPageComponent, [AppModule, RouterModule]);
+    return MockBuilder(NotFoundPageComponent, [AppModule, RouterModule, Location]);
   });
 
   it('should create', () => {

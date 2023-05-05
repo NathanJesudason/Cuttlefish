@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 export enum NotFoundReason {
   Unknown,
@@ -22,6 +23,7 @@ export class NotFoundPageComponent {
   
   constructor(
     private route: ActivatedRoute,
+    private location: Location,
   ) { }
 
   ngOnInit() {
@@ -68,5 +70,9 @@ export class NotFoundPageComponent {
     }
 
     this.invalidId = this.url[2];
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
