@@ -167,4 +167,13 @@ describe('NotFoundPageComponent', () => {
 
     expect(fixture.point.componentInstance.invalidId).toBeUndefined();
   });
+
+  it('should create the component when URL path is /404', () => {
+    history.pushState(null, '', '/404');
+    
+    const fixture = MockRender(NotFoundPageComponent);
+    
+    expect(fixture.point.componentInstance).toBeTruthy();
+  });
+  
 });

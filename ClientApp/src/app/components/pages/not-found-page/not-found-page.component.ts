@@ -27,6 +27,9 @@ export class NotFoundPageComponent {
   ) { }
 
   ngOnInit() {
+    // Use the pushState method of the history API to rewrite the URL path
+    history.pushState(null, '', '/404');
+
     this.getUrl();
     this.assignNotFoundReason();
     this.assignInvalidId();
