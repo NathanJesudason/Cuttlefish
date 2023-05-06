@@ -22,6 +22,7 @@ describe('ColorInplaceComponent', () => {
     endDate: new Date(),
     funds: 49.95,
     sprints: [],
+    startDate: new Date()
   };
   
   beforeEach(() => MockBuilder(ColorInplaceComponent, [ColorPickerModule, ToastModule, FormsModule]));

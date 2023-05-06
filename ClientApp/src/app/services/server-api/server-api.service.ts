@@ -255,8 +255,8 @@ export class ServerApi {
         storyPoints: 1,
         description: 'This is a test task that exists in the backlog',
         progress: 'Backlog',
-        startDate: undefined,
-        endDate: undefined,
+        startDate: new Date(),
+        endDate: new Date(),
         labels: [this.getLabel('frontend')],
       }
     }
@@ -280,6 +280,7 @@ export class ServerApi {
         name: 'Cuttlefish Project',
         color: '#234001',
         description: 'The goal of this project is to complete the creation of Cuttlefish, our 2022-2023 senior capstone project',
+        startDate: new Date(),
         endDate: new Date(),
         funds: 49.95,
         sprints: sprints,
@@ -293,6 +294,7 @@ export class ServerApi {
         name: 'A Different Cuttlefish Project',
         color: '#D84B92',
         description: 'This is just a mock project to help fill some data into the site as we develop it',
+        startDate: new Date(),
         endDate: new Date(),
         funds: 194,
         sprints: sprints,
