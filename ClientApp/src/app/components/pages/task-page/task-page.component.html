@@ -33,45 +33,19 @@
 
   <description-inplace [entityData]="taskData" defaultText="Enter a description..."></description-inplace>
 
-<div class="p-toolbar-group-center">
-  <!-- (onRemove)="deleteLabelRelation({{i.name}})" -->
-  <title-inplace [entityData]="taskData" size="large"></title-inplace>
-</div>
-
-<div class="p-toolbar-group-end">
-  <span>{{ taskData.assignee }}</span>
-  <button pButton id="project-Delete-button" class="p-button-raised p-button-sm" type="button" icon="pi pi-trash"  (click)="deleteTask()"></button>
-</div>
-</p-toolbar>
-
-<!--TODO: Make sure that this updates sprint data-->
-<p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
-
-<app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
-<app-type-picker [data]="taskData" #typePicker></app-type-picker>
-<funds-inplace [entityData]="taskData"></funds-inplace>
-
-<p-multiSelect [options]="allLabels" [(ngModel)]="taskData.labels" optionLabel="name" defaultLabel="Label Relations" display="chip" (ngModelChange)="updateLabels($event)">
-
-</p-multiSelect>
-
-<h4>Description:</h4>
-<description-inplace
-    [entityData]="taskData"
-    defaultText="Enter a description..."
-></description-inplace>
-
-<date-inplace
-    [entityData]="taskData"
-    [validationEntityData]="sprintData"
-    whichDate="start"
-></date-inplace>
-<i class="pi pi-minus date-minus"></i>
-<date-inplace
-    [entityData]="taskData"
-    [validationEntityData]="sprintData"
-    whichDate="end"
-></date-inplace>
+  <div class="dates-section">
+    <date-inplace
+        [entityData]="taskData"
+        [validationEntityData]="sprintData"
+        whichDate="start"
+    ></date-inplace>
+    <i class="pi pi-minus date-minus"></i>
+    <date-inplace
+        [entityData]="taskData"
+        [validationEntityData]="sprintData"
+        whichDate="end"
+    ></date-inplace>
+  </div>
 
   <div class="funds-section">
     <funds-inplace [entityData]="taskData"></funds-inplace>

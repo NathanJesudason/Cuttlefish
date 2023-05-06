@@ -32,7 +32,8 @@ describe('DependencyPickerComponent', () => {
     sprintID: 0,
     priority: 0,
     type: 'Epic',
-    cost: 0
+    cost: 0,
+    order: 0,
   };
 
   beforeEach(() => {
