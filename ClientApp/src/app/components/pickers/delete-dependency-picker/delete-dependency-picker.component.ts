@@ -31,7 +31,7 @@ export class DeleteDependencyPickerComponent implements OnInit {
 
   @Input() data!: TaskData;
 
-  dependencyOptions!: { label: string, value: number }[] | undefined;
+  dependencyOptions: { label: string, value: number }[] = [];
   selectedDependency!: number;
 
   constructor(
@@ -50,39 +50,42 @@ export class DeleteDependencyPickerComponent implements OnInit {
     }
   }
 
-  showConfirmation(dependency: { label: string, value: number }) {
-    this.selectedDependency = dependency.value;
-    this.confirmationService.confirm({
-      message: `Are you sure you want to remove dependency ${this.selectedDependency}?`,
-      accept: () => {
-        this.approveChanges();
-      },
-      reject: () => {
-        this.overlayPanel.hide();
-        this.messageService.add({severity: 'info', summary: 'Dependency deletion was cancelled'});
-      },
-    });
+  showConfirmation(selectedDependencyValue: number): void {
+    const selectedDependency = this.dependencyOptions.find(option => option.value === selectedDependencyValue);
+    
+    if (selectedDependency) {
+      this.confirmationService.confirm({
+        message: `Are you sure you want to remove dependency ${selectedDependency.value}?`,
+        accept: () => {
+          this.approveChanges(selectedDependency.value);
+        },
+        reject: () => {
+          this.overlayPanel.hide();
+          this.messageService.add({severity: 'info', summary: 'Dependency deletion was cancelled'});
+        },
+      });
+    }
   }
 
-  approveChanges() {
-    this.taskApi.deleteTaskRelation(this.data.id, this.selectedDependency)
+  approveChanges(dependencyValue: number) {
+    this.taskApi.deleteTaskRelation(this.data.id, dependencyValue)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          this.messageService.add({severity: 'error', summary: `Failed to remove dependency ${this.selectedDependency}: ${error.message}`});
+          this.messageService.add({severity: 'error', summary: `Failed to remove dependency ${dependencyValue}: ${error.message}`});
           return of(null);
         })
       )
       .subscribe((response: any) => {
         if (response !== null) {
-          const result = this.removeDependency(this.selectedDependency);
+          const result = this.removeDependency(dependencyValue);
           if (result === 1) {
-            this.messageService.add({severity: 'success', summary: `Dependency ${this.selectedDependency} was successfully removed!`});
+            this.messageService.add({severity: 'success', summary: `Dependency ${dependencyValue} was successfully removed!`});
           } else {
-            this.messageService.add({severity: 'error', summary: `Dependency ${this.selectedDependency} does not exist!`});
+            this.messageService.add({severity: 'error', summary: `Dependency ${dependencyValue} does not exist!`});
           }
         }
       });
-  }  
+  }
 
   removeDependency(dependency: number): number {
     const index = this.data.dependencies?.indexOf(dependency);

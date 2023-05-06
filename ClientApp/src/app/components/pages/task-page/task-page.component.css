@@ -2,14 +2,71 @@
   margin-bottom: 0.8em;
 }
 
-
 .date-minus {
   margin: auto 0.7rem;
 }
 
-
-p-multiselect{
+p-multiSelect {
   margin-top: 0.8em;
   display: inline-block;
+  vertical-align: top;
+}
 
+.relation-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.relation-dependency-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.dependency-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.description-title {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.description-inplace {
+  margin-bottom: 1rem;
+}
+
+.dates-section {
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+}
+
+.funds-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.approve-button {
+  background-color: red;
+  color: white;
+  border: none;
+}
+
+.approve-button:hover {
+  background-color: darkred;
+}
+
+.cancel-button {
+  background-color: var(--button-color);
+  color: white;
+  border: none;
+}
+
+.cancel-button:hover {
+  background-color: var(--button-hover-color);
 }
