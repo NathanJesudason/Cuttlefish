@@ -15,6 +15,7 @@ export type TaskData = {
   type: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask';
   cost: number;
   labels?: LabelData[];
+  order: number;
 };
 
 //Incomplete function but will work for now

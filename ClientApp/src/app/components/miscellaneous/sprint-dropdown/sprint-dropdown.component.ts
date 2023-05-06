@@ -7,16 +7,21 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import {
+  CdkDragDrop,
+  moveItemInArray
+} from '@angular/cdk/drag-drop';
 
 import {
   ConfirmationService,
-  MenuItem
+  MenuItem,
 } from 'primeng/api';
 
 import { format } from 'date-fns';
 import { ApexOptions } from 'ng-apexcharts';
 
 import { SprintService } from 'src/app/services/sprint/sprint.service';
+import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { SprintData } from 'src/types/sprint';
@@ -32,6 +37,7 @@ import { TaskData } from 'src/types/task';
 export class SprintDropdownComponent implements OnInit {
   @Input() data!: SprintData;
   @Output() deleteSprint = new EventEmitter<number>();
+  @Output() moveTaskAcrossSprints = new EventEmitter<{ taskId: number, oldOrder: number, prevSprintId: number }>();
 
   sprintStarted!: boolean;
 
@@ -83,6 +89,7 @@ export class SprintDropdownComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationService,
     private sprintService: SprintService,
+    private sprintOrderingService: SprintOrderingService,
     private taskService: TaskApi,
   ) { }
 
@@ -93,6 +100,11 @@ export class SprintDropdownComponent implements OnInit {
     this.initAssignHidden();
     this.initAssignCollapsed();
     this.initChartOptions();
+    this.sortTasksByOrder();
+  }
+
+  sortTasksByOrder() {
+    this.data.tasks.sort((a, b) => a.order - b.order);
   }
 
   getSprintDateRange() {
@@ -505,5 +517,55 @@ export class SprintDropdownComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  onTaskDrop(event: CdkDragDrop<TaskData[], TaskData[], TaskData>) {
+    const droppedTask = event.previousContainer.data[event.previousIndex];
+    if (droppedTask.sprintID === this.data.id) {
+      // task was dropped in the same sprint
+      if (event.currentIndex === event.previousIndex) {
+        // task was dropped in the same position
+        return;
+      }
+
+      // task was moved to a new position in the same sprint
+      droppedTask.order = event.currentIndex;
+      this.data.tasks.forEach(t => {
+        if (t.id === droppedTask.id) {
+          t.order = droppedTask.order;
+          return;
+        }
+      });
+      moveItemInArray(this.data.tasks, event.previousIndex, event.currentIndex);
+      this.sprintOrderingService.swapReorderTasksInSprint(this.data.id, droppedTask.id, event.currentIndex).subscribe({
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    } else {
+      // task was moved to a new sprint, this one
+      this.moveTaskAcrossSprints.emit({ taskId: droppedTask.id, oldOrder: event.previousIndex, prevSprintId: droppedTask.sprintID });
+      droppedTask.sprintID = this.data.id;
+      droppedTask.order = event.currentIndex;
+      this.data.tasks.splice(event.currentIndex, 0, droppedTask);
+      this.sprintOrderingService.addReorderTasksInSprint(this.data.id, event.currentIndex).subscribe({
+        next: () => {
+          this.data.tasks.forEach((task, i) => {
+            if (task.order >= event.currentIndex && task.id !== droppedTask.id) {
+              this.data.tasks[i].order++;
+            }
+          });
+          this.taskService.putTask(droppedTask).subscribe({
+            error: (err) => {
+              console.error(err);
+            },
+          });
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
+    
   }
 }
