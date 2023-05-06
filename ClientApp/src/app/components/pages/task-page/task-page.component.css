@@ -15,25 +15,21 @@ p-multiSelect {
 .relation-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  margin-bottom: 3rem;
 }
 
 .relation-dependency-row {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  align-items: flex-end;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .dependency-controls {
   display: flex;
   gap: 0.5rem;
   align-items: center;
-}
-
-.description-title {
-  margin-top: 1.5rem;
-  font-size: 1rem;
-  color: var(--text-color);
 }
 
 .description-inplace {
@@ -49,6 +45,7 @@ p-multiSelect {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .approve-button {

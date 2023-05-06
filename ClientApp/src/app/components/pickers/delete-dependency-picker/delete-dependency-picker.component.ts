@@ -51,6 +51,11 @@ export class DeleteDependencyPickerComponent implements OnInit {
   }
 
   showConfirmation(selectedDependencyValue: number): void {
+    if (!selectedDependencyValue) {
+      this.messageService.add({severity: 'error', summary: 'Please select a dependency!'});
+      return;
+    }
+
     const selectedDependency = this.dependencyOptions.find(option => option.value === selectedDependencyValue);
     
     if (selectedDependency) {
@@ -79,8 +84,10 @@ export class DeleteDependencyPickerComponent implements OnInit {
         if (response !== null) {
           const result = this.removeDependency(dependencyValue);
           if (result === 1) {
+            this.overlayPanel.hide();
             this.messageService.add({severity: 'success', summary: `Dependency ${dependencyValue} was successfully removed!`});
           } else {
+            this.overlayPanel.hide();
             this.messageService.add({severity: 'error', summary: `Dependency ${dependencyValue} does not exist!`});
           }
         }
