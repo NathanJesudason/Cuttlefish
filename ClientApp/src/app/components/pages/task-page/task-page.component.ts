@@ -52,7 +52,7 @@ export class TaskPageComponent implements OnInit {
   }
 
   deleteTask(): void {
-    this.taskApi.deleteTask(Number(this.route.snapshot.paramMap.get('id')!)).subscribe({
+    this.taskApi.deleteTask(this.taskData).subscribe({
       next: () => {
         this.location.back();
       },

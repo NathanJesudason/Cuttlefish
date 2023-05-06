@@ -16,6 +16,7 @@ import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint
 import { CreateSprintModalComponent } from 'src/app/components/modals/create-sprint-modal/create-sprint-modal.component';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { BasicFadeAmination } from 'src/app/animations/animations';
+import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
 
 import {
   ProjectData,
@@ -48,6 +49,7 @@ export class ProjectPageComponent {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private sprintOrderingService: SprintOrderingService,
   ) { }
 
   ngOnInit() {
@@ -145,5 +147,20 @@ export class ProjectPageComponent {
   deleteSprint(sprintId: number) {
     this.projectData.sprints = this.projectData.sprints.filter(sprint => sprint.id !== sprintId);
     this.messageService.add({severity: 'success', summary: `Sprint ${sprintId} deleted`});
+  }
+
+  removeTaskFromSprint(event: { taskId: number, oldOrder: number, prevSprintId: number }) {
+    const prevSprint = this.projectData.sprints.find(sprint => sprint.id === event.prevSprintId)!;
+    prevSprint.tasks = prevSprint.tasks.filter(task => task.id !== event.taskId);
+    prevSprint.tasks.forEach((task, i) => {
+      if (task.order > event.oldOrder) {
+        prevSprint.tasks[i].order--;
+      }
+    });
+    this.sprintOrderingService.removeReorderTasksInSprint(event.prevSprintId, event.oldOrder).subscribe({
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 }

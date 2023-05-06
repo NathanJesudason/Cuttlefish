@@ -7,7 +7,6 @@ import {
   Router
 } from '@angular/router';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { LabelData } from 'src/types/label';

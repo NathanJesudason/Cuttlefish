@@ -6,22 +6,35 @@ import {
   BackendProjectData,
   backendProjectToProjectData
 } from 'src/types/project';
-import { SprintService } from 'src/app/services/sprint/sprint.service';
 
+import { SprintService } from 'src/app/services/sprint/sprint.service';
 import { ProjectService } from './project.service';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
 
 describe('ProjectService', () => {
   let projectServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let sprintServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let taskServiceHttpSpy: jasmine.SpyObj<HttpClient>;
+  let sprintOrderingServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let projectService: ProjectService;
 
   beforeEach(() => {
     projectServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
     sprintServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
     taskServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    projectService = new ProjectService(projectServiceHttpSpy, new SprintService(sprintServiceHttpSpy, new TaskApi(taskServiceHttpSpy)));
+    sprintOrderingServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['patch']);
+    
+    projectService = new ProjectService(
+      projectServiceHttpSpy,
+      new SprintService(
+        sprintServiceHttpSpy,
+        new TaskApi(
+          taskServiceHttpSpy,
+          new SprintOrderingService(sprintOrderingServiceHttpSpy)
+          ),
+        ),
+      );
   });
 
   it('should be created', () => {

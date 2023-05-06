@@ -88,6 +88,7 @@ export class CreateTaskModalComponent implements OnInit {
       priority: 0,
       type: this.inputType,
       cost: this.inputCost,
+      order: this.sprintData.tasks.length,
     } as TaskData;
   }
 

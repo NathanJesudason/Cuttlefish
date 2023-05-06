@@ -1,9 +1,30 @@
-<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Unknown">Invalid URL!</h2>
+<div class="not-found-container">
 
-<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Project">Project wasn't found!</h2>
+    <h1 class="not-found-title">404: Page not found.</h1>
+  
+    <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Unknown">
+        The page at the URL you requested does not exist.
+    </h3>
+  
+    <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Project">
+        Project data wasn't found!
+    </h3>
+  
+    <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Sprint">
+        Sprint data wasn't found!
+    </h3>
+  
+    <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Task">
+        Task data wasn't found!
+    </h3>
+  
+    <h3 class="not-found-reason" *ngIf="this.invalidId !== undefined">
+        You tried to use this invalid ID: {{ this.invalidId }}<br>
+    </h3>
 
-<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Sprint">Sprint wasn't found!</h2>
+    <h3>
+        <p>If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
+            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.</p>
+    </h3>
 
-<h2 *ngIf="this.notFoundReason === this.NotFoundReason.Task">Task wasn't found!</h2>
-
-<h3 *ngIf="this.invalidId !== undefined">Attempted id: {{ this.invalidId }}</h3>
+</div>

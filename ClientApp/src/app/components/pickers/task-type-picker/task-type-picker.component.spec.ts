@@ -26,7 +26,8 @@ import { of } from 'rxjs';
       description: 'Task Description',
       startDate: new Date(),
       endDate: new Date(),
-      progress: 'Backlog'    
+      progress: 'Backlog',
+      order: 0,
     };
     
     beforeEach(() => MockBuilder(TaskTypePickerComponent, [OverlayPanelModule, AppModule, TagModule]).mock(TaskApi, {
