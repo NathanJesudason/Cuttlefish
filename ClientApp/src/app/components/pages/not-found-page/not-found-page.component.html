@@ -4,36 +4,27 @@
   
     <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Unknown">
         The page at the URL you requested does not exist.
-        <p>If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
-            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.</p>
-
     </h3>
   
     <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Project">
         Project data wasn't found!
-        <p>If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
-            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.</p>
-
     </h3>
   
     <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Sprint">
         Sprint data wasn't found!
-        <p>If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
-            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.</p>
-
     </h3>
   
     <h3 class="not-found-reason" *ngIf="this.notFoundReason === this.NotFoundReason.Task">
         Task data wasn't found!
-        <p>If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
-            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.</p>
-
     </h3>
   
     <h3 class="not-found-reason" *ngIf="this.invalidId !== undefined">
         You tried to use this invalid ID: {{ this.invalidId }}<br>
-        If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
-            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.
+    </h3>
+
+    <h3>
+        <p>If you believe this to be an error, please <a href="https://github.com/NathanJesudason/Cuttlefish/issues/new" 
+            target="_blank" rel="noopener noreferrer">help us by reporting it</a>.</p>
     </h3>
 
 </div>
