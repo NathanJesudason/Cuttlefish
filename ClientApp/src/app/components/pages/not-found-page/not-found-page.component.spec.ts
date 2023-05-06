@@ -13,13 +13,15 @@ import {
   NotFoundPageComponent,
   NotFoundReason
 } from './not-found-page.component';
+
 import { AppModule } from 'src/app/app.module';
+import { Location } from '@angular/common';
 
 describe('NotFoundPageComponent', () => {
   MockInstance.scope();
 
   beforeEach(() => {
-    return MockBuilder(NotFoundPageComponent, [AppModule, RouterModule]);
+    return MockBuilder(NotFoundPageComponent, [AppModule, RouterModule, Location]);
   });
 
   it('should create', () => {
@@ -165,4 +167,23 @@ describe('NotFoundPageComponent', () => {
 
     expect(fixture.point.componentInstance.invalidId).toBeUndefined();
   });
+
+  it('should create the component when URL path is /404', () => {
+    const urlArray = ['404'];
+    MockInstance(
+      ActivatedRoute,
+      'snapshot',
+      jasmine.createSpy(),
+      'get'
+    ).and.returnValue({
+      url: urlArray.map(
+        urlItem => ({ toString: () => urlItem })
+      )
+    });
+  
+    MockRender(NotFoundPageComponent);
+  
+    expect(ngMocks.findAll(NotFoundPageComponent)[0]).toBeTruthy();
+  });
+
 });
