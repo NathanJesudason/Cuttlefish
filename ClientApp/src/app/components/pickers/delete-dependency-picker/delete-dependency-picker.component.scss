@@ -38,9 +38,9 @@
 }
 
 .remove-dependency-button {
-  background-color: #EF4444;
+  background-color: var(--red-500);
   
   &:hover {
-    background-color: #DC2626;
+    background-color: var(--red-600);
   }
 }

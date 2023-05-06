@@ -48,16 +48,6 @@ p-multiSelect {
   margin-bottom: 1rem;
 }
 
-.approve-button {
-  background-color: red;
-  color: white;
-  border: none;
-}
-
-.approve-button:hover {
-  background-color: darkred;
-}
-
 .cancel-button {
   background-color: var(--button-color);
   color: white;
