@@ -27,6 +27,7 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
 import { TaskData } from 'src/types/task';
+import { ProjectData } from 'src/types/project';
 
 @Component({
   selector: 'sprint-dropdown',
@@ -35,6 +36,7 @@ import { TaskData } from 'src/types/task';
   providers: [ConfirmationService],
 })
 export class SprintDropdownComponent implements OnInit {
+  @Input() projectData!: ProjectData;
   @Input() data!: SprintData;
   @Output() deleteSprint = new EventEmitter<number>();
   @Output() moveTaskAcrossSprints = new EventEmitter<{ taskId: number, oldOrder: number, prevSprintId: number }>();

@@ -158,6 +158,20 @@ export class SprintService {
   }
 
   /**
+   * 
+   */
+  getSprint(id: number): Observable<SprintData> {
+    return this.http.get<BackendSprintData>(`${this.baseUrl}Sprints/${id}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+      }),
+      map((sprint: BackendSprintData) => {
+        return backendSprintToSprintData(sprint);
+      }),
+    );
+  }
+
+  /**
    * Update a sprint with the given data
    * @param id the id of the sprint to update
    * @param sprint the data to update the sprint with

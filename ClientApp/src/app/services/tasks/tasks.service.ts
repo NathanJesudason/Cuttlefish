@@ -49,8 +49,8 @@ export class TaskApi {
       map((taskData: TaskData) => {
         return {
           ...taskData,
-          startDate: taskData.startDate ? new Date(taskData.startDate as any) : undefined,
-          endDate: taskData.endDate ? new Date(taskData.endDate as any) : undefined,
+          startDate: new Date(taskData.startDate as any),
+          endDate: new Date(taskData.endDate as any),
         };
       }),
       catchError((err: HttpErrorResponse) => {
@@ -73,8 +73,8 @@ export class TaskApi {
         return taskData.map((task: TaskData) => {
           return {
             ...task,
-            startDate: task.startDate ? new Date(task.startDate as any) : undefined,
-            endDate: task.endDate ? new Date(task.endDate as any) : undefined,
+            startDate: new Date(task.startDate as any),
+            endDate: new Date(task.endDate as any),
           };
         });
       }),

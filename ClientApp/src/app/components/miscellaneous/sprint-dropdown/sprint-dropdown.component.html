@@ -51,12 +51,16 @@
       <span *ngIf="!data.isBacklog" id="dates-container" class="sprint-dropdown-content-item">
         <date-inplace
           [entityData]="data"
+          [validationEntityData]="projectData"
+          [childEntityData]="data.tasks"
           whichDate="start"
           [disabled]="data.isCompleted"
         ></date-inplace>
         <i class="pi pi-minus date-minus"></i>
         <date-inplace
           [entityData]="data"
+          [validationEntityData]="projectData"
+          [childEntityData]="data.tasks"
           whichDate="end"
           [disabled]="data.isCompleted"
         ></date-inplace>

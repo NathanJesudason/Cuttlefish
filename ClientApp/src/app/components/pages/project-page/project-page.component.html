@@ -21,11 +21,13 @@
 
   <date-inplace
     [entityData]="projectData"
+    [childEntityData]="projectData.sprints"
     whichDate="start"
   ></date-inplace>
   <i class="pi pi-minus" id="date-minus"></i>
   <date-inplace
     [entityData]="projectData"
+    [childEntityData]="projectData.sprints"
     whichDate="end"
   ></date-inplace>
 
@@ -93,6 +95,7 @@
       <sprint-dropdown
         #sprintDropdown
         [data]="sprint"
+        [projectData]="projectData"
         (deleteSprint)="deleteSprint(sprint.id)"
         (moveTaskAcrossSprints)="removeTaskFromSprint($event)"
       ></sprint-dropdown>
