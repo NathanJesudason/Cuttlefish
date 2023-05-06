@@ -9,13 +9,14 @@ export type TaskData = {
   storyPoints: number;
   description: string;
   progress: 'Backlog' | 'In Progress' | 'In Review' | 'Done';
-  startDate?: Date;
-  endDate?: Date;
+  startDate: Date;
+  endDate: Date;
   priority: number;
   type: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask';
   cost: number;
   dependencies?: number[];
   labels?: LabelData[];
+  order: number;
 };
 
 //Incomplete function but will work for now

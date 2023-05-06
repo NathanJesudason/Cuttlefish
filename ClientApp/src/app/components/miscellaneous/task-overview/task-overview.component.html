@@ -1,24 +1,28 @@
 <div
-  id="task-overview"
-  pDraggable
-  dragHandle="#draggable-handle i"
+  class="task-overview"
+  cdkDrag
+  (cdkDragMoved)="onDragMoved($event)"
+  (cdkDragStarted)="onDragStarted($event)"
+  (cdkDragReleased)="onDragReleased($event)"
 >
-  <div id="draggable-handle">
+  <div class="draggable-handle" cdkDragHandle>
     <i class="pi pi-arrows-v"></i>
   </div>
+
+  <div id="task-overview-placeholder" *cdkDragPlaceholder></div>
   
-  <div id="task-title">
+  <div class="task-title">
     <a
-      id="task-title-text"
+      class="task-title-text"
       [routerLink]="['/task', taskData.id]"
     >{{taskData.id}}: {{taskData.name}}</a>
   </div>
 
-  <div id="task-description">
-    <p id="task-description-text">{{trimmedDescription}}</p>
+  <div class="task-description">
+    <p class="task-description-text">{{trimmedDescription}}</p>
   </div>
 
-  <div id="task-labels">
+  <div class="task-labels">
     <p-tag
       *ngFor="let label of trimmedLabels"
       [rounded]="true"
@@ -29,25 +33,25 @@
   </div>
 
   <p-tag
-    id="task-type"
+    class="task-type"
     styleClass="mr-2"
     value="{{taskData.type}}"
   ></p-tag>
 
   <p-avatar
-    id="task-avatar"
+    class="task-avatar"
     shape="circle"
     icon="pi pi-user"
   ></p-avatar>
 
   <p-tag
-    id="task-progress"
+    class="task-progress"
     styleClass="mr-2"
     value="{{taskData.progress}}"
   ></p-tag>
 
   <p-chip
-    id="task-story-points"
+    class="task-story-points"
     label="{{taskData.storyPoints}}"
     styleClass="p-mr-2"
   ></p-chip>

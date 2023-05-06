@@ -23,6 +23,7 @@ describe('TitleInplaceComponent', () => {
     color: '#234001',
     description: 'This is the project description',
     endDate: new Date(),
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     funds: 49.95,
     sprints: [{
       id: 234597,
@@ -49,6 +50,7 @@ describe('TitleInplaceComponent', () => {
         endDate: new Date(),
         progress: 'Backlog',
         dependencies: [],
+        order: 0,
       }],
     }],
   };

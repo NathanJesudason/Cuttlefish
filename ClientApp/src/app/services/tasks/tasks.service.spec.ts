@@ -4,14 +4,17 @@ import { of } from 'rxjs';
 
 import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
 
 describe('TaskService', () => {
   let taskServiceHttpSpy: jasmine.SpyObj<HttpClient>;
+  let sprintOrderingServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let taskService: TaskApi;
 
   beforeEach(() => {
     taskServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    taskService = new TaskApi(taskServiceHttpSpy);
+    sprintOrderingServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['patch']);
+    taskService = new TaskApi(taskServiceHttpSpy, new SprintOrderingService(sprintOrderingServiceHttpSpy));
   });
 
   it('should be created', () => {
@@ -33,6 +36,7 @@ describe('TaskService', () => {
       cost: 10,
       startDate: new Date(),
       endDate: new Date(),
+      order: 0,
     }];
 
     taskServiceHttpSpy.get.and.returnValue(of(mockTasks));

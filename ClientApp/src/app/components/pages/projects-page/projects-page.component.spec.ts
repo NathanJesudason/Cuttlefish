@@ -32,6 +32,7 @@ describe('ProjectsPageComponent', () => {
     color: '#234001',
     description: 'This is the project description',
     endDate: new Date(),
+    startDate: new Date(),
     funds: 49.95,
     sprints: [{
       id: 234597,
@@ -58,6 +59,7 @@ describe('ProjectsPageComponent', () => {
         endDate: new Date(),
         progress: 'Backlog',
         dependencies: [],
+        order: 0,
       }],
     }],
   }];

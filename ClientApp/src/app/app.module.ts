@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { A11yModule } from '@angular/cdk/a11y';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
@@ -38,7 +39,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { DragDropModule } from 'primeng/dragdrop';
 import { MessageModule } from 'primeng/message';
 import { ConfirmationService } from 'primeng/api';
 

@@ -3,7 +3,7 @@ a {
   text-decoration: none;
 }
 
-#task-overview {
+.task-overview {
   width: 100%;
   border-radius: var(--border-radius);
   border: 1px solid var(--surface-d);
@@ -16,51 +16,61 @@ a {
   grid-template-rows: repeat(2, min-content);
 }
 
-#draggable-handle, #task-title-text, #task-description-text, #task-type, #task-avatar, #task-progress, #task-story-points {
+#task-overview-placeholder {
+  width: 100%;
+  height: 82px;
+  border: 3px dotted var(--surface-d);
+}
+
+.draggable-handle, .task-title-text, .task-description-text, .task-type, .task-avatar, .task-progress, .task-story-points {
   margin-top: auto;
   margin-bottom: auto;
 }
 
-#draggable-handle {
+.draggable-handle {
   grid-area: 1 / 1 / 3 / 2;
   border-radius: var(--border-radius);
 }
 
-#draggable-handle:hover {
+.draggable-handle:hover {
   cursor: grab;
   background-color: var(--surface-c);
 }
 
-#task-title-text, #task-description-text {
+.draggable-handle:active {
+  cursor: grabbing;
+}
+
+.task-title-text, .task-description-text {
   margin: 0;
 }
 
-#task-title-text {
+.task-title-text {
   font-size: 1.2rem;
   color: var(--text-color);
   font-weight: 500;
 }
 
-#task-title {
+.task-title {
   grid-area: 1 / 2 / 2 / 4;
 }
 
-#task-title-text:hover {
+.task-title-text:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
-#task-description-text {
+.task-description-text {
   font-size: 1rem;
   color: var(--text-color);
   font-weight: 400;
 }
 
-#task-description {
+.task-description {
   grid-area: 2 / 2 / 3 / 4;
 }
 
-#task-labels {
+.task-labels {
   display: grid;
   grid-template-columns: repeat(2, min-content);
   column-gap: 0.25rem;
@@ -69,17 +79,17 @@ a {
 }
 
 @media screen and (min-width: 1200px) {
-  #task-overview {
+  .task-overview {
     grid-template-columns: min-content repeat(2, 1fr) repeat(5, min-content);
   }
 
-  #task-labels {
+  .task-labels {
     grid-template-columns: none;
     grid-template-rows: auto;
     row-gap: 0.25rem;
   }
 
-  #task-labels, #task-type, #task-avatar, #task-progress, #task-story-points {
+  .task-labels, .task-type, .task-avatar, .task-progress, .task-story-points {
     grid-area: 1 / auto / 3 / auto;
   }
 }

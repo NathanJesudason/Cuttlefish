@@ -17,13 +17,17 @@ import {
   
 import { LabelData } from 'src/types/label';
 import { environment } from 'src/environments/environment';
+import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
   
 @Injectable({providedIn: 'root'})
 export class TaskApi {
   baseUrl: string = environment.url;
   http: HttpClient;
 
-  constructor(http: HttpClient) {
+  constructor(
+    http: HttpClient,
+    private sprintOrderingService: SprintOrderingService,
+  ) {
     this.http = http;
   }
 
@@ -45,8 +49,8 @@ export class TaskApi {
       map((taskData: TaskData) => {
         return {
           ...taskData,
-          startDate: taskData.startDate ? new Date(taskData.startDate as any) : undefined,
-          endDate: taskData.endDate ? new Date(taskData.endDate as any) : undefined,
+          startDate: new Date(taskData.startDate as any),
+          endDate: new Date(taskData.endDate as any),
         };
       }),
       catchError((err: HttpErrorResponse) => {
@@ -69,8 +73,8 @@ export class TaskApi {
         return taskData.map((task: TaskData) => {
           return {
             ...task,
-            startDate: task.startDate ? new Date(task.startDate as any) : undefined,
-            endDate: task.endDate ? new Date(task.endDate as any) : undefined,
+            startDate: new Date(task.startDate as any),
+            endDate: new Date(task.endDate as any),
           };
         });
       }),
@@ -286,7 +290,7 @@ export class TaskApi {
    */
   putTask(task: TaskData){
     return this.http.put<TaskData>(`${environment.url}Tasks/${task.id}`, {id: task.id, sprintID: task.sprintID, name: task.name, assignee: task.assignee, storyPoints: task.storyPoints,
-      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type})
+      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type, order: task.order})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
@@ -303,11 +307,18 @@ export class TaskApi {
    */
   postTask(task: TaskData){
     return this.http.post<TaskData>(`${environment.url}Tasks`, {sprintID: task.sprintID, name: task.name, storyPoints: task.storyPoints,
-      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type})
+      description: task.description, progress: task.progress, startDate: task.startDate, endDate: task.endDate, priority: task.priority, cost: task.cost, type: task.type, order: task.order})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
-        })
+        }),
+        switchMap((task) => {
+          return this.sprintOrderingService.addReorderTasksInSprint(task.sprintID, task.order).pipe(
+            map(() => {
+              return task;
+            }),
+          );
+        }),
       );
   }
 
@@ -316,13 +327,18 @@ export class TaskApi {
    * @param id the Task ID
    * @throws error if it catches HttpError
    */
-  deleteTask(id: number){
-    return this.http.delete<TaskData>(`${environment.url}Tasks/${id}`)
-    .pipe(
-      catchError((err: HttpErrorResponse) => {
-        return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
-      })
-    );
+  deleteTask(task: TaskData){
+    return this.sprintOrderingService.removeReorderTasksInSprint(task.sprintID, task.order)
+      .pipe(
+        switchMap(() => {
+          return this.http.delete<TaskData>(`${environment.url}Tasks/${task.id}`)
+            .pipe(
+              catchError((err: HttpErrorResponse) => {
+                return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
+              })
+            );
+        }),
+      );
   }
 
   /**

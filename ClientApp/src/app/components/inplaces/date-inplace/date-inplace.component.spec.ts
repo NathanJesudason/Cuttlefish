@@ -18,6 +18,7 @@ describe('DateInplaceComponent', () => {
     name: 'Project Name',
     color: '#234001',
     description: 'This is the project description',
+    startDate: new Date(),
     endDate: new Date(),
     funds: 49.95,
     sprints: [{
@@ -45,6 +46,7 @@ describe('DateInplaceComponent', () => {
         endDate: new Date(),
         progress: 'Backlog',
         dependencies: [],
+        order: 0,
       }],
     }],
   };
