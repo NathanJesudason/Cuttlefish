@@ -45,6 +45,7 @@ describe('DateInplaceComponent', () => {
         startDate: new Date(),
         endDate: new Date(),
         progress: 'Backlog',
+        dependencies: [],
         order: 0,
       }],
     }],

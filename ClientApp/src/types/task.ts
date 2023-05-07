@@ -14,6 +14,7 @@ export type TaskData = {
   priority: number;
   type: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask';
   cost: number;
+  dependencies?: number[];
   labels?: LabelData[];
   order: number;
 };

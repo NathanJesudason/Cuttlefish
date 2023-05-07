@@ -58,6 +58,7 @@ describe('GanttPageComponent', () => {
         startDate: new Date(),
         endDate: new Date(),
         progress: 'Backlog',
+        dependencies: [],
         order: 0,
       }],
     }],
