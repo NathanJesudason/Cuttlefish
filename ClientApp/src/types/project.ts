@@ -5,8 +5,8 @@ export type ProjectData = {
   name: string;
   color: string;
   description: string;
-  startDate?: Date;
-  endDate?: Date;
+  startDate: Date;
+  endDate: Date;
   funds: number;
   sprints: SprintData[];
 };
@@ -57,8 +57,8 @@ export function backendProjectToProjectData(backendProject: BackendProjectData):
     name: backendProject.name,
     color: `#${backendProject.color}`,
     description: backendProject.description,
-    startDate: backendProject.startDate ? new Date(backendProject.startDate) : undefined,
-    endDate: backendProject.dueDate ? new Date(backendProject.dueDate) : undefined,
+    startDate: backendProject.startDate ? new Date(backendProject.startDate) :  new Date(),
+    endDate: backendProject.dueDate ? new Date(backendProject.dueDate) :  new Date(),
     funds: backendProject.funds,
     sprints: [],
   };

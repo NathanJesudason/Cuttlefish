@@ -18,7 +18,6 @@ import {
 import { format } from 'date-fns';
 import { ProjectService } from 'src/app/services/project/project.service';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import {
   ProjectData,
   ProjectNotFoundError
