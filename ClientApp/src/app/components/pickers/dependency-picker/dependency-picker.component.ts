@@ -105,6 +105,5 @@ export class DependencyPickerComponent implements OnInit {
 
   cancelInput() {
     this.overlayPanel.hide();
-    this.messageService.add({severity: 'info', summary: 'Dependency addition was cancelled'});
   }
 }
