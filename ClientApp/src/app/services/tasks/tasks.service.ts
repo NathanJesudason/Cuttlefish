@@ -2,9 +2,16 @@ import {
   Injectable
 } from '@angular/core';
   
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode
+} from '@angular/common/http';
   
-import { TaskData } from 'src/types/task';
+import {
+  TaskData,
+  TaskNotFoundError
+} from 'src/types/task';
 
 import {
   catchError,
@@ -54,6 +61,9 @@ export class TaskApi {
         };
       }),
       catchError((err: HttpErrorResponse) => {
+        if (err.status === HttpStatusCode.NotFound) {
+          return throwError(() => new TaskNotFoundError(`Task with id ${id} not found`, id));
+        }
         return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
       })
     )
@@ -208,12 +218,6 @@ export class TaskApi {
    */
   getTaskDataWithLabels(id: number) {
     return this.getTaskData(id).pipe(
-      catchError((err: HttpErrorResponse) => {
-        if (err.error.message) {
-          return throwError(() => new Error(`Error getting task: ${err.error.message}`));
-        }
-        return throwError(() => new Error(`Error getting task: ${err.message}`));
-      }),
       switchMap((task) => {
         return this.getLabelRelationsByID(task.id).pipe(
           catchError((err: HttpErrorResponse) => {

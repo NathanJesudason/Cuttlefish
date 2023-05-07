@@ -111,7 +111,16 @@ export class TaskPageComponent implements OnInit {
             this.pageLoading = false;
             } 
           })
-        }
+        },
+        error: err => {
+          if (err instanceof TaskNotFoundError) {
+            this.router.navigate(['not-found', 'task', this.route.snapshot.paramMap.get('id')!]);
+            return;
+          } else {
+            this.messageService.add({severity: 'error', summary: `Error loading task: ${err.message}`});
+            this.pageLoading = false;
+          }
+        },
       });
 
       this.taskApi.getLabels().subscribe({
