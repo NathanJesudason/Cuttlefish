@@ -73,7 +73,6 @@ export class ProjectPageComponent {
           this.router.navigate(['not-found', 'project', this.route.snapshot.paramMap.get('id')!]);
           return;
         }
-        console.log(err);
       }
     });
   }
@@ -146,7 +145,6 @@ export class ProjectPageComponent {
 
   deleteSprint(sprintId: number) {
     this.projectData.sprints = this.projectData.sprints.filter(sprint => sprint.id !== sprintId);
-    this.messageService.add({severity: 'success', summary: `Sprint ${sprintId} deleted`});
   }
 
   removeTaskFromSprint(event: { taskId: number, oldOrder: number, prevSprintId: number }) {

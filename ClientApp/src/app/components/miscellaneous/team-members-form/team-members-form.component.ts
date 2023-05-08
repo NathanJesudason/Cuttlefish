@@ -4,6 +4,8 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import { MessageService } from 'primeng/api';
+
 import { TeamMember } from 'src/types/team-member.model';
 import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 
@@ -11,11 +13,15 @@ import { TeamMemberService } from 'src/app/services/team-member/team-member.serv
   selector: 'app-team-members-form',
   templateUrl: './team-members-form.component.html',
   styles: [
-  ]
+  ],
+  providers: [MessageService]
 })
 export class TeamMembersFormComponent implements OnInit {
 
-  constructor(public service: TeamMemberService) { }
+  constructor(
+    public service: TeamMemberService,
+    private messageService: MessageService,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -30,23 +36,27 @@ export class TeamMembersFormComponent implements OnInit {
   }
 
   insertRecord(form: NgForm){
-    this.service.postTeamMember().subscribe(
-      res=>{
+    this.service.postTeamMember().subscribe({
+      next: res => {
         this.resetForm(form)
-        this.service.refreshList()
-        console.log(res, "Submitted")
-    },
-    err => {console.log(err)})
+        this.service.refreshList(this.messageService)
+      },
+      error: err => {
+        this.messageService.add({severity: 'error', summary: err.message});
+      },
+    });
   }
 
   updateRecord(form: NgForm){
-    this.service.putTeamMember().subscribe(
-      res=>{
+    this.service.putTeamMember().subscribe({
+      next: res => {
         this.resetForm(form)
-        this.service.refreshList()
-        console.log(res, "Submitted")
-    },
-    err => {console.log(err)})
+        this.service.refreshList(this.messageService)
+      },
+      error: err => {
+        this.messageService.add({severity: 'error', summary: err.message});
+      },
+    });
   }
 
   resetForm(form: NgForm){

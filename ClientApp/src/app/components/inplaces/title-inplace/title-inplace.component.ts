@@ -52,7 +52,6 @@ export class TitleInplaceComponent implements OnInit {
       const updatedProject = {...this.entityData, name: this.updatedTitle};
       this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Title was changed to ${this.updatedTitle}!`});
           this.entityData.name = this.updatedTitle;
           this.titleInplace.deactivate();
         },
@@ -68,7 +67,6 @@ export class TitleInplaceComponent implements OnInit {
       const updatedTask = { ...this.entityData, name: this.updatedTitle};
       this.taskApi.putTask(updatedTask).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: 'Name was updated'});
           this.entityData.name = this.updatedTitle;
           this.titleInplace.deactivate();
         },
@@ -81,7 +79,6 @@ export class TitleInplaceComponent implements OnInit {
       const updatedSprint = {...this.entityData, name: this.updatedTitle};
       this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Title was changed to ${this.updatedTitle}!`});
           this.entityData.name = this.updatedTitle;
           this.titleInplace.deactivate();
         },

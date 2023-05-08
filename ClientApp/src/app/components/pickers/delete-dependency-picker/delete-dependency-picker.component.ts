@@ -66,7 +66,6 @@ export class DeleteDependencyPickerComponent implements OnInit {
         },
         reject: () => {
           this.overlayPanel.hide();
-          this.messageService.add({severity: 'info', summary: 'Dependency deletion was cancelled'});
         },
       });
     }
@@ -105,7 +104,6 @@ export class DeleteDependencyPickerComponent implements OnInit {
 
   cancelInput() {
     this.overlayPanel.hide();
-    this.messageService.add({severity: 'info', summary: 'Dependency deletion was cancelled'});
   }
 
   showNoDependenciesToast() {

@@ -118,7 +118,6 @@ export class DateInplaceComponent implements OnInit {
         : {...this.entityData, endDate: this.selectedDate};
       this.taskApi.putTask(updatedTask).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Date was updated`});
           if (this.whichDate === 'start') {
             this.entityData.startDate = this.selectedDate!;
           } else {
@@ -139,7 +138,6 @@ export class DateInplaceComponent implements OnInit {
       const updatedDate = this.selectedDate;
       this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Date change accepted: ${format(updatedDate, 'MM/dd/yyyy')}`});
           if (this.whichDate === 'start') {
             this.entityData.startDate = this.selectedDate!;
           } else {
@@ -160,7 +158,6 @@ export class DateInplaceComponent implements OnInit {
       const updatedDate = this.selectedDate;
       this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Date change accepted: ${format(updatedDate, 'MM/dd/yyyy')}`});
           if (this.whichDate === 'start') {
             this.entityData.startDate = this.selectedDate!;
           } else {

@@ -60,7 +60,6 @@ export class CreateSprintModalComponent implements OnInit {
       next: (sprint: SprintData) => {
         this.projectData.sprints.push(sprint);
         this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
-        this.messageService.add({severity: 'success', summary: `Created sprint with id: ${sprint.id}`});
         this.hideCreateSprintModal();
       },
       error: (err: Error) => {

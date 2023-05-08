@@ -62,7 +62,6 @@ export class CreateProjectModalComponent implements OnInit {
         this.messageService.add({severity: 'success', summary: `Project created! id: ${project.id}, name: ${project.name}`});
       },
       error: (err) => {
-        console.log(err);
         this.hideCreateProjectModal();
         this.messageService.add({severity: 'error', summary: `Project creation error: ${err.message}`});
       }

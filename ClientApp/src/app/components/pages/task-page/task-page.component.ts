@@ -58,7 +58,6 @@ export class TaskPageComponent implements OnInit {
       },
       error: err => {
         this.messageService.add({severity: 'error', summary: `Error updating goal: ${err}`});
-        console.log(err);
       }
     })
   }
@@ -72,12 +71,8 @@ export class TaskPageComponent implements OnInit {
 
         valueChange.forEach(x => {
           this.taskApi.AddLabelRelation(x, this.taskData.id).subscribe({
-            next: _ => {
-              this.messageService.add({severity: 'success', summary: `Labels Updated`});
-            },
             error: (err) => {
               this.messageService.add({severity: 'error', summary: err.error.message});
-              console.log(err);
             }
           })
         })
@@ -87,12 +82,8 @@ export class TaskPageComponent implements OnInit {
 
         valueChange.forEach(x => {
           this.taskApi.deleteLabelRelations(x, this.taskData.id).subscribe({
-            next: _ => {
-              this.messageService.add({severity: 'success', summary: `Labels Updated`});
-            },
             error: (err) => {
               this.messageService.add({severity: 'error', summary: err.error.message});
-              console.log(err);
             }
           })
         })
@@ -100,7 +91,6 @@ export class TaskPageComponent implements OnInit {
       this.oldLabelRelations = value;
     } catch (error) {
       this.messageService.add({severity: 'error', summary: `Error updating labels: ${error}`});
-      console.log("Error updating labels: ", error)
       this.taskData.labels = this.oldLabelRelations;
       return;
     }
@@ -121,7 +111,16 @@ export class TaskPageComponent implements OnInit {
             this.pageLoading = false;
             } 
           })
-        }
+        },
+        error: err => {
+          if (err instanceof TaskNotFoundError) {
+            this.router.navigate(['not-found', 'task', this.route.snapshot.paramMap.get('id')!]);
+            return;
+          } else {
+            this.messageService.add({severity: 'error', summary: `Error loading task: ${err.message}`});
+            this.pageLoading = false;
+          }
+        },
       });
 
       this.taskApi.getLabels().subscribe({
@@ -135,7 +134,6 @@ export class TaskPageComponent implements OnInit {
         this.router.navigate(['not-found', 'task', this.route.snapshot.paramMap.get('id')!]);
         return;
       }
-      console.log(error);
     }
   }
 }

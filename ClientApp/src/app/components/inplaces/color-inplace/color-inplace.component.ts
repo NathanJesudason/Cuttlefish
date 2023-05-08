@@ -35,10 +35,8 @@ export class ColorInplaceComponent implements OnInit {
       this.projectService.updateProject(this.projectData.id, updatedProject).subscribe({
         next: () => {
           this.projectData.color = this.color;
-          this.messageService.add({severity: 'success', summary: `Color changed to ${this.color}`});
         },
         error: (err) => {
-          console.log(err);
           this.messageService.add({severity: 'error', summary: `Error updating color: ${err.message}`});
         },
       });

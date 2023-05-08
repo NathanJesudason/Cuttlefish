@@ -59,12 +59,10 @@ export class CreateTaskModalComponent implements OnInit {
     }
     this.taskApi.postTask(this.collectInputs()).subscribe({
       next: data =>{
-        this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
         this.sprintData.tasks.push(data);
         this.sprintData.pointsAttempted += data.storyPoints
       },
       error: err => {
-        console.log(err.message);
         this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
       }
     })
@@ -72,7 +70,6 @@ export class CreateTaskModalComponent implements OnInit {
   }
 
   cancelModalInput() {
-    this.messageService.add({severity: 'info', summary: 'Create task input cancelled'});
     this.hideCreateTaskModal();
   }
 
