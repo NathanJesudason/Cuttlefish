@@ -25,6 +25,7 @@ describe('NavMenuComponent', () => {
     color: '#234001',
     description: 'This is the project description',
     endDate: new Date(),
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     funds: 49.95,
     sprints: [{
       id: 234597,
@@ -49,7 +50,9 @@ describe('NavMenuComponent', () => {
         description: 'Task Description',
         startDate: new Date(),
         endDate: new Date(),
-        progress: 'Backlog'
+        progress: 'Backlog',
+        dependencies: [],
+        order: 0,
       }],
     }],
   };

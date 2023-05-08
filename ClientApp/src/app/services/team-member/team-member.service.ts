@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { MessageService } from 'primeng/api';
+
 import { TeamMember } from 'src/types/team-member.model';
 import { environment } from 'src/environments/environment';
 
@@ -27,12 +29,12 @@ export class TeamMemberService {
     return this.http.delete(`${this.baseURL}/${id}`)
   }
 
-  refreshList(){
-    this.http.get(`${this.baseURL}TeamMembers`).toPromise().then(
-      res=> this.list = res as TeamMember[]
-      ,(err)=>{
-        console.log(err.message)
-     }
-    )
+  refreshList(messageService: MessageService){
+    this.http.get(`${this.baseURL}TeamMembers`).subscribe({
+      next: res => this.list = res as TeamMember[],
+      error: (err) => {
+        messageService.add({severity: 'error', summary: err.message});
+      },
+    });
   }
 }

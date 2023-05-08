@@ -84,7 +84,6 @@ export class DescriptionInplaceComponent implements OnInit {
       const updatedTask = { ...this.entityData, description: this.text};
       this.taskApi.putTask(updatedTask).subscribe({
         next: (data) => {
-          this.messageService.add({severity: 'success', summary: 'Description was updated'});
           if(isTaskData(this.entityData)) {
             this.entityData.description = this.text;
           }
@@ -102,7 +101,6 @@ export class DescriptionInplaceComponent implements OnInit {
       const updatedSprint = { ...this.entityData, goal: this.text };
       this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
         next: (data) => {
-          this.messageService.add({severity: 'success', summary: 'Goal was updated'});
           if (isSprintData(this.entityData)) {
             this.entityData.goal = this.text;
           }
@@ -120,7 +118,6 @@ export class DescriptionInplaceComponent implements OnInit {
       const updatedProject = { ...this.entityData, description: this.text };
       this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
         next: (data) => {
-          this.messageService.add({severity: 'success', summary: 'Description was updated'});
           if (isProjectData(this.entityData)) {
             this.entityData.description = this.text;
           }        

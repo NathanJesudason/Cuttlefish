@@ -1,0 +1,14 @@
+<p-overlayPanel #overlayPanel [showCloseIcon]="false" [dismissable]="true" class="custom-overlay">
+  <div class="overlay-header">
+    Remove Dependency
+  </div>
+  <div class="overlay-content">
+    <p-dropdown [options]="dependencyOptions" [(ngModel)]="selectedDependency" class="custom-dropdown"></p-dropdown>
+    <button class="approve-button custom-button" (click)="showConfirmation(selectedDependency)">Remove</button>
+    <button class="cancel-button custom-button" (click)="cancelInput()">Cancel</button>
+  </div>
+</p-overlayPanel>
+
+<button class="remove-dependency-button custom-button" (click)="overlayPanel.toggle($event)">Remove Dependency</button>
+
+<p-toast></p-toast>

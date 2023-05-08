@@ -12,7 +12,6 @@ import {
 } from 'ng-mocks';
 
 import { LabelsPageComponent } from './labels-page.component';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { AppModule } from 'src/app/app.module';
 import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
@@ -36,7 +35,8 @@ describe('LabelsPageComponent', () => {
     description: 'Task Description',
     startDate: new Date(),
     endDate: new Date(),
-    progress: 'Backlog'
+    progress: 'Backlog',
+    order: 0,
   }];
   
   MockInstance.scope();

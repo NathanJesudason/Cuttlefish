@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { A11yModule } from '@angular/cdk/a11y';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
@@ -38,8 +39,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { DragDropModule } from 'primeng/dragdrop';
 import { MessageModule } from 'primeng/message';
+import { ConfirmationService } from 'primeng/api';
 
 import { NgxGanttModule } from '@worktile/gantt';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -75,7 +76,9 @@ import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-c
 import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace/color-inplace.component';
 import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 import { TaskTypePickerComponent } from './components/pickers/task-type-picker/task-type-picker.component';
-
+import { DependencyPickerComponent } from 'src/app/components/pickers/dependency-picker/dependency-picker.component';
+import { DeleteDependencyPickerComponent } from 'src/app/components/pickers/delete-dependency-picker/delete-dependency-picker.component';
+import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/dependency-dropdown/dependency-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +105,9 @@ import { TaskTypePickerComponent } from './components/pickers/task-type-picker/t
     CreateProjectModalComponent,
     ProgressPickerComponent,
     TaskTypePickerComponent,
+    DependencyPickerComponent,
+    DeleteDependencyPickerComponent,
+    DependencyDropdownComponent,
     LabelsPageComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
@@ -170,7 +176,7 @@ import { TaskTypePickerComponent } from './components/pickers/task-type-picker/t
     ])
   ],
   providers: [
-    
+    ConfirmationService,
     {
       provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,

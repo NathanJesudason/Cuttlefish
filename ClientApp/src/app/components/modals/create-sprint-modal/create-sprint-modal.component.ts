@@ -51,12 +51,15 @@ export class CreateSprintModalComponent implements OnInit {
       this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
       return;
     }
+    if(this.inputStartDate! > this.inputEndDate!){
+      this.messageService.add({severity: 'error', summary: 'Start date is after end date'});
+      return;
+    }
 
     this.sprintService.createSprint(this.projectData.id, this.collectInputs()).subscribe({
       next: (sprint: SprintData) => {
         this.projectData.sprints.push(sprint);
         this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
-        this.messageService.add({severity: 'success', summary: `Created sprint with id: ${sprint.id}`});
         this.hideCreateSprintModal();
       },
       error: (err: Error) => {

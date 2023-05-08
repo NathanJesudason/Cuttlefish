@@ -50,6 +50,10 @@ export class CreateProjectModalComponent implements OnInit {
       this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
       return;
     }
+    if(this.inputStartDate! > this.inputEndDate!){
+      this.messageService.add({severity: 'error', summary: 'Start date is after end date'});
+      return;
+    }
 
     this.projectService.createProject(this.collectInputs()).subscribe({
       next: (project: ProjectData) => {
@@ -58,7 +62,6 @@ export class CreateProjectModalComponent implements OnInit {
         this.messageService.add({severity: 'success', summary: `Project created! id: ${project.id}, name: ${project.name}`});
       },
       error: (err) => {
-        console.log(err);
         this.hideCreateProjectModal();
         this.messageService.add({severity: 'error', summary: `Project creation error: ${err.message}`});
       }

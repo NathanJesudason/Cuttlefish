@@ -49,7 +49,6 @@ export class FundsInplaceComponent implements OnInit {
       const updatedTask: TaskData = { ...this.entityData, cost: this.funds};
       this.taskApi.putTask(updatedTask).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Funds were changed to $${this.funds}!`});
           (this.entityData as TaskData).cost = this.funds;
           this.fundsInplace.deactivate();
         },
@@ -68,7 +67,6 @@ export class FundsInplaceComponent implements OnInit {
       const updatedProject = {...this.entityData, funds: this.funds};
       this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Funds were changed to $${this.funds}!`});
           (this.entityData as ProjectData).funds = this.funds;
           this.fundsInplace.deactivate();
         },

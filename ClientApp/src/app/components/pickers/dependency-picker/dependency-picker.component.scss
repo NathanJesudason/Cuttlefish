@@ -1,0 +1,45 @@
+.custom-overlay {
+  width: 300px; // Adjust the width of the overlay panel
+}
+
+.overlay-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.custom-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+}
+
+.add-dependency-button {
+  background-color: #28a745; // Change the color of the "Add dependency" button
+  &:hover {
+    background-color: #218838;
+  }
+}

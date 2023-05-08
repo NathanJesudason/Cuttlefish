@@ -44,18 +44,12 @@ export class ProgressPickerComponent implements OnInit {
   approveChanges(event: any) {
     if (this.selectedProgress === 'Done') {
       this.taskService.completeTask(this.data).subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}`});
-        },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: `Error completing task: ${err}`});
         },
       });
     } else {
       this.taskService.putTask({...this.data, progress: this.selectedProgress}).subscribe({
-        next: () => {
-          this.messageService.add({severity: 'success', summary: `Progress was changed to ${this.selectedProgress}`});
-        },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: `Error updating task: ${err}`});
         }
@@ -65,7 +59,6 @@ export class ProgressPickerComponent implements OnInit {
 
   cancelInput() {
     this.overlayPanel.hide();
-    this.messageService.add({severity: 'info', summary: 'Progress update was cancelled'});
   }
 }
 

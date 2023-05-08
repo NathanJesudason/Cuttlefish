@@ -51,12 +51,16 @@
       <span *ngIf="!data.isBacklog" id="dates-container" class="sprint-dropdown-content-item">
         <date-inplace
           [entityData]="data"
+          [validationEntityData]="projectData"
+          [childEntityData]="data.tasks"
           whichDate="start"
           [disabled]="data.isCompleted"
         ></date-inplace>
         <i class="pi pi-minus date-minus"></i>
         <date-inplace
           [entityData]="data"
+          [validationEntityData]="projectData"
+          [childEntityData]="data.tasks"
           whichDate="end"
           [disabled]="data.isCompleted"
         ></date-inplace>
@@ -77,15 +81,25 @@
 
     <button
       pButton pRipple
+      id="create-task-button"
       type="button"
       label="Create Task"
       class="p-button-success p-button-sm task-modal-button"
       icon="pi pi-plus"
       (click)="showCreateTaskModal()"
-      [ngStyle]="{'margin-bottom': data.tasks.length === 0 ? '0' : 'var(--content-padding)'}"
     ></button>
 
-    <div id="tasks">
+    <div
+      id="no-tasks-placeholder"
+      *ngIf="data.tasks.length === 0"
+    >No tasks in this sprint yet, create one or move another here</div>
+    
+    <div
+      id="tasks"
+      cdkDropList
+      (cdkDropListDropped)="onTaskDrop($event)"
+      [cdkDropListData]="data.tasks"
+    >
       <task-overview
         *ngFor="let task of data.tasks"
         [taskData]="task"
@@ -276,3 +290,5 @@
     ></p-button>
   </ng-template>
 </p-dialog>
+
+<p-toast></p-toast>

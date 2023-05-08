@@ -7,7 +7,6 @@ import {
   Router
 } from '@angular/router';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { LabelData } from 'src/types/label';
@@ -55,7 +54,6 @@ export class LabelsPageComponent implements OnInit {
 
   getTasksByCurrentLabel() {
     if (this.currentLabel === undefined || this.currentLabel === null) return;
-    console.log(this.currentLabel);
     //Get all tasks, get all labelrelations with currentLabel, filter
     this.taskApi.getAllTasksWithLabel(this.currentLabel).subscribe({
       next: tasks => {

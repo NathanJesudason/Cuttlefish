@@ -49,14 +49,20 @@ export class CreateTaskModalComponent implements OnInit {
   }
 
   acceptModalInput() {
+    if (!this.verifyInputs()) {
+      this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
+      return;
+    }
+    if(this.inputStartDate! > this.inputEndDate!){
+      this.messageService.add({severity: 'error', summary: 'Start date is after end date'});
+      return;
+    }
     this.taskApi.postTask(this.collectInputs()).subscribe({
       next: data =>{
-        this.messageService.add({severity: 'success', summary: `Input accepted! name: ${this.inputName}`});
         this.sprintData.tasks.push(data);
         this.sprintData.pointsAttempted += data.storyPoints
       },
       error: err => {
-        console.log(err.message);
         this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
       }
     })
@@ -64,7 +70,6 @@ export class CreateTaskModalComponent implements OnInit {
   }
 
   cancelModalInput() {
-    this.messageService.add({severity: 'info', summary: 'Create task input cancelled'});
     this.hideCreateTaskModal();
   }
 
@@ -80,6 +85,7 @@ export class CreateTaskModalComponent implements OnInit {
       priority: 0,
       type: this.inputType,
       cost: this.inputCost,
+      order: this.sprintData.tasks.length,
     } as TaskData;
   }
 
@@ -94,5 +100,11 @@ export class CreateTaskModalComponent implements OnInit {
     this.inputPriority = 0;
     this.inputCost = 0;
     this.inputType = 'Story';
+  }
+
+  verifyInputs(): boolean {
+    return this.inputName !== ''
+      && this.inputStartDate !== undefined && this.inputStartDate !== null
+      && this.inputEndDate !== undefined && this.inputEndDate !== null;
   }
 }

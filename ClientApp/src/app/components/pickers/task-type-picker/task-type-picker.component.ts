@@ -50,7 +50,6 @@ export class TaskTypePickerComponent implements OnInit {
       const updatedTask: TaskData = { ... this.data, type: this.selectedType}
       this.taskApi.putTask(updatedTask).subscribe({
         next: (_) => {
-          this.messageService.add({severity: 'success', summary: `Type was changed to ${this.selectedType}`});
           (this.data as TaskData).type = this.selectedType;
         },
         error: (err) => {
@@ -64,7 +63,6 @@ export class TaskTypePickerComponent implements OnInit {
   
   cancelInput() {
     this.overlayPanel.hide();
-    this.messageService.add({severity: 'info', summary: 'Type update was cancelled'});
   }
 }
   

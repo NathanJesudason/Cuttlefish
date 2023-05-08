@@ -26,7 +26,8 @@ describe('ProgressPickerComponent', () => {
     description: 'Task Description',
     startDate: new Date(),
     endDate: new Date(),
-    progress: 'Backlog'    
+    progress: 'Backlog',
+    order: 0,
   };
   
   beforeEach(() => {

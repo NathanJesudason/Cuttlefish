@@ -105,7 +105,10 @@ export class SprintService {
     return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
+          if (err.error.message){
+            return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error getting sprints: ${err.message}`));
         }),
         map((sprints: BackendSprintData[]) => {
           return sprints.filter(sprint => sprint.projectID === projectId)
@@ -152,9 +155,26 @@ export class SprintService {
     return this.http.delete<void>(`${this.baseUrl}Sprints/${id}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+          if (err.error.message){
+            return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error deleting sprint: ${err.message}`));
         })
       );
+  }
+
+  /**
+   * 
+   */
+  getSprint(id: number): Observable<SprintData> {
+    return this.http.get<BackendSprintData>(`${this.baseUrl}Sprints/${id}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+      }),
+      map((sprint: BackendSprintData) => {
+        return backendSprintToSprintData(sprint);
+      }),
+    );
   }
 
   /**
@@ -172,7 +192,10 @@ export class SprintService {
     return this.http.put<void>(`${this.baseUrl}Sprints/${id}`, backendSprint)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error updating sprint: ${err.error.message}`));
+          if (err.error.message) {
+            return throwError(() => new Error(`Error updating sprint: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error updating sprint: ${err.message}`));
         })
       );
   }

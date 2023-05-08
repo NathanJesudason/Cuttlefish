@@ -23,8 +23,6 @@ import { ToastModule } from 'primeng/toast';
 import { DividerModule } from 'primeng/divider';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
-
 import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from './project-page.component';
 import { TitleInplaceComponent } from 'src/app/components/inplaces/title-inplace/title-inplace.component';
@@ -41,6 +39,7 @@ describe('ProjectPageComponent', () => {
     color: '#234001',
     description: 'This is the project description',
     endDate: new Date(),
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     funds: 49.95,
     sprints: [{
       id: 234597,
@@ -65,7 +64,9 @@ describe('ProjectPageComponent', () => {
         description: 'Task Description',
         startDate: new Date(),
         endDate: new Date(),
-        progress: 'Backlog'
+        progress: 'Backlog',
+        dependencies: [],
+        order: 0,
       }],
     }],
   };
@@ -91,10 +92,7 @@ describe('ProjectPageComponent', () => {
           paramMap: convertToParamMap({ 'id': data.id })
         },
         params: of({ 'id': data.id } as Partial<Params>),
-      } as Partial<ActivatedRoute>, { export: true })
-      .mock(ServerApi, {
-        getProjectData: (id: number): ProjectData => data,
-      } as Partial<ServerApi>);
+      } as Partial<ActivatedRoute>, { export: true });
   });
 
   it('should create', () => {

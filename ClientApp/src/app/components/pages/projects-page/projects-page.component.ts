@@ -52,7 +52,6 @@ export class ProjectsPageComponent implements OnInit {
 
   deleteProject(projectId: number) {
     this.projects = this.projects.filter((p) => p.id !== projectId);
-    this.messageService.add({severity: 'success', summary: `Project ${projectId} deleted`});
   }
 
   showCreateProjectModal() {
