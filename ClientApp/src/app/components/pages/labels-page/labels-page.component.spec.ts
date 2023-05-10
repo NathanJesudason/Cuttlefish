@@ -37,6 +37,7 @@ describe('LabelsPageComponent', () => {
     endDate: new Date(),
     progress: 'Backlog',
     order: 0,
+    comments: [],
   }];
   
   MockInstance.scope();

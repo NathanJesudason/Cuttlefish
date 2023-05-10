@@ -33,6 +33,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DependencyDropdownComponent } from '../../miscellaneous/dependency-dropdown/dependency-dropdown.component';
 import { DependencyPickerComponent } from '../../pickers/dependency-picker/dependency-picker.component';
 import { DeleteDependencyPickerComponent } from '../../pickers/delete-dependency-picker/delete-dependency-picker.component';
+import { CommentsSectionComponent } from 'src/app/components/miscellaneous/comments-section/comments-section.component';
 
 describe('TaskPageComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -54,6 +55,7 @@ describe('TaskPageComponent', () => {
     type: 'Epic',
     cost: 0,
     order: 0,
+    comments: [],
   };
 
   beforeEach(() => {
@@ -70,6 +72,7 @@ describe('TaskPageComponent', () => {
       .mock(DependencyDropdownComponent, { export: true })
       .mock(DependencyPickerComponent, { export: true })
       .mock(DeleteDependencyPickerComponent, { export: true })
+      .mock(CommentsSectionComponent, { export: true })
       .mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })

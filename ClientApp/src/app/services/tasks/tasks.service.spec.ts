@@ -37,6 +37,7 @@ describe('TaskService', () => {
       startDate: new Date(),
       endDate: new Date(),
       order: 0,
+      comments: [],
     }];
 
     taskServiceHttpSpy.get.and.returnValue(of(mockTasks));

@@ -1,3 +1,4 @@
+import { CommentData } from './comment';
 import { LabelData } from './label';
 
 export type TaskData = {
@@ -17,6 +18,7 @@ export type TaskData = {
   dependencies?: number[];
   labels?: LabelData[];
   order: number;
+  comments: CommentData[];
 };
 
 //Incomplete function but will work for now
