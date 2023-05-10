@@ -19,7 +19,7 @@ export class TaskProgressTagComponent implements OnInit {
 
   progressIcons: {[key in TaskData['progress']]: string} = {
     'Backlog': 'pi pi-hourglass',
-    'In Progress': 'pi pi-spin pi-spinner',
+    'In Progress': 'pi pi-ellipsis-h',
     'In Review': 'pi pi-clock',
     'Done': 'pi pi-check-circle',
   };
