@@ -8,6 +8,7 @@ import {
   Observable,
   catchError,
   map,
+  switchMap,
   throwError
 } from 'rxjs';
 
@@ -101,9 +102,9 @@ export class CommentService {
    * Update a comment with the given data
    * @param id the comment to update
    * @param comment the data to update the comment with
-   * @returns an `Observable` that completes when the project is updated
+   * @returns an `Observable` that completes when the comment is updated
    */
-  updateComment(id: number, comment: CommentData): Observable<void> {
+  private updateComment(id: number, comment: CommentData): Observable<void> {
     const backendComment = commentDataToBackendComment(comment);
     return this.http.put<void>(`${this.baseUrl}Comments/${id}`, backendComment)
       .pipe(
@@ -112,6 +113,26 @@ export class CommentService {
             return throwError(() => new Error(`Error updating comment: ${err.error.message}`));
           }
           return throwError(() => new Error(`Error updating comment: ${err.message}`));
+        }),
+      );
+  }
+
+  /**
+   * Update the content of a comment, the most common way to update a comment
+   * @param id the comment to update
+   * @param content the new content of the comment
+   * @returns an `Observable` that completes when the comment is updated
+   */
+  updateCommentContent(id: number, content: string): Observable<void> {
+    return this.getComment(id)
+      .pipe(
+        map((comment: CommentData) => {
+          comment.content = content;
+          comment.lastModified = new Date();
+          return comment;
+        }),
+        switchMap((comment: CommentData) => {
+          return this.updateComment(id, comment);
         }),
       );
   }

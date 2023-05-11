@@ -1,1 +1,78 @@
-<p>comment-inplace works!</p>
+<div
+  id="comment-display"
+  *ngIf="!selected"
+>
+  <p-avatar
+    id="comment-avatar"
+    shape="circle"
+    icon="pi pi-user"
+  ></p-avatar>
+
+  <div id="commenter-name">Commenter name</div>
+
+  <div id="comment-date">{{formattedDate}}</div>
+
+  <div
+    id="comment-content"
+    [innerHTML]="text"
+  ></div>
+
+  <div
+    id="edit-delete-buttons"
+  >
+    <p-button
+      id="edit-button"
+      styleClass="p-button-sm p-button-text p-button-secondary"
+      label="Edit"
+      icon="pi pi-pencil"
+      (click)="select()"
+    ></p-button>
+    <p-button
+      id="delete-button"
+      styleClass="p-button-sm p-button-text p-button-danger"
+      label="Delete"
+      icon="pi pi-trash"
+      (click)="deleteComment()"
+    ></p-button>
+  </div>
+</div>
+
+<div id="comment-editor" *ngIf="selected">
+  <p-editor
+    [(ngModel)]="text"
+    [style]="{'height': '250px'}"
+  >
+    <ng-template pTemplate="header">
+      <span class="ql-formats">
+        <button type="button" class="ql-bold" aria-label="Bold"></button>
+        <button type="button" class="ql-italic" aria-label="Italic"></button>
+        <button type="button" class="ql-underline" aria-label="Underline"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-list" value="ordered" aria-label="Ordered List"></button>
+        <button type="button" class="ql-list" value="bullet" aria-label="Bullet List"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-link" aria-label="Link"></button>
+        <button type="button" class="ql-code" aria-label="Code"></button>
+        <button type="button" class="ql-blockquote" aria-label="Blockquote"></button>
+        <button type="button" class="ql-code-block" aria-label="Code Block"></button>
+      </span>
+    </ng-template>
+  </p-editor>
+
+  <span class="p-buttonset">
+    <p-button
+      icon="pi pi-check"
+      label="Save"
+      styleClass="p-button-sm p-button-text p-button-success"
+      (click)="approveChanges()"
+    ></p-button>
+    <p-button
+      icon="pi pi-times"
+      label="Cancel"
+      styleClass="p-button-sm p-button-text p-button-secondary"
+      (click)="cancelChanges()"
+    ></p-button>
+  </span>
+</div>

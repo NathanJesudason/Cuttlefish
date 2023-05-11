@@ -1,0 +1,31 @@
+#comment-display {
+  width: 100%;
+  padding: var(--content-padding);
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+}
+
+#comment-display > * {
+  margin-top: auto;
+  margin-bottom: auto;
+  color: var(--text-color);
+}
+
+#comment-date {
+  white-space: nowrap;
+}
+
+#commenter-name, #comment-date {
+  font-weight: 600;
+}
+
+#comment-content {
+  grid-column: 1 / span 3;
+  line-height: 80%;
+}
+
+#edit-delete-buttons {
+  grid-column: 1 / span 2;
+}
