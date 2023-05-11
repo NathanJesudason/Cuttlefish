@@ -6,6 +6,7 @@ import {
 
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 import { ProjectData } from 'src/types/project';
 
@@ -24,7 +25,7 @@ describe('ProjectCardComponent', () => {
   };
   
   beforeEach(async () => {
-    return MockBuilder(ProjectCardComponent, [ConfirmDialogModule, CardModule]);
+    return MockBuilder(ProjectCardComponent, [ConfirmDialogModule, CardModule, ToastModule]);
   });
 
   it('should create', () => {

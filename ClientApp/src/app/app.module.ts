@@ -79,6 +79,7 @@ import { TaskTypePickerComponent } from './components/pickers/task-type-picker/t
 import { DependencyPickerComponent } from 'src/app/components/pickers/dependency-picker/dependency-picker.component';
 import { DeleteDependencyPickerComponent } from 'src/app/components/pickers/delete-dependency-picker/delete-dependency-picker.component';
 import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/dependency-dropdown/dependency-dropdown.component';
+import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-progress-tag/task-progress-tag.component';
 import { CommentsSectionComponent } from './components/miscellaneous/comments-section/comments-section.component';
 import { CommentInplaceComponent } from './components/inplaces/comment-inplace/comment-inplace.component';
 
@@ -116,6 +117,7 @@ import { CommentInplaceComponent } from './components/inplaces/comment-inplace/c
     ProjectCardComponent,
     ColorInplaceComponent,
     FundsInplaceComponent,
+    TaskProgressTagComponent,
     CommentsSectionComponent,
     CommentInplaceComponent,
   ],

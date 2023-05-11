@@ -12,6 +12,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { MenuModule } from 'primeng/menu';
+import { ToastModule } from 'primeng/toast';
 
 import { SprintData } from 'src/types/sprint';
 import { CreateTaskModalComponent } from 'src/app/components/modals/create-task-modal/create-task-modal.component';
@@ -61,6 +62,7 @@ describe('SprintDropdownComponent', () => {
       MenuModule,
       FormsModule,
       NgApexchartsModule,
+      ToastModule,
     ])
       .mock(CreateTaskModalComponent, { export: true })
       .mock(DateInplaceComponent, { export: true })

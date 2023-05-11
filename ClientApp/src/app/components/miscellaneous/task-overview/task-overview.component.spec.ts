@@ -15,10 +15,12 @@ import {
 import { TagModule } from 'primeng/tag';
 import { ChipModule } from 'primeng/chip';
 import { AvatarModule } from 'primeng/avatar';
+import { ToastModule } from 'primeng/toast';
 
 import { TaskData } from 'src/types/task';
 import { TaskOverviewComponent } from './task-overview.component';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { TaskProgressTagComponent } from '../task-progress-tag/task-progress-tag.component';
 
 
 
@@ -50,7 +52,9 @@ describe('TaskOverviewComponent', () => {
     AvatarModule,
     RouterModule,
     DragDropModule,
+    ToastModule,
   ])
+  .mock(TaskProgressTagComponent, { export: true })
   .mock(TaskApi, {
     getTaskDataWithlabels: (id: number): Observable<TaskData> => of(data),
   } as Partial<TaskApi>));
