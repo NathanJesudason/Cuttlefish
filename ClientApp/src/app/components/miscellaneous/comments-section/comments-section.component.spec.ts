@@ -4,12 +4,16 @@ import {
   ngMocks
 } from 'ng-mocks';
 
+import { ButtonModule } from 'primeng/button';
+
+import { CommentInplaceComponent } from 'src/app/components/inplaces/comment-inplace/comment-inplace.component';
 import { CommentsSectionComponent } from './comments-section.component';
 import { CommentData } from 'src/types/comment';
 
 describe('CommentsSectionComponent', () => {
-
-  beforeEach(async () => MockBuilder(CommentsSectionComponent));
+  beforeEach(async () => MockBuilder(CommentsSectionComponent, [ButtonModule])
+    .mock(CommentInplaceComponent, { export: true })
+  );
 
   it('should create', () => {
     const mockComment: CommentData = {
