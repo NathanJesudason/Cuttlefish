@@ -8,7 +8,7 @@ export type CommentData = {
 
 export type BackendCommentData = {
   id: number;
-  teamMemberId: number;
+  teamMemberID: number;
   taskID: number;
   date: string;
   content: string;
@@ -17,7 +17,7 @@ export type BackendCommentData = {
 export function backendCommentToCommentData(backendComment: BackendCommentData): CommentData {
   return {
     id: backendComment.id,
-    commenterId: backendComment.teamMemberId,
+    commenterId: backendComment.teamMemberID,
     taskId: backendComment.taskID,
     lastModified: new Date(backendComment.date),
     content: backendComment.content,
@@ -27,7 +27,7 @@ export function backendCommentToCommentData(backendComment: BackendCommentData):
 export function commentDataToBackendComment(comment: CommentData): BackendCommentData {
   return {
     id: comment.id,
-    teamMemberId: comment.commenterId,
+    teamMemberID: comment.commenterId,
     taskID: comment.taskId,
     date: comment.lastModified.toISOString(),
     content: comment.content,

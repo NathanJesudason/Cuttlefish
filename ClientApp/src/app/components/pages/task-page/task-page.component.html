@@ -51,5 +51,8 @@
     <funds-inplace [entityData]="taskData"></funds-inplace>
   </div>
 
-  <comments-section></comments-section>
+  <comments-section
+    [(comments)]="taskData.comments"
+    [taskId]="taskData.id"
+  ></comments-section>
 </div>

@@ -21,7 +21,7 @@ describe('CommentService', () => {
     const mockComment: BackendCommentData = {
       id: 1,
       content: 'Comment 1',
-      teamMemberId: 1,
+      teamMemberID: 1,
       taskID: 1,
       date: '2020-01-01',
     };

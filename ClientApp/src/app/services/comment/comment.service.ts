@@ -1,12 +1,23 @@
 import {
   HttpClient,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpStatusCode
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  map,
+  throwError
+} from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { BackendCommentData, CommentData, backendCommentToCommentData, commentDataToBackendComment } from 'src/types/comment';
+import {
+  BackendCommentData,
+  CommentData,
+  backendCommentToCommentData,
+  commentDataToBackendComment
+} from 'src/types/comment';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {
@@ -25,10 +36,12 @@ export class CommentService {
    * Create a comment with the given data
    * @param comment the data to create the comment with
    * - `id` will be ignored, the backend will assign the next available id
+   * - `lastModified` will be ignored, current date will be used
    * @returns `Observable<CommentData>` the created comment
    */
   createComment(comment: CommentData): Observable<CommentData> {
     comment.id = 0;
+    comment.lastModified = new Date();
     const backendComment = commentDataToBackendComment(comment);
     return this.http.post(`${this.baseUrl}Comments`, backendComment)
       .pipe(
@@ -70,13 +83,13 @@ export class CommentService {
    * @returns `Observable<CommentData[]>` the comments for the given task
    */
   getCommentsByTaskId(taskId: number): Observable<CommentData[]> {
-    return this.http.get<BackendCommentData[]>(`${this.baseUrl}Task/${taskId}/Comments`)
+    return this.http.get<BackendCommentData[]>(`${this.baseUrl}Tasks/${taskId}/Comments`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          if (err.error.message) {
-            return throwError(() => new Error(`Error getting comments: ${err.error.message}`));
+          if (err.status === HttpStatusCode.NotFound) {
+            return [];
           }
-          return throwError(() => new Error(`Error getting comments: ${err.message}`));
+          return throwError(() => new Error(`Error getting comments: ${err}`));
         }),
         map((data: BackendCommentData[]) => {
           return data.map(backendCommentToCommentData);

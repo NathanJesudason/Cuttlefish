@@ -100,7 +100,7 @@ export class TaskPageComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id')!);
 
     try {
-      this.taskApi.getTaskDataWithLabels(id).subscribe({
+      this.taskApi.getFullTaskData(id).subscribe({
         next: task => {
           this.taskData = task;
           this.oldLabelRelations = this.taskData.labels ? this.taskData.labels : []

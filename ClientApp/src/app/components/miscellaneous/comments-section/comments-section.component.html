@@ -1,1 +1,7 @@
-<p>comments-section works!</p>
+<p-button (onClick)="createComment()">Create Comment</p-button>
+
+<p-button (onClick)="deleteComment(2)">Delete Comment</p-button>
+
+<comment-inplace
+  *ngFor="let comment of comments"
+></comment-inplace>
