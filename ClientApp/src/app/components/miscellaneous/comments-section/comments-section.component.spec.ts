@@ -6,6 +6,7 @@ import {
 
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
+import { ToastModule } from 'primeng/toast';
 import { of } from 'rxjs';
 
 import { CommentInplaceComponent } from 'src/app/components/inplaces/comment-inplace/comment-inplace.component';
@@ -36,7 +37,7 @@ describe('CommentsSectionComponent', () => {
     roles: 'user',
   };
   
-  beforeEach(async () => MockBuilder(CommentsSectionComponent, [ButtonModule, DividerModule])
+  beforeEach(async () => MockBuilder(CommentsSectionComponent, [ButtonModule, DividerModule, ToastModule])
     .mock(CommentInplaceComponent, { export: true })
     .mock(CommentService, {
       createComment: () => of(mockComment),
