@@ -157,7 +157,7 @@ export class ProjectPageComponent {
     });
     this.sprintOrderingService.removeReorderTasksInSprint(event.prevSprintId, event.oldOrder).subscribe({
       error: (err) => {
-        console.error(err);
+        this.messageService.add({severity: 'error', summary: `Error reordering tasks`, detail: `${err}`});
       },
     });
   }

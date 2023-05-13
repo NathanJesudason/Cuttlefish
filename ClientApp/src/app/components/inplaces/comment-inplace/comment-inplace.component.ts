@@ -6,7 +6,10 @@ import {
   Output
 } from '@angular/core';
 
-import { ConfirmationService } from 'primeng/api';
+import {
+  ConfirmationService,
+  MessageService
+} from 'primeng/api';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommentService } from 'src/app/services/comment/comment.service';
@@ -20,7 +23,7 @@ import { TeamMember } from 'src/types/team-member.model';
   selector: 'comment-inplace',
   templateUrl: './comment-inplace.component.html',
   styleUrls: ['./comment-inplace.component.scss'],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, MessageService],
 })
 export class CommentInplaceComponent implements OnInit {
   @Input() comment!: CommentData;
@@ -42,6 +45,7 @@ export class CommentInplaceComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +61,7 @@ export class CommentInplaceComponent implements OnInit {
         this.commenter = teamMember;
       },
       error: (err) => {
-        console.error(err);
+        this.messageService.add({severity: 'error', summary: `Error getting comment data: ${err}`});
       },
     });
   }
@@ -86,7 +90,8 @@ export class CommentInplaceComponent implements OnInit {
         this.unSelect();
       },
       error: (err) => {
-        console.error(err);
+        this.messageService.add({severity: 'error', summary: `Error updating comment: ${err}`});
+        this.cancelChanges();
       },
     });
   }
@@ -109,7 +114,7 @@ export class CommentInplaceComponent implements OnInit {
         this.delete.emit();
       },
       error: (err) => {
-        console.error(err);
+        this.messageService.add({severity: 'error', summary: `Error deleting comment: ${err}`});
       },
     });
   }

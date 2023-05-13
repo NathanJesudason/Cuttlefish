@@ -6,6 +6,8 @@ import {
   Output,
 } from '@angular/core';
 
+import { MessageService } from 'primeng/api';
+
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommentService } from 'src/app/services/comment/comment.service';
 import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
@@ -17,7 +19,8 @@ import { TeamMember } from 'src/types/team-member.model';
 @Component({
   selector: 'comments-section',
   templateUrl: './comments-section.component.html',
-  styleUrls: ['./comments-section.component.scss']
+  styleUrls: ['./comments-section.component.scss'],
+  providers: [MessageService],
 })
 export class CommentsSectionComponent implements OnInit {
   @Input() taskId!: number;
@@ -36,6 +39,7 @@ export class CommentsSectionComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private teamMemberService: TeamMemberService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -70,7 +74,9 @@ export class CommentsSectionComponent implements OnInit {
         this.commentsChange.emit(this.comments);
       },
       error: (err) => {
-        console.error('error creating comment', err);
+        this.messageService.add({severity: 'error', summary: `Error creating comment: ${err}`});
+        this.showNewCommentInput = false;
+        this.newCommentText = '';
       },
     });
   }

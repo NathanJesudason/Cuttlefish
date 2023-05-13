@@ -19,6 +19,7 @@ import { CommentService } from 'src/app/services/comment/comment.service';
 import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ToastModule } from 'primeng/toast';
 
 describe('CommentInplaceComponent', () => {
   const mockTeamMember: TeamMember = {
@@ -33,7 +34,8 @@ describe('CommentInplaceComponent', () => {
     ButtonModule,
     AvatarModule,
     EditorModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ToastModule,
   ])
     .mock(CommentService, {
       deleteComment: () => of(),
