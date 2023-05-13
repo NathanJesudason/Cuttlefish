@@ -20,6 +20,7 @@ export class CreateTaskModalComponent implements OnInit {
   @Input() sprintData!: SprintData;
   
   createTaskModalShown: boolean = false;
+  progressOptions: string[] = ['Story', 'Epic', 'Bug', 'Spike', 'Kaizen', 'Subtask'];
 
   inputName!: string;
   inputStartDate!: Date | null;
