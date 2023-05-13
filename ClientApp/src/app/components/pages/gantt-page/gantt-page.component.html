@@ -1,46 +1,58 @@
-<button
-  pButton
-  id="project-back-button"
-  class="p-button-raised p-button-sm"
-  type="button"
-  label="Back to Project"
-  icon="pi pi-arrow-left"
-  [routerLink]="['/project', projectId]"
-></button>
+<div id="gantt-page">
+  <button
+    pButton
+    id="project-back-button"
+    class="p-button-raised p-button-sm"
+    type="button"
+    label="Back to Project"
+    icon="pi pi-arrow-left"
+    [routerLink]="['/project', projectId]"
+  ></button>
 
-<div id="view-modes-container">
-  <p-radioButton id="day-view-selector" name="viewModes" value="day" label="Day" [(ngModel)]="selectedViewMode"></p-radioButton>
-  <p-radioButton id="week-view-selector" name="viewModes" value="week" label="Week" [(ngModel)]="selectedViewMode"></p-radioButton>
-  <p-radioButton id="month-view-selector" name="viewModes" value="month" label="Month" [(ngModel)]="selectedViewMode"></p-radioButton>
-  <p-radioButton id="quarter-view-selector" name="viewModes" value="quarter" label="Quarter" [(ngModel)]="selectedViewMode"></p-radioButton>
-  <p-radioButton id="year-view-selector" name="viewModes" value="year" label="Year" [(ngModel)]="selectedViewMode"></p-radioButton>
+  <div id="view-modes-container">
+    <p-radioButton id="day-view-selector" name="viewModes" value="day" label="Day" [(ngModel)]="selectedViewMode"></p-radioButton>
+    <p-radioButton id="week-view-selector" name="viewModes" value="week" label="Week" [(ngModel)]="selectedViewMode"></p-radioButton>
+    <p-radioButton id="month-view-selector" name="viewModes" value="month" label="Month" [(ngModel)]="selectedViewMode"></p-radioButton>
+    <p-radioButton id="quarter-view-selector" name="viewModes" value="quarter" label="Quarter" [(ngModel)]="selectedViewMode"></p-radioButton>
+    <p-radioButton id="year-view-selector" name="viewModes" value="year" label="Year" [(ngModel)]="selectedViewMode"></p-radioButton>
+  </div>
+
+  <div
+    id="page-loading"
+    *ngIf="loading"
+    [@basicFadeAnimation]
+  >
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <ngx-gantt
+    #gantt
+    *ngIf="!loading"
+    [@basicFadeAnimation]
+    [items]="items"
+    [selectable]="true"
+    [viewOptions]="viewOptions"
+    [viewType]="selectedViewMode"
+    (barClick)="itemBarClick($event)"
+    (selectedChange)="itemTitleClick($event)"
+  >
+    <ngx-gantt-table>
+      <ngx-gantt-column name="Title" width="200px">
+        <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+      </ngx-gantt-column>
+      <ngx-gantt-column name="Start Date" width="120px">
+        <ng-template #cell let-item="item">
+          {{ format(item.start, 'MM-dd-yyyy') }}
+        </ng-template>
+      </ngx-gantt-column>
+      <ngx-gantt-column name="End Date" width="120px">
+        <ng-template #cell let-item="item">
+          {{ format(item.end, 'MM-dd-yyyy') }}
+        </ng-template>
+      </ngx-gantt-column>
+    </ngx-gantt-table>
+    <ng-template #bar let-item="item">
+      <span>{{ item.title }}</span>
+    </ng-template>
+  </ngx-gantt>
 </div>
-
-<ngx-gantt
-  #gantt
-  [items]="items"
-  [selectable]="true"
-  [viewOptions]="viewOptions"
-  [viewType]="selectedViewMode"
-  (barClick)="itemBarClick($event)"
-  (selectedChange)="itemTitleClick($event)"
->
-  <ngx-gantt-table>
-    <ngx-gantt-column name="Title" width="400px">
-      <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
-    </ngx-gantt-column>
-    <ngx-gantt-column name="Start Date" width="120px">
-      <ng-template #cell let-item="item">
-        {{ format(item.start, 'MM-dd-yyyy') }}
-      </ng-template>
-    </ngx-gantt-column>
-    <ngx-gantt-column name="End Date" width="120px">
-      <ng-template #cell let-item="item">
-        {{ format(item.end, 'MM-dd-yyyy') }}
-      </ng-template>
-    </ngx-gantt-column>
-  </ngx-gantt-table>
-  <ng-template #bar let-item="item">
-    <span>{{ item.title }}</span>
-  </ng-template>
-</ngx-gantt>

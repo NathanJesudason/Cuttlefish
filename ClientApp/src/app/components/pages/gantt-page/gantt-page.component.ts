@@ -9,6 +9,7 @@ import {
 
 import {
   GanttBarClickEvent,
+  GanttDate,
   GanttItem,
   GanttSelectedEvent,
   GanttViewOptions,
@@ -16,6 +17,8 @@ import {
 } from '@worktile/gantt';
 
 import { format } from 'date-fns';
+
+import { BasicFadeAmination } from 'src/app/animations/animations';
 import { ProjectService } from 'src/app/services/project/project.service';
 
 import {
@@ -27,26 +30,20 @@ import { TaskData } from 'src/types/task';
 @Component({
   selector: 'gantt-page',
   templateUrl: './gantt-page.component.html',
-  styleUrls: ['./gantt-page.component.css']
+  styleUrls: ['./gantt-page.component.scss'],
+  animations: [BasicFadeAmination],
 })
 export class GanttPageComponent implements OnInit {
   items: GanttItem[] = [];
 
   projectId!: number;
+  project!: ProjectData;
 
-  // these strings come from date-fns format()
-  viewOptions: GanttViewOptions = {
-    dateFormat: {
-      week: `'Week' w`,
-      month: `LLLL`,
-      quarter: `QQQ yyyy`,
-      yearMonth: `LLLL`,
-      yearQuarter: `QQQ yyyy`,
-      year: `y`,
-    }
-  };
+  viewOptions!: GanttViewOptions;
 
   selectedViewMode!: GanttViewType;
+
+  loading: boolean = true;
   
   constructor(
     private projectService: ProjectService,
@@ -64,9 +61,12 @@ export class GanttPageComponent implements OnInit {
 
     this.projectService.getProject(this.projectId, true, true).subscribe({
       next: (data) => {
+        this.project = data;
+        this.initViewOptions();
         for (const sprint of data.sprints) {
           this.items.push(...sprint.tasks.map(this.taskToGanttItem));
         }
+        this.loading = false;
       },
       error: (error) => {
         if (error instanceof ProjectNotFoundError) {
@@ -92,6 +92,22 @@ export class GanttPageComponent implements OnInit {
     // need to calculate links (to epic, any sub tasks, other upwards/downwards dependencies)
 
     return item;
+  }
+
+  initViewOptions() {
+    this.viewOptions = {
+      // these strings come from date-fns format()
+      dateFormat: {
+        week: `'Week' w`,
+        month: `LLLL`,
+        quarter: `QQQ yyyy`,
+        yearMonth: `LLLL`,
+        yearQuarter: `QQQ yyyy`,
+        year: `y`,
+      },
+      start: new GanttDate(this.project.startDate),
+      end: new GanttDate(this.project.endDate),
+    };
   }
 
   // so that we can use date-fns format() in the html file

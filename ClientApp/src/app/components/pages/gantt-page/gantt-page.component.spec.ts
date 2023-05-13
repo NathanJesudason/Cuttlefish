@@ -24,6 +24,7 @@ import { NgxGanttModule } from '@worktile/gantt';
 import { GanttPageComponent } from './gantt-page.component';
 import { ProjectData } from 'src/types/project';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GanttPageComponent', () => {
   const data: ProjectData = {
@@ -65,8 +66,14 @@ describe('GanttPageComponent', () => {
   };
 
   beforeEach(() => {
-    return MockBuilder(GanttPageComponent, [NgxGanttModule, RadioButtonModule, FormsModule, ButtonModule, RouterModule])
-      .mock(ActivatedRoute, {
+    return MockBuilder(GanttPageComponent, [
+        NgxGanttModule,
+        RadioButtonModule,
+        FormsModule,
+        ButtonModule,
+        RouterModule,
+        BrowserAnimationsModule,
+      ]).mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
