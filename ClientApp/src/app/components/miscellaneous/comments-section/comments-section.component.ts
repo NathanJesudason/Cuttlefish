@@ -6,13 +6,18 @@ import {
   Output,
 } from '@angular/core';
 
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommentService } from 'src/app/services/comment/comment.service';
+import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
+import { UserService } from 'src/app/services/user/user.service';
+
 import { CommentData } from 'src/types/comment';
+import { TeamMember } from 'src/types/team-member.model';
 
 @Component({
   selector: 'comments-section',
   templateUrl: './comments-section.component.html',
-  styleUrls: ['./comments-section.component.css']
+  styleUrls: ['./comments-section.component.scss']
 })
 export class CommentsSectionComponent implements OnInit {
   @Input() taskId!: number;
@@ -20,23 +25,48 @@ export class CommentsSectionComponent implements OnInit {
   @Input() comments: CommentData[] = [];
   @Output() commentsChange = new EventEmitter<CommentData[]>();
 
+  newCommentText: string = '';
+  showNewCommentInput: boolean = false;
+
+  loggedInUsername!: string;
+  loggedInUserId!: number;
+
   constructor(
     private commentService: CommentService,
+    private userService: UserService,
+    private authService: AuthService,
+    private teamMemberService: TeamMemberService,
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.getUsernameAndId();
+  }
+
+  getUsernameAndId() {
+    this.userService.getUserName().subscribe({
+      next: (username: string) => {
+        this.loggedInUsername = username || this.authService.getUsernameFromToken();
+        this.teamMemberService.getTeamMemberByUsername(this.loggedInUsername).subscribe({
+          next: (teamMember: TeamMember) => {
+            this.loggedInUserId = teamMember.id;
+          },
+        });
+      },
+    });
+  }
 
   createComment(): void {
     this.commentService.createComment({
       id: 0,
-      content: '<p>Comment 1</p>',
-      commenterId: 1,
-      taskId: 5,
+      content: this.newCommentText,
+      commenterId: this.loggedInUserId,
+      taskId: this.taskId,
       lastModified: new Date(),
     }).subscribe({
       next: (comment) => {
-        console.log('comment created', comment);
-        this.comments.push(comment);
+        this.showNewCommentInput = false;
+        this.newCommentText = '';
+        this.comments.unshift(comment);
         this.commentsChange.emit(this.comments);
       },
       error: (err) => {
@@ -46,15 +76,12 @@ export class CommentsSectionComponent implements OnInit {
   }
 
   deleteComment(id: number): void {
-    this.commentService.deleteComment(id).subscribe({
-      next: () => {
-        console.log('comment deleted');
-        this.comments = this.comments.filter((comment) => comment.id !== id);
-        this.commentsChange.emit(this.comments);
-      },
-      error: (err) => {
-        console.error('error deleting comment', err);
-      },
-    });
+    this.comments = this.comments.filter((comment) => comment.id !== id);
+    this.commentsChange.emit(this.comments);
+  }
+
+  cancelNewComment() {
+    this.showNewCommentInput = false;
+    this.newCommentText = '';
   }
 }

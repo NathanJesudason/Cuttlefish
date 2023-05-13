@@ -1,9 +1,65 @@
-<p-button (onClick)="createComment()">Create Comment</p-button>
+<div id="comments-header">
+  <h4 id="comments-title">Comments</h4>
+  <p-button
+    id="create-comment-button"
+    styleClass="p-button-sm p-button-text p-button-secondary"
+    type="button"
+    icon="pi pi-plus"
+    (onClick)="showNewCommentInput = true;"
+    pTooltip="Create New Comment" tooltipPosition="bottom"
+  ></p-button>
+</div>
 
-<p-button (onClick)="deleteComment(2)">Delete Comment</p-button>
+<p-divider *ngIf="comments.length === 0" class="top-divider"></p-divider>
 
-<comment-inplace
-  *ngFor="let comment of comments; let index = index"
-  [(comment)]="comments[index]"
-  (delete)="deleteComment(comment.id)"
-></comment-inplace>
+<div
+  id="new-comment-input"
+  *ngIf="showNewCommentInput"
+>
+  <p-editor
+    [(ngModel)]="newCommentText"
+    [style]="{'height': '250px'}"
+  >
+    <ng-template pTemplate="header">
+      <span class="ql-formats">
+        <button type="button" class="ql-bold" aria-label="Bold"></button>
+        <button type="button" class="ql-italic" aria-label="Italic"></button>
+        <button type="button" class="ql-underline" aria-label="Underline"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-list" value="ordered" aria-label="Ordered List"></button>
+        <button type="button" class="ql-list" value="bullet" aria-label="Bullet List"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-link" aria-label="Link"></button>
+        <button type="button" class="ql-code" aria-label="Code"></button>
+        <button type="button" class="ql-blockquote" aria-label="Blockquote"></button>
+      </span>
+    </ng-template>
+  </p-editor>
+
+  <span class="p-buttonset">
+    <p-button
+      icon="pi pi-check"
+      label="Create New Comment"
+      styleClass="p-button-sm p-button-text p-button-success"
+      (click)="createComment()"
+    ></p-button>
+    <p-button
+      icon="pi pi-times"
+      label="Cancel"
+      styleClass="p-button-sm p-button-text p-button-secondary"
+      (click)="cancelNewComment()"
+    ></p-button>
+  </span>
+
+  <p-divider></p-divider>
+</div>
+
+<ng-container *ngFor="let comment of comments; let index = index">
+  <p-divider [class.top-divider]="index === 0"></p-divider>
+  <comment-inplace
+    [(comment)]="comments[index]"
+    (delete)="deleteComment(comment.id)"
+  ></comment-inplace>
+</ng-container>

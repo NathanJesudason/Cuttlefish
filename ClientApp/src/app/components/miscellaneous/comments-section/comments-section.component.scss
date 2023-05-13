@@ -1,0 +1,17 @@
+#comments-header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  // margin-bottom: 0.75rem;
+}
+
+:host ::ng-deep {
+  .top-divider > .p-divider.p-divider-horizontal {
+    margin-top: 0.25rem;
+  }
+}
+
+#comments-title {
+  color: var(--text-color);
+  margin-bottom: 0;
+}

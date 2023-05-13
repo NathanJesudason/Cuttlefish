@@ -6,13 +6,21 @@ import {
   Output
 } from '@angular/core';
 
+import { ConfirmationService } from 'primeng/api';
+
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommentService } from 'src/app/services/comment/comment.service';
+import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
+import { UserService } from 'src/app/services/user/user.service';
+
 import { CommentData } from 'src/types/comment';
+import { TeamMember } from 'src/types/team-member.model';
 
 @Component({
   selector: 'comment-inplace',
   templateUrl: './comment-inplace.component.html',
-  styleUrls: ['./comment-inplace.component.scss']
+  styleUrls: ['./comment-inplace.component.scss'],
+  providers: [ConfirmationService],
 })
 export class CommentInplaceComponent implements OnInit {
   @Input() comment!: CommentData;
@@ -25,13 +33,41 @@ export class CommentInplaceComponent implements OnInit {
 
   formattedDate!: string;
 
+  commenter!: TeamMember;
+  loggedInUsername!: string;
+
   constructor(
     private commentService: CommentService,
+    private teamMemberService: TeamMemberService,
+    private userService: UserService,
+    private authService: AuthService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
     this.text = this.comment.content;
     this.formattedDate = this.comment.lastModified.toLocaleString();
+    this.getCommenter();
+    this.getLoggedInUsername();
+  }
+
+  getCommenter() {
+    this.teamMemberService.getTeamMemberById(this.comment.commenterId).subscribe({
+      next: (teamMember: TeamMember) => {
+        this.commenter = teamMember;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  getLoggedInUsername() {
+    this.userService.getUserName().subscribe({
+      next: (username: string) => {
+        this.loggedInUsername = username || this.authService.getUsernameFromToken();
+      },
+    });
   }
 
   select() {
@@ -58,6 +94,13 @@ export class CommentInplaceComponent implements OnInit {
   cancelChanges() {
     this.unSelect();
     this.text = this.comment.content;
+  }
+
+  confirmDelete() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this comment?',
+      accept: () => this.deleteComment(),
+    });
   }
 
   deleteComment() {

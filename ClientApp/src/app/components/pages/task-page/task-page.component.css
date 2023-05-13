@@ -57,3 +57,8 @@ p-multiSelect {
 .cancel-button:hover {
   background-color: var(--button-hover-color);
 }
+
+comments-section {
+  display: block;
+  margin-top: 1.75rem;
+}

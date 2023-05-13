@@ -93,7 +93,11 @@ export class CommentService {
           return throwError(() => new Error(`Error getting comments: ${err}`));
         }),
         map((data: BackendCommentData[]) => {
-          return data.map(backendCommentToCommentData);
+          const comments = data.map(backendCommentToCommentData);
+          comments.sort((a: CommentData, b: CommentData) => {
+            return b.lastModified.getTime() - a.lastModified.getTime();
+          });
+          return comments;
         }),
       );
   }

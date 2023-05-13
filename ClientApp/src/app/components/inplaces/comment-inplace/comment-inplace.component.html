@@ -8,7 +8,7 @@
     icon="pi pi-user"
   ></p-avatar>
 
-  <div id="commenter-name">Commenter name</div>
+  <div id="commenter-name" *ngIf="commenter">{{commenter.username}}</div>
 
   <div id="comment-date">{{formattedDate}}</div>
 
@@ -19,6 +19,7 @@
 
   <div
     id="edit-delete-buttons"
+    *ngIf="commenter && commenter.username === loggedInUsername"
   >
     <p-button
       id="edit-button"
@@ -32,7 +33,7 @@
       styleClass="p-button-sm p-button-text p-button-danger"
       label="Delete"
       icon="pi pi-trash"
-      (click)="deleteComment()"
+      (click)="confirmDelete()"
     ></p-button>
   </div>
 </div>
@@ -75,3 +76,13 @@
     ></p-button>
   </span>
 </div>
+
+<p-confirmDialog
+  header="Delete Comment"
+  icon="pi pi-exclamation-triangle"
+  acceptIcon="pi pi-trash"
+  acceptLabel="Delete"
+  acceptButtonStyleClass="p-button-danger"
+  rejectLabel="Cancel"
+  rejectButtonStyleClass="p-button-text p-button-secondary"
+></p-confirmDialog>

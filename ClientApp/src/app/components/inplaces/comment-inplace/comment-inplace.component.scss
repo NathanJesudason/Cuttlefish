@@ -1,6 +1,7 @@
 #comment-display {
   width: 100%;
-  padding: var(--content-padding);
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
   display: grid;
   grid-template-columns: min-content 1fr min-content;
   column-gap: 0.75rem;
