@@ -24,3 +24,16 @@ export const BasicFadeAmination = trigger('basicFadeAnimation', [
     ]),
   ]),
 ]);
+
+/**
+ * Basic fade animation for use with ngIf and ngFor, without height animation
+ */
+export const BasicFadeAminationNoHeight = trigger('basicFadeAnimationNoHeight', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate('300ms 0ms ease-out', style({ opacity: 1 })),
+  ]),
+  transition(':leave', [
+    animate('300ms 0ms ease-in', style({ opacity: 0 })),
+  ]),
+]);

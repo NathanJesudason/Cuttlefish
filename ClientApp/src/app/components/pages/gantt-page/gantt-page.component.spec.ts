@@ -25,6 +25,7 @@ import { GanttPageComponent } from './gantt-page.component';
 import { ProjectData } from 'src/types/project';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'primeng/toast';
 
 describe('GanttPageComponent', () => {
   const data: ProjectData = {
@@ -73,6 +74,7 @@ describe('GanttPageComponent', () => {
         ButtonModule,
         RouterModule,
         BrowserAnimationsModule,
+        ToastModule,
       ]).mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
@@ -104,19 +106,19 @@ describe('GanttPageComponent', () => {
     expect(yearViewElement.attributes.value).withContext('make sure year view element exists').toEqual('year');
 
     ngMocks.output(weekViewElement, 'ngModelChange').emit('week');
-    expect(targetComponent.selectedViewMode).withContext('make sure week view element is properly bound with ngModel').toEqual('week');
+    expect(targetComponent.dateViewMode).withContext('make sure week view element is properly bound with ngModel').toEqual('week');
 
     ngMocks.output(monthViewElement, 'ngModelChange').emit('month');
-    expect(targetComponent.selectedViewMode).withContext('make sure month view element is properly bound with ngModel').toEqual('month');
+    expect(targetComponent.dateViewMode).withContext('make sure month view element is properly bound with ngModel').toEqual('month');
 
     ngMocks.output(dayViewElement, 'ngModelChange').emit('day');
-    expect(targetComponent.selectedViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('day');
+    expect(targetComponent.dateViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('day');
 
     ngMocks.output(quarterViewElement, 'ngModelChange').emit('quarter');
-    expect(targetComponent.selectedViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('quarter');
+    expect(targetComponent.dateViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('quarter');
 
     ngMocks.output(yearViewElement, 'ngModelChange').emit('year');
-    expect(targetComponent.selectedViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('year');
+    expect(targetComponent.dateViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('year');
   });
 
   // if we ever add things to the gantt page, add more unit tests for that

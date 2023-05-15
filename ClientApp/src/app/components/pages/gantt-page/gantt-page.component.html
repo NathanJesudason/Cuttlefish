@@ -10,11 +10,75 @@
   ></button>
 
   <div id="view-modes-container">
-    <p-radioButton id="day-view-selector" name="viewModes" value="day" label="Day" [(ngModel)]="selectedViewMode"></p-radioButton>
-    <p-radioButton id="week-view-selector" name="viewModes" value="week" label="Week" [(ngModel)]="selectedViewMode"></p-radioButton>
-    <p-radioButton id="month-view-selector" name="viewModes" value="month" label="Month" [(ngModel)]="selectedViewMode"></p-radioButton>
-    <p-radioButton id="quarter-view-selector" name="viewModes" value="quarter" label="Quarter" [(ngModel)]="selectedViewMode"></p-radioButton>
-    <p-radioButton id="year-view-selector" name="viewModes" value="year" label="Year" [(ngModel)]="selectedViewMode"></p-radioButton>
+    <p-radioButton
+      name="dateViewModes"
+      value="day"
+      label="Day"
+      [(ngModel)]="dateViewMode"
+      (onClick)="updateDateViewMode('day')"
+    ></p-radioButton>
+    <p-radioButton
+      name="dateViewModes"
+      value="week"
+      label="Week"
+      [(ngModel)]="dateViewMode"
+      (onClick)="updateDateViewMode('week')"
+    ></p-radioButton>
+    <p-radioButton
+      name="dateViewModes"
+      value="month"
+      label="Month"
+      [(ngModel)]="dateViewMode"
+      (onClick)="updateDateViewMode('month')"
+    ></p-radioButton>
+    <p-radioButton
+      name="dateViewModes"
+      value="quarter"
+      label="Quarter"
+      [(ngModel)]="dateViewMode"
+      (onClick)="updateDateViewMode('quarter')"
+    ></p-radioButton>
+    <p-radioButton
+      name="dateViewModes"
+      value="year"
+      label="Year"
+      [(ngModel)]="dateViewMode"
+      (onClick)="updateDateViewMode('year')"
+    ></p-radioButton>
+
+    <p-button
+      id="today-button"
+      styleClass="p-button-sm"
+      label="Today"
+      icon="pi pi-calendar"
+      (onClick)="gantt.scrollToToday()"
+    ></p-button>
+
+    <div id="task-view-mode-label">Task View Mode</div>
+    <p-radioButton
+      class="task-organization-selectors"
+      name="taskOrganizationModes"
+      value="standalone"
+      label="Standalone"
+      [(ngModel)]="taskOrganizationMode"
+      (onClick)="updateTaskOrganizationMode('standalone')"
+    ></p-radioButton>
+    <p-radioButton
+      class="task-organization-selectors"
+      name="taskOrganizationModes"
+      value="sprint"
+      label="Within Sprints"
+      [(ngModel)]="taskOrganizationMode"
+      (onClick)="updateTaskOrganizationMode('sprint')"
+    ></p-radioButton>
+    <p-radioButton
+      class="task-organization-selectors"
+      name="taskOrganizationModes"
+      value="epic"
+      label="Within Epics"
+      [(ngModel)]="taskOrganizationMode"
+      (onClick)="updateTaskOrganizationMode('epic')"
+    ></p-radioButton>
   </div>
 
   <div
@@ -30,11 +94,16 @@
     *ngIf="!loading"
     [@basicFadeAnimation]
     [items]="items"
+    [groups]="groups"
     [selectable]="true"
     [viewOptions]="viewOptions"
-    [viewType]="selectedViewMode"
+    [draggable]="true"
+    [linkable]="true"
+    [viewType]="dateViewMode"
     (barClick)="itemBarClick($event)"
     (selectedChange)="itemTitleClick($event)"
+    (linkDragEnded)="itemDependencyCreate($event)"
+    (dragEnded)="itemMove($event)"
   >
     <ngx-gantt-table>
       <ngx-gantt-column name="Title" width="200px">
@@ -42,17 +111,22 @@
       </ngx-gantt-column>
       <ngx-gantt-column name="Start Date" width="120px">
         <ng-template #cell let-item="item">
-          {{ format(item.start, 'MM-dd-yyyy') }}
+          {{ format(item.start * 1000, 'MM-dd-yyyy') }}
         </ng-template>
       </ngx-gantt-column>
       <ngx-gantt-column name="End Date" width="120px">
         <ng-template #cell let-item="item">
-          {{ format(item.end, 'MM-dd-yyyy') }}
+          {{ format(item.end * 1000, 'MM-dd-yyyy') }}
         </ng-template>
       </ngx-gantt-column>
     </ngx-gantt-table>
     <ng-template #bar let-item="item">
-      <span>{{ item.title }}</span>
+      <div
+        [pTooltip]="item.title"
+        tooltipPosition="bottom"
+      >{{ item.title }}</div>
     </ng-template>
   </ngx-gantt>
 </div>
+
+<p-toast></p-toast>

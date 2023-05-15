@@ -10,11 +10,22 @@ p-radiobutton {
 }
 
 #view-modes-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, min-content) 1fr repeat(3, min-content);
   margin-bottom: 0.8em;
+}
+
+#task-view-mode-label {
+  margin: auto 0.5rem auto auto;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 ngx-gantt {
   height: 100%;
+  border: 1px solid var(--surface-d);
+  border-radius: var(--border-radius);
 }
 
 :host ::ng-deep {
@@ -25,6 +36,10 @@ ngx-gantt {
   p-progressSpinner {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .p-radiobutton-label {
+    white-space: nowrap;
   }
 }
 
