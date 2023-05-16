@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActivatedRoute,
   convertToParamMap,
@@ -7,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 import {
   MockBuilder,
+  MockInstance,
   MockRender,
   ngMocks
 } from 'ng-mocks';
@@ -18,14 +20,15 @@ import {
 
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
 import { GanttPageComponent } from './gantt-page.component';
 import { ProjectData } from 'src/types/project';
 import { ProjectService } from 'src/app/services/project/project.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastModule } from 'primeng/toast';
 
 describe('GanttPageComponent', () => {
   const data: ProjectData = {
@@ -66,6 +69,8 @@ describe('GanttPageComponent', () => {
     }],
   };
 
+  MockInstance.scope();
+
   beforeEach(() => {
     return MockBuilder(GanttPageComponent, [
         NgxGanttModule,
@@ -75,6 +80,8 @@ describe('GanttPageComponent', () => {
         RouterModule,
         BrowserAnimationsModule,
         ToastModule,
+        ConfirmDialogModule,
+        ProgressSpinnerModule,
       ]).mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
@@ -86,11 +93,23 @@ describe('GanttPageComponent', () => {
   });
 
   it('should create', () => {
+    MockInstance(ActivatedRoute, 'snapshot', jasmine.createSpy(), 'get')
+      .and.returnValue({
+        paramMap: new Map([[ 'id', data.id ]]),
+        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standalone' ]]),
+      });
+    
     MockRender(GanttPageComponent);
     expect(ngMocks.findAll(GanttPageComponent)[0]).toBeTruthy();
   });
 
   it('should respond to viewMode inputs', () => {
+    MockInstance(ActivatedRoute, 'snapshot', jasmine.createSpy(), 'get')
+      .and.returnValue({
+        paramMap: new Map([[ 'id', data.id ]]),
+        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standalone' ]]),
+      });
+    
     const targetComponent = MockRender(GanttPageComponent).point.componentInstance;
     const viewElements = ngMocks.findAll('p-radioButton');
     const dayViewElement = viewElements[0];
