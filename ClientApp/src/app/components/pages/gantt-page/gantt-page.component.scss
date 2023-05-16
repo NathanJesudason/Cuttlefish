@@ -41,6 +41,11 @@ ngx-gantt {
   .p-radiobutton-label {
     white-space: nowrap;
   }
+
+  path.link-line:hover {
+    stroke: var(--red-500);
+    stroke-width: 3px;
+  }
 }
 
 #page-loading {
@@ -53,3 +58,9 @@ ngx-gantt {
   margin-bottom: 0.8em;
   width: min-content;
 }
+
+// @media only screen and (max-width: 1200px) {
+//   #view-modes-container {
+
+//   }
+// }

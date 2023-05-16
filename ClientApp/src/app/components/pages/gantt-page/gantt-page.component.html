@@ -104,6 +104,7 @@
     (selectedChange)="itemTitleClick($event)"
     (linkDragEnded)="itemDependencyCreate($event)"
     (dragEnded)="itemMove($event)"
+    (lineClick)="itemDependencyClick($event)"
   >
     <ngx-gantt-table>
       <ngx-gantt-column name="Title" width="200px">
@@ -128,5 +129,16 @@
     </ng-template>
   </ngx-gantt>
 </div>
+
+<p-confirmDialog
+  id="delete-sprint-dialog"
+  header="Confirm Dependency Deletion"
+  icon="pi pi-exclamation-triangle"
+  acceptIcon="pi pi-trash"
+  acceptLabel="Delete"
+  acceptButtonStyleClass="p-button-danger"
+  rejectLabel="Cancel"
+  rejectButtonStyleClass="p-button-text p-button-secondary"
+></p-confirmDialog>
 
 <p-toast></p-toast>

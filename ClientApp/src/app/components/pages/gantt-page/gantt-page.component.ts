@@ -14,6 +14,7 @@ import {
   GanttDragEvent,
   GanttGroup,
   GanttItem,
+  GanttLineClickEvent,
   GanttLinkDragEvent,
   GanttLinkType,
   GanttSelectedEvent,
@@ -35,14 +36,14 @@ import {
 } from 'src/types/project';
 import { TaskData } from 'src/types/task';
 import { SprintData } from 'src/types/sprint';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'gantt-page',
   templateUrl: './gantt-page.component.html',
   styleUrls: ['./gantt-page.component.scss'],
   animations: [BasicFadeAmination],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
 })
 export class GanttPageComponent implements OnInit {
   items: GanttItem[] = [];
@@ -67,6 +68,7 @@ export class GanttPageComponent implements OnInit {
     private route: ActivatedRoute,
     private taskService: TaskApi,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
@@ -96,24 +98,47 @@ export class GanttPageComponent implements OnInit {
       next: (data) => {
         this.project = data;
         this.initGanttViewOptions();
-        if (this.taskOrganizationMode === 'standalone') {
-          for (const sprint of data.sprints) {
-            this.items.push(...this.standaloneTasks(sprint.tasks));
-          }
-        } else if (this.taskOrganizationMode === 'epic') {
-          const allTasks: TaskData[] = [];
-          for (const sprint of data.sprints) {
-            allTasks.push(...sprint.tasks);
-          }
-          const { items, groups } = this.tasksInEpics(allTasks);
-          this.items = items;
-          this.groups = groups;
-        } else if (this.taskOrganizationMode === 'sprint') {
-          const { items, groups } = this.tasksInSprints(data.sprints);
-          this.items = items;
-          this.groups = groups;
-        }
-        this.loading = false;
+        this.taskService.getTaskRelations().subscribe({
+          next: (dependencies) => {
+            // get task dependencies and populate task.dependencies
+            for (const dependency of dependencies) {
+              for (const sprint of this.project.sprints) {
+                for (const task of sprint.tasks) {
+                  if (task.id === dependency.independentTaskID) {
+                    if (task.dependencies === undefined) {
+                      task.dependencies = [];
+                    }
+                    task.dependencies.push(dependency.dependentTaskID);
+                  }
+                }
+              }
+            }
+
+            // populate items and groups for gantt chart to use
+            if (this.taskOrganizationMode === 'standalone') {
+              for (const sprint of data.sprints) {
+                this.items.push(...this.standaloneTasks(sprint.tasks));
+              }
+            } else if (this.taskOrganizationMode === 'epic') {
+              const allTasks: TaskData[] = [];
+              for (const sprint of data.sprints) {
+                allTasks.push(...sprint.tasks);
+              }
+              const { items, groups } = this.tasksInEpics(allTasks);
+              this.items = items;
+              this.groups = groups;
+            } else if (this.taskOrganizationMode === 'sprint') {
+              const { items, groups } = this.tasksInSprints(data.sprints);
+              this.items = items;
+              this.groups = groups;
+            }
+
+            this.loading = false;
+          },
+          error: (error) => {
+            this.messageService.add({severity: 'error', summary: `Error loading task dependencies: ${error.message}`});
+          },
+        });
       },
       error: (error) => {
         if (error instanceof ProjectNotFoundError) {
@@ -245,7 +270,13 @@ export class GanttPageComponent implements OnInit {
   }
 
   itemDependencyCreate(event: GanttLinkDragEvent) {
-    console.log('itemDependencyCreate', event);
+    const sourceTaskId = Number(((event.source) as GanttItem).id.split('-')[1]);
+    const targetTaskId = Number(((event.target) as GanttItem).id.split('-')[1]);
+    this.taskService.addTaskRelation(sourceTaskId, targetTaskId).subscribe({
+      error: (error) => {
+        this.messageService.add({severity: 'error', summary: `Error creating task dependency: ${error.message}`});
+      },
+    });
   }
 
   itemMove(event: GanttDragEvent) {
@@ -283,6 +314,26 @@ export class GanttPageComponent implements OnInit {
     this.taskService.putTask(thisTask).subscribe({
       error: (error) => {
         this.messageService.add({severity: 'error', summary: `Error updating task: ${error.message}`});
+      },
+    });
+  }
+
+  itemDependencyClick(event: GanttLineClickEvent) {
+    const sourceTaskId = Number(((event.source) as GanttItem).id.split('-')[1]);
+    const targetTaskId = Number(((event.target) as GanttItem).id.split('-')[1]);
+    this.confirmationService.confirm({
+      message: `Delete dependency from Task #${sourceTaskId} to Task #${targetTaskId}?`,
+      accept: () => this.deleteRelation(sourceTaskId, targetTaskId),
+    });
+  }
+
+  deleteRelation(source: number, target: number) {
+    this.taskService.deleteTaskRelation(source, target).subscribe({
+      next: () => {
+        this.messageService.add({severity: 'success', summary: `Deletion confirmed, refresh to see changes`});
+      },
+      error: (error) => {
+        this.messageService.add({severity: 'error', summary: `Error deleting task dependency: ${error.message}`});
       },
     });
   }
