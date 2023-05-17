@@ -89,45 +89,48 @@
     <p-progressSpinner></p-progressSpinner>
   </div>
 
-  <ngx-gantt
-    #gantt
-    *ngIf="!loading"
-    [@basicFadeAnimation]
-    [items]="items"
-    [groups]="groups"
-    [selectable]="true"
-    [viewOptions]="viewOptions"
-    [draggable]="true"
-    [linkable]="true"
-    [viewType]="dateViewMode"
-    (barClick)="itemBarClick($event)"
-    (selectedChange)="itemTitleClick($event)"
-    (linkDragEnded)="itemDependencyCreate($event)"
-    (dragEnded)="itemMove($event)"
-    (lineClick)="itemDependencyClick($event)"
-  >
-    <ngx-gantt-table>
-      <ngx-gantt-column name="Title" width="200px">
-        <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
-      </ngx-gantt-column>
-      <ngx-gantt-column name="Start Date" width="120px">
-        <ng-template #cell let-item="item">
-          {{ format(item.start * 1000, 'MM-dd-yyyy') }}
-        </ng-template>
-      </ngx-gantt-column>
-      <ngx-gantt-column name="End Date" width="120px">
-        <ng-template #cell let-item="item">
-          {{ format(item.end * 1000, 'MM-dd-yyyy') }}
-        </ng-template>
-      </ngx-gantt-column>
-    </ngx-gantt-table>
-    <ng-template #bar let-item="item">
-      <div
-        [pTooltip]="item.title"
-        tooltipPosition="bottom"
-      >{{ item.title }}</div>
-    </ng-template>
-  </ngx-gantt>
+
+  <ng-container *ngIf="!loading">
+    <ngx-gantt
+      #gantt
+      *mcRerender="chartRerenderTrigger"
+      [@basicFadeAnimation]
+      [items]="items"
+      [groups]="groups"
+      [selectable]="true"
+      [viewOptions]="viewOptions"
+      [draggable]="true"
+      [linkable]="true"
+      [viewType]="dateViewMode"
+      (barClick)="itemBarClick($event)"
+      (selectedChange)="itemTitleClick($event)"
+      (linkDragEnded)="itemDependencyCreate($event)"
+      (dragEnded)="itemMove($event)"
+      (lineClick)="itemDependencyClick($event)"
+    >
+      <ngx-gantt-table>
+        <ngx-gantt-column name="Title" width="200px">
+          <ng-template #cell let-item="item"> {{ item.title }} </ng-template>
+        </ngx-gantt-column>
+        <ngx-gantt-column name="Start Date" width="120px">
+          <ng-template #cell let-item="item">
+            {{ format(item.start * 1000, 'MM-dd-yyyy') }}
+          </ng-template>
+        </ngx-gantt-column>
+        <ngx-gantt-column name="End Date" width="120px">
+          <ng-template #cell let-item="item">
+            {{ format(item.end * 1000, 'MM-dd-yyyy') }}
+          </ng-template>
+        </ngx-gantt-column>
+      </ngx-gantt-table>
+      <ng-template #bar let-item="item">
+        <div
+          [pTooltip]="item.title"
+          tooltipPosition="bottom"
+        >{{ item.title }}</div>
+      </ng-template>
+    </ngx-gantt>
+  </ng-container>
 </div>
 
 <p-confirmDialog

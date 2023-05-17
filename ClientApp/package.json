@@ -29,6 +29,7 @@
     "html2canvas": "^1.4.1",
     "jquery": "^3.6.4",
     "ng-apexcharts": "^1.7.6",
+    "ngx-rerender": "^1.1.0",
     "oidc-client": "^1.11.5",
     "popper.js": "^1.16.0",
     "primeicons": "^6.0.1",

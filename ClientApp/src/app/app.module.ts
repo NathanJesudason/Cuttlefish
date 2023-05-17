@@ -44,6 +44,7 @@ import { ConfirmationService } from 'primeng/api';
 
 import { NgxGanttModule } from '@worktile/gantt';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgxRerenderModule } from 'ngx-rerender';
 
 import { AppComponent } from 'src/app/app.component';
 import { NavMenuComponent } from 'src/app/components/miscellaneous/nav-menu/nav-menu.component';
@@ -161,6 +162,7 @@ import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-
     DragDropModule,
     MessageModule,
     NgApexchartsModule,
+    NgxRerenderModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},

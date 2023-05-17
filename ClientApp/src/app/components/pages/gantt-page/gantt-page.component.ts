@@ -60,6 +60,8 @@ export class GanttPageComponent implements OnInit {
 
   loading: boolean = true;
 
+  chartRerenderTrigger: number = 0;
+
   @ViewChild('gantt') gantt!: NgxGanttComponent;
   
   constructor(
@@ -74,6 +76,10 @@ export class GanttPageComponent implements OnInit {
   ngOnInit(): void {
     this.getUrlParams();
     this.loadProjectData();
+  }
+
+  rerenderChart() {
+    this.chartRerenderTrigger++;
   }
 
   getUrlParams() {
@@ -330,7 +336,9 @@ export class GanttPageComponent implements OnInit {
   deleteRelation(source: number, target: number) {
     this.taskService.deleteTaskRelation(source, target).subscribe({
       next: () => {
-        this.messageService.add({severity: 'success', summary: `Deletion confirmed, refresh to see changes`});
+        const itemIndex = this.items.findIndex(item => item.id === `task-${source}`);
+        this.items[itemIndex].links = this.items[itemIndex].links!.filter(link => link.link !== `task-${target}`);
+        this.rerenderChart();
       },
       error: (error) => {
         this.messageService.add({severity: 'error', summary: `Error deleting task dependency: ${error.message}`});
