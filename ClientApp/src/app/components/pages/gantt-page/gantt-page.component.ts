@@ -308,11 +308,17 @@ export class GanttPageComponent implements OnInit {
 
     if (proposedStartDate.getTime() < thisSprint.startDate.getTime()) {
       this.messageService.add({severity: 'error', summary: `Task cannot start before sprint start date, ${format(thisSprint.startDate, 'yyyy-MM-dd')}`, life: 5000});
+      const itemIndex = this.items.findIndex(item => item.id === `task-${thisTask.id}`);
+      this.items[itemIndex].start = thisTask.startDate.getTime() / 1000;
+      this.rerenderChart();
       return;
     }
 
     if (proposedEndDate.getTime() > thisSprint.endDate.getTime()) {
       this.messageService.add({severity: 'error', summary: `Task cannot end after sprint end date, ${format(thisSprint.endDate, 'yyyy-MM-dd')}`, life: 5000});
+      const itemIndex = this.items.findIndex(item => item.id === `task-${thisTask.id}`);
+      this.items[itemIndex].end = thisTask.endDate.getTime() / 1000;
+      this.rerenderChart();
       return;
     }
 
