@@ -16,30 +16,31 @@
 
 .custom-button {
   display: inline-block;
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--surface-a);
   border: none;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius);
   text-align: center;
   vertical-align: middle;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-color-darker);
   }
 
   &:active,
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+    box-shadow: var(--focus-box-shadow);
   }
 }
 
 .add-dependency-button {
-  background-color: #28a745; // Change the color of the "Add dependency" button
+  background-color: var(--success-color);
+  
   &:hover {
-    background-color: #218838;
+    background-color: var(--success-color-darker);
   }
 }
