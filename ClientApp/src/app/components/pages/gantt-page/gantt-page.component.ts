@@ -158,6 +158,7 @@ export class GanttPageComponent implements OnInit {
   standardTasks(tasks: TaskData[]): GanttItem[] {
     const items: GanttItem[] = [];
     for (const task of tasks) {
+      if (task.type === 'Epic') continue;
       let item: GanttItem = {
         id: `task-${task.id}`,
         title: `${task.id}: ${task.name} (${task.progress})`,
