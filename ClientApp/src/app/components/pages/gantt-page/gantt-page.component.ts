@@ -56,7 +56,7 @@ export class GanttPageComponent implements OnInit {
 
   dateViewMode!: GanttViewType;
 
-  taskOrganizationMode: 'standalone' | 'epic' | 'sprint' = 'standalone';
+  taskOrganizationMode: 'standard' | 'epic' | 'sprint' = 'standard';
 
   loading: boolean = true;
 
@@ -91,9 +91,9 @@ export class GanttPageComponent implements OnInit {
     }
 
     if (params.has('taskOrganizationMode')) {
-      this.taskOrganizationMode = params.get('taskOrganizationMode') as 'standalone' | 'epic' | 'sprint';
+      this.taskOrganizationMode = params.get('taskOrganizationMode') as 'standard' | 'epic' | 'sprint';
     } else {
-      this.taskOrganizationMode = 'standalone';
+      this.taskOrganizationMode = 'standard';
     }
   }
 
@@ -121,9 +121,9 @@ export class GanttPageComponent implements OnInit {
             }
 
             // populate items and groups for gantt chart to use
-            if (this.taskOrganizationMode === 'standalone') {
+            if (this.taskOrganizationMode === 'standard') {
               for (const sprint of data.sprints) {
-                this.items.push(...this.standaloneTasks(sprint.tasks));
+                this.items.push(...this.standardTasks(sprint.tasks));
               }
             } else if (this.taskOrganizationMode === 'epic') {
               const allTasks: TaskData[] = [];
@@ -155,7 +155,7 @@ export class GanttPageComponent implements OnInit {
     });
   }
 
-  standaloneTasks(tasks: TaskData[]): GanttItem[] {
+  standardTasks(tasks: TaskData[]): GanttItem[] {
     const items: GanttItem[] = [];
     for (const task of tasks) {
       let item: GanttItem = {
@@ -191,7 +191,7 @@ export class GanttPageComponent implements OnInit {
         title: sprint.name,
         expanded: true,
       });
-      const thisSprintItems = this.standaloneTasks(sprint.tasks).map(item => {
+      const thisSprintItems = this.standardTasks(sprint.tasks).map(item => {
         item.group_id = groupName;
         return item;
       });
@@ -215,7 +215,7 @@ export class GanttPageComponent implements OnInit {
       });
       if (epic.dependencies === undefined || epic.dependencies.length === 0) continue;
       const epicTasks = tasks.filter(task => epic.dependencies!.includes(task.id));
-      const epicItems = this.standaloneTasks(epicTasks).map(item => {
+      const epicItems = this.standardTasks(epicTasks).map(item => {
         item.group_id = groupName;
         return item;
       });

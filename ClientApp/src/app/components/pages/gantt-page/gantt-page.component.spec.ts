@@ -96,7 +96,7 @@ describe('GanttPageComponent', () => {
     MockInstance(ActivatedRoute, 'snapshot', jasmine.createSpy(), 'get')
       .and.returnValue({
         paramMap: new Map([[ 'id', data.id ]]),
-        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standalone' ]]),
+        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standard' ]]),
       });
     
     MockRender(GanttPageComponent);
@@ -107,7 +107,7 @@ describe('GanttPageComponent', () => {
     MockInstance(ActivatedRoute, 'snapshot', jasmine.createSpy(), 'get')
       .and.returnValue({
         paramMap: new Map([[ 'id', data.id ]]),
-        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standalone' ]]),
+        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standard' ]]),
       });
     
     const targetComponent = MockRender(GanttPageComponent).point.componentInstance;
