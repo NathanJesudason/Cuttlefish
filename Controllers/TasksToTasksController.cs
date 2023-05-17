@@ -83,10 +83,10 @@ namespace Cuttlefish.Controllers
                 return NotFound();
             }
             //check if unique
-            var check = _context.TasksToTasks.Where(i => i.independentTaskID == tasksToTasks.independentTaskID && i.dependentTaskID == tasksToTasks.dependentTaskID).FirstAsync().Result;
+            var check = _context.TasksToTasks.Any(i => i.independentTaskID.Equals(tasksToTasks.independentTaskID) && i.dependentTaskID.Equals(tasksToTasks.dependentTaskID));
             //check if IDs are valid
-            var validIDs = _context.Tasks.Any(i => i.id.Equals(tasksToTasks.independentTaskID)) && _context.TasksToTasks.Any(i => i.Id.Equals(tasksToTasks.dependentTaskID));
-            if (check == null && validIDs)
+            var validIDs = _context.Tasks.Any(i => i.id.Equals(tasksToTasks.independentTaskID)) && _context.Tasks.Any(i => i.id.Equals(tasksToTasks.dependentTaskID));
+            if (!check && validIDs)
             {
                 _context.TasksToTasks.Add(tasksToTasks);
                 await _context.SaveChangesAsync();
