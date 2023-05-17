@@ -2,6 +2,7 @@
   [options]="taskDataArray"
   [(ngModel)]="selectedDependency"
   (onChange)="redirectToTask($event.value?.id)"
+  (onClick)="loadAndSortDependencies()"
   [autoDisplayFirst]="false"
   [placeholder]="'Select Dependency'"
 >
