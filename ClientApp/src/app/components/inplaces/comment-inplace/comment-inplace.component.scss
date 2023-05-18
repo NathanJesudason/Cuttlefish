@@ -1,0 +1,39 @@
+#comment-display {
+  width: 100%;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+}
+
+#comment-avatar, #commenter-name, #comment-date {
+  margin-top: auto;
+  margin-bottom: auto;
+  color: var(--text-color);
+}
+
+#comment-date {
+  white-space: nowrap;
+}
+
+#commenter-name, #comment-date {
+  font-weight: 600;
+}
+
+#comment-content {
+  grid-column: 1 / span 3;
+  margin-top: 0.5rem;
+}
+
+:host ::ng-deep {
+  #comment-content > * {
+    margin-bottom: 0.3rem;
+    color: var(--text-color);
+  }
+}
+
+#edit-delete-buttons {
+  grid-column: 1 / span 2;
+}

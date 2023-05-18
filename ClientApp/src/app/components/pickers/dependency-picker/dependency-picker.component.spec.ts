@@ -34,6 +34,7 @@ describe('DependencyPickerComponent', () => {
     type: 'Epic',
     cost: 0,
     order: 0,
+    comments: [],
   };
 
   beforeEach(() => {
