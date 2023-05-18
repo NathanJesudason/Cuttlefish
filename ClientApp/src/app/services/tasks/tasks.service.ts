@@ -25,6 +25,8 @@ import {
 import { LabelData } from 'src/types/label';
 import { environment } from 'src/environments/environment';
 import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
+import { CommentService } from 'src/app/services/comment/comment.service';
+import { CommentData } from 'src/types/comment';
   
 @Injectable({providedIn: 'root'})
 export class TaskApi {
@@ -34,6 +36,7 @@ export class TaskApi {
   constructor(
     http: HttpClient,
     private sprintOrderingService: SprintOrderingService,
+    private commentService: CommentService,
   ) {
     this.http = http;
   }
@@ -251,6 +254,26 @@ export class TaskApi {
         )
       }),
     )
+  }
+
+  /**
+   * Get the full suite of data for a task
+   * @param id the id of the task
+   * @returns `Observable<TaskData>`
+   */
+  getFullTaskData(id: number): Observable<TaskData> {
+    return this.getTaskDataWithLabels(id)
+      .pipe(
+        switchMap((task: TaskData) => {
+          return this.commentService.getCommentsByTaskId(id)
+            .pipe(
+              map((comments: CommentData[]) => {
+                task.comments = comments;
+                return task;
+              }),
+            );
+        }),
+      );
   }
 
   //Small helper to convert between label in database and label in UI

@@ -48,6 +48,7 @@ describe('SprintDropdownComponent', () => {
       endDate: new Date(),
       progress: 'Backlog',
       order: 0,
+      comments: [],
     }],
   };
   
