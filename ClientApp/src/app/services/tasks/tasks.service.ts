@@ -415,7 +415,7 @@ export class TaskApi {
    * @throws error if it catches HttpError
    */
   getTaskRelations(){
-    return this.http.get(`${environment.url}TasksToTasks`)
+    return this.http.get<[{id: number, independentTaskID: number, dependentTaskID: number}]>(`${environment.url}TasksToTasks`)
     .pipe(
       catchError((err: HttpErrorResponse) => {
         return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
