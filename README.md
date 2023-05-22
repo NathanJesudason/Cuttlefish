@@ -131,3 +131,4 @@ npm install <PACKAGE_NAME>
 - Implement dynamic theming (a feature provided by PrimeNG) in the front end
 - Create a system for adopters to enable and disable features and create their own (plugins?)
 - Add Angular end to end testing
+- Better optimization for mobile devices (not crucial, users are more likely to access via company-issued computers)

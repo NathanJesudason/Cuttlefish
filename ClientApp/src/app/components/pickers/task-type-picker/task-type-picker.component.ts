@@ -11,6 +11,9 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { TaskData, isTaskData } from 'src/types/task';
   
+/**
+ * Component for selecting the type of a task
+ */
 @Component({
   selector: 'app-type-picker',
   templateUrl: './task-type-picker.component.html',
@@ -39,12 +42,19 @@ export class TaskTypePickerComponent implements OnInit {
     }
   }
   
+  /**
+   * Select the provided type option and update the task
+   * @param option the type option to be selected
+   */
   showOption(option: 'Epic' | 'Bug' | 'Spike' | 'Story' | 'Kaizen' | 'Subtask') {
     this.selectedType = option;
     this.overlayPanel.hide();
     this.approveChanges(option);
   }
   
+  /**
+   * Update the task with `selectedType`
+   */
   approveChanges(event: any) {
     if(isTaskData(this.data)){
       const updatedTask: TaskData = { ... this.data, type: this.selectedType}
@@ -61,6 +71,9 @@ export class TaskTypePickerComponent implements OnInit {
     }
   }
   
+  /**
+   * Cancel the input and hide the overlay panel
+   */
   cancelInput() {
     this.overlayPanel.hide();
   }
