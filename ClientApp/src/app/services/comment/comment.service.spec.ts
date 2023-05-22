@@ -1,8 +1,16 @@
+/**
+ * Test file for CommentService
+ */
+
 import { HttpClient } from '@angular/common/http';
 
-import { CommentService } from './comment.service';
-import { BackendCommentData, backendCommentToCommentData } from 'src/types/comment';
 import { of } from 'rxjs';
+
+import { CommentService } from './comment.service';
+import {
+  BackendCommentData,
+  backendCommentToCommentData
+} from 'src/types/comment';
 
 describe('CommentService', () => {
   let commentService: CommentService;

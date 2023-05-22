@@ -27,7 +27,10 @@ import { environment } from 'src/environments/environment';
 import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
 import { CommentService } from 'src/app/services/comment/comment.service';
 import { CommentData } from 'src/types/comment';
-  
+
+/**
+ * Service for interacting with tasks
+ */
 @Injectable({providedIn: 'root'})
 export class TaskApi {
   baseUrl: string = environment.url;

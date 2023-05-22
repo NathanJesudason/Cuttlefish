@@ -1,3 +1,7 @@
+/**
+ * The comment service handles all requests to the backend for comments
+ */
+
 import {
   HttpClient,
   HttpErrorResponse,
