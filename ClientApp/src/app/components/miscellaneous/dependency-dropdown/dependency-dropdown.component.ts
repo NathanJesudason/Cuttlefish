@@ -15,7 +15,7 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
   providers: [MessageService, ConfirmationService]
 })
 export class DependencyDropdownComponent {
-  @Input() dependencies!: number[] | null;
+  @Input() dependencies!: number[];
   
   taskDataArray: TaskData[] = [];
   selectedDependency: number | null = null;
@@ -28,7 +28,9 @@ export class DependencyDropdownComponent {
   ) {}
 
   loadAndSortDependencies(): void {
+    console.log("begun loading and sorting");
     this.taskDataArray = [];
+    console.log(this.dependencies);
     if (this.dependencies) {
       from(this.dependencies).pipe(
         concatMap((id) => this.taskApi.getTaskData(id)),
@@ -37,6 +39,7 @@ export class DependencyDropdownComponent {
       ).subscribe(
         (sortedTaskDataArray: TaskData[]) => {
           this.taskDataArray = sortedTaskDataArray;
+          console.log(this.taskDataArray);
         },
         (error: Error) => {
           this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});

@@ -108,6 +108,8 @@ export class TaskPageComponent implements OnInit {
           this.sprintService.getSprint(task.sprintID).subscribe({
             next: sprint => {
             this.sprintData = sprint;
+            // call the function to load the full list of dependencies here
+            // set this.taskData.dependencies to the list of dependencies
             this.pageLoading = false;
             } 
           })
@@ -136,4 +138,7 @@ export class TaskPageComponent implements OnInit {
       }
     }
   }
+
+  // Add Get Task Relations Function Here
+  // Pass in a independent ID and return the list of matching dependent ID
 }
