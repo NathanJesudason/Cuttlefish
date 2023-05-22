@@ -1,3 +1,13 @@
+/*
+* Component Folder: labels-page
+* Component Name: LabelsPageComponent
+* Description:
+*     This page allows the user to search for tasks by label. The user
+*   can select a label from the dropdown menu, and the page will display
+*   all tasks that have that label. The dropdown then displays the selected
+*   label and color after collapsing.
+*/
+
 import {
   Component,
   OnInit

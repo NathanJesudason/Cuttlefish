@@ -1,3 +1,16 @@
+/*
+* Component Folder: signup
+* Component Name: SignupComponent
+* Description:
+*     The signup component is used to create a new user account. It is
+*   displayed if the user clicks the "Sign Up" button on the login page.
+*   It prompts for a username, email, and password. The password must then
+*   be confirmed by typing it again below in the fourth row. The passwords
+*   are checked to ensure that they match and meet the minimum security
+*   requirements. If validated, the user is created and the user is
+*   redirected to the projects page.
+*/
+
 import {
   Component,
   OnInit

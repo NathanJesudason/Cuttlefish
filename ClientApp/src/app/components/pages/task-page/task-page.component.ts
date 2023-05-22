@@ -1,3 +1,25 @@
+/*
+* Component Folder: task-page
+* Component Name: TaskPageComponent
+* Description:
+*     The task page component is used to display all the content of a
+*   task. The content of the page is as follows (from top to bottom):
+*
+*     - Back Button, Task# and Title, Delete Task Button
+*     - Labels and progress
+*     - Label and Dependency dropdowns
+*     - Add/Remove Dependency pickers
+*     - Description
+*     - Start and End Dates
+*     - Funding
+*     - Comments
+*
+*     Through the page, dependencies and labels can be added and removed.
+*   The description, dates, and funding can be edited. Finally, the comments
+*   are displayed at the bottom of the page as cards signifying the user that
+*   created them, and buttons to write on one's own comments.
+*/
+
 import {
   Component,
   OnInit,
