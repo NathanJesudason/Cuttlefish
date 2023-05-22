@@ -11,7 +11,6 @@
 *   easy-to-read manner.
 */
 
-
 import {
   Component,
   OnInit
@@ -32,10 +31,7 @@ import {
 import { format } from 'date-fns';
 import { ProjectService } from 'src/app/services/project/project.service';
 
-import {
-  ProjectData,
-  ProjectNotFoundError
-} from 'src/types/project';
+import { ProjectNotFoundError} from 'src/types/project';
 import { TaskData } from 'src/types/task';
 
 @Component({
