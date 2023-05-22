@@ -10,6 +10,11 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { SprintData } from 'src/types/sprint';
 import { TaskData } from 'src/types/task';
 
+/**
+ * Modal for creating a new task
+ * 
+ * Can be opened with `@ViewChild` and using the `showCreateTaskModal()` method
+ */
 @Component({
   selector: 'create-task-modal',
   templateUrl: './create-task-modal.component.html',
@@ -39,16 +44,25 @@ export class CreateTaskModalComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
+  /**
+   * Show the modal
+   */
   showCreateTaskModal() {
     this.createTaskModalShown = true;
   }
 
+  /**
+   * Hide the modal
+   */
   hideCreateTaskModal() {
     this.createTaskModalShown = false;
     this.clearInputs();
   }
 
+  /**
+   * Verify if inputs are valid and create a new task
+   */
   acceptModalInput() {
     if (!this.verifyInputs()) {
       this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
@@ -70,10 +84,17 @@ export class CreateTaskModalComponent implements OnInit {
     this.hideCreateTaskModal();
   }
 
+  /**
+   * Cancel the modal
+   */
   cancelModalInput() {
     this.hideCreateTaskModal();
   }
 
+  /**
+   * Collect the current input values into a `TaskData` object
+   * @returns `TaskData` object with the current input values
+   */
   collectInputs(): TaskData {
     return {
       name: this.inputName,
@@ -90,6 +111,9 @@ export class CreateTaskModalComponent implements OnInit {
     } as TaskData;
   }
 
+  /**
+   * Clear modal inputs
+   */
   clearInputs() {
     this.inputName = '';
     this.inputStartDate = null;
@@ -103,6 +127,10 @@ export class CreateTaskModalComponent implements OnInit {
     this.inputType = 'Story';
   }
 
+  /**
+   * Verify if all inputs are valid
+   * @returns `true` if all inputs are valid, `false` otherwise
+   */
   verifyInputs(): boolean {
     return this.inputName !== ''
       && this.inputStartDate !== undefined && this.inputStartDate !== null
