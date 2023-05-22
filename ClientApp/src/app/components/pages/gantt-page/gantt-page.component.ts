@@ -1,3 +1,17 @@
+/*
+* Component Folder: gantt-page
+* Component Name: GanttPageComponent
+* Repositories Used (all rights reserved to original authors):
+*   - worktile/ngx-gantt (https://github.com/worktile/ngx-gantt)
+* Description:
+*      Utilizes the ngx-gantt library to display a gantt chart of the project's sprints.
+*   This information is retrieved from the project service. The user is also able to create
+*   and delete connections between tasks, which signify dependencies between tasks. The Gantt
+*   chart's goal is to display all the given sprints and tasks of a project in an elegant,
+*   easy-to-read manner.
+*/
+
+
 import {
   Component,
   OnInit
