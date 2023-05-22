@@ -1,3 +1,17 @@
+/*
+* Component Folder: funds-inplace
+* Component Name: FundsInplaceComponent
+* Description:
+*     Funds-inplace is used to update the funds of a project or tasks. Clicking
+*   on the funds inplace will allow the user to edit the funds (in $). While the
+*   inplace is open, clicking on the approve button will save the changes to the
+*   funds. Clicking on the cancel button will discard the changes and revert to
+*   the previous funds.
+*     Currently, the funds-inplace does not make assertions about whether a task's
+*   updated funds are within the range of the parent sprint or project. This is
+*   a known issue.
+*/
+
 import {
   Component,
   Input,

@@ -1,3 +1,17 @@
+/*
+* Component Folder: date-inplace
+* Component Name: DateInplaceComponent
+* Description:
+*     This component is used to update the start and end dates of a project,
+*   sprint, or task. Clicking anywhere on the date inplace will open a calendar
+*   for the user to select a new date (start and end are done individually). Clicking
+*   anywhere outside of the input will close the calendar display. The currently saved
+*   date will appear in the input. 
+*     A pair of date-inplaces is used to display the appropriate start and end dates.
+*   Tasks and sprints have a validationEntityData input to check if the new date
+*   is within the range of the parent entity.
+*/
+
 import {
   Component,
   OnInit,
@@ -8,8 +22,6 @@ import {
 
 import { MessageService } from 'primeng/api';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
-
-import { format } from 'date-fns';
 
 import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service';
@@ -23,8 +35,6 @@ import {
   isSprintData,
   SprintData
 } from 'src/types/sprint';
-
-
 
 @Component({
   selector: 'date-inplace',
