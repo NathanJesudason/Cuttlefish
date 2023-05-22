@@ -1,3 +1,13 @@
+/*
+* Component Folder: dependency-dropdown
+* Component Name: DependencyDropdownComponent
+* Description:
+*     This component, used on the task page, populates a dropdown with
+*   the dependencies of the task. It also allows the user to navigate
+*   to the task page of the selected dependency. It uses the TaskApi
+*   service to get the task data of the dependencies.
+*/
+
 import { Component, Input } from '@angular/core';
 import { from } from 'rxjs';
 import { concatMap, toArray, map } from 'rxjs/operators';
