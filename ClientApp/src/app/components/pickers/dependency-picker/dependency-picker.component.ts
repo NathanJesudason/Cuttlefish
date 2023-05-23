@@ -25,7 +25,14 @@ export class DependencyPickerComponent implements OnInit {
   @ViewChild('overlayPanel')
   overlayPanel!: OverlayPanel;
 
+  /**
+   * The task to add dependencies to
+   */
   @Input() data!: TaskData;
+
+  /**
+   * The project that the task belongs to, which contains the list of potential dependencies to add
+   */
   @Input() projectData!: ProjectData;
 
   dependencyOptions: { label: string, value: number }[] = [];

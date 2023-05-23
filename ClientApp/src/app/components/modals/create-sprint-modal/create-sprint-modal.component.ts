@@ -24,6 +24,9 @@ import { SprintData } from 'src/types/sprint';
   providers: [MessageService],
 })
 export class CreateSprintModalComponent implements OnInit {
+  /**
+   * Project data of the project the sprint will be created in
+   */
   @Input() projectData!: ProjectData;
   
   createSprintModalShown: boolean = false;

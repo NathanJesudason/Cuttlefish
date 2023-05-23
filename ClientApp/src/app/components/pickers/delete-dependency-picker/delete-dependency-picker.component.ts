@@ -32,6 +32,9 @@ export class DeleteDependencyPickerComponent implements OnInit {
   @ViewChild('dropdown')
   dropdown!: Dropdown;
 
+  /**
+   * The task to delete dependencies from
+   */
   @Input() data!: TaskData;
 
   dependencyOptions: { label: string, value: number }[] = [];

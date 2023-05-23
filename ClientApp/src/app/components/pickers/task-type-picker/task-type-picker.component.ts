@@ -24,6 +24,9 @@ export class TaskTypePickerComponent implements OnInit {
   @ViewChild('overlayPanel')
   overlayPanel!: OverlayPanel;
 
+  /**
+   * The task to update the type of
+   */
   @Input() data!: TaskData | string;
 
   progressOptions: string[] = [  'Epic' , 'Bug' , 'Spike' , 'Story' , 'Kaizen' , 'Subtask'];

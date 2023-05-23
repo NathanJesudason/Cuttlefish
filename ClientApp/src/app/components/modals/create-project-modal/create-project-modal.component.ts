@@ -22,6 +22,9 @@ import { ProjectData } from 'src/types/project';
   providers: [MessageService],
 })
 export class CreateProjectModalComponent implements OnInit {
+  /**
+   * List of all projects, created project will be added to this list
+   */
   @Input() projects!: ProjectData[];
   
   createProjectModalShown: boolean = false;

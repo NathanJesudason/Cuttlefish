@@ -24,6 +24,9 @@ export class ProgressPickerComponent implements OnInit {
   @ViewChild('overlayPanel')
   overlayPanel!: OverlayPanel;
 
+  /**
+   * The task to update the progress of
+   */
   @Input() data!: TaskData;
 
   progressOptions: string[] = ['Backlog', 'In Progress', 'In Review', 'Done'];

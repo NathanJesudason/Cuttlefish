@@ -22,6 +22,9 @@ import { TaskData } from 'src/types/task';
   providers: [MessageService],
 })
 export class CreateTaskModalComponent implements OnInit {
+  /**
+   * Sprint data of the sprint the task will be created in
+   */
   @Input() sprintData!: SprintData;
   
   createTaskModalShown: boolean = false;
