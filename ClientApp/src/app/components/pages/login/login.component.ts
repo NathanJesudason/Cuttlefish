@@ -1,3 +1,18 @@
+/*
+* Component Folder: login
+* Component Name: LoginComponent
+* Description:
+*     This page is displayed after clicking the login button on the
+*   home page or after timing out. It allows the user to login to
+*   the Cuttlefish app by username/email and password, or via Facebook,
+*   Google, or GitHub. The user can also navigate to the register page
+*   and the forgot password page.
+*     The password field is hidden by default, but can be shown by
+*   clicking the eye icon.
+*     After the input has been validated, the user is redirected to
+*   the projects page.
+*/
+
 import {
   Component,
   OnInit

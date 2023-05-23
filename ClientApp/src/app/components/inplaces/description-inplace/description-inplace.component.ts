@@ -1,3 +1,20 @@
+/*
+* Component Folder: description-inplace
+* Component Name: DescriptionInplaceComponent
+* Description:
+*     The description-inplace component is used to update the description of a
+*   project, sprint, or task. Clicking on the description inplace will allow the
+*   user to edit the description. While the inplace is open, clicking on the
+*   approve button will save the changes to the description. Clicking on the
+*   cancel button will discard the changes and revert to the previous description.
+*     The description-inplace allows for editing the text heading type, the font,
+*   bolding, italicizing, and underlining the test. The options also allow for 
+*   changing the text color and highlight color. Finally, the user can make lists,
+*   change the paragraph alignment, add a link, and insert a code block (which
+*   just uses a monospace font, white text, and black highlighting to appear as a
+*   code block).
+*/
+
 import {
   Component,
   OnInit,

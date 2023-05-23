@@ -1,3 +1,14 @@
+/*
+* Component Folder: title-inplace
+* Component Name: TitleInplaceComponent
+* Description:
+*     The title-inplace component is used to update the title of a project, sprint,
+*   or task. Clicking on the title inplace will allow the user to edit the title.
+*   While the inplace is open, clicking on the approve button will save the changes
+*   to the title whereas clicking on the cancel button will discard the changes and
+*   revert to the previous title.
+*/
+
 import {
   Component,
   OnInit,

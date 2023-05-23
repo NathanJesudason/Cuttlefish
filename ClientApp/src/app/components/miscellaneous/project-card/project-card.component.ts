@@ -1,3 +1,16 @@
+/*
+* Component Folder: project-card
+* Component Name: ProjectCardComponent
+* Description:
+*     This component represents a project card. It is displayed on the
+*   projects page and contains the following content from top to bottom:
+*   project color choice, project number and title, project description, the
+*   navigate to project button, and the project options menu button (currently
+*   only the delete option).
+*     Deleting the project is done by calling the deleteProject() method from
+*   the project service.
+*/
+
 import {
   Component,
   EventEmitter,

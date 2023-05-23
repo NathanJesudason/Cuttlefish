@@ -22,8 +22,8 @@
   <div class="relation-section">
     <div class="relation-dependency-row">
       <p-multiSelect [options]="allLabels" [(ngModel)]="taskData.labels" optionLabel="name" defaultLabel="Label Relations" display="chip" (ngModelChange)="updateLabels($event)">
-      </p-multiSelect>
-      <dependency-dropdown [dependencies]="taskData.dependencies ?? null" #dependencyDropdown></dependency-dropdown>
+        </p-multiSelect>
+        <dependency-dropdown [dependencies]="taskData.dependencies ?? []" #dependencyDropdown></dependency-dropdown>
     </div>
     <div class="dependency-controls">
       <dependency-picker [data]="taskData" #dependencyPicker></dependency-picker>

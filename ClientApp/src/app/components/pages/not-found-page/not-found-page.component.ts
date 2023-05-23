@@ -1,3 +1,16 @@
+/*
+* Component Folder: not-found-page
+* Component Name: NotFoundPageComponent
+* Description:
+*     The not-found-page serves as the primary 404 page for the app.
+*   It is intended to catch any and all invalid URLs and display a 404
+*   error to the user. The page displays a message indicating that the
+*   specifically requested information could not be found (see
+*   ./not-found-page.component.html for more details). From the 404 page
+*   the user can navigate back to the previous page using the browser's
+*   back button.
+*/
+
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';

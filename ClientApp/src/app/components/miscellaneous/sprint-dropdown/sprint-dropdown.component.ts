@@ -1,3 +1,19 @@
+/*
+* Component Folder: sprint-dropdown
+* Component Name: SprintDropdownComponent
+* Description:
+*     The sprint-dropdown is used on the project page to display the contents of a given
+*  sprint. The header of the dropdown contains the sprint name, start date, end date,
+*  completed and total tasks, and the sprint status (a status icon, which can be read
+*  as text on hover).
+*     The body of the dropdown contains the title-inplace, date-inplaces and the description-
+*  inplace for the goal of the sprint. Below this is the tasks section, which containts the
+*  create task button and the task list. Each individual task-overview card can be moved around
+*  both within the sprint and the project itself (using the drag and drop functionality). At the
+*  bottom of the project page is the backlog section, a modified sprint-dropdown to store all
+*  tasks that are not currently assigned to a sprint.
+*/
+
 import {
   Component,
   OnInit,

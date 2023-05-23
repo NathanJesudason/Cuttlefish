@@ -36,6 +36,7 @@ export class DependencyPickerComponent implements OnInit {
   @Input() projectData!: ProjectData;
 
   dependencyOptions: { label: string, value: number }[] = [];
+  availableTasks: { label: string, value: number }[] = [];
   selectedDependency!: number;
 
   constructor(
@@ -47,55 +48,25 @@ export class DependencyPickerComponent implements OnInit {
    * Populate the dependencies dropdown with the dependencies of the provided task
    */
   ngOnInit() {
-    // Deprecated subscribe call
-    this.taskService.getTaskRelations().subscribe(
-      (taskRelations: any) => {
-        this.dependencyOptions = taskRelations.map((taskRelation: any) => {
-          return { label: `Task ${taskRelation.id}`, value: taskRelation.id };
-        });
+    // ngOnInit is required even if it is empty
+  }
+
+  loadAvailableTasks() {
+    this.taskService.getAllTasks().subscribe(
+      (tasks: TaskData[]) => {
+        this.availableTasks = tasks
+          .filter(task => !this.data.dependencies?.includes(task.id) && task.id !== this.data.id)
+          .map(task => ({ label: `Task ${task.id} - ${task.name}`, value: task.id }));
       },
-      (error) => {
-        this.messageService.add({severity: 'error', summary: `Failed to retrieve task relations: ${error.message}`});
+      error => {
+        this.messageService.add({ severity: 'error', summary: `Failed to retrieve tasks: ${error.message}` });
       }
     );
   }
 
-  /**
-   * Verify that a dependency can be added to this task
-   * @param dependencyId the id of the task to be added as a dependency
-   * @returns 1 if the dependency can be added, -1 if the dependency already exists or is not valid
-   */
-  addDependency(dependencyId: number): number {
-    if (!this.data.dependencies) {
-      this.data.dependencies = [];
-    }
-
-    if (this.data.dependencies.includes(dependencyId)) {
-      return -1; // dependency already exists within the task
-    }
-
-    let dependencyExists = false;
-
-    // loop through the sprints within the project
-    for (const sprint of this.projectData.sprints) {
-      // loop through the tasks within each sprint
-      for (const task of sprint.tasks) {
-        if (task.id === dependencyId) {
-          dependencyExists = true;
-          break;
-        }
-      }
-
-      if (dependencyExists) {
-        break;
-      }
-    }
-
-    if (!dependencyExists) {
-      return -1; // dependency does not exist
-    }
-
-    return 1; // dependency added
+  toggleOverlayPanel(event: any) {
+    this.loadAvailableTasks();
+    this.overlayPanel.toggle(event);
   }
 
   /**
@@ -131,5 +102,18 @@ export class DependencyPickerComponent implements OnInit {
    */
   cancelInput() {
     this.overlayPanel.hide();
+  }
+
+  addDependency(dependencyId: number): number {
+    if (!this.data.dependencies) {
+      this.data.dependencies = [];
+    }
+
+    if (this.data.dependencies.includes(dependencyId)) {
+      return -1; // dependency already exists within the task
+    }
+
+    this.data.dependencies.push(dependencyId);
+    return 1; // dependency added
   }
 }
