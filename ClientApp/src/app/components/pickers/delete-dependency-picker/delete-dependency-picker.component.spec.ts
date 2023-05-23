@@ -1,3 +1,7 @@
+/**
+ * Test file for DeleteDependencyPickerComponent
+ */
+
 import {
   ActivatedRoute,
   convertToParamMap,

@@ -1,3 +1,7 @@
+/**
+ * Test file for TaskTypePickerComponent
+ */
+
 import {
     MockBuilder,
     MockRender,
