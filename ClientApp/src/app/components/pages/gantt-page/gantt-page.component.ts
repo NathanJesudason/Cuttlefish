@@ -43,7 +43,7 @@ import { ProjectService } from 'src/app/services/project/project.service';
 import { progressColors } from 'src/app/components/miscellaneous/task-progress-tag/task-progress-tag.component';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
-import { ProjectNotFoundError} from 'src/types/project';
+import { ProjectData, ProjectNotFoundError} from 'src/types/project';
 import { TaskData } from 'src/types/task';
 import { SprintData } from 'src/types/sprint';
 import { ConfirmationService, MessageService } from 'primeng/api';
