@@ -38,9 +38,7 @@ export class DependencyDropdownComponent {
   ) {}
 
   loadAndSortDependencies(): void {
-    console.log("begun loading and sorting");
     this.taskDataArray = [];
-    console.log(this.dependencies);
     if (this.dependencies) {
       from(this.dependencies).pipe(
         concatMap((id) => this.taskApi.getTaskData(id)),
@@ -49,7 +47,6 @@ export class DependencyDropdownComponent {
       ).subscribe(
         (sortedTaskDataArray: TaskData[]) => {
           this.taskDataArray = sortedTaskDataArray;
-          console.log(this.taskDataArray);
         },
         (error: Error) => {
           this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
@@ -58,19 +55,18 @@ export class DependencyDropdownComponent {
     }
   }
 
-  redirectToTask(option: number): void {
-    if (this.selectedDependency !== option) {
-      this.selectedDependency = option;
+  redirectToTask(taskId: number): void {
+    if (this.selectedDependency !== taskId) {
+      this.selectedDependency = taskId;
       return;
     }
 
-    const taskId = option;
     const taskUrl = `/task/${taskId}`;
 
     this.confirmationService.confirm({
       message: `Are you sure you want to navigate to task ${taskId}?`,
       accept: () => {
-        this.router.navigateByUrl(taskUrl);
+        this.router.navigateByUrl(taskUrl).then(() => this.selectedDependency = null);
       },
       reject: () => {
         this.selectedDependency = null;
