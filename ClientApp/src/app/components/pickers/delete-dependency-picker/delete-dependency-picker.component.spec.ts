@@ -1,3 +1,7 @@
+/**
+ * Test file for DeleteDependencyPickerComponent
+ */
+
 import {
   ActivatedRoute,
   convertToParamMap,
@@ -37,6 +41,7 @@ describe('DeleteDependencyPickerComponent', () => {
     type: 'Epic',
     cost: 0,
     order: 0,
+    comments: [],
   };
 
   beforeEach(() => {

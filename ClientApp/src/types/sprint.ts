@@ -1,5 +1,24 @@
+/**
+ * Types and functions related to sprints
+ */
+
 import { TaskData } from './task';
 
+
+/**
+ * The data for a sprint
+ * @property `id` - The id of the sprint
+ * @property `name` - The name of the sprint
+ * @property `goal` - The goal of the sprint, as a string of HTML
+ * @property `startDate` - The date the sprint starts
+ * @property `endDate` - The date the sprint ends
+ * @property `isCompleted` - Whether or not the sprint is completed
+ * @property `pointsCompleted` - The number of story points completed in the sprint
+ * @property `pointsAttempted` - The number of story points attempted in the sprint
+ * @property `projectId` - The id of the project the sprint is in
+ * @property `isBacklog` - Whether or not the sprint is a backlog
+ * @property `tasks` - The tasks in the sprint
+ */
 export type SprintData = {
   id: number;
   name: string;
@@ -14,6 +33,11 @@ export type SprintData = {
   tasks: TaskData[];
 };
 
+/**
+ * A small helper to check if an object is a sprint
+ * @param obj the object that may or may not be a sprint
+ * @returns `true` if the object is a sprint, `false` otherwise
+ */
 export function isSprintData(obj: any): obj is SprintData {
   return obj
     && obj.id !== undefined && typeof obj.id === 'number'
@@ -29,6 +53,19 @@ export function isSprintData(obj: any): obj is SprintData {
     && obj.tasks !== undefined && Array.isArray(obj.tasks);
 }
 
+/**
+ * The data for a sprint as it is stored in the backend
+ * @property `id` - The id of the sprint
+ * @property `name` - The name of the sprint
+ * @property `projectID` - The id of the project the sprint is in
+ * @property `goal` - The goal of the sprint, as a string of HTML
+ * @property `storyPointsAttempted` - The number of story points attempted in the sprint
+ * @property `storyPointsCompleted` - The number of story points completed in the sprint
+ * @property `isBacklog` - Whether or not the sprint is a backlog
+ * @property `isCompleted` - Whether or not the sprint is completed
+ * @property `startDate` - The date the sprint starts, as an ISO string
+ * @property `endDate` - The date the sprint ends, as an ISO string
+ */
 export type BackendSprintData = {
   id: number;
   name: string;
@@ -42,6 +79,10 @@ export type BackendSprintData = {
   endDate: string;
 };
 
+/**
+ * An error thrown when a sprint is not found
+ * @property `id` - The id of the sprint that was not found
+ */
 export class SprintNotFoundError extends Error {
   id: number;
   
@@ -56,10 +97,10 @@ export class SprintNotFoundError extends Error {
 };
 
 /**
-   * A small helper to convert from the backend's sprint format to the frontend's `SprintData` format
-   * @param backendSprint the sprint in the backend's format
-   * @returns the sprint as a `SprintData` object
-   */
+ * A small helper to convert from the backend's sprint format to the frontend's `SprintData` format
+ * @param backendSprint the sprint in the backend's format
+ * @returns the sprint as a `SprintData` object
+ */
 export function backendSprintToSprintData(backendSprint: BackendSprintData): SprintData {
   return {
     id: backendSprint.id,
@@ -91,7 +132,7 @@ export function sprintDataToBackendSprint(sprint: SprintData): BackendSprintData
     storyPointsCompleted: sprint.pointsCompleted,
     isBacklog: sprint.isBacklog,
     isCompleted: sprint.isCompleted,
-    startDate: sprint.startDate ? sprint.startDate.toISOString() : '',
-    endDate: sprint.endDate ? sprint.endDate.toISOString() : '',
+    startDate: sprint.startDate.toISOString(),
+    endDate: sprint.endDate.toISOString(),
   };
 }

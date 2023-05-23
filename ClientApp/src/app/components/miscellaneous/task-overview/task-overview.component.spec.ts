@@ -43,6 +43,7 @@ describe('TaskOverviewComponent', () => {
       color: '#000000',
     }],
     order: 0,
+    comments: [],
   };
 
   beforeEach(() => MockBuilder(TaskOverviewComponent, [

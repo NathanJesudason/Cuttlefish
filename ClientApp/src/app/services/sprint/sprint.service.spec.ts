@@ -1,3 +1,7 @@
+/**
+ * Test file for SprintService
+ */
+
 import { HttpClient } from '@angular/common/http';
 
 import { of } from 'rxjs';
@@ -11,18 +15,28 @@ import {
 import { SprintService } from './sprint.service';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { SprintOrderingService } from 'src/app/services/sprint-ordering/sprint-ordering.service';
+import { CommentService } from 'src/app/services/comment/comment.service';
 
 describe('SprintService', () => {
   let sprintServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let taskServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let sprintOrderingServiceHttpSpy: jasmine.SpyObj<HttpClient>;
+  let commentServiceHttpSpy: jasmine.SpyObj<HttpClient>;
   let sprintService: SprintService;
 
   beforeEach(() => {
     taskServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
     sprintServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
     sprintOrderingServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['patch']);
-    sprintService = new SprintService(sprintServiceHttpSpy, new TaskApi(taskServiceHttpSpy, new SprintOrderingService(sprintOrderingServiceHttpSpy)));
+    commentServiceHttpSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    sprintService = new SprintService(
+      sprintServiceHttpSpy,
+      new TaskApi(
+        taskServiceHttpSpy,
+        new SprintOrderingService(sprintOrderingServiceHttpSpy),
+        new CommentService(commentServiceHttpSpy),
+      ),
+    );
   });
 
   it('should be created', () => {

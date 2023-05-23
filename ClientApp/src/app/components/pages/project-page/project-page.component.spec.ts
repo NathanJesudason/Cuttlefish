@@ -67,6 +67,7 @@ describe('ProjectPageComponent', () => {
         progress: 'Backlog',
         dependencies: [],
         order: 0,
+        comments: [],
       }],
     }],
   };

@@ -1,3 +1,7 @@
+/**
+ * Test file for ProgressPickerComponent
+ */
+
 import {
   MockBuilder,
   MockRender,
@@ -28,6 +32,7 @@ describe('ProgressPickerComponent', () => {
     endDate: new Date(),
     progress: 'Backlog',
     order: 0,
+    comments: [],
   };
   
   beforeEach(() => {

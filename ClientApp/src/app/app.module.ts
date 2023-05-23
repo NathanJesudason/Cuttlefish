@@ -44,6 +44,7 @@ import { ConfirmationService } from 'primeng/api';
 
 import { NgxGanttModule } from '@worktile/gantt';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgxRerenderModule } from 'ngx-rerender';
 
 import { AppComponent } from 'src/app/app.component';
 import { NavMenuComponent } from 'src/app/components/miscellaneous/nav-menu/nav-menu.component';
@@ -80,6 +81,8 @@ import { DependencyPickerComponent } from 'src/app/components/pickers/dependency
 import { DeleteDependencyPickerComponent } from 'src/app/components/pickers/delete-dependency-picker/delete-dependency-picker.component';
 import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/dependency-dropdown/dependency-dropdown.component';
 import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-progress-tag/task-progress-tag.component';
+import { CommentsSectionComponent } from './components/miscellaneous/comments-section/comments-section.component';
+import { CommentInplaceComponent } from './components/inplaces/comment-inplace/comment-inplace.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +119,8 @@ import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-
     ColorInplaceComponent,
     FundsInplaceComponent,
     TaskProgressTagComponent,
+    CommentsSectionComponent,
+    CommentInplaceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -161,6 +166,7 @@ import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-
     DragDropModule,
     MessageModule,
     NgApexchartsModule,
+    NgxRerenderModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},

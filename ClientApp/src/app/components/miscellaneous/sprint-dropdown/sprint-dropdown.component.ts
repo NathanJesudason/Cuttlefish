@@ -559,7 +559,7 @@ export class SprintDropdownComponent implements OnInit {
       moveItemInArray(this.data.tasks, event.previousIndex, event.currentIndex);
       this.sprintOrderingService.swapReorderTasksInSprint(this.data.id, droppedTask.id, event.currentIndex).subscribe({
         error: (err) => {
-          console.error(err);
+          this.messageService.add({severity: 'error', summary: err.message});
         },
       });
     } else {
@@ -577,12 +577,12 @@ export class SprintDropdownComponent implements OnInit {
           });
           this.taskService.putTask(droppedTask).subscribe({
             error: (err) => {
-              console.error(err);
+              this.messageService.add({severity: 'error', summary: err.message});
             },
           });
         },
         error: (err) => {
-          console.error(err);
+          this.messageService.add({severity: 'error', summary: err.message});
         },
       });
     }

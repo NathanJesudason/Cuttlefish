@@ -1,3 +1,7 @@
+/**
+ * Test file for TaskTypePickerComponent
+ */
+
 import {
     MockBuilder,
     MockRender,
@@ -28,6 +32,7 @@ import { of } from 'rxjs';
       endDate: new Date(),
       progress: 'Backlog',
       order: 0,
+      comments: [],
     };
     
     beforeEach(() => MockBuilder(TaskTypePickerComponent, [OverlayPanelModule, AppModule, TagModule]).mock(TaskApi, {

@@ -12,6 +12,9 @@ import { TaskData } from 'src/types/task';
 import { ProjectData } from 'src/types/project';
 import { TaskApi } from 'src/app/services/tasks/tasks.service'
 
+/**
+ * Component for adding dependencies to the provided task
+ */
 @Component({
   selector: 'dependency-picker',
   templateUrl: './dependency-picker.component.html',
@@ -22,7 +25,14 @@ export class DependencyPickerComponent implements OnInit {
   @ViewChild('overlayPanel')
   overlayPanel!: OverlayPanel;
 
+  /**
+   * The task to add dependencies to
+   */
   @Input() data!: TaskData;
+
+  /**
+   * The project that the task belongs to, which contains the list of potential dependencies to add
+   */
   @Input() projectData!: ProjectData;
 
   dependencyOptions: { label: string, value: number }[] = [];
@@ -34,6 +44,9 @@ export class DependencyPickerComponent implements OnInit {
     private taskService: TaskApi
   ) { }
 
+  /**
+   * Populate the dependencies dropdown with the dependencies of the provided task
+   */
   ngOnInit() {
     // ngOnInit is required even if it is empty
   }
@@ -56,6 +69,11 @@ export class DependencyPickerComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
+  /**
+   * Adds `selectedDependency` as a dependency to the provided task
+   * 
+   * Displays a toast message on success or failure
+   */
   approveChanges() {
     if (this.selectedDependency) {
       const result = this.addDependency(this.selectedDependency);
@@ -79,6 +97,9 @@ export class DependencyPickerComponent implements OnInit {
     }
   }
 
+  /**
+   * Hides the overlay panel
+   */
   cancelInput() {
     this.overlayPanel.hide();
   }

@@ -1,3 +1,7 @@
+/**
+ * Test file for VerifyPasswordService
+ */
+
 import { MessageService } from 'primeng/api';
 
 import { VerifyPasswordService } from './verify-password.service';
