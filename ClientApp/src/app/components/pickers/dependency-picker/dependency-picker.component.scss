@@ -1,5 +1,5 @@
 .custom-overlay {
-  width: 300px; // Adjust the width of the overlay panel
+  width: 300px;
 }
 
 .overlay-header {
@@ -38,9 +38,19 @@
 }
 
 .add-dependency-button {
-  background-color: var(--success-color);
-  
+  background-color: #22C55E;
+  color: #ffffff;
+  border-color: #22C55E;
+
   &:hover {
-    background-color: var(--success-color-darker);
+    background-color: #16A34A;
+    border-color: #16A34A;
+  }
+
+  &:active,
+  &:focus {
+    background-color: #15803D;
+    border-color: #15803D;
+    box-shadow: 0 0 0 0.2rem #BBF7D0;
   }
 }
