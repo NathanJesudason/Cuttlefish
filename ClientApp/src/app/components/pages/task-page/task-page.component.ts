@@ -125,16 +125,44 @@ export class TaskPageComponent implements OnInit {
       this.taskApi.getTaskDataWithLabels(id).subscribe({
         next: task => {
           this.taskData = task;
-          this.oldLabelRelations = this.taskData.labels ? this.taskData.labels : []
+          this.oldLabelRelations = this.taskData.labels ? this.taskData.labels : [];
 
           this.sprintService.getSprint(task.sprintID).subscribe({
             next: sprint => {
-            this.sprintData = sprint;
-            // call the function to load the full list of dependencies here
-            // set this.taskData.dependencies to the list of dependencies
-            this.pageLoading = false;
+              this.sprintData = sprint;
+              this.pageLoading = false;
             } 
-          })
+          });
+
+          this.taskApi.getTaskRelations().subscribe({
+            next: relations => {
+              let fullDependencies: number[] = [];
+              
+              // Filter relations to get only dependencies for the current task
+              let currentTaskDependencies = relations.filter(rel => rel.independentTaskID === id);
+        
+              for(let i = 0; i < currentTaskDependencies.length; i++) {
+                const dependencyId = currentTaskDependencies[i].dependentTaskID;
+        
+                this.taskApi.getTaskData(dependencyId).subscribe({
+                  next: dependencyTaskData => {
+                    if(dependencyTaskData) {
+                      fullDependencies.push(dependencyTaskData.id);
+                    }
+                  },
+                  error: err => {
+                    this.messageService.add({severity: 'error', summary: `Error loading dependencies: ${err.message}`});
+                  }
+                });
+              }
+        
+              this.taskData.dependencies = this.taskData.dependencies ?? [];
+              this.taskData.dependencies.push(...fullDependencies);
+            },
+            error: err => {
+              this.messageService.add({severity: 'error', summary: `Error getting task relations: ${err.message}`});
+            }
+          });
         },
         error: err => {
           if (err instanceof TaskNotFoundError) {
