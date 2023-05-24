@@ -20,6 +20,7 @@ import { SprintDropdownComponent } from './sprint-dropdown.component';
 import { DateInplaceComponent } from 'src/app/components/inplaces/date-inplace/date-inplace.component';
 import { DescriptionInplaceComponent } from 'src/app/components/inplaces/description-inplace/description-inplace.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TaskData } from 'src/types/task';
 
 
 describe('SprintDropdownComponent', () => {
@@ -107,5 +108,88 @@ describe('SprintDropdownComponent', () => {
     expect(component.hidden).withContext('unhiding programmatically works').toBeFalse();
     accordion = ngMocks.find('p-accordionTab');
     expect(accordion).withContext('accordionTab exists again after calling unhide()').toBeTruthy();
+  });
+
+  it('should update a task\'s start and end dates when moving sprints', () => {
+    const inputTask1: TaskData = {
+      id: 1,
+      sprintID: 1,
+      name: '',
+      assignee: '',
+      description: '',
+      startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
+      endDate: new Date(Date.parse('23 Jan 2023 00:00:00 GMT')),
+      progress: 'Backlog',
+      type: 'Epic',
+      cost: 0,
+      storyPoints: 0,
+      priority: 0,
+      order: 0,
+      comments: [],
+    };
+
+    const expectedTask1: TaskData = {
+      id: 1,
+      sprintID: 1,
+      name: '',
+      assignee: '',
+      description: '',
+      startDate: new Date(Date.parse('4 Feb 2023 00:00:00 GMT')),
+      endDate: new Date(Date.parse('8 Feb 2023 00:00:00 GMT')),
+      progress: 'Backlog',
+      type: 'Epic',
+      cost: 0,
+      storyPoints: 0,
+      priority: 0,
+      order: 0,
+      comments: [],
+    };
+
+    const sprintStart1 = new Date(Date.parse('4 Feb 2023 00:00:00 GMT'));
+    const sprintEnd1 = new Date(Date.parse('18 Feb 2023 00:00:00 GMT'));
+    expect(SprintDropdownComponent.updateTaskDatesForNewSprint(inputTask1, sprintStart1, sprintEnd1))
+      .withContext('task is able to move forward into new sprint')
+      .toEqual(expectedTask1);
+    
+
+    const inputTask2: TaskData = {
+      id: 1,
+      sprintID: 1,
+      name: '',
+      assignee: '',
+      description: '',
+      startDate: new Date(Date.parse('19 Feb 2023 00:00:00 GMT')),
+      endDate: new Date(Date.parse('23 Feb 2023 00:00:00 GMT')),
+      progress: 'Backlog',
+      type: 'Epic',
+      cost: 0,
+      storyPoints: 0,
+      priority: 0,
+      order: 0,
+      comments: [],
+    };
+
+    const expectedTask2: TaskData = {
+      id: 1,
+      sprintID: 1,
+      name: '',
+      assignee: '',
+      description: '',
+      startDate: new Date(Date.parse('14 Feb 2023 00:00:00 GMT')),
+      endDate: new Date(Date.parse('18 Feb 2023 00:00:00 GMT')),
+      progress: 'Backlog',
+      type: 'Epic',
+      cost: 0,
+      storyPoints: 0,
+      priority: 0,
+      order: 0,
+      comments: [],
+    };
+
+    const sprintStart2 = new Date(Date.parse('4 Feb 2023 00:00:00 GMT'));
+    const sprintEnd2 = new Date(Date.parse('18 Feb 2023 00:00:00 GMT'));
+    expect(SprintDropdownComponent.updateTaskDatesForNewSprint(inputTask2, sprintStart2, sprintEnd2))
+      .withContext('task is able to move backward into new sprint')
+      .toEqual(expectedTask2);
   });
 });
