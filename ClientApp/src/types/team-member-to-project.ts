@@ -3,3 +3,10 @@ export type TeamMemberToProject = {
     projectID: number 
   }
   
+
+export type GetTeamMemberToProject = {
+    id: number
+    teamMemberID: number 
+    projectID: number 
+  }
+  

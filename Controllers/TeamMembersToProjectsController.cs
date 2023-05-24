@@ -42,6 +42,29 @@ namespace Cuttlefish.Controllers
             return teamMembersToProjects;
         }
 
+        // GET: api/TeamMembersToProjects/2/2
+        [HttpGet("{teammemberId}/{projectId}")]
+        public async Task<ActionResult<TeamMembersToProjects>> GetTeamMembersToProjectsID(int teammemberId, int projectId)
+        {
+            var teammember = await _context.TeamMembers.FindAsync(teammemberId);
+            var project = await _context.Projects.FindAsync(projectId);
+            if (teammember == null || project == null) { 
+                return NotFound();
+            }
+
+            var id = await _context.TeamMembersToProjects.FirstOrDefaultAsync(x => x.teamMemberID == teammemberId && x.projectID == projectId);
+
+            if (id != null)
+            {
+                return id;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
         // PUT: api/TeamMembersToProjects/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -99,7 +122,15 @@ namespace Cuttlefish.Controllers
             }
 
             _context.TeamMembersToProjects.Add(teamMembersToProjects);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+               
+            }
+            catch 
+            {
+                return Conflict(new {error = "That user is already assigned to project!"});
+            }
 
             return CreatedAtAction("GetTeamMembersToProjects", new { id = teamMembersToProjects.Id }, teamMembersToProjects);
         }
@@ -117,7 +148,7 @@ namespace Cuttlefish.Controllers
             _context.TeamMembersToProjects.Remove(teamMembersToProjects);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { Message = "Team member deleted from project!" });
         }
 
         private bool TeamMembersToProjectsExists(int id)

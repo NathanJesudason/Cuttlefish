@@ -36,6 +36,8 @@ import { MessagesModule } from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -70,6 +72,8 @@ import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-c
 import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace/color-inplace.component';
 import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
 import { CreateLabelModalComponent } from './components/modals/create-label-modal/create-label-modal.component';
+import { AccountPageComponent } from './components/pages/account-page/account-page.component';
+import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/edit-avatar-modal.component';
 
 
 @NgModule({
@@ -103,6 +107,9 @@ import { CreateLabelModalComponent } from './components/modals/create-label-moda
     ColorInplaceComponent,
     FundsInplaceComponent,
     CreateLabelModalComponent,
+    // AvatarsComponent,
+    AccountPageComponent,
+    EditAvatarModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -143,10 +150,12 @@ import { CreateLabelModalComponent } from './components/modals/create-label-moda
     MessagesModule,
     ConfirmDialogModule,
     ProgressSpinnerModule,
+    ConfirmPopupModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
+      { path: 'account', component: AccountPageComponent,  canActivate:[AuthGuard]},
       { path: 'forgotpassword', component: ForgotPasswordComponent},
       { path: 'reset', component: ResetPasswordComponent},
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},

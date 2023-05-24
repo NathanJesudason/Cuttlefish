@@ -124,8 +124,10 @@ namespace Cuttlefish.Controllers
                               {
                                   id = t.id,
                                   username = t.username,
+                                  name = t.name,
                                   email = t.email,
-                                  roles = t.roles
+                                  roles = t.roles,
+                                  avatar = t.avatar 
                               };
 
             //return await _context.TeamMembers.ToListAsync();
@@ -148,8 +150,10 @@ namespace Cuttlefish.Controllers
             {
                 id = teamMember.id,
                 username = teamMember.username,
+                name = teamMember.name,
                 email = teamMember.email,
-                roles = teamMember.roles
+                roles = teamMember.roles,
+                avatar = teamMember.avatar,
             };
 
             return teamMemberDto;
@@ -200,6 +204,24 @@ namespace Cuttlefish.Controllers
             return NoContent();
         }
 
+
+        [HttpPatch("avatars/{username}")]
+        public async Task<IActionResult> PutAvatar(string username, [FromBody] AvatarsDto avatar)
+        {
+            var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == username);
+
+            if (teamMember == null)
+            {
+                return NotFound();
+            }
+            teamMember.avatar = avatar.options;
+            
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Avatar changed" });
+        }
+
+
         // POST: api/TeamMembers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -209,6 +231,79 @@ namespace Cuttlefish.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTeamMembers", new { id = teamMembers.id }, teamMembers);
+        }
+
+        [HttpPatch("{username}")]
+        public async Task<IActionResult> PatchTeamMember(string username, [FromBody] TeamMemberDto teamMember)
+        {
+            var user = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == username);
+
+            if (user == null) {
+                return NotFound();
+            }
+
+            //Console.WriteLine($@"Teammember:: {teamMember.username}");
+
+            var message = "Team member updated";
+
+
+            // check if email or username exists
+            if (teamMember.username != null)
+            {
+
+                var checkUsername = await _context.TeamMembers.FirstOrDefaultAsync(u =>u.username == teamMember.username);
+                if (checkUsername == null)
+                {
+                    user.username = teamMember.username;
+
+                    //var newUserToken = new TeamMembers();
+                    
+                    //newUserToken = user
+
+                    user.token = CreateJwtToken(user);
+
+                    //Console.WriteLine($@"Token is: {user.token}");
+
+
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new
+                    {
+                        Token = user.token,
+                        Message = "Login Success"
+                    });
+                }
+                else
+                {
+                    message = "Username is taken!";
+                }
+
+            }
+
+            if (teamMember.email != null) 
+            { 
+                var checkEmail = await _context.TeamMembers.FirstOrDefaultAsync(u =>u.email == teamMember.email);
+                if (checkEmail == null)
+                {
+                    user.email = teamMember.email;
+                }
+                else
+                {
+                    message = "Email is taken";
+                }
+            }
+
+            if(teamMember.name != null)
+            {
+                user.name = teamMember.name;
+            }
+
+
+            await _context.SaveChangesAsync();
+
+        return Ok(new { Message = message });
+
         }
 
         // DELETE: api/TeamMembers/5

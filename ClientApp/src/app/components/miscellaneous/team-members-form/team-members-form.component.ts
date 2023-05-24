@@ -40,9 +40,11 @@ export class TeamMembersFormComponent implements OnInit {
     private teammemberToProject: TeamMemberToProjectService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.projectsApi.getAllProjects().subscribe(
-      res => this.projects = res,
-      err => this.messageService.add({severity: 'error', summary: `Error occured ${err}. Could not retrieve all projects.`})
+    this.projectsApi.getAllProjects().subscribe({
+      next: res => this.projects = res,
+      error: err => this.messageService.add({severity: 'error', summary: `Error occured ${err}. Could not retrieve all projects.`})
+    }
+     
     )
 
 
@@ -64,29 +66,34 @@ export class TeamMembersFormComponent implements OnInit {
   }
 
   addTeamMemberToProject(form: NgForm){
-    this.teamMemberService.getTeamMemberByUsername(form.value.username).subscribe(
-      res =>{
+    this.teamMemberService.getTeamMemberByUsername(form.value.username).subscribe({
+      next: res =>{
         this.teamMember = res as TeamMember
         this.teammemberToProject.teamMemberToProject = {
           projectID: form.value.project.id,
           teamMemberID: this.teamMember.id
         }
-        this.teammemberToProject.postTeamMemberToProject().subscribe(
-          res =>{
+        this.teammemberToProject.postTeamMemberToProject().subscribe({
+          next: res =>{
             this.messageService.add({severity: 'success', summary: 'Team member added'})
           },
-          err => {
+          error: err => {
             if(err.status === 400){
               this.messageService.add({severity: 'error', summary: 'Project does not exist'})
             }
+            if(err.status === 409){
+              this.messageService.add({severity: 'error', summary: 'Team member already exists on that project!'})
+            }
             console.log(err)}
+        }
         )
       },
-      err => {
+      error: err => {
         if(err.status === 404){
           this.messageService.add({severity: 'error', summary: 'Username does not exist'})
         }
         console.log("Error: ",err)}
+    }
     )
   }
 }

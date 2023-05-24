@@ -16,6 +16,10 @@ import { ProjectService } from 'src/app/services/project/project.service';
 export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
 
+  accountItems = ["Account", "Settings","Sign Out"]
+  item: string = ""
+  currentItem!: string | null
+
   constructor(
     private auth: AuthService,
     private projectService: ProjectService,
@@ -50,6 +54,7 @@ export class NavMenuComponent implements OnInit {
           {
             icon: 'pi pi-user',
             label: 'Account',
+            routerLink: ['/account']
           },
           {
             icon: 'pi pi-cog',

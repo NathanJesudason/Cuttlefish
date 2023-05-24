@@ -1,0 +1,19 @@
+button{
+  font-size: 15px;
+}
+
+::ng-deep .dialog{
+  width: 30%;
+  height: 100%;
+}
+
+
+
+.options{
+  display: flex;
+  margin-right: 20px;
+}
+
+.mouth{
+  margin-right: 10px;
+}

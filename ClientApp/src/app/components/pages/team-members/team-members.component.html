@@ -1,5 +1,7 @@
 <app-team-members-form>
 </app-team-members-form>
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
 
 
 <p-table  styleClass="p-datatable-striped" [value]="listofProjects">
@@ -7,6 +9,9 @@
         <tr>
             <th>Project Name</th>
             <th>Teammembers</th>
+            <th>
+              <p-button *ngIf="role === 'Admin'" id="editBtn" (click)="editMembers()">{{editOrCancel}}</p-button>
+            </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-projects>
@@ -14,15 +19,20 @@
             <th>{{projects.name}}</th>
             
             <span *ngFor="let col of listofMembers">
-                <td *ngIf="userInProject(projects.id, col.id)">
-                    {{col.username}}
+                <td class="username" *ngIf="userInProject(projects.id, col.id)"
+                pTooltip="{{showRole(col.username)}} <img src='{{avatar}}' />"  tooltipPosition="bottom" 
+                [escape]="false"
+                >
+                {{col.username}}
+                <i *ngIf="showDelete" id="deleteUserBtn" (click)="onDelete($event, col, projects)" 
+                class="pi pi-trash"
+                style="font-size: 1.3rem"
+                ></i>
                 </td>
             </span>
-            
 
         </tr>
     </ng-template>
     
 </p-table>
-    
- 
+

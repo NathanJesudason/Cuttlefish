@@ -36,7 +36,19 @@ export class TeamMemberService {
   }
 
   deleteTeamMember(id:number){
-    return this.http.delete(`${this.baseURL}/${id}`)
+    return this.http.delete(`${this.baseURL}TeamMembers/${id}`)
+  }
+
+  getTeamMemberFromProject(teammemberId: number, projectId: number){
+    return this.http.get(`${this.baseURL}TeamMembersToProjects/${teammemberId}/${projectId}`)
+  }
+
+  deleteTeamMemberFromProject(id:number){
+    return this.http.delete(`${this.baseURL}TeamMembersToProjects/${id}`)
+  }
+
+  updateTeammember(username: string, teammember: object){
+    return this.http.patch(`${this.baseURL}TeamMembers/${username}`, teammember)
   }
 
   refreshList(){

@@ -1,0 +1,56 @@
+  <div class="accountForm">
+    <img id="avatar" [src]="imageSrc" alt="avatar"  width="50" height="50" >
+    <p-button styleClass="editBtn"  (click)="openAvatarModal()" *ngIf="this.hidden">Edit</p-button> 
+    <form novalidate #form="ngForm" >
+      <input type="hidden" name="id"/>
+      <div>
+        <br>
+        <label for="name">Name: </label>
+        <input name="nameForm" pInputText *ngIf="!this.hidden" placeholder="Name"  [(ngModel)]="name" [disabled]="disabled"/>
+        <p-inplace styleClass="inplace" *ngIf="this.hidden" [closable]="true">
+          <ng-template  pTemplate="display">
+            <span id="name">{{name}}</span>
+            <span id="namePlaceHolder" *ngIf="!this.name">Enter name here</span>
+          </ng-template>
+          <ng-template pTemplate="content">
+              <input type="text" name="name" value="name" pInputText [(ngModel)]="name" [disabled]="disabled"/>
+              <button pButton (click)="editName(name)">Save</button>
+          </ng-template>
+      </p-inplace>
+        <br>
+        <!-- <input type="text" pInputText name="name" [(ngModel)]="name" placeholder="Enter Your Name" [disabled]="disabled" style="border-bottom: 1px solid grey;" /><br> -->
+        <!-- This will be needed for changing username eventually. -->
+        <!-- <label for="usernameForm">Username: </label> -->
+        <!-- <input id="usernameForm" type="text" pInputText *ngIf="!this.hidden" name="usernameForm" [(ngModel)]="usernameForm" placeholder="Username" [disabled]="disabled"/><br> -->
+        <!-- <p-inplace styleClass="inplace" *ngIf="this.hidden" [closable]="true">
+          <ng-template  pTemplate="display">
+            <span id="name">{{username}}</span>
+            <span id="namePlaceHolder" *ngIf="!this.username">Enter username here</span>
+          </ng-template>
+          <ng-template pTemplate="content">
+              <input type="text" name="usernamename" value="username" pInputText [(ngModel)]="usernameForm" [disabled]="disabled"/>
+              <button pButton (click)="editUsername(usernameForm)">Save</button>
+          </ng-template>
+        </p-inplace> -->
+        <label for="email">Email: </label>
+        <input id="email" type="text" pInputText *ngIf="!this.hidden" name="email" [(ngModel)]="email" placeholder="Email" [disabled]="disabled"/><br>
+       
+        <p-inplace styleClass="inplace" *ngIf="this.hidden" [closable]="true">
+          <ng-template  pTemplate="display">
+            <span id="name">{{email}}</span>
+            <span id="namePlaceHolder" *ngIf="!this.email">Enter email here</span>
+          </ng-template>
+          <ng-template pTemplate="content">
+              <input type="text" name="email" value="email" pInputText [(ngModel)]="email" [disabled]="disabled"/>
+              <button pButton (click)="editEmail(email)">Save</button>
+          </ng-template>
+        </p-inplace>
+        <br>
+      </div>
+        <button class="" pButton (click)="changeButton()" *ngIf="!this.hidden">Edit</button> 
+        <button class="p-button-danger" pButton (click)='closeEdit()' *ngIf="this.hidden">Cancel</button> 
+    </form>
+  </div>
+<app-edit-avatar-modal
+  #editAvatarModal>
+</app-edit-avatar-modal>
