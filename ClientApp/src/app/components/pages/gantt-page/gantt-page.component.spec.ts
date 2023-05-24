@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ActivatedRoute,
   convertToParamMap,
@@ -7,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 import {
   MockBuilder,
+  MockInstance,
   MockRender,
   ngMocks
 } from 'ng-mocks';
@@ -18,6 +20,9 @@ import {
 
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { NgxGanttModule } from '@worktile/gantt';
 
@@ -32,6 +37,7 @@ describe('GanttPageComponent', () => {
     color: '#234001',
     description: 'This is the project description',
     endDate: new Date(),
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     funds: 49.95,
     sprints: [{
       id: 234597,
@@ -46,20 +52,38 @@ describe('GanttPageComponent', () => {
       isBacklog: false,
       tasks: [{
         id: 12345,
+        sprintID: 0,
+        priority: 0,
+        type: "Epic",
+        cost: 0,
         name: 'Task Name',
         assignee: 'Me',
         storyPoints: 3,
         description: 'Task Description',
         startDate: new Date(),
         endDate: new Date(),
-        progress: 'Backlog'
+        progress: 'Backlog',
+        dependencies: [],
+        order: 0,
+        comments: [],
       }],
     }],
   };
 
+  MockInstance.scope();
+
   beforeEach(() => {
-    return MockBuilder(GanttPageComponent, [NgxGanttModule, RadioButtonModule, FormsModule, ButtonModule, RouterModule])
-      .mock(ActivatedRoute, {
+    return MockBuilder(GanttPageComponent, [
+        NgxGanttModule,
+        RadioButtonModule,
+        FormsModule,
+        ButtonModule,
+        RouterModule,
+        BrowserAnimationsModule,
+        ToastModule,
+        ConfirmDialogModule,
+        ProgressSpinnerModule,
+      ]).mock(ActivatedRoute, {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
@@ -70,11 +94,23 @@ describe('GanttPageComponent', () => {
   });
 
   it('should create', () => {
+    MockInstance(ActivatedRoute, 'snapshot', jasmine.createSpy(), 'get')
+      .and.returnValue({
+        paramMap: new Map([[ 'id', data.id ]]),
+        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standard' ]]),
+      });
+    
     MockRender(GanttPageComponent);
     expect(ngMocks.findAll(GanttPageComponent)[0]).toBeTruthy();
   });
 
   it('should respond to viewMode inputs', () => {
+    MockInstance(ActivatedRoute, 'snapshot', jasmine.createSpy(), 'get')
+      .and.returnValue({
+        paramMap: new Map([[ 'id', data.id ]]),
+        queryParamMap: new Map([[ 'dateViewMode', 'day' ], [ 'taskOrganizationMode', 'standard' ]]),
+      });
+    
     const targetComponent = MockRender(GanttPageComponent).point.componentInstance;
     const viewElements = ngMocks.findAll('p-radioButton');
     const dayViewElement = viewElements[0];
@@ -90,19 +126,19 @@ describe('GanttPageComponent', () => {
     expect(yearViewElement.attributes.value).withContext('make sure year view element exists').toEqual('year');
 
     ngMocks.output(weekViewElement, 'ngModelChange').emit('week');
-    expect(targetComponent.selectedViewMode).withContext('make sure week view element is properly bound with ngModel').toEqual('week');
+    expect(targetComponent.dateViewMode).withContext('make sure week view element is properly bound with ngModel').toEqual('week');
 
     ngMocks.output(monthViewElement, 'ngModelChange').emit('month');
-    expect(targetComponent.selectedViewMode).withContext('make sure month view element is properly bound with ngModel').toEqual('month');
+    expect(targetComponent.dateViewMode).withContext('make sure month view element is properly bound with ngModel').toEqual('month');
 
     ngMocks.output(dayViewElement, 'ngModelChange').emit('day');
-    expect(targetComponent.selectedViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('day');
+    expect(targetComponent.dateViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('day');
 
     ngMocks.output(quarterViewElement, 'ngModelChange').emit('quarter');
-    expect(targetComponent.selectedViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('quarter');
+    expect(targetComponent.dateViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('quarter');
 
     ngMocks.output(yearViewElement, 'ngModelChange').emit('year');
-    expect(targetComponent.selectedViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('year');
+    expect(targetComponent.dateViewMode).withContext('make sure day view element is properly bound with ngModel').toEqual('year');
   });
 
   // if we ever add things to the gantt page, add more unit tests for that

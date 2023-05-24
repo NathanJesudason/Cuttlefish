@@ -1,7 +1,9 @@
 <body>
-  <app-nav-menu *ngIf="!hideNavMenu"></app-nav-menu>
-  <div class="container">
-    <router-outlet (activate)="assignHideNavMenu($event)"></router-outlet>
+  <div class="page-wrapper">
+    <app-nav-menu *ngIf="!hideNavMenu"></app-nav-menu>
+    <div class="container">
+      <router-outlet (activate)="assignHideNavMenu($event)"></router-outlet>
+    </div>
+    <app-footer></app-footer>
   </div>
-  <app-footer></app-footer>
 </body>

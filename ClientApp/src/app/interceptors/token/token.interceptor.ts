@@ -16,6 +16,9 @@ import {
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 
+/**
+ * Interceptor for appending a token to the header to send to the backend
+ */
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 

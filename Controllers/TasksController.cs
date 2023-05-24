@@ -42,6 +42,20 @@ namespace Cuttlefish.Controllers
             return tasks;
         }
 
+        // GET: api/Tasks/5/Comments
+        [HttpGet("{id}/Comments")]
+        public async Task<ActionResult<IEnumerable<Comments>>> GetCommentsByTask(int id)
+        {
+            var comments = await _context.Comments.Where(c => c.taskID == id).ToListAsync();
+
+            if (comments == null)
+            {
+                return NotFound();
+            }
+
+            return comments;
+        }
+
         // GET: api/Tasks/progress/string
         [HttpGet("progress/{progress}")]
         public async Task<ActionResult<IEnumerable<Tasks>>> GetTasksByProgress(string progress)
@@ -121,6 +135,9 @@ namespace Cuttlefish.Controllers
             }
 
             _context.Tasks.Remove(tasks);
+            //find relationships to remove
+            var relations = await _context.TasksToTasks.Where(x => x.independentTaskID == id || x.dependentTaskID == id).ToListAsync();
+            relations.ForEach(x => _context.TasksToTasks.Remove(x));
             await _context.SaveChangesAsync();
 
             return NoContent();

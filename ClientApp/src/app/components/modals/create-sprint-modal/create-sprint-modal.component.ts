@@ -12,6 +12,11 @@ import { ProjectPageComponent } from 'src/app/components/pages/project-page/proj
 import { ProjectData } from 'src/types/project';
 import { SprintData } from 'src/types/sprint';
 
+/**
+ * Modal for creating a new sprint
+ * 
+ * Can be opened with `@ViewChild` and using the `showCreateSprintModal()` method
+ */
 @Component({
   selector: 'create-sprint-modal',
   templateUrl: './create-sprint-modal.component.html',
@@ -19,6 +24,9 @@ import { SprintData } from 'src/types/sprint';
   providers: [MessageService],
 })
 export class CreateSprintModalComponent implements OnInit {
+  /**
+   * Project data of the project the sprint will be created in
+   */
   @Input() projectData!: ProjectData;
   
   createSprintModalShown: boolean = false;
@@ -36,19 +44,32 @@ export class CreateSprintModalComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
+  /**
+   * Show the modal
+   */
   showCreateSprintModal() {
     this.createSprintModalShown = true;
   }
 
+  /**
+   * Hide the modal
+   */
   hideCreateSprintModal() {
     this.createSprintModalShown = false;
     this.clearInputs();
   }
 
+  /**
+   * Verify if inputs are valid and create a new sprint
+   */
   acceptModalInput() {
     if (!this.verifyInputs()) {
       this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
+      return;
+    }
+    if(this.inputStartDate! > this.inputEndDate!){
+      this.messageService.add({severity: 'error', summary: 'Start date is after end date'});
       return;
     }
 
@@ -56,7 +77,6 @@ export class CreateSprintModalComponent implements OnInit {
       next: (sprint: SprintData) => {
         this.projectData.sprints.push(sprint);
         this.projectData.sprints.sort(ProjectPageComponent.sprintOrdering);
-        this.messageService.add({severity: 'success', summary: `Created sprint with id: ${sprint.id}`});
         this.hideCreateSprintModal();
       },
       error: (err: Error) => {
@@ -66,10 +86,17 @@ export class CreateSprintModalComponent implements OnInit {
     });
   }
 
+  /**
+   * Cancel the modal
+   */
   cancelModalInput() {
     this.hideCreateSprintModal();
   }
 
+  /**
+   * Collect the current input values into a `SprintData` object
+   * @returns a `SprintData` object with the current input values
+   */
   collectInputs(): SprintData {
     return {
       id: -1,
@@ -86,6 +113,9 @@ export class CreateSprintModalComponent implements OnInit {
     } as SprintData;
   }
 
+  /**
+   * Clear the current input values
+   */
   clearInputs() {
     this.inputName = '';
     this.inputGoal = '';
@@ -94,6 +124,10 @@ export class CreateSprintModalComponent implements OnInit {
     this.inputIsBacklog = false;
   }
 
+  /**
+   * Verify if all required inputs are valid
+   * @returns `true` if all required inputs are valid, `false` otherwise
+   */
   verifyInputs(): boolean {
     if (this.inputIsBacklog === true) {
       return this.inputName != undefined;

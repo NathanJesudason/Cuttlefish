@@ -1,25 +1,58 @@
-<button pButton id="project-back-button" class="p-button-raised p-button-sm" type="button" label="Back to Project" icon="pi pi-arrow-left" [routerLink]="['/project', 0]"></button>
+<div id="page-loading" *ngIf="pageLoading" [@basicFadeAnimation]>
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div *ngIf="!pageLoading" [@basicFadeAnimation]>
+  <p-toolbar>
+    <div class="p-toolbar-group-start">
+      <button pButton id="project-back-button" class="p-button-raised p-button-sm" type="button" label="Back" icon="pi pi-arrow-left" (click)="this.location.back()"></button>
+    </div>
+    <div class="p-toolbar-group-center">
+      <title-inplace [entityData]="taskData" size="large"></title-inplace>
+    </div>
+    <div class="p-toolbar-group-end">
+      <span>{{ taskData.assignee }}</span>
+      <button pButton id="project-Delete-button" class="p-button-raised p-button-sm" type="button" icon="pi pi-trash" (click)="deleteTask()"></button>
+    </div>
+  </p-toolbar>
 
-<title-inplace [entityData]="taskData" size="large"></title-inplace>
+  <p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
+  <app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
+  <app-type-picker [data]="taskData" #typePicker></app-type-picker>
 
-<p-chip label="{{taskData.storyPoints}}" styleClass="p-mr-2"></p-chip>
+  <div class="relation-section">
+    <div class="relation-dependency-row">
+      <p-multiSelect [options]="allLabels" [(ngModel)]="taskData.labels" optionLabel="name" defaultLabel="Label Relations" display="chip" (ngModelChange)="updateLabels($event)">
+        </p-multiSelect>
+        <dependency-dropdown [dependencies]="taskData.dependencies ?? []" #dependencyDropdown></dependency-dropdown>
+    </div>
+    <div class="dependency-controls">
+      <dependency-picker [data]="taskData" #dependencyPicker></dependency-picker>
+      <delete-dependency-picker [data]="taskData" #deleteDependencyPicker></delete-dependency-picker>
+    </div>
+  </div>
 
-<app-progress-picker [data]="taskData" #progressPicker></app-progress-picker>
+  <description-inplace [entityData]="taskData" defaultText="Enter a description..."></description-inplace>
 
-<span>{{ taskData.assignee }}</span>
+  <div class="dates-section">
+    <date-inplace
+        [entityData]="taskData"
+        [validationEntityData]="sprintData"
+        whichDate="start"
+    ></date-inplace>
+    <i class="pi pi-minus date-minus"></i>
+    <date-inplace
+        [entityData]="taskData"
+        [validationEntityData]="sprintData"
+        whichDate="end"
+    ></date-inplace>
+  </div>
 
-<h4>Description:</h4>
-<description-inplace
-    [entityData]="taskData"
-    defaultText="Enter a description..."
-></description-inplace>
+  <div class="funds-section">
+    <funds-inplace [entityData]="taskData"></funds-inplace>
+  </div>
 
-<date-inplace
-    [entityData]="taskData"
-    whichDate="start"
-></date-inplace>
-<i class="pi pi-minus date-minus"></i>
-<date-inplace
-    [entityData]="taskData"
-    whichDate="end"
-></date-inplace>
+  <comments-section
+    [(comments)]="taskData.comments"
+    [taskId]="taskData.id"
+  ></comments-section>
+</div>

@@ -24,6 +24,9 @@ import {
 } from 'src/types/project';
 import { SprintData } from 'src/types/sprint';
 
+/**
+ * The project service handles all requests to the backend for projects
+ */
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
   baseUrl: string = environment.url;
@@ -52,7 +55,10 @@ export class ProjectService {
     return this.http.post(`${this.baseUrl}Projects`, backendProject)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+          if (err.error.message) {
+            return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error creating project: ${err.message}`));
         }),
         map((data: any) => {
           return backendProjectToProjectData(data);
@@ -137,7 +143,10 @@ export class ProjectService {
     return this.http.delete<void>(`${this.baseUrl}Projects/${id}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error deleting project: ${err.error.message}`));
+          if (err.error.message) {
+            return throwError(() => new Error(`Error deleting project: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error deleting project: ${err.message}`));
         }),
       );
   }

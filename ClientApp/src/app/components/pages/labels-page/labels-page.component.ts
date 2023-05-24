@@ -1,3 +1,13 @@
+/*
+* Component Folder: labels-page
+* Component Name: LabelsPageComponent
+* Description:
+*     This page allows the user to search for tasks by label. The user
+*   can select a label from the dropdown menu, and the page will display
+*   all tasks that have that label. The dropdown then displays the selected
+*   label and color after collapsing.
+*/
+
 import {
   Component,
   ElementRef,
@@ -10,7 +20,7 @@ import {
 } from '@angular/router';
 import { LabelService } from 'src/app/services/labels/label.service';
 
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
@@ -32,7 +42,7 @@ export class LabelsPageComponent implements OnInit {
   taskPickerDisabled: boolean = false;
   
   constructor (
-    private serverApi: ServerApi,
+    private taskApi: TaskApi,
     private route: ActivatedRoute,
     private router: Router,
     public labelService: LabelService
@@ -51,6 +61,10 @@ export class LabelsPageComponent implements OnInit {
         return;
       }
     }
+  }
+
+  labelAdaptor(input: {label: string, color: string;}): LabelData {
+    return {name: input.label, color: input.color};
   }
 
   getTasksByCurrentLabel() {

@@ -6,6 +6,7 @@ import {
 
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 import { ProjectData } from 'src/types/project';
 
@@ -17,13 +18,14 @@ describe('ProjectCardComponent', () => {
     name: 'Project Name',
     color: '#234001',
     description: 'This is the project description',
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     endDate: new Date(),
     funds: 49.95,
     sprints: [],
   };
   
   beforeEach(async () => {
-    return MockBuilder(ProjectCardComponent, [ConfirmDialogModule, CardModule]);
+    return MockBuilder(ProjectCardComponent, [ConfirmDialogModule, CardModule, ToastModule]);
   });
 
   it('should create', () => {

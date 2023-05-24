@@ -1,14 +1,15 @@
-<p-tag class="progressHead" styleClass="mr-2" (click)="overlayPanel.toggle($event)" value="{{selectedProgress}}"></p-tag>
+<task-progress-tag class="progressHead" (click)="overlayPanel.toggle($event)" [progress]="selectedProgress"></task-progress-tag>
+
 <p-overlayPanel
   [dismissable]="true"
   [showCloseIcon]="true"
   #overlayPanel
 >
   <div class="options">
-    <p-tag class="progressTag" (click)="showOption('Backlog')">Backlog</p-tag>
-    <p-tag class="progressTag" (click)="showOption('In Progress')">In Progress</p-tag>
-    <p-tag class="progressTag" (click)="showOption('In Review')">In Review</p-tag>
-    <p-tag class="progressTag" (click)="showOption('Done')">Done</p-tag>
+    <task-progress-tag (click)="showOption('Backlog')" progress="Backlog"></task-progress-tag>
+    <task-progress-tag (click)="showOption('In Progress')" progress="In Progress"></task-progress-tag>
+    <task-progress-tag (click)="showOption('In Review')" progress="In Review"></task-progress-tag>
+    <task-progress-tag (click)="showOption('Done')" progress="Done"></task-progress-tag>
   </div>
 </p-overlayPanel>
 

@@ -1,3 +1,20 @@
+/*
+* Component Folder: description-inplace
+* Component Name: DescriptionInplaceComponent
+* Description:
+*     The description-inplace component is used to update the description of a
+*   project, sprint, or task. Clicking on the description inplace will allow the
+*   user to edit the description. While the inplace is open, clicking on the
+*   approve button will save the changes to the description. Clicking on the
+*   cancel button will discard the changes and revert to the previous description.
+*     The description-inplace allows for editing the text heading type, the font,
+*   bolding, italicizing, and underlining the test. The options also allow for 
+*   changing the text color and highlight color. Finally, the user can make lists,
+*   change the paragraph alignment, add a link, and insert a code block (which
+*   just uses a monospace font, white text, and black highlighting to appear as a
+*   code block).
+*/
+
 import {
   Component,
   OnInit,
@@ -10,6 +27,7 @@ import { Inplace } from 'primeng/inplace';
 
 import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import {
   isProjectData,
@@ -19,7 +37,7 @@ import {
   isSprintData,
   SprintData
 } from 'src/types/sprint';
-import { TaskData } from 'src/types/task';
+import { isTaskData, TaskData } from 'src/types/task';
 
 @Component({
   selector: 'description-inplace',
@@ -38,6 +56,7 @@ export class DescriptionInplaceComponent implements OnInit {
     private projectService: ProjectService,
     private sprintService: SprintService,
     private messageService: MessageService,
+    private taskApi: TaskApi
   ) { }
 
   @ViewChild('descriptionInplace') descriptionInplace!: Inplace;
@@ -74,7 +93,24 @@ export class DescriptionInplaceComponent implements OnInit {
       this.text = '';
     }
 
-    if (isSprintData(this.entityData)) {
+    if (isTaskData(this.entityData)){
+      if(this.text == this.entityData.description){
+        this.unSelect();
+        return;
+      }
+      const updatedTask = { ...this.entityData, description: this.text};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: (data) => {
+          if(isTaskData(this.entityData)) {
+            this.entityData.description = this.text;
+          }
+          this.unSelect();
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`})
+        }
+      })
+    } else if (isSprintData(this.entityData)) {
       if (this.text === this.entityData.goal) {
         this.unSelect();
         return;
@@ -82,7 +118,6 @@ export class DescriptionInplaceComponent implements OnInit {
       const updatedSprint = { ...this.entityData, goal: this.text };
       this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
         next: (data) => {
-          this.messageService.add({severity: 'success', summary: 'Goal was updated'});
           if (isSprintData(this.entityData)) {
             this.entityData.goal = this.text;
           }
@@ -100,19 +135,16 @@ export class DescriptionInplaceComponent implements OnInit {
       const updatedProject = { ...this.entityData, description: this.text };
       this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
         next: (data) => {
-          this.messageService.add({severity: 'success', summary: 'Description was updated'});
           if (isProjectData(this.entityData)) {
             this.entityData.description = this.text;
-          }
+          }        
           this.unSelect();
         },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: `Error updating description: ${err}`});
-        },
-      });
-    } /* else if (isTaskData(this.entityData)) {
-      ...
-    } */
+        }
+      })
+    }
   }
 
   cancelInput(event: any) {

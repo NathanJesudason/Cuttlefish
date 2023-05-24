@@ -13,6 +13,7 @@ import {
 } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { ProjectData } from 'src/types/project';
 import {
   BackendSprintData,
@@ -21,12 +22,15 @@ import {
   sprintDataToBackendSprint,
 } from 'src/types/sprint';
 
+/**
+ * Service for interacting with sprints
+ */
 @Injectable({ providedIn: 'root' })
 export class SprintService {
   baseUrl: string = environment.url;
   http: HttpClient;
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, private taskApi: TaskApi) {
     this.http = http;
   }
 
@@ -41,7 +45,43 @@ export class SprintService {
    * @returns an `Observable<ProjectData>` that stores the project with the sprints
    */
   getSprintsForProject(project: ProjectData, getTasks: boolean): Observable<ProjectData> {
-    return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
+    if(getTasks){
+      return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
+          }),
+          map((sprints: BackendSprintData[]) => {
+            project.sprints = [];
+            sprints = sprints.filter(sprint => sprint.projectID === project.id);
+            sprints.forEach(sprint => {
+              project.sprints.push(backendSprintToSprintData(sprint));
+            });
+            return project;
+          }),
+          switchMap((project: ProjectData) => {
+              return this.taskApi.getAllTasks().pipe(
+                map((tasks) => {
+                  project.sprints.forEach(element => {
+                    let filteredTasks = tasks.filter(s => s.sprintID === element.id)
+                    element.tasks = filteredTasks
+                    const storyPointsSum = filteredTasks.reduce((storyPointsSum, current) => storyPointsSum += current.storyPoints, 0)
+                    element.pointsAttempted = storyPointsSum
+                    const completedPointsSum = filteredTasks.reduce((completedPointsSum, current) => {
+                      if(current.progress === 'Done') {
+                        return completedPointsSum += current.storyPoints;
+                      }
+                      return completedPointsSum;
+                    }, 0);
+                    element.pointsCompleted = completedPointsSum;
+                  });
+                  return project;
+                }),
+              );
+            }
+        ));
+    } else {
+      return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
@@ -53,14 +93,30 @@ export class SprintService {
             project.sprints.push(backendSprintToSprintData(sprint));
           });
           return project;
-        }),
-        /*
-        switchMap((project: ProjectData) => {
-          if (getTasks) {
-            // figure out how to get tasks for each sprint
+        })
+      );
+    }
+  }
+
+  /**
+   * Get all sprints within the given project
+   * @param projectId the id of the project to get the sprints for
+   * @returns an `Observable<SprintData[]>` that stores the sprints
+   * - the sprints won't be populated with tasks
+   */
+  getSprintsInProject(projectId: number): Observable<SprintData[]> {
+    return this.http.get<BackendSprintData[]>(`${this.baseUrl}Sprints`)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          if (err.error.message){
+            return throwError(() => new Error(`Error getting sprints: ${err.error.message}`));
           }
+          return throwError(() => new Error(`Error getting sprints: ${err.message}`));
         }),
-        */
+        map((sprints: BackendSprintData[]) => {
+          return sprints.filter(sprint => sprint.projectID === projectId)
+            .map(sprint => backendSprintToSprintData(sprint));
+        })
       );
   }
 
@@ -102,9 +158,28 @@ export class SprintService {
     return this.http.delete<void>(`${this.baseUrl}Sprints/${id}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+          if (err.error.message){
+            return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error deleting sprint: ${err.message}`));
         })
       );
+  }
+
+  /**
+   * Get a specific sprint by its id
+   * @param id the id of the sprint to get
+   * @returns an `Observable<SprintData>` that stores the sprint
+   */
+  getSprint(id: number): Observable<SprintData> {
+    return this.http.get<BackendSprintData>(`${this.baseUrl}Sprints/${id}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => new Error(`Error deleting sprint: ${err.error.message}`));
+      }),
+      map((sprint: BackendSprintData) => {
+        return backendSprintToSprintData(sprint);
+      }),
+    );
   }
 
   /**
@@ -122,7 +197,10 @@ export class SprintService {
     return this.http.put<void>(`${this.baseUrl}Sprints/${id}`, backendSprint)
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          return throwError(() => new Error(`Error updating sprint: ${err.error.message}`));
+          if (err.error.message) {
+            return throwError(() => new Error(`Error updating sprint: ${err.error.message}`));
+          }
+          return throwError(() => new Error(`Error updating sprint: ${err.message}`));
         })
       );
   }

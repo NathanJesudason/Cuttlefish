@@ -16,6 +16,7 @@ import { ProjectData } from 'src/types/project';
 import { ProjectService } from 'src/app/services/project/project.service';
 
 import { NavMenuComponent } from './nav-menu.component';
+import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
 
 describe('NavMenuComponent', () => {
   const data: ProjectData = {
@@ -24,6 +25,7 @@ describe('NavMenuComponent', () => {
     color: '#234001',
     description: 'This is the project description',
     endDate: new Date(),
+    startDate: new Date(Date.parse('19 Jan 2023 00:00:00 GMT')),
     funds: 49.95,
     sprints: [{
       id: 234597,
@@ -38,19 +40,27 @@ describe('NavMenuComponent', () => {
       isBacklog: false,
       tasks: [{
         id: 12345,
+        sprintID: 0,
+        priority: 0,
+        type: "Epic",
+        cost: 0,
         name: 'Task Name',
         assignee: 'Me',
         storyPoints: 3,
         description: 'Task Description',
         startDate: new Date(),
         endDate: new Date(),
-        progress: 'Backlog'
+        progress: 'Backlog',
+        dependencies: [],
+        order: 0,
+        comments: [],
       }],
     }],
   };
   
   beforeEach(() => {
     return MockBuilder(NavMenuComponent, [MenubarModule])
+      .mock(CreateProjectModalComponent, { export: true })
       .mock(ProjectService, {
         getAllProjects: (id: number): Observable<ProjectData[]> => of([data]),
       } as Partial<ProjectService>);

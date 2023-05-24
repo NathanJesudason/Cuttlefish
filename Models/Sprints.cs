@@ -11,7 +11,8 @@ namespace Cuttlefish.Models
     {
         [Key]
         public int id { get; set; }
-        [ForeignKey("Projects")]
+        [ForeignKey("projectID")]
+        public virtual Projects Projects { get; set; }
         public int projectID { get; set; }
         public string name { get; set; }
         public string goal { get; set; }

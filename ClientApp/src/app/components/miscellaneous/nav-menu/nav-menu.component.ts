@@ -1,12 +1,28 @@
+/*
+* Component Folder: nav-menu
+* Component Name: NavMenuComponent
+* Description:
+*     The nav-menu is the main navigation menu and header of the application. It is displayed
+*   on all pages of the application except the home and login pages. It contains the following
+*   content: Project, Tasks By Label, Team Members, and Account. The nav is displayed permanently
+*   opened by default, but collapses on smaller screens.
+*/
+
 import {
   Component,
-  OnInit
+  ElementRef,
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
 
+import { ProjectData } from 'src/types/project';
+
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ProjectService } from 'src/app/services/project/project.service';
+
+import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
 
 @Component({
   selector: 'app-nav-menu',
@@ -15,6 +31,9 @@ import { ProjectService } from 'src/app/services/project/project.service';
 })
 export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
+  projects!: ProjectData[];
+
+  @ViewChild('createProjectModal') createProjectModal!: ElementRef<CreateProjectModalComponent>;
 
   accountItems = ["Account", "Settings","Sign Out"]
   item: string = ""
@@ -36,7 +55,13 @@ export class NavMenuComponent implements OnInit {
       {
         icon: 'pi pi-briefcase',
         label: 'Projects',
-        items: [],
+        items: [{
+          icon: 'pi pi-plus',
+          label: 'New Project',
+          command: () => {
+            (this.createProjectModal as any).showCreateProjectModal();
+          },
+        }],
       },
       {
         icon: 'pi pi-tag',
@@ -73,6 +98,7 @@ export class NavMenuComponent implements OnInit {
 
     this.projectService.getAllProjects().subscribe({
       next: (projects) => {
+        this.projects = projects;
         const projectMenuItems = projects.map((project) => {
           return {
             icon: 'pi pi-briefcase',
@@ -80,7 +106,7 @@ export class NavMenuComponent implements OnInit {
             routerLink: ['/project', project.id],
           } as MenuItem;
         });
-        this.menuItems[0].items = projectMenuItems;
+        this.menuItems[0].items = [...this.menuItems[0].items!, ...projectMenuItems];
       },
       error: (err) => {
         this.menuItems[0].items?.push({label: 'Error loading projects'});

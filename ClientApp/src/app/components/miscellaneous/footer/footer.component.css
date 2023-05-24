@@ -18,7 +18,7 @@ a {
   width: 100%;
 
   display: grid;
-  grid-template-columns: repeat(4, 25%);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 100%;
 }
 
@@ -26,4 +26,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.cuttlefish-logo {
+  filter: grayscale(100%);
 }

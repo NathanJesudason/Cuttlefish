@@ -11,11 +11,13 @@ namespace Cuttlefish.Models
     {
         [Key] public int Id { get; set; }
 
-        [ForeignKey("Labels")]
+        [ForeignKey("label")]
         [Column(Order = 1)]
+        public virtual Labels Labels { get; set; }
         public string label { get; set; }
-        [ForeignKey("Tasks")]
+        [ForeignKey("taskID")]
         [Column(Order = 2)]
+        public virtual Tasks Tasks { get; set; }
         public int taskID { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

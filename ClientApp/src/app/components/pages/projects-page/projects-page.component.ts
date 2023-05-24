@@ -1,3 +1,13 @@
+/*
+* Component Folder: projects-page
+* Component Name: ProjectsPageComponent
+* Description:
+*     This page lists all of the projects available in the database
+*   after logging in. It shows the user's name above the create project
+*   button. The page also displays cards to show information about each
+*   project.
+*/
+
 import {
   Component,
   ElementRef,
@@ -52,7 +62,6 @@ export class ProjectsPageComponent implements OnInit {
 
   deleteProject(projectId: number) {
     this.projects = this.projects.filter((p) => p.id !== projectId);
-    this.messageService.add({severity: 'success', summary: `Project ${projectId} deleted`});
   }
 
   showCreateProjectModal() {

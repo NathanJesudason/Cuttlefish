@@ -10,6 +10,11 @@ import { ProjectService } from 'src/app/services/project/project.service';
 
 import { ProjectData } from 'src/types/project';
 
+/**
+ * Modal for creating a new project
+ * 
+ * Can be opened with `@ViewChild` and using the `showCreateProjectModal()` method
+ */
 @Component({
   selector: 'create-project-modal',
   templateUrl: './create-project-modal.component.html',
@@ -17,6 +22,9 @@ import { ProjectData } from 'src/types/project';
   providers: [MessageService],
 })
 export class CreateProjectModalComponent implements OnInit {
+  /**
+   * List of all projects, created project will be added to this list
+   */
   @Input() projects!: ProjectData[];
   
   createProjectModalShown: boolean = false;
@@ -36,18 +44,31 @@ export class CreateProjectModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Show the modal
+   */
   showCreateProjectModal() {
     this.createProjectModalShown = true;
   }
 
+  /**
+   * Hide the modal
+   */
   hideCreateProjectModal() {
     this.createProjectModalShown = false;
     this.clearInputs();
   }
 
+  /**
+   * Verify if inputs are valid and create a new project
+   */
   acceptModalInput() {
     if (!this.verifyInputs()) {
       this.messageService.add({severity: 'error', summary: 'Name, start date, and end date are required values'});
+      return;
+    }
+    if(this.inputStartDate! > this.inputEndDate!){
+      this.messageService.add({severity: 'error', summary: 'Start date is after end date'});
       return;
     }
 
@@ -58,17 +79,23 @@ export class CreateProjectModalComponent implements OnInit {
         this.messageService.add({severity: 'success', summary: `Project created! id: ${project.id}, name: ${project.name}`});
       },
       error: (err) => {
-        console.log(err);
         this.hideCreateProjectModal();
         this.messageService.add({severity: 'error', summary: `Project creation error: ${err.message}`});
       }
     });
   }
 
+  /**
+   * Cancel the modal
+   */
   cancelModalInput() {
     this.hideCreateProjectModal();
   }
 
+  /**
+   * Collect the current input values into a `ProjectData` object
+   * @returns `ProjectData` object with the current input values
+   */
   collectInputs(): ProjectData {
     return {
       id: -1,
@@ -82,6 +109,9 @@ export class CreateProjectModalComponent implements OnInit {
     } as ProjectData;
   }
 
+  /**
+   * Reset the modal input values
+   */
   clearInputs() {
     this.inputName = '';
     this.inputColor = '#ff0000';
@@ -91,6 +121,10 @@ export class CreateProjectModalComponent implements OnInit {
     this.inputDescription = '';
   }
 
+  /**
+   * Verify if all required inputs are valid
+   * @returns `true` if all required inputs are valid, `false` otherwise
+   */
   verifyInputs(): boolean {
     return this.inputName !== ''
       && this.inputStartDate !== undefined && this.inputStartDate !== null

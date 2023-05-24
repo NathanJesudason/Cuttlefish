@@ -1,3 +1,7 @@
+/**
+ * Test file for CreateProjectModalComponent
+ */
+
 import { FormsModule } from '@angular/forms';
 
 import {

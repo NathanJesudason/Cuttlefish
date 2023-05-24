@@ -12,35 +12,43 @@ import {
 } from 'ng-mocks';
 
 import { LabelsPageComponent } from './labels-page.component';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { AppModule } from 'src/app/app.module';
 import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { Observable, of } from 'rxjs';
 
 describe('LabelsPageComponent', () => {
-  const mockLabels: LabelData[] = [
-    { name: 'thisisalabel', color: '#582C8E' },
-    { name: 'thisisanotherlabel', color: '#123472' },
+  const mockLabels: { label: string; color: string; }[] = [
+    { label: 'thisisalabel', color: '#582C8E' },
+    { label: 'thisisanotherlabel', color: '#123472' },
   ];
   const mockTasks: TaskData[] = [{
     id: 12345,
+    sprintID: 0,
+    priority: 0,
+    type: "Epic",
+    cost: 0,
     name: 'Task Name',
     assignee: 'Me',
     storyPoints: 3,
     description: 'Task Description',
     startDate: new Date(),
     endDate: new Date(),
-    progress: 'Backlog'
+    progress: 'Backlog',
+    order: 0,
+    comments: [],
   }];
   
   MockInstance.scope();
 
   beforeEach(() => {
     return MockBuilder(LabelsPageComponent, [AppModule, RouterModule])
-      .mock(ServerApi, {
-        getAllLabels: () => mockLabels,
-        getTasksByLabel: () => mockTasks,
-      } as Partial<ServerApi>);
+      .mock(TaskApi, {
+        getLabels: () => of(mockLabels),
+        getTasksByLabel: () => of(mockTasks),
+        getAllTasksWithLabel: () => of(mockTasks),
+      } as Partial<TaskApi>);
   });
 
   it('should create', () => {

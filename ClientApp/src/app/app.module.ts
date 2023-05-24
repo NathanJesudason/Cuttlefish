@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { A11yModule } from '@angular/cdk/a11y';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
@@ -35,18 +36,25 @@ import { PasswordModule } from 'primeng/password';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TooltipModule } from 'primeng/tooltip';
+import { ListboxModule } from 'primeng/listbox';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { MessageModule } from 'primeng/message';
+import { ConfirmationService } from 'primeng/api';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 
 import { NgxGanttModule } from '@worktile/gantt';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgxRerenderModule } from 'ngx-rerender';
 
 import { AppComponent } from 'src/app/app.component';
 import { NavMenuComponent } from 'src/app/components/miscellaneous/nav-menu/nav-menu.component';
 import { HomePageComponent } from 'src/app/components/pages/home-page/home-page.component';
 import { SprintDropdownComponent } from 'src/app/components/miscellaneous/sprint-dropdown/sprint-dropdown.component';
 import { ProjectPageComponent } from 'src/app/components/pages/project-page/project-page.component';
-import { TaskDropdownComponent } from 'src/app/components/miscellaneous/task-dropdown/task-dropdown.component';
+import { TaskOverviewComponent } from 'src/app/components/miscellaneous/task-overview/task-overview.component';
 import { TaskPageComponent } from 'src/app/components/pages/task-page/task-page.component';
 import { GanttPageComponent } from 'src/app/components/pages/gantt-page/gantt-page.component';
 import { NotFoundPageComponent } from 'src/app/components/pages/not-found-page/not-found-page.component';
@@ -71,10 +79,16 @@ import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels
 import { ProjectCardComponent } from 'src/app/components/miscellaneous/project-card/project-card.component';
 import { ColorInplaceComponent } from 'src/app/components/inplaces/color-inplace/color-inplace.component';
 import { FundsInplaceComponent } from 'src/app/components/inplaces/funds-inplace/funds-inplace.component';
+import { TaskTypePickerComponent } from './components/pickers/task-type-picker/task-type-picker.component';
+import { DependencyPickerComponent } from 'src/app/components/pickers/dependency-picker/dependency-picker.component';
+import { DeleteDependencyPickerComponent } from 'src/app/components/pickers/delete-dependency-picker/delete-dependency-picker.component';
+import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/dependency-dropdown/dependency-dropdown.component';
+import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-progress-tag/task-progress-tag.component';
+import { CommentsSectionComponent } from './components/miscellaneous/comments-section/comments-section.component';
+import { CommentInplaceComponent } from './components/inplaces/comment-inplace/comment-inplace.component';
 import { CreateLabelModalComponent } from './components/modals/create-label-modal/create-label-modal.component';
 import { AccountPageComponent } from './components/pages/account-page/account-page.component';
 import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/edit-avatar-modal.component';
-
 
 @NgModule({
   declarations: [
@@ -83,7 +97,7 @@ import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/
     HomePageComponent,
     SprintDropdownComponent,
     ProjectPageComponent,
-    TaskDropdownComponent,
+    TaskOverviewComponent,
     TaskPageComponent,
     GanttPageComponent,
     NotFoundPageComponent,
@@ -100,12 +114,19 @@ import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/
     CreateTaskModalComponent,
     CreateProjectModalComponent,
     ProgressPickerComponent,
+    TaskTypePickerComponent,
+    DependencyPickerComponent,
+    DeleteDependencyPickerComponent,
+    DependencyDropdownComponent,
     LabelsPageComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ProjectCardComponent,
     ColorInplaceComponent,
     FundsInplaceComponent,
+    TaskProgressTagComponent,
+    CommentsSectionComponent,
+    CommentInplaceComponent,
     CreateLabelModalComponent,
     // AvatarsComponent,
     AccountPageComponent,
@@ -148,8 +169,15 @@ import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/
     DropdownModule,
     PasswordModule,
     MessagesModule,
+    ListboxModule,
     ConfirmDialogModule,
     ProgressSpinnerModule,
+    TooltipModule,
+    MultiSelectModule,
+    DragDropModule,
+    MessageModule,
+    NgApexchartsModule,
+    NgxRerenderModule,
     ConfirmPopupModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
@@ -169,7 +197,7 @@ import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/
     ])
   ],
   providers: [
-    
+    ConfirmationService,
     {
       provide: HTTP_INTERCEPTORS, 
       useClass: TokenInterceptor,

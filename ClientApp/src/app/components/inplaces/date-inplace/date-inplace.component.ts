@@ -1,12 +1,27 @@
+/*
+* Component Folder: date-inplace
+* Component Name: DateInplaceComponent
+* Description:
+*     This component is used to update the start and end dates of a project,
+*   sprint, or task. Clicking anywhere on the date inplace will open a calendar
+*   for the user to select a new date (start and end are done individually). Clicking
+*   anywhere outside of the input will close the calendar display. The currently saved
+*   date will appear in the input. 
+*     A pair of date-inplaces is used to display the appropriate start and end dates.
+*   Tasks and sprints have a validationEntityData input to check if the new date
+*   is within the range of the parent entity.
+*/
+
 import {
   Component,
   OnInit,
   Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-
-import { format } from 'date-fns';
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service';
@@ -15,7 +30,7 @@ import {
   isProjectData,
   ProjectData
 } from 'src/types/project';
-import { TaskData } from 'src/types/task';
+import { isTaskData, TaskData } from 'src/types/task';
 import {
   isSprintData,
   SprintData
@@ -24,32 +39,43 @@ import {
 @Component({
   selector: 'date-inplace',
   templateUrl: './date-inplace.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./date-inplace.component.scss'],
   providers: [MessageService],
 })
 export class DateInplaceComponent implements OnInit {
+  //If we have TaskData, we need sprint data for validation
+  //If we have SprintData, we need ProjectData for validation
   @Input() entityData!: TaskData | ProjectData | SprintData;
+  @Input() validationEntityData?: SprintData | ProjectData;
+  @Input() childEntityData?: TaskData[] | SprintData[];
   @Input() whichDate!: 'start' | 'end';
   @Input() disabled!: boolean;
 
   selectedDate!: Date | undefined;
+  oldSelectedDate!: Date | undefined;
 
   constructor(
     private projectService: ProjectService,
     private sprintService: SprintService,
     private messageService: MessageService,
+    private taskApi: TaskApi,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.selectedDate = (this.whichDate === 'start') ? this.entityData.startDate : this.entityData.endDate;
+    this.oldSelectedDate = this.selectedDate;
   }
 
   approveChanges(event: any) {
-    if (this.selectedDate === undefined) {
+    //Check if empty
+    if (this.selectedDate === undefined){
       this.messageService.add({severity: 'error', summary: 'Date cannot be empty'});
       return;
     }
-    
+
+    //Check if no change
     if (this.whichDate === 'start' && this.entityData.startDate == this.selectedDate) {
       return;
     }
@@ -57,22 +83,82 @@ export class DateInplaceComponent implements OnInit {
       return;
     }
 
-    if (isProjectData(this.entityData)) {
+    //Check if date range does not make sense
+    if((this.whichDate == 'start' && this.entityData.endDate && this.selectedDate > this.entityData.endDate)){
+      this.messageService.add({severity: 'error', summary: 'Start date is ahead of end date'});
+      this.cdr.detectChanges();
+      this.selectedDate = this.oldSelectedDate;
+      return;
+    }
+    if((this.whichDate == 'end' && this.entityData.startDate && this.selectedDate < this.entityData.startDate)){
+      this.messageService.add({severity: 'error', summary: 'End date is behind of start date'});
+      this.cdr.detectChanges();
+      this.selectedDate = this.oldSelectedDate;
+      return;
+    }
+
+    //Check if date range invalidates child dates
+    if(this.childEntityData!= null){
+      const predicate = this.whichDate == 'start' ? ((value: TaskData | SprintData) => value.startDate < this.selectedDate!) : ((value: TaskData | SprintData) => value.endDate > this.selectedDate!)
+      if(this.childEntityData.some(predicate)){
+        this.messageService.add({severity: 'warn', summary: 'This would invalidate some child sprints or tasks. Please change those dates first'});
+        this.cdr.detectChanges();
+        this.selectedDate = this.oldSelectedDate;
+        return;
+      }
+    }
+
+    //Check if date range is outside of parent range
+    if(this.validationEntityData != null){
+      if(this.selectedDate > this.validationEntityData.endDate || this.selectedDate < this.validationEntityData.startDate) {
+        this.cdr.detectChanges();
+        this.selectedDate = this.oldSelectedDate;
+        if(isTaskData(this.entityData)){
+          this.messageService.add({severity: 'error', summary: 'Date outside valid range for sprint'});
+        }
+        if(isSprintData(this.entityData)){
+          this.messageService.add({severity: 'error', summary: 'Date outside valid range for project'});
+        }
+        return;
+      }
+    }
+
+    if(isTaskData(this.entityData)) {
+      const updatedTask: TaskData = this.whichDate === 'start' ? {...this.entityData, startDate: this.selectedDate}
+        : {...this.entityData, endDate: this.selectedDate};
+      this.taskApi.putTask(updatedTask).subscribe({
+        next: () => {
+          if (this.whichDate === 'start') {
+            this.entityData.startDate = this.selectedDate!;
+          } else {
+            this.entityData.endDate = this.selectedDate!;
+          }
+          this.oldSelectedDate = this.selectedDate;
+        },
+        error: (err) => {
+          this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
+          this.cdr.detectChanges();
+          this.selectedDate = this.oldSelectedDate;
+        }
+      })
+    } else if (isProjectData(this.entityData)) {
       const updatedProject: ProjectData = this.whichDate === 'start'
         ? {...this.entityData, startDate: this.selectedDate}
         : {...this.entityData, endDate: this.selectedDate};
       const updatedDate = this.selectedDate;
       this.projectService.updateProject(this.entityData.id, updatedProject).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Date change accepted: ${format(updatedDate, 'MM/dd/yyyy')}`});
           if (this.whichDate === 'start') {
-            this.entityData.startDate = this.selectedDate;
+            this.entityData.startDate = this.selectedDate!;
           } else {
-            this.entityData.endDate = this.selectedDate;
+            this.entityData.endDate = this.selectedDate!;
           }
+          this.oldSelectedDate = this.selectedDate;
         },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
+          this.cdr.detectChanges();
+          this.selectedDate = this.oldSelectedDate;
         },
       });
     } else if (isSprintData(this.entityData)) {
@@ -82,19 +168,19 @@ export class DateInplaceComponent implements OnInit {
       const updatedDate = this.selectedDate;
       this.sprintService.updateSprint(this.entityData.id, updatedSprint).subscribe({
         next: () => {
-          this.messageService.add({severity: 'success', summary: `Date change accepted: ${format(updatedDate, 'MM/dd/yyyy')}`});
           if (this.whichDate === 'start') {
-            this.entityData.startDate = this.selectedDate;
+            this.entityData.startDate = this.selectedDate!;
           } else {
-            this.entityData.endDate = this.selectedDate;
+            this.entityData.endDate = this.selectedDate!;
           }
+          this.oldSelectedDate = this.selectedDate;
         },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: `Error updating date: ${err.message}`});
+          this.cdr.detectChanges();
+          this.selectedDate = this.oldSelectedDate;
         },
       });
-    } /* else if (isTaskData(this.entityData)) {
-      ...
-    } */
+    }
   }
 }

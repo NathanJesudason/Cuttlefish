@@ -1,3 +1,12 @@
+/*
+* Component Folder: reset-password
+* Component Name: ResetPasswordComponent
+* Description:
+*     This page is accessed by clicking an appropriate link by the forgot password page
+*   (see ../forgotpassword). The user will be prompted to enter a new password and confirm
+*   it. The user will then be redirected to the login page.
+*/
+
 import {
   Component,
   OnInit
@@ -7,25 +16,36 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
+import { MessageService } from 'primeng/api';
 
 import { ResetPasswordService } from 'src/app/services/reset-password/reset-password.service';
+import { VerifyPasswordService } from 'src/app/services/verify-password/verify-password.service';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.css']
+  styleUrls: ['./reset-password.component.scss'],
+  providers: [MessageService],
 })
 export class ResetPasswordComponent implements OnInit {
-
-
   resetPasswordForm!: FormGroup
   email!: string
   emailToken!: string
-  constructor(private formbuilder: FormBuilder, private resetService: ResetPasswordService, private route: ActivatedRoute, private router: Router) { }
+
+  medStrong: string = VerifyPasswordService.medStrong;
+  specialChars: string = VerifyPasswordService.specialChars;
+
+  resetPasswordButtonLoading: boolean = false;
+
+  constructor(
+    private formbuilder: FormBuilder,
+    private resetService: ResetPasswordService,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+    private verifyPasswordService: VerifyPasswordService,
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params =>{
@@ -42,20 +62,31 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword(){
+    this.resetPasswordButtonLoading = true;
+
+    if(this.verifyPasswordService.verifyPassword(
+      this.messageService,
+      this.resetPasswordForm.value['newpassword'],
+      this.resetPasswordForm.value['confirmpassword']
+    ) == false){
+      this.resetPasswordButtonLoading = false;
+      return;
+    }
+
     this.resetPasswordForm.value['email'] = this.email 
     this.resetPasswordForm.value['emailToken'] = this.emailToken
 
 
     this.resetService.resetPassword(this.resetPasswordForm.value).subscribe({
       next:(res)=>{
-        alert('password reset')
-        this.resetPasswordForm.reset()
-        this.router.navigate(['login'])
+        this.messageService.add({severity: 'success', summary: 'Password successfully reset', life: 10000});
+        this.resetPasswordForm.reset();
+        this.resetPasswordButtonLoading = false;
       },
       error:(err)=>{
-        alert('error resetting password')
-        console.log("error: ", err)
-      }
+        this.messageService.add({severity: 'error', summary: err.message, life: 10000});
+        this.resetPasswordButtonLoading = false;
+      },
     })
     
   }

@@ -1,0 +1,56 @@
+.custom-overlay {
+  width: 300px;
+}
+
+.overlay-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.custom-button {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--surface-a);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  text-align: center;
+  vertical-align: middle;
+
+  &:hover {
+    background-color: var(--primary-color-darker);
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: var(--focus-box-shadow);
+  }
+}
+
+.add-dependency-button {
+  background-color: #22C55E;
+  color: #ffffff;
+  border-color: #22C55E;
+
+  &:hover {
+    background-color: #16A34A;
+    border-color: #16A34A;
+  }
+
+  &:active,
+  &:focus {
+    background-color: #15803D;
+    border-color: #15803D;
+    box-shadow: 0 0 0 0.2rem #BBF7D0;
+  }
+}

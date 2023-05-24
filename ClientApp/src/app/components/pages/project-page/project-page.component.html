@@ -21,16 +21,18 @@
 
   <date-inplace
     [entityData]="projectData"
+    [childEntityData]="projectData.sprints"
     whichDate="start"
   ></date-inplace>
   <i class="pi pi-minus" id="date-minus"></i>
   <date-inplace
     [entityData]="projectData"
+    [childEntityData]="projectData.sprints"
     whichDate="end"
   ></date-inplace>
 
   <funds-inplace
-    [projectData]="projectData"
+    [entityData]="projectData"
   ></funds-inplace>
 
   <p id="description-label">Description</p>
@@ -69,7 +71,7 @@
       <div class="sprint-options">
         <p-button
           id="collapse-all-button"
-          icon="pi pi-list"
+          [icon]="collapseButtonIcon"
           [label]="collapseButtonText"
           styleClass="p-button-sm sprint-option"
           (onClick)="toggleCollapseSprints()"
@@ -87,13 +89,15 @@
 
   </p-toolbar>
 
-  <p-accordion [multiple]="true">
+  <p-accordion [multiple]="true" cdkDropListGroup>
     <ng-container *ngFor="let sprint of projectData.sprints; let i = index">
       <p-divider *ngIf="sprint.isBacklog && projectData.sprints.length > 1 && i > 0 && !projectData.sprints[i-1].isBacklog"></p-divider>
       <sprint-dropdown
         #sprintDropdown
         [data]="sprint"
+        [projectData]="projectData"
         (deleteSprint)="deleteSprint(sprint.id)"
+        (moveTaskAcrossSprints)="removeTaskFromSprint($event)"
       ></sprint-dropdown>
     </ng-container>
   </p-accordion>

@@ -1,5 +1,45 @@
 # Cuttlefish
 
+<p align="center">
+  <img src="./ClientApp/src/assets/cuttlefish_logo.png" width="300px" alt="Cuttlefish Logo" />
+</p>
+
+Cuttlefish is an open-source project management software that maintains important agile-focused features like Gantt charts and sprint management.
+
+[See our wiki](https://github.com/NathanJesudason/Cuttlefish/wiki) for more long-form information about the project, such as how to deploy Cuttlefish.
+
+[Submit an issue](https://github.com/NathanJesudason/Cuttlefish/issues) with any questions or bugs to report.
+
+## Architecture
+
+Cuttlefish operates with an ASP.NET version 6 (written in C#) back end and Angular version 14 (written in Typescript/HTML/CSS) front end. Everything in `ClientApp/` belongs to the front end, and everything else in the repo constitutes the back end. The back end interacts with an SQL database to manage the data used to support Cuttlefish.
+
+The back end follows the standard .NET MVC organization, just without the views. The models in `Models/` describe the entites that Cuttlefish uses. The controllers in `Controllers/` serve as endpoints for the API that the Cuttlefish back end provides, each of which have their own interactions with the database. There are a handful of other helper functions throughout, including those in `Authentication/` and `Email/`.
+
+The front end (in `ClientApp/`) is a standard Angular project with only a few notable Cuttlefish-specifc notes. We use [PrimeNG](https://primeng.org/) components to build our UI, which provides a cohesive look and improves development velocity. We use [ng-mocks](https://ng-mocks.sudo.eu/) to reduce the boilerplate used by Angular's standard unit testing strategy. As with all Angular projects, we have a module (our only module) in `src/app/`. Its configuration, including routes, is defined in `app.module.ts`, and the rest of its pieces follow are within that directory. `animations/` defines our animations that we apply to our front end components. `components/` contains all the visual elements in the UI, separated by type. `guards/` contains our Angular guards that we use to protect certain routes. `interceptors/` defines our Angular interceptors that serve as a middleware for all outgoing HTTP requests, especially to the Cuttlefish back end. `services/` contains all our services that perform the HTTP operations with the back end, among other things. Our components import these services and use them to perform the necessary actions.
+
+### Architecture Diagrams
+
+These diagrams, in `docs/diagrams/`, are a record of the diagrams we created and referenced during the development of this project.
+
+![System architecture diagram](/docs/diagrams/system_architecture.png)
+*System architecture diagram.*
+
+![Entity-relationship diagram](/docs/diagrams/er_diagram.png)
+*Entity-Relationship diagram.*
+
+![UI flowchart](/docs/diagrams/ui_flowchart.png)
+*UI flowchart.*
+
+![Figma mockup of project page](/docs/diagrams/project_page_mockup.png)
+*Figma mockup of project page.*
+
+![Figma mockup of Gantt chart](/docs/diagrams/gantt_mockup.png)
+*Figma mockup of Gantt chart.*
+
+![Initial sketch of Cuttlefish logo](/docs/diagrams/logo_sketch.png)
+*Initial sketch of Cuttlefish logo.*
+
 ## Development
 
 ### Development Prerequisites
@@ -9,6 +49,8 @@
 - (optional, can develop just fine without) [Angular CLI](https://angular.io/cli)
 
 ### Run Cuttlefish Locally
+
+First update the connection string in `appsettings.Development.json` with an SQL database.
 
 You can run Cuttlefish with the two commands...
 
@@ -89,8 +131,6 @@ A browser should open automatically to show the test results in detail, and the 
 dotnet format
 ```
 
-TODO: decide if we want to use [prettier](https://prettier.io/) for the Angular code.
-
 ### Add New Dependencies
 
 We add new dependencies in the ASP.NET backend in the standard way, from the root of the repo...
@@ -105,3 +145,13 @@ dotnet add package <PACKAGE_NAME>
 cd ClientApp
 npm install <PACKAGE_NAME>
 ```
+
+## Plans for the Future
+
+- Dockerize Cuttlefish to improve local development experience and make development between team members more consistent
+- Better tracking of epics and OKRs
+- Implement dynamic theming (a feature provided by PrimeNG) in the front end
+- Create a system for adopters to enable and disable features and create their own (plugins?)
+- Add Angular end to end testing
+- Better optimization for mobile devices (not crucial, users are more likely to access via company-issued computers)
+- Full role-based functionality (admins vs. standard users vs. guests)

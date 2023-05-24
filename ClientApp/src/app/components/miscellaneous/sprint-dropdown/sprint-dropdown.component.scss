@@ -1,0 +1,181 @@
+.sprint-dropdown-header {
+  width: 100%;
+  display: grid;
+  column-gap: 0.75rem;
+  grid-template-columns: auto repeat(5, min-content);
+  grid-template-rows: 100%;
+}
+
+.backlog-dropdown-header {
+  width: 100%;
+  display: grid;
+  column-gap: 0.75rem;
+  grid-template-columns: auto repeat(2, min-content);
+  grid-template-rows: 100%;
+}
+
+.sprint-dropdown-header-item {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#dates-container {
+  grid-column: 1 / span 2;
+}
+
+#goal-container {
+  grid-column: 1 / span 2;
+}
+
+#goal-label {
+  margin: var(--content-padding) 0 0;
+  font-size: large;
+  font-weight: 600;
+}
+
+.sprint-dropdown-header-chip {
+  margin-left: -0.5rem;
+}
+
+@media only screen and (max-width: 530px) {
+  .sprint-dropdown-header {
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: repeat(2, auto);
+  }
+
+  #sprint-dropdown-header-title {
+    grid-column: span 5;
+  }
+}
+
+.sprint-dropdown-content {
+  width: 100%;
+  display: grid;
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+  grid-template-columns: auto min-content;
+  grid-template-rows: auto 1fr;
+}
+
+.date-minus {
+  margin: auto 0.7rem;
+}
+
+#tasks-header {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+#tasks {
+  width: 100%;
+  display: grid;
+}
+
+#create-task-button {
+  margin-bottom: var(--content-padding);
+}
+
+#manage-incomplete-tasks-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, min-content) 1fr;
+  grid-template-rows: auto;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+}
+
+#manage-incomplete-tasks-body > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#sprint-report-body {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, min-content);
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+}
+
+#sprint-report-goal {
+  grid-column: 1 / span 2;
+}
+
+#sprint-report-burndown-chart {
+  grid-column: 1 / span 2;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#sprint-report-dates h4 {
+  display: inline;
+}
+
+#sprint-report-dates {
+  grid-column: 1 / span 2;
+}
+
+#sprint-report-name {
+  grid-column: 1 / span 2;
+}
+
+#sprint-report-start-date {
+  margin-right: 0.8rem;
+}
+
+:host ::ng-deep {
+  #manage-incomplete-tasks-dialog .p-dialog {
+    width: 75vw;
+    height: 400px;
+  }
+
+  #sprint-report-dialog .p-dialog {
+    width: 80vw;
+    height: 1100px;
+  }
+
+  #delete-sprint-dialog .p-confirm-dialog {
+    width: 75vw;
+  }
+
+  @media only screen and (max-width: 900px) {
+    #manage-incomplete-tasks-dialog .p-dialog {
+      width: 90vw;
+    }
+  }
+
+  @media only screen and (min-width: 1015px) {
+    #manage-incomplete-tasks-dialog .p-dialog {
+      width: 762px;
+    }
+  }
+
+  .p-draggable-enter {
+    border: 4px solid var(--primary-color);
+  }
+}
+
+.radiobutton-label {
+  white-space: nowrap;
+}
+
+.radiobutton-label:hover {
+  cursor: pointer;
+}
+
+.cdk-drop-list-receiving {
+  min-height: 82px;
+  border: 2px solid var(--primary-color);
+}
+
+#no-tasks-placeholder {
+  width: 100%;
+  height: 82px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}

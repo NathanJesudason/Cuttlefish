@@ -1,21 +1,21 @@
 <h1>Welcome, {{username}}!</h1>
 
-<div id="project-cards-container">
-  <project-card
-    *ngFor="let project of projects"
-    [project]="project"
-    (deleteProject)="deleteProject(project.id)"
-  ></project-card>
-</div>
-
 <div id="project-modal-button-container">
   <button
     pButton pRipple type="button"
     label="Create Project"
     icon="pi pi-plus"
-    class="p-button-outlined project-modal-button"
+    class="p-button-success project-modal-button"
     (click)="showCreateProjectModal()"
   ></button>
+</div>
+
+<div id="project-cards-container">  
+  <project-card
+    *ngFor="let project of projects"
+    [project]="project"
+    (deleteProject)="deleteProject(project.id)"
+  ></project-card>
 </div>
 
 <create-project-modal
