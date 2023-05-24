@@ -54,19 +54,7 @@ export type TaskData = {
 export function isTaskData(obj: any): obj is TaskData {
   return obj
     && obj.id !== undefined && typeof obj.id == 'number'
-    && obj.sprintID !== undefined && typeof obj.sprintID == 'number'
-    && obj.name !== undefined && typeof obj.name == 'string'
-    && obj.assignee !== undefined && typeof obj.assignee == 'string'
-    && obj.storyPoints !== undefined && typeof obj.storyPoints == 'number'
-    && obj.description !== undefined && typeof obj.description == 'string'
-    && obj.progress !== undefined && typeof obj.progress == 'string'
-    && obj.startDate !== undefined
-    && obj.endDate !== undefined
-    && obj.priority !== undefined && typeof obj.priority == 'number'
-    && obj.type !== undefined && typeof obj.type == 'string'
-    && obj.cost !== undefined && typeof obj.cost == 'number'
-    && obj.order !== undefined && typeof obj.order == 'number'
-    && obj.comments !== undefined && Array.isArray(obj.comments);
+    && obj.sprintID !== undefined && typeof obj.sprintID == 'number';
 }
 
 /**

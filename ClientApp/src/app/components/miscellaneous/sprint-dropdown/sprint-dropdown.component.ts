@@ -415,11 +415,19 @@ export class SprintDropdownComponent implements OnInit {
   }
 
   moveTasksToSprint(tasks: TaskData[]) {
-    for (const task of tasks) {
+    for (let task of tasks) {
       task.sprintID = this.selectedAvailableSprint.id;
-      this.taskService.putTask(task).subscribe({
-        next: () => {
-          this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
+      this.sprintService.getSprint(this.selectedAvailableSprint.id).subscribe({
+        next: (sprint) => {
+          task = SprintDropdownComponent.updateTaskDatesForNewSprint(task, sprint.startDate, sprint.endDate);
+          this.taskService.putTask(task).subscribe({
+            next: () => {
+              this.data.tasks = this.data.tasks.filter(t => t.id !== task.id);
+            },
+            error: (err) => {
+              this.messageService.add({severity: 'error', summary: err.message});
+            },
+          });
         },
         error: (err) => {
           this.messageService.add({severity: 'error', summary: err.message});
@@ -540,7 +548,7 @@ export class SprintDropdownComponent implements OnInit {
   }
 
   onTaskDrop(event: CdkDragDrop<TaskData[], TaskData[], TaskData>) {
-    const droppedTask = event.previousContainer.data[event.previousIndex];
+    let droppedTask = event.previousContainer.data[event.previousIndex];
     if (droppedTask.sprintID === this.data.id) {
       // task was dropped in the same sprint
       if (event.currentIndex === event.previousIndex) {
@@ -567,6 +575,7 @@ export class SprintDropdownComponent implements OnInit {
       this.moveTaskAcrossSprints.emit({ taskId: droppedTask.id, oldOrder: event.previousIndex, prevSprintId: droppedTask.sprintID });
       droppedTask.sprintID = this.data.id;
       droppedTask.order = event.currentIndex;
+      droppedTask = SprintDropdownComponent.updateTaskDatesForNewSprint(droppedTask, this.data.startDate, this.data.endDate);
       this.data.tasks.splice(event.currentIndex, 0, droppedTask);
       this.sprintOrderingService.addReorderTasksInSprint(this.data.id, event.currentIndex).subscribe({
         next: () => {
@@ -587,5 +596,39 @@ export class SprintDropdownComponent implements OnInit {
       });
     }
     
+  }
+
+  /**
+   * Helper function to constrain the start and end dates of a task to the start and end dates of a sprint
+   * 
+   * In theory this is called when a task is moving to a new sprint and the start and end dates need to be updated accordingly
+   * 
+   * @param task the task to update
+   * @param sprintStart the start date of the sprint
+   * @param sprintEnd the end date of the sprint
+   * @returns the updated task
+   */
+  static updateTaskDatesForNewSprint(task: TaskData, sprintStart: Date, sprintEnd: Date): TaskData {
+    if (task.startDate < sprintStart) {
+      const dateDiff = sprintStart.getTime() - task.startDate.getTime();
+      task.startDate = new Date(task.startDate.getTime() + dateDiff);
+      task.endDate = new Date(task.endDate.getTime() + dateDiff);
+      if (task.endDate > sprintEnd) {
+        task.endDate = sprintEnd;
+      }
+      return task;
+    }
+
+    if (task.endDate > sprintEnd) {
+      const dateDiff = task.endDate.getTime() - sprintEnd.getTime();
+      task.endDate = new Date(task.endDate.getTime() - dateDiff);
+      task.startDate = new Date(task.startDate.getTime() - dateDiff);
+      if (task.startDate < sprintStart) {
+        task.startDate = sprintStart;
+      }
+      return task;
+    }
+
+    return task;
   }
 }
