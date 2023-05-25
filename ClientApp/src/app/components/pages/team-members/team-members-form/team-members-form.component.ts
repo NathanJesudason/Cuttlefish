@@ -13,20 +13,14 @@ import {
   OnInit
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
-import { MessageService } from 'primeng/api';
-
 import { TeamMember } from 'src/types/team-member.model';
 import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 import { ProjectData } from 'src/types/project';
-import { ServerApi } from 'src/app/services/server-api/server-api.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TeamMemberToProjectService } from 'src/app/services/team-member-to-project/team-member-to-project.service';
 import { MessageService } from 'primeng/api';
 import { ProjectService } from 'src/app/services/project/project.service';
-
-
 
 @Component({
   selector: 'app-team-members-form',
@@ -38,15 +32,10 @@ export class TeamMembersFormComponent implements OnInit {
 
   public projects!: ProjectData[]
   public selectedProject!: ProjectData
-
   teamMember!: TeamMember 
-
   public username!: string
   public role!: string
-
   public createUserRole!: string
-  
-  
 
   constructor(public teamMemberService: TeamMemberService, private projectsApi: ProjectService, private user: UserService, private auth: AuthService,
     private teammemberToProject: TeamMemberToProjectService, private messageService: MessageService) { }
@@ -55,21 +44,14 @@ export class TeamMembersFormComponent implements OnInit {
     this.projectsApi.getAllProjects().subscribe({
       next: res => this.projects = res,
       error: err => this.messageService.add({severity: 'error', summary: `Error occured ${err}. Could not retrieve all projects.`})
-    }
-     
-    )
-
+    })
 
     this.user.getRole().subscribe(value =>
       {
         const rolefromToken = this.auth.getRoleFromToken()
         this.role = value || rolefromToken
-        
       })
-
   }
-  
-
 
   onSubmit(form: NgForm){
     if(this.teamMemberService.teamMemberData.id == 0){
@@ -86,7 +68,7 @@ export class TeamMembersFormComponent implements OnInit {
           teamMemberID: this.teamMember.id
         }
         this.teammemberToProject.postTeamMemberToProject().subscribe({
-          next: res =>{
+          next: () =>{
             this.messageService.add({severity: 'success', summary: 'Team member added'})
           },
           error: err => {
@@ -96,16 +78,17 @@ export class TeamMembersFormComponent implements OnInit {
             if(err.status === 409){
               this.messageService.add({severity: 'error', summary: 'Team member already exists on that project!'})
             }
-            console.log(err)}
+          }
         }
         )
       },
       error: err => {
         if(err.status === 404){
           this.messageService.add({severity: 'error', summary: 'Username does not exist'})
+        } else{
+          this.messageService.add({severity: 'error', summary: err})
         }
-        console.log("Error: ",err)}
-    }
-    )
+      }
+    })
   }
 }

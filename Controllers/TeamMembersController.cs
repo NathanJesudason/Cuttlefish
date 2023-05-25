@@ -174,18 +174,18 @@ namespace Cuttlefish.Controllers
         }
 
         // GET: api/TeamMembers/by-username/username
-        [HttpGet("by-username/{username}")]
-        public async Task<ActionResult<TeamMembers>> GetTeamMembersByUsername(string username)
-        {
-            var teamMembers = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == username);
+        //[HttpGet("by-username/{username}")]
+        //public async Task<ActionResult<TeamMembers>> GetTeamMembersByUsername(string username)
+        //{
+        //    var teamMembers = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == username);
 
-            if (teamMembers == null)
-            {
-                return NotFound();
-            }
+        //    if (teamMembers == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return teamMembers;
-        }
+        //    return teamMembers;
+        //}
 
         // PUT: api/TeamMembers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

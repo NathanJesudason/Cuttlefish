@@ -25,8 +25,6 @@ export class CreateLabelModalComponent implements OnInit {
   constructor(private labelsComponent: LabelsPageComponent, private messageService: MessageService) { }
 
   ngOnInit(): void {
-
-    console.log("labels", this.labels)
   }
 
   showCreateLabelModal(title: string) {

@@ -44,9 +44,6 @@ export class TeamMemberService {
     return this.http.get(`${this.baseURL}TeamMembers/${id}`)
   }
 
-  getTeamMemberByUsername(username: String){
-    return this.http.get(`${this.baseURL}TeamMembers/username/${username}`)
-  }
 
   postTeamMember(){
     return this.http.post(this.baseURL, this.teamMemberData)
@@ -117,7 +114,7 @@ export class TeamMemberService {
    * @returns `Observable<TeamMember>` the team member with the given username
    */
   getTeamMemberByUsername(username: string): Observable<TeamMember> {
-    return this.http.get<TeamMember>(`${this.baseURL}TeamMembers/by-username/${username}`)
+    return this.http.get<TeamMember>(`${this.baseURL}TeamMembers/username/${username}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === HttpStatusCode.NotFound) {

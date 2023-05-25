@@ -61,7 +61,7 @@ import { NotFoundPageComponent } from 'src/app/components/pages/not-found-page/n
 import { FooterComponent } from 'src/app/components/miscellaneous/footer/footer.component';
 import { TitleInplaceComponent } from 'src/app/components/inplaces/title-inplace/title-inplace.component';
 import { TeamMembersComponent } from 'src/app/components/pages/team-members/team-members.component';
-import { TeamMembersFormComponent } from 'src/app/components/miscellaneous/team-members-form/team-members-form.component';
+import { TeamMembersFormComponent } from 'src/app/components/pages/team-members/team-members-form/team-members-form.component';
 import { LoginComponent } from 'src/app/components/pages/login/login.component';
 import { SignupComponent } from 'src/app/components/pages/signup/signup.component'
 import { AuthGuard } from 'src/app/guards/auth/auth.guard';

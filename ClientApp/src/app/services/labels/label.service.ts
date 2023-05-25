@@ -18,7 +18,7 @@ export class LabelService {
   getLabels(): Observable<LabelData[]>{
     return this.http.get(this.baseURL).pipe(
       catchError((err: HttpErrorResponse) => {
-        return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+        return throwError(() => new Error(`Error getting labels: ${err.error.message}`));
       }),
       map(
         (data:any) => {return data}
@@ -29,7 +29,7 @@ export class LabelService {
   postLabel(label: LabelData): Observable<LabelData>{
     return this.http.post(this.baseURL, label).pipe(
       catchError((err: HttpErrorResponse) => {
-        return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+        return throwError(() => new Error(`Error creating label: ${err.error.message}`));
       }),
       map(
         (data:any) => {return data}
@@ -40,7 +40,7 @@ export class LabelService {
   putLabel(label: LabelData): Observable<LabelData>{
     return this.http.put(`${this.baseURL}${label.label}`, label).pipe(
       catchError((err: HttpErrorResponse) => {
-        return throwError(() => new Error(`Error creating project: ${err.error.message}`));
+        return throwError(() => new Error(`Error editing label: ${err.error.message}`));
       }),
       map(
         (data:any) => {return data}
@@ -50,6 +50,10 @@ export class LabelService {
 
   deleteLabel(label: string){
     return this.http.delete(`${this.baseURL}${label}`)
+  }
+
+  getTasksByLabel(label: string){
+    return this.http.get(`${environment.url}LabelsToTasks/${label}/tasks`)
   }
 
   refreshLabelList(){

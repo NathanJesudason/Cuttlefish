@@ -36,7 +36,7 @@ export class TeamMembersComponent implements OnInit {
 
   constructor(public TeamMemberService: TeamMemberService, private auth: AuthService, 
     private user: UserService, private projectsApi: ProjectService, 
-    public teammemberToProjectService: TeamMemberToProjectService, 
+    private teammemberToProjectService: TeamMemberToProjectService, 
     private confirmationService: ConfirmationService, private messageService: MessageService) 
     { }
 
@@ -57,7 +57,7 @@ export class TeamMembersComponent implements OnInit {
   ngOnInit(): void {
     if(this.auth.isLoggedIn())
     {
-      this.TeamMemberService.refreshList()
+      this.TeamMemberService.refreshList(this.messageService)
 
       this.projectsApi.getAllProjects().subscribe({
         next: res=> this.listofProjects = res,
@@ -140,13 +140,16 @@ export class TeamMembersComponent implements OnInit {
             let id = res as GetTeamMemberToProject
             console.log('id to delete', id)
             this.TeamMemberService.deleteTeamMemberFromProject(id.id).subscribe({
-              next: () => this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Team member has been deleted from project.' }),
+              next: () => {
+                this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Team member has been deleted from project.' })
+                this.ngOnInit()
+              },
               error: err=> this.messageService.add({ severity: 'error', summary: 'Error occured: ', detail: `${err}` })
             })
           },
           error: err=> this.messageService.add({ severity: 'error', summary: 'Error occured: ', detail: `${err}` })
         })
-        this.TeamMemberService.refreshList()
+        this.TeamMemberService.refreshList(this.messageService)
       },
       reject: () => {
         this.messageService.add({ severity: 'info', summary: 'Canceled', detail: 'Canceled deletion.' })

@@ -25,6 +25,7 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
 import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
 import { CreateLabelModalComponent } from 'src/app/components/modals/create-label-modal/create-label-modal.component'
+import { LableToTask } from 'src/types/label-to-tasks';
 
 @Component({
   selector: 'labels-page',
@@ -37,7 +38,7 @@ export class LabelsPageComponent implements OnInit {
   
   availableLabels!: LabelData[];
   label: LabelData = { label: "", color: "#ff0000"}
-  currentLabel!: LabelData | null;
+  currentLabel!: LabelData | undefined;
   tasksByLabel: TaskData[] = [];
   taskPickerDisabled: boolean = false;
   
@@ -64,12 +65,32 @@ export class LabelsPageComponent implements OnInit {
   }
 
   labelAdaptor(input: {label: string, color: string;}): LabelData {
-    return {name: input.label, color: input.color};
+    return {label: input.label, color: input.color};
   }
 
   getTasksByCurrentLabel() {
     if (this.currentLabel === undefined || this.currentLabel === null) return;
-    this.tasksByLabel = this.serverApi.getTasksByLabel(this.currentLabel.label);
+    // reset the array
+    this.tasksByLabel = []
+    this.labelService.getTasksByLabel(this.currentLabel.label).subscribe({
+      next: res => {
+        const labelsToTasks= res as LableToTask[]
+        console.log('res: ', labelsToTasks)
+         labelsToTasks.map(
+          x => 
+          this.taskApi.getTaskData(x.taskID).subscribe({
+            next: res => {
+              this.tasksByLabel.push(res)
+              console.log('res: ', res)
+            },
+            error: err => {
+              console.log('Error getting tasks: ',err)
+            }
+          })
+        )
+      },
+      error: err => console.log('Error getting tasks by label: ',err)
+    })
   }
 
   getAvailableLabels() {
@@ -141,7 +162,7 @@ export class LabelsPageComponent implements OnInit {
       next: res=>{
         console.log("res",res)
         this.availableLabels.splice(this.availableLabels.indexOf(this.currentLabel!),1) // update the dropdown
-        this.currentLabel = null
+        this.currentLabel = undefined
       },
       error: err => {console.log("Error",err)}}
       )
@@ -172,7 +193,7 @@ export class LabelsPageComponent implements OnInit {
   }
 
   cancelLabelSelection(){
-    this.currentLabel = null
+    this.currentLabel = undefined
   }
 
 
