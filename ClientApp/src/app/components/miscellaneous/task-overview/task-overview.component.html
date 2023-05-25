@@ -1,4 +1,54 @@
 <div
+  *ngIf="!dragDropEnabled"
+  class="task-overview"
+> 
+  <div class="nodragdrop-task-title">
+    <a
+      class="task-title-text"
+      [routerLink]="['/task', taskData.id]"
+    >{{taskData.id}}: {{taskData.name}}</a>
+  </div>
+
+  <div class="nodragdrop-task-description">
+    <p class="task-description-text">{{trimmedDescription}}</p>
+  </div>
+
+  <div class="task-labels">
+    <p-tag
+      *ngFor="let label of trimmedLabels"
+      [rounded]="true"
+      [style]="{'background': label.color}"
+      styleClass="mr-2"
+      [value]="label.name"
+    ></p-tag>
+  </div>
+
+  <p-tag
+    class="task-type"
+    styleClass="mr-2"
+    value="{{taskData.type}}"
+  ></p-tag>
+
+  <p-avatar
+    class="task-avatar"
+    shape="circle"
+    icon="pi pi-user"
+  ></p-avatar>
+
+  <task-progress-tag
+    class="task-progress"
+    [progress]="taskData.progress"
+  ></task-progress-tag>
+
+  <p-chip
+    class="task-story-points"
+    label="{{taskData.storyPoints}}"
+    styleClass="p-mr-2"
+  ></p-chip>
+</div>
+
+<div
+  *ngIf="dragDropEnabled"
   class="task-overview"
   cdkDrag
   (cdkDragMoved)="onDragMoved($event)"
