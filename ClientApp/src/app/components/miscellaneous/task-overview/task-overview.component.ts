@@ -1,3 +1,13 @@
+/*
+* Component Folder: task-overview
+* Component Name: TaskOverviewComponent
+* Description:
+*     The task-overview is used in the sprint dropdown on the project page.
+*   It displays the task name and number, as well as the description and labels.
+*   The overview serves to provide all the appropriate information of a given task
+*   in a compact and easy to read format.
+*/
+
 import {
   CdkDragMove,
   CdkDragRelease,

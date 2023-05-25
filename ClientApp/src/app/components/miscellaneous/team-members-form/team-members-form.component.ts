@@ -1,3 +1,13 @@
+/*
+* Component Folder: team-members-form
+* Component Name: TeamMembersFormComponent
+* Description:
+*     The team-members-form component is displayed on the team members page
+*   and it is used to add members to the team. The form input is as follows:
+*   Team Member Name/Username, Password, Email, and Role. The form is reset
+*   after a successful submission.
+*/
+
 import {
   Component,
   OnInit

@@ -24,6 +24,9 @@ import {
 } from 'src/types/project';
 import { SprintData } from 'src/types/sprint';
 
+/**
+ * The project service handles all requests to the backend for projects
+ */
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
   baseUrl: string = environment.url;

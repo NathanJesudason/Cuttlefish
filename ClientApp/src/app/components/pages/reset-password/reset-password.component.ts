@@ -1,3 +1,12 @@
+/*
+* Component Folder: reset-password
+* Component Name: ResetPasswordComponent
+* Description:
+*     This page is accessed by clicking an appropriate link by the forgot password page
+*   (see ../forgotpassword). The user will be prompted to enter a new password and confirm
+*   it. The user will then be redirected to the login page.
+*/
+
 import {
   Component,
   OnInit
@@ -7,10 +16,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
 

@@ -1,3 +1,14 @@
+/*
+* Component Folder: team-members
+* Component Name: TeamMembersComponent
+* Description:
+*     The team members component is used to display all of the team members
+*   that are currently in the database. It is displayed when the user clicks
+*   the "Team Members" button in the navigation bar. The team members are
+*   displayed below the appropriate form as a table with the following rows:
+*   Username, Email, and Role.
+*/
+
 import {
   Component,
   OnInit

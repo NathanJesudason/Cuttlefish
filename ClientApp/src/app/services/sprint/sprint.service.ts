@@ -22,6 +22,9 @@ import {
   sprintDataToBackendSprint,
 } from 'src/types/sprint';
 
+/**
+ * Service for interacting with sprints
+ */
 @Injectable({ providedIn: 'root' })
 export class SprintService {
   baseUrl: string = environment.url;
@@ -164,7 +167,9 @@ export class SprintService {
   }
 
   /**
-   * 
+   * Get a specific sprint by its id
+   * @param id the id of the sprint to get
+   * @returns an `Observable<SprintData>` that stores the sprint
    */
   getSprint(id: number): Observable<SprintData> {
     return this.http.get<BackendSprintData>(`${this.baseUrl}Sprints/${id}`).pipe(

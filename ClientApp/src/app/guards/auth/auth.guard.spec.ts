@@ -1,3 +1,7 @@
+/**
+ * Test file for AuthGuard
+ */
+
 import { Location } from '@angular/common';
 import {
   fakeAsync,

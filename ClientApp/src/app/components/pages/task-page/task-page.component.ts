@@ -1,3 +1,25 @@
+/*
+* Component Folder: task-page
+* Component Name: TaskPageComponent
+* Description:
+*     The task page component is used to display all the content of a
+*   task. The content of the page is as follows (from top to bottom):
+*
+*     - Back Button, Task# and Title, Delete Task Button
+*     - Labels and progress
+*     - Label and Dependency dropdowns
+*     - Add/Remove Dependency pickers
+*     - Description
+*     - Start and End Dates
+*     - Funding
+*     - Comments
+*
+*     Through the page, dependencies and labels can be added and removed.
+*   The description, dates, and funding can be edited. Finally, the comments
+*   are displayed at the bottom of the page as cards signifying the user that
+*   created them, and buttons to write on one's own comments.
+*/
+
 import {
   Component,
   OnInit,
@@ -103,14 +125,44 @@ export class TaskPageComponent implements OnInit {
       this.taskApi.getFullTaskData(id).subscribe({
         next: task => {
           this.taskData = task;
-          this.oldLabelRelations = this.taskData.labels ? this.taskData.labels : []
+          this.oldLabelRelations = this.taskData.labels ? this.taskData.labels : [];
 
           this.sprintService.getSprint(task.sprintID).subscribe({
             next: sprint => {
-            this.sprintData = sprint;
-            this.pageLoading = false;
+              this.sprintData = sprint;
+              this.pageLoading = false;
             } 
-          })
+          });
+
+          this.taskApi.getTaskRelations().subscribe({
+            next: relations => {
+              let fullDependencies: number[] = [];
+              
+              // Filter relations to get only dependencies for the current task
+              let currentTaskDependencies = relations.filter(rel => rel.independentTaskID === id);
+        
+              for(let i = 0; i < currentTaskDependencies.length; i++) {
+                const dependencyId = currentTaskDependencies[i].dependentTaskID;
+        
+                this.taskApi.getTaskData(dependencyId).subscribe({
+                  next: dependencyTaskData => {
+                    if(dependencyTaskData) {
+                      fullDependencies.push(dependencyTaskData.id);
+                    }
+                  },
+                  error: err => {
+                    this.messageService.add({severity: 'error', summary: `Error loading dependencies: ${err.message}`});
+                  }
+                });
+              }
+        
+              this.taskData.dependencies = this.taskData.dependencies ?? [];
+              this.taskData.dependencies.push(...fullDependencies);
+            },
+            error: err => {
+              this.messageService.add({severity: 'error', summary: `Error getting task relations: ${err.message}`});
+            }
+          });
         },
         error: err => {
           if (err instanceof TaskNotFoundError) {
@@ -136,4 +188,7 @@ export class TaskPageComponent implements OnInit {
       }
     }
   }
+
+  // Add Get Task Relations Function Here
+  // Pass in a independent ID and return the list of matching dependent ID
 }

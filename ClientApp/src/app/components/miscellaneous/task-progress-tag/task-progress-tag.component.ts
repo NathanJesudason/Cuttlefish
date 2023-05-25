@@ -1,3 +1,12 @@
+/*
+* Component Folder: task-progress-tag
+* Component Name: TaskProgressTagComponent
+* Description:
+*     The task-progress-tag serves a given task's progress in a compact tag to be displayed
+*   on the project page. It loads the appropriate color and icon for the given progress.
+*   The possible progress options are 'Backlog', 'In Progress', 'In Review', and 'Done'.
+*/
+
 import { Component, Input, OnInit } from '@angular/core';
 
 import { TaskData } from 'src/types/task';

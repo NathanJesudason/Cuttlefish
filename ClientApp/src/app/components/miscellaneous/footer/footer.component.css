@@ -27,3 +27,7 @@ a {
   align-items: center;
   justify-content: center;
 }
+
+.cuttlefish-logo {
+  filter: grayscale(100%);
+}

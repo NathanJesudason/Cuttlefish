@@ -1,3 +1,15 @@
+/*
+* Component Folder: project-page
+* Component Name: ProjectPageComponent
+* Description:
+*     The project-page serves as the primary page for viewing and
+*   interacting with a project. The page displays the project title
+*   and color, the dates, the funding, the description, the button
+*   to navigate to the project Gantt chart, the create sprint button,
+*   and all of the sprint cards, with an option to expand or collapse
+*   all of the sprint cards at once. 
+*/
+
 import {
   Component,
   ElementRef,

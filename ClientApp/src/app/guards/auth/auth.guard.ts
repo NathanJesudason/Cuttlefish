@@ -6,6 +6,9 @@ import {
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 
+/**
+ * Guard for checking if a user is logged in
+ */
 @Injectable({
   providedIn: 'root'
 })

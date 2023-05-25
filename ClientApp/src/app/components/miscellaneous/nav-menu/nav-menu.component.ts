@@ -1,3 +1,13 @@
+/*
+* Component Folder: nav-menu
+* Component Name: NavMenuComponent
+* Description:
+*     The nav-menu is the main navigation menu and header of the application. It is displayed
+*   on all pages of the application except the home and login pages. It contains the following
+*   content: Project, Tasks By Label, Team Members, and Account. The nav is displayed permanently
+*   opened by default, but collapses on smaller screens.
+*/
+
 import {
   Component,
   ElementRef,

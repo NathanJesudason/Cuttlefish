@@ -1,3 +1,13 @@
+/*
+* Component Folder: forgotpassword
+* Component Name: ForgotPasswordComponent
+* Description:
+*     The forgotpassword component creates a form for the user to enter their email
+*   after clicking to navigate to the forgot password page from the login page. The
+*   user will then receive an email if it exists in the database with a link to reset
+*   their password (see ../resetpassword).
+*/
+
 import {
   Component,
   OnInit

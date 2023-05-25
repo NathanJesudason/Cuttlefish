@@ -1,6 +1,31 @@
+/**
+ * All types and functions related to tasks
+ */
+
 import { CommentData } from './comment';
 import { LabelData } from './label';
 
+
+/**
+ * The data for a task
+ * @property `id` - The id of the task
+ * @property `sprintID` - The id of the sprint the task is in
+ * @property `name` - The name of the task
+ * @property `assignee` - The name of the team member assigned to the task
+ * @property `assignee_id` - The id of the team member assigned to the task
+ * @property `storyPoints` - The number of story points the task is worth
+ * @property `description` - The description of the task, as a string of HTML
+ * @property `progress` - The progress of the task (Backlog, In Progress, In Review, Done)
+ * @property `startDate` - The date the task starts
+ * @property `endDate` - The date the task ends
+ * @property `priority` - The priority of the task
+ * @property `type` - The type of the task (Epic, Bug, Spike, Story, Kaizen, Subtask)
+ * @property `cost` - The cost of the task, in dollars
+ * @property `dependencies` - The ids of the tasks this task depends on
+ * @property `labels` - The labels on this task
+ * @property `order` - The order of the task in its sprint
+ * @property `comments` - The comments on this task
+ */
 export type TaskData = {
   id: number;
   sprintID: number;
@@ -21,13 +46,21 @@ export type TaskData = {
   comments: CommentData[];
 };
 
-//Incomplete function but will work for now
+/**
+ * A small helper to check if an object is a task
+ * @param obj the object that may or may not be a task
+ * @returns `true` if the object is a task, `false` otherwise
+ */
 export function isTaskData(obj: any): obj is TaskData {
   return obj
-    && obj.sprintID !== undefined && typeof obj.sprintID == 'number'
-    && obj.priority !== undefined && typeof obj.priority == 'number'
+    && obj.id !== undefined && typeof obj.id == 'number'
+    && obj.sprintID !== undefined && typeof obj.sprintID == 'number';
 }
 
+/**
+ * Error to throw when a task is not found
+ * @property `id` - The id of the task that was not found
+ */
 export class TaskNotFoundError extends Error {
   id: number;
   

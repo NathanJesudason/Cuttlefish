@@ -1,3 +1,14 @@
+/*
+* Component Folder: home-page
+* Component Name: HomePageComponent
+* Description:
+*     Page displaying the content of the home page ('/'). The
+*   home page is the first page the user sees when they navigate
+*   to the website. The home page displays the text "Welcome to
+*   Cuttlefish!", the Cuttlefish logo, and a button to navigate
+*   to the login page.
+*/
+
 import {
   Component,
   OnInit

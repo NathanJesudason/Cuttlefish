@@ -13,6 +13,9 @@ import {
 import { environment } from 'src/environments/environment';
 import { ResetPassword } from 'src/types/reset-password.model';
 
+/**
+ * Service for resetting password
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +23,11 @@ export class ResetPasswordService {
 private baseUrl: string = `${environment.url}TeamMembers`
   constructor(private http: HttpClient) { }
 
+  /**
+   * Send a reset password link to the given email
+   * @param email the email to send the reset password link to
+   * @returns `Observable<any>` the response from the backend
+   */
   sendResetPasswordLink(email: string){
     return this.http.post<any>(`${this.baseUrl}/send-reset-email/${email}`, {})
       .pipe(
@@ -34,6 +42,11 @@ private baseUrl: string = `${environment.url}TeamMembers`
       );
   }
 
+  /**
+   * Reset the password with the given `ResetPassword` object
+   * @param resetPasswordObj the `ResetPassword` object to reset the password with
+   * @returns `Observable<any>` the response from the backend
+   */
   resetPassword(resetPasswordObj: ResetPassword){
     return this.http.post<any>(`${this.baseUrl}/reset-password`, resetPasswordObj)
   }
