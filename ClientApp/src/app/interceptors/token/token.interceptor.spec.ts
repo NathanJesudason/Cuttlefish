@@ -1,3 +1,7 @@
+/**
+ * Test file for TokenInterceptor
+ */
+
 import {
   HttpClient,
   HttpHandler

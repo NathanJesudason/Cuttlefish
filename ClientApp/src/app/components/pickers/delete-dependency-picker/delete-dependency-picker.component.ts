@@ -16,6 +16,9 @@ import { Dropdown } from 'primeng/dropdown';
 import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
+/**
+ * Component for deleting dependencies from the provided task
+ */
 @Component({
   selector: 'delete-dependency-picker',
   templateUrl: './delete-dependency-picker.component.html',
@@ -29,6 +32,9 @@ export class DeleteDependencyPickerComponent implements OnInit {
   @ViewChild('dropdown')
   dropdown!: Dropdown;
 
+  /**
+   * The task to delete dependencies from
+   */
   @Input() data!: TaskData;
 
   dependencyOptions: { label: string, value: number }[] = [];
@@ -50,6 +56,10 @@ export class DeleteDependencyPickerComponent implements OnInit {
     }
   }
 
+  /**
+   * Shows the confirmation dialog for deleting the selected dependency
+   * @param selectedDependencyValue the value of the dependency to be deleted
+   */
   showConfirmation(selectedDependencyValue: number): void {
     if (!selectedDependencyValue) {
       this.messageService.add({severity: 'error', summary: 'Please select a dependency!'});
@@ -71,6 +81,10 @@ export class DeleteDependencyPickerComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes the dependency from this task in the backend
+   * @param dependencyValue the value of the dependency to be deleted
+   */
   approveChanges(dependencyValue: number) {
     this.taskApi.deleteTaskRelation(this.data.id, dependencyValue)
       .pipe(
@@ -93,6 +107,11 @@ export class DeleteDependencyPickerComponent implements OnInit {
       });
   }
 
+  /**
+   * Removes the dependency from the task in the frontend
+   * @param dependency the dependency to be removed
+   * @returns 1 if the dependency was removed, -1 if the dependency does not exist
+   */
   removeDependency(dependency: number): number {
     const index = this.data.dependencies?.indexOf(dependency);
     if (index !== undefined && index !== -1) {
@@ -102,10 +121,16 @@ export class DeleteDependencyPickerComponent implements OnInit {
     return -1;
   }
 
+  /**
+   * Hides the overlay panel
+   */
   cancelInput() {
     this.overlayPanel.hide();
   }
 
+  /**
+   * Display message that there are no dependencies available
+   */
   showNoDependenciesToast() {
     this.messageService.add({severity: 'info', summary: 'No dependencies available'});
   }

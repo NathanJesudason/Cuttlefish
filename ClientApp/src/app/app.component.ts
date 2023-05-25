@@ -5,6 +5,7 @@ import { HomePageComponent } from 'src/app/components/pages/home-page/home-page.
 import { LoginComponent } from 'src/app/components/pages/login/login.component';
 import { ResetPasswordComponent } from 'src/app/components/pages/reset-password/reset-password.component';
 import { SignupComponent } from 'src/app/components/pages/signup/signup.component';
+import { NotFoundPageComponent } from 'src/app/components/pages/not-found-page/not-found-page.component';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent {
       LoginComponent,
       SignupComponent,
       ResetPasswordComponent,
-      ForgotPasswordComponent
+      ForgotPasswordComponent,
+      NotFoundPageComponent
     ];
 
     for (const component of hideNavMenuPages) {

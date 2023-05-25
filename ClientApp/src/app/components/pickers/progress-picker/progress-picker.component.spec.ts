@@ -1,3 +1,7 @@
+/**
+ * Test file for ProgressPickerComponent
+ */
+
 import {
   MockBuilder,
   MockRender,

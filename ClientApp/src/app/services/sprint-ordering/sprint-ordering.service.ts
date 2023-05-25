@@ -12,6 +12,9 @@ import {
 
 import { environment } from 'src/environments/environment';
 
+/**
+ * Service for performing ordering operations on tasks in sprints
+ */
 @Injectable({providedIn: 'root'})
 export class SprintOrderingService {
   baseUrl: string = environment.url;
