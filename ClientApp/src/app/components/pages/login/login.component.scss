@@ -7,14 +7,14 @@
   color: var(--text-color);
 }
 
-#google-button, #github-button {
-  margin-left: var(--content-padding);
-}
-
 :host ::ng-deep {
   #signup-button button.p-button {
     margin-left: 0.5rem;
     padding: 0;
+  }
+
+  .p-card-content {
+    padding-bottom: 0;
   }
   
   p-card {
