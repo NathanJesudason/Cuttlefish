@@ -48,7 +48,8 @@ namespace Cuttlefish.Controllers
         {
             var teammember = await _context.TeamMembers.FindAsync(teammemberId);
             var project = await _context.Projects.FindAsync(projectId);
-            if (teammember == null || project == null) { 
+            if (teammember == null || project == null)
+            {
                 return NotFound();
             }
 
@@ -125,11 +126,11 @@ namespace Cuttlefish.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-               
+
             }
-            catch 
+            catch
             {
-                return Conflict(new {error = "That user is already assigned to project!"});
+                return Conflict(new { error = "That user is already assigned to project!" });
             }
 
             return CreatedAtAction("GetTeamMembersToProjects", new { id = teamMembersToProjects.Id }, teamMembersToProjects);

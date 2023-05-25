@@ -127,7 +127,7 @@ namespace Cuttlefish.Controllers
                                   name = t.name,
                                   email = t.email,
                                   roles = t.roles,
-                                  avatar = t.avatar 
+                                  avatar = t.avatar
                               };
 
             //return await _context.TeamMembers.ToListAsync();
@@ -229,7 +229,7 @@ namespace Cuttlefish.Controllers
                 return NotFound();
             }
             teamMember.avatar = avatar.options;
-            
+
             await _context.SaveChangesAsync();
 
             return Ok(new { Message = "Avatar changed" });
@@ -252,7 +252,8 @@ namespace Cuttlefish.Controllers
         {
             var user = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == username);
 
-            if (user == null) {
+            if (user == null)
+            {
                 return NotFound();
             }
 
@@ -265,13 +266,13 @@ namespace Cuttlefish.Controllers
             if (teamMember.username != null)
             {
 
-                var checkUsername = await _context.TeamMembers.FirstOrDefaultAsync(u =>u.username == teamMember.username);
+                var checkUsername = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == teamMember.username);
                 if (checkUsername == null)
                 {
                     user.username = teamMember.username;
 
                     //var newUserToken = new TeamMembers();
-                    
+
                     //newUserToken = user
 
                     user.token = CreateJwtToken(user);
@@ -295,9 +296,9 @@ namespace Cuttlefish.Controllers
 
             }
 
-            if (teamMember.email != null) 
-            { 
-                var checkEmail = await _context.TeamMembers.FirstOrDefaultAsync(u =>u.email == teamMember.email);
+            if (teamMember.email != null)
+            {
+                var checkEmail = await _context.TeamMembers.FirstOrDefaultAsync(u => u.email == teamMember.email);
                 if (checkEmail == null)
                 {
                     user.email = teamMember.email;
@@ -308,7 +309,7 @@ namespace Cuttlefish.Controllers
                 }
             }
 
-            if(teamMember.name != null)
+            if (teamMember.name != null)
             {
                 user.name = teamMember.name;
             }
@@ -316,7 +317,7 @@ namespace Cuttlefish.Controllers
 
             await _context.SaveChangesAsync();
 
-        return Ok(new { Message = message });
+            return Ok(new { Message = message });
 
         }
 
