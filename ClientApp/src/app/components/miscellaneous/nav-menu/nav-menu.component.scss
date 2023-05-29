@@ -6,3 +6,9 @@
 #cuttlefish-logo:hover {
   cursor: pointer;
 }
+
+:host ::ng-deep {
+  .p-menubar .p-submenu-list {
+    z-index: 1000;
+  }
+}
