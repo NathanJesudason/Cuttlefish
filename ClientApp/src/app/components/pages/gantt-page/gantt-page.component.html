@@ -131,6 +131,9 @@
           tooltipPosition="bottom"
         >{{ item.title }}</div>
       </ng-template>
+      <ng-template #tableEmpty>
+        <div>Nothing to display for the current task view mode</div>
+      </ng-template>
     </ngx-gantt>
   </ng-container>
 </div>
