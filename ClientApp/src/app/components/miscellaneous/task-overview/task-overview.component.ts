@@ -35,6 +35,12 @@ import { TaskData } from 'src/types/task';
 export class TaskOverviewComponent implements OnInit {
   @Input() taskData!: TaskData;
 
+  /**
+   * Whether or not the task is draggable.
+   * @default true
+   */
+  @Input() dragDropEnabled: boolean = true;
+
   trimmedDescription!: string;
   trimmedLabels: LabelData[] = [];
 
@@ -55,12 +61,20 @@ export class TaskOverviewComponent implements OnInit {
       this.trimmedDescription = 'No description';
       return;
     }
+
     const descriptionWithoutTags = this.taskData.description.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '');
     if (descriptionWithoutTags.length === 0) {
       this.trimmedDescription = 'No description';
-    } else {
-      this.trimmedDescription = `${descriptionWithoutTags.slice(0, 80)}...`;
+      return;
     }
+
+    const maxDescriptionCharacters = 80;
+    if (descriptionWithoutTags.length <= maxDescriptionCharacters) {
+      this.trimmedDescription = descriptionWithoutTags;
+      return;
+    }
+
+    this.trimmedDescription = `${descriptionWithoutTags.slice(0, maxDescriptionCharacters)}...`;
   }
 
   getLabels() {
