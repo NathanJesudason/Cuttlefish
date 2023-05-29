@@ -131,6 +131,13 @@
           tooltipPosition="bottom"
         >{{ item.title }}</div>
       </ng-template>
+      <ng-template #tableEmpty>
+        <div>
+          No information to display for the current task view mode! If task data is supposed
+          to be displayed here, ensure it has been created correctly on the 
+          <a [routerLink]="['/project', projectId]">project page</a>.
+        </div>
+      </ng-template>
     </ngx-gantt>
   </ng-container>
 </div>
