@@ -172,8 +172,8 @@ export class GanttPageComponent implements OnInit {
       let item: GanttItem = {
         id: `task-${task.id}`,
         title: `${task.id}: ${task.name} (${task.progress})`,
-        start: Math.round(task.startDate.getTime() / 1000),
-        end: Math.round(task.endDate.getTime() / 1000),
+        start: Math.floor(task.startDate.getTime() / 1000),
+        end: Math.floor(task.endDate.getTime() / 1000),
         color: progressColors[task.progress],
       };
 
