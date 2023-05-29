@@ -12,3 +12,7 @@ html, body {
 .container {
   margin: 1.5rem auto;
 }
+
+.hidden-nav {
+  margin-top: auto;
+}

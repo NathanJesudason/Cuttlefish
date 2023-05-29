@@ -4,6 +4,6 @@
     <div class="container">
       <router-outlet (activate)="assignHideNavMenu($event)"></router-outlet>
     </div>
-    <app-footer></app-footer>
+    <app-footer [ngClass]="{'hidden-nav': hideNavMenu}"></app-footer>
   </div>
 </body>
