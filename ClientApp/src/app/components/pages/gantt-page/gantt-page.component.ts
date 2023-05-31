@@ -202,7 +202,8 @@ export class GanttPageComponent implements OnInit {
         title: sprint.name,
         expanded: true,
       });
-      const thisSprintItems = this.standardTasks(sprint.tasks).map(item => {
+      const sortedTasks = sprint.tasks.sort((a, b) => a.order - b.order);
+      const thisSprintItems = this.standardTasks(sortedTasks).map(item => {
         item.group_id = groupName;
         return item;
       });
