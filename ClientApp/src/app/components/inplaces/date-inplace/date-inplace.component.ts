@@ -84,7 +84,6 @@ export class DateInplaceComponent implements OnInit {
     }
 
     //Check if date range does not make sense
-    
     if((this.whichDate == 'start' && this.entityData.endDate && this.selectedDate > this.entityData.endDate)){
       this.messageService.add({severity: 'error', summary: 'Start date is ahead of end date'});
       this.cdr.detectChanges();
