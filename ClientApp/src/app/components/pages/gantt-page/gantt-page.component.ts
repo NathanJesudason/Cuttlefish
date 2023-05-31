@@ -135,6 +135,7 @@ export class GanttPageComponent implements OnInit {
               for (const sprint of data.sprints) {
                 this.items.push(...this.standardTasks(sprint.tasks));
               }
+              this.items.sort((a, b) => a.start! - b.start!);
             } else if (this.taskOrganizationMode === 'epic') {
               const allTasks: TaskData[] = [];
               for (const sprint of data.sprints) {
@@ -323,6 +324,7 @@ export class GanttPageComponent implements OnInit {
       this.messageService.add({severity: 'error', summary: `Task cannot start before sprint start date, ${format(thisSprint.startDate, 'yyyy-MM-dd')}`, life: 5000});
       const itemIndex = this.items.findIndex(item => item.id === `task-${thisTask.id}`);
       this.items[itemIndex].start = thisTask.startDate.getTime() / 1000;
+      this.items[itemIndex].end = thisTask.endDate.getTime() / 1000;
       this.rerenderChart();
       return;
     }
@@ -330,6 +332,7 @@ export class GanttPageComponent implements OnInit {
     if (!sprintIsBacklog && (proposedEndDate.getTime() > thisSprint.endDate.getTime())) {
       this.messageService.add({severity: 'error', summary: `Task cannot end after sprint end date, ${format(thisSprint.endDate, 'yyyy-MM-dd')}`, life: 5000});
       const itemIndex = this.items.findIndex(item => item.id === `task-${thisTask.id}`);
+      this.items[itemIndex].start = thisTask.startDate.getTime() / 1000;
       this.items[itemIndex].end = thisTask.endDate.getTime() / 1000;
       this.rerenderChart();
       return;
