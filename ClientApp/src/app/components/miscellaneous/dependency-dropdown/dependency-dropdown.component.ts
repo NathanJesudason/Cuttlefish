@@ -8,7 +8,7 @@
 *   service to get the task data of the dependencies.
 */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { from } from 'rxjs';
 import { concatMap, toArray, map } from 'rxjs/operators';
 
@@ -24,10 +24,10 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
   styleUrls: ['./dependency-dropdown.component.scss'],
   providers: [MessageService, ConfirmationService]
 })
-export class DependencyDropdownComponent {
-  @Input() dependencies!: number[];
+export class DependencyDropdownComponent implements OnInit {
+  @Input() data!: TaskData;
   
-  taskDataArray: TaskData[] = [];
+  taskDataArray: { label: string, value: number }[] = [];
   selectedDependency: number | null = null;
 
   constructor(
@@ -37,23 +37,30 @@ export class DependencyDropdownComponent {
     private taskApi: TaskApi
   ) {}
 
+  ngOnInit() {
+    this.loadAndSortDependencies();
+  }
+
   loadAndSortDependencies(): void {
     this.taskDataArray = [];
-    if (this.dependencies) {
-      from(this.dependencies).pipe(
+    if (this.data.dependencies) {
+      from(this.data.dependencies).pipe(
         concatMap((id) => this.taskApi.getTaskData(id)),
         toArray(),
-        map((taskDataArray) => taskDataArray.sort((a, b) => a.id - b.id))
+        map((taskDataArray) => taskDataArray.sort((a, b) => a.id - b.id)),
+        map((taskDataArray) => taskDataArray.map(task => ({ label: `Task ${task.id} - ${task.name}`, value: task.id })))
       ).subscribe(
-        (sortedTaskDataArray: TaskData[]) => {
+        (sortedTaskDataArray: { label: string, value: number }[]) => {
+          console.log("Tasks loaded: ", sortedTaskDataArray); // Add a console log here
           this.taskDataArray = sortedTaskDataArray;
         },
         (error: Error) => {
+          console.error("Error occurred while loading tasks: ", error); // Add a console log here
           this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
         }
       );
     }
-  }
+  }  
 
   redirectToTask(taskId: number): void {
     if (this.selectedDependency !== taskId) {
