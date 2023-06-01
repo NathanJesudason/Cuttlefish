@@ -45,7 +45,7 @@ namespace Cuttlefish.Controllers
                 return BadRequest(new { Message = "teammemberobj is null" });
             }
 
-            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username); 
+            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username);
             var teammember_email = await _context.TeamMembers.FirstOrDefaultAsync(x => x.email == teammemberObj.username);
 
 
