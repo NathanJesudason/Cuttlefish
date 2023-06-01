@@ -18,7 +18,6 @@ namespace Cuttlefish.Models
         public string roles { get; set; }
         public string avatar { get; set; }
         public string token { get; set; }
-        //public string name { get; set; }
 
         public string resetPasswordToken { get; set; }
         public DateTime resetPasswordExpire { get; set; }

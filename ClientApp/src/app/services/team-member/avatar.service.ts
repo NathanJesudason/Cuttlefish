@@ -12,7 +12,6 @@ export class AvatarService {
 
   readonly baseURL = `${environment.url}TeamMembers`
 
-
   patchAvatar(username: string, options: string){
     let body = {username: username, options: options}
     options = 'avatar'

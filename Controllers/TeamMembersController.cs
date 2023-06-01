@@ -45,8 +45,7 @@ namespace Cuttlefish.Controllers
                 return BadRequest(new { Message = "teammemberobj is null" });
             }
 
-            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username); // && x.Password == teammemberObj.Password);
-
+            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username); 
             var teammember_email = await _context.TeamMembers.FirstOrDefaultAsync(x => x.email == teammemberObj.username);
 
 
@@ -130,7 +129,6 @@ namespace Cuttlefish.Controllers
                                   avatar = t.avatar
                               };
 
-            //return await _context.TeamMembers.ToListAsync();
             return teamMembers;
 
         }
@@ -172,20 +170,6 @@ namespace Cuttlefish.Controllers
 
             return teamMembers;
         }
-
-        // GET: api/TeamMembers/by-username/username
-        //[HttpGet("by-username/{username}")]
-        //public async Task<ActionResult<TeamMembers>> GetTeamMembersByUsername(string username)
-        //{
-        //    var teamMembers = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == username);
-
-        //    if (teamMembers == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return teamMembers;
-        //}
 
         // PUT: api/TeamMembers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -257,10 +241,7 @@ namespace Cuttlefish.Controllers
                 return NotFound();
             }
 
-            //Console.WriteLine($@"Teammember:: {teamMember.username}");
-
             var message = "Team member updated";
-
 
             // check if email or username exists
             if (teamMember.username != null)
@@ -271,15 +252,7 @@ namespace Cuttlefish.Controllers
                 {
                     user.username = teamMember.username;
 
-                    //var newUserToken = new TeamMembers();
-
-                    //newUserToken = user
-
                     user.token = CreateJwtToken(user);
-
-                    //Console.WriteLine($@"Token is: {user.token}");
-
-
 
                     await _context.SaveChangesAsync();
 

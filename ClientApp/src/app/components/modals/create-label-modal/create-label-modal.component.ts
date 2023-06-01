@@ -14,12 +14,10 @@ export class CreateLabelModalComponent implements OnInit {
   @Input() labels!: LabelData[]
   
   labelCreated!: LabelData
-
   createLabelModalShown: boolean = false;
   editLabelModalShown: boolean = false;
   label!: string
   color: string = "#ff0000"
-  
   title: string = "Create"
 
   constructor(private labelsComponent: LabelsPageComponent, private messageService: MessageService) { }
@@ -90,5 +88,4 @@ export class CreateLabelModalComponent implements OnInit {
     this.label = '';
     this.color = '#ff0000';
   }
-
 }

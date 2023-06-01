@@ -46,17 +46,15 @@ export class TeamMembersFormComponent implements OnInit {
       error: err => this.messageService.add({severity: 'error', summary: `Error occured ${err}. Could not retrieve all projects.`})
     })
 
-    this.user.getRole().subscribe(value =>
-      {
-        const rolefromToken = this.auth.getRoleFromToken()
-        this.role = value || rolefromToken
-      })
+    this.user.getRole().subscribe(value =>{
+      const rolefromToken = this.auth.getRoleFromToken()
+      this.role = value || rolefromToken
+    })
   }
 
   onSubmit(form: NgForm){
-    if(this.teamMemberService.teamMemberData.id == 0){
+    if(this.teamMemberService.teamMemberData.id == 0)
       this.addTeamMemberToProject(form)
-    }
   }
 
   addTeamMemberToProject(form: NgForm){
@@ -79,15 +77,13 @@ export class TeamMembersFormComponent implements OnInit {
               this.messageService.add({severity: 'error', summary: 'Team member already exists on that project!'})
             }
           }
-        }
-        )
+        })
       },
       error: err => {
-        if(err.status === 404){
+        if(err.status === 404)
           this.messageService.add({severity: 'error', summary: 'Username does not exist'})
-        } else{
+        else
           this.messageService.add({severity: 'error', summary: err})
-        }
       }
     })
   }

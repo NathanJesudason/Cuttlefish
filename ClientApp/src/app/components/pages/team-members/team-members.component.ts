@@ -42,11 +42,8 @@ export class TeamMembersComponent implements OnInit {
 
   public role!: string
   public listProjectsToTeamMembers!: TeamMemberToProject[]
-
   public listofProjects!: ProjectData[]
-
   public listofMembers!: TeamMember[]
-
   public teamMembersToProject!: TeamMemberToProject
 
   showDelete = false
@@ -55,59 +52,45 @@ export class TeamMembersComponent implements OnInit {
   avatar: string = ""
 
   ngOnInit(): void {
-    if(this.auth.isLoggedIn())
-    {
+    if(this.auth.isLoggedIn()){
       this.TeamMemberService.refreshList(this.messageService)
-
       this.projectsApi.getAllProjects().subscribe({
         next: res=> this.listofProjects = res,
         error: err => console.log("Error occured:", err)
-      }
-      )
-
+      })
       this.loadTeamMembers()
-      
-      this.user.getRole().subscribe(value =>
-        {
-          const rolefromToken = this.auth.getRoleFromToken()
-          this.role = value || rolefromToken
-        })
-        this.populateTable()
+      this.user.getRole().subscribe(value =>{
+        const rolefromToken = this.auth.getRoleFromToken()
+        this.role = value || rolefromToken
+      })
+      this.populateTable()
     }
   }
 
   editMembers(){
-    console.log("edit members:", this.showDelete)
     this.showDelete = !this.showDelete
     if (this.editOrCancel === "Edit")
       this.editOrCancel = "Cancel"
     else
       this.editOrCancel = "Edit"
   }
-
- 
       
   loadTeamMembers(){
     this.TeamMemberService.getTeamMember().subscribe({
       next: res=> this.listofMembers = res as TeamMember[],
       error: err => console.log("Error occured:", err)
-    }
-    )
+    })
   }
 
   userInProject(projId: number, teamMemberId: number ){
-
-    
     var inProject = false
     var teammember: any
     for(teammember in this.listProjectsToTeamMembers){
       if (this.listProjectsToTeamMembers[teammember].projectID === projId && 
-        this.listProjectsToTeamMembers[teammember].teamMemberID === teamMemberId)
-        {
+          this.listProjectsToTeamMembers[teammember].teamMemberID === teamMemberId){
           inProject = true
-        }
+      }
     }
-
     this.teammemberToProjectService.refreshList()
     return inProject
   }
@@ -120,25 +103,18 @@ export class TeamMembersComponent implements OnInit {
       error: err => console.log("Error occured:", err)
     })
   }
-   
-
 
   // make query to get id of the teammembertoprojects  
-  //delete teammember from project using that id
+  // delete teammember from project using that id
   onDelete(event: Event, teamMember: TeamMember, project: ProjectData){
-    
-    console.log("project :", project)
-
     this.confirmationService.confirm({
       target: event.target || undefined,
       message: `Are you sure you want to delete ${(teamMember.username).toUpperCase()} from ${(project.name).toUpperCase()}?`,
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-
         this.TeamMemberService.getTeamMemberFromProject(teamMember.id, project.id).subscribe({
           next: res =>{
             let id = res as GetTeamMemberToProject
-            console.log('id to delete', id)
             this.TeamMemberService.deleteTeamMemberFromProject(id.id).subscribe({
               next: () => {
                 this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Team member has been deleted from project.' })
@@ -162,5 +138,4 @@ export class TeamMembersComponent implements OnInit {
     this.avatar = this.listofMembers[user].avatar
     return this.listofMembers[user].roles
   }
-
 }

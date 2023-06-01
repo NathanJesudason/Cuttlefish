@@ -75,13 +75,11 @@ export class LabelsPageComponent implements OnInit {
     this.labelService.getTasksByLabel(this.currentLabel.label).subscribe({
       next: res => {
         const labelsToTasks= res as LableToTask[]
-        console.log('res: ', labelsToTasks)
          labelsToTasks.map(
           x => 
           this.taskApi.getTaskData(x.taskID).subscribe({
             next: res => {
               this.tasksByLabel.push(res)
-              console.log('res: ', res)
             },
             error: err => {
               console.log('Error getting tasks: ',err)
@@ -101,9 +99,8 @@ export class LabelsPageComponent implements OnInit {
           this.getCurrentLabel();
           this.getTasksByCurrentLabel();
         },
-        error: err=> {console.log("Error",err)}
-      }
-    )
+        error: err=> console.log("Error",err)
+    })
   }
 
   updateSelectedLabel(event: { value: LabelData }) {
@@ -127,13 +124,10 @@ export class LabelsPageComponent implements OnInit {
     this.labelService.postLabel(this.label)
     .subscribe({
       next: res =>{
-        console.log("label:",res)
         this.availableLabels.unshift(res) // update the dropdown
       },
-      error: err=> {console.log("Error",err)}
-    }
-      
-    )
+      error: err=> console.log("Error",err)
+    })
   }
   
   editLabel(editLabel: LabelData){
@@ -143,10 +137,9 @@ export class LabelsPageComponent implements OnInit {
       next: ()=> { 
         this.currentLabel!.color = editLabel.color
       },
-      error: err => {console.log("Error",err)}}
-      )
+      error: err => console.log("Error",err)
+    })
   }
-
 
   showCreateLabelModal() {
     (this.createLabelModal as any).showCreateLabelModal("Create");
@@ -159,8 +152,7 @@ export class LabelsPageComponent implements OnInit {
   deleteLabel(){
     this.label = this.currentLabel!
     this.labelService.deleteLabel(this.label.label).subscribe({
-      next: res=>{
-        console.log("res",res)
+      next: () =>{
         this.availableLabels.splice(this.availableLabels.indexOf(this.currentLabel!),1) // update the dropdown
         this.currentLabel = undefined
       },
@@ -175,7 +167,6 @@ export class LabelsPageComponent implements OnInit {
       console.log("Must include label") 
       return -2;
     }
-    
     else{
       // see if there exists that same label in the DB
       if(this.availableLabels.find( l => { return l.label === createL.label})){
@@ -195,6 +186,4 @@ export class LabelsPageComponent implements OnInit {
   cancelLabelSelection(){
     this.currentLabel = undefined
   }
-
-
 }

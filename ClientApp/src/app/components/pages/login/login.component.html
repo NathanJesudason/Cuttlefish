@@ -8,7 +8,6 @@
         >
         <label for="username-input">Username or Email</label>
       </span>
-    
       <span class="p-float-label">
         <p-password
           formControlName="password"
@@ -17,9 +16,7 @@
         ></p-password>
         <label for="password-input">Password</label>
       </span>
-
       <p-messages></p-messages>
-    
       <p-button
         id="login-button"
         label="Log In"
@@ -28,13 +25,11 @@
         type="submit"
         (onClick)="Login()"
       ></p-button>
-      
       <p-button
         label="Forgot Password?"
         styleClass="p-button-link"
         [routerLink]="['/forgotpassword']"
       ></p-button>
-
       <div id="signup-section">
         <span class="label-text">Don't have an account?</span>
         <p-button
@@ -45,7 +40,6 @@
         ></p-button>
       </div>
     </form>
-
     <ng-template pTemplate="footer">
       <p class="label-text">Log in with...</p>
       <p-button id="facebook-button" icon="pi pi-facebook" [routerLink]="['/fb-login']"></p-button>

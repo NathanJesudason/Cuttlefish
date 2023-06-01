@@ -26,11 +26,7 @@ export class TeamMemberToProjectService {
     return this.http.delete
   }
 
-
-
   refreshList(){
     return this.http.get(`${this.baseURL}`)
   }
-
-
 }

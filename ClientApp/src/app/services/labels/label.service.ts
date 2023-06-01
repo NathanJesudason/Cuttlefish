@@ -12,7 +12,6 @@ export class LabelService {
   constructor(private http: HttpClient) { }
 
   list: LabelData[] = []
-
   readonly baseURL = `${environment.url}Labels/`
 
   getLabels(): Observable<LabelData[]>{

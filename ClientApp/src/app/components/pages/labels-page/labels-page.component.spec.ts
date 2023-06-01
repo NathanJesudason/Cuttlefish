@@ -79,6 +79,6 @@ describe('LabelsPageComponent', () => {
     const fixture = MockRender(LabelsPageComponent);
     const component = fixture.point.componentInstance;
 
-    expect(component.currentLabel.name).toEqual(mockLabelName);
+    expect(component.currentLabel!.label).toEqual(mockLabelName);
   });
 });
