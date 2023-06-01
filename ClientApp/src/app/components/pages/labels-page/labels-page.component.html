@@ -26,7 +26,11 @@
   [multiple]="true"
   [ngStyle]="{'margin-top': tasksByLabel.length === 0 ? '0' : 'var(--content-padding)'}"
 >
-<task-overview *ngFor="let task of tasksByLabel" [taskData]="task"></task-overview>
+<task-overview 
+  *ngFor="let task of tasksByLabel" 
+  [taskData]="task" 
+  [dragDropEnabled]="false"
+  ></task-overview>
 </p-accordion>
 <create-label-modal
   #createLabelModal
