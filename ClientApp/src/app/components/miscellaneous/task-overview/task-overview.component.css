@@ -55,6 +55,11 @@ a {
   grid-area: 1 / 2 / 2 / 4;
 }
 
+.nodragdrop-task-title {
+  grid-area: 1 / 1 / 2 / 4;
+  margin-left: 0.5rem;
+}
+
 .task-title-text:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -68,6 +73,11 @@ a {
 
 .task-description {
   grid-area: 2 / 2 / 3 / 4;
+}
+
+.nodragdrop-task-description {
+  grid-area: 2 / 1 / 3 / 4;
+  margin-left: 0.5rem;
 }
 
 .task-labels {
