@@ -38,10 +38,12 @@ import {
 } from 'src/types/task';
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service'
 import { BasicFadeAmination } from 'src/app/animations/animations';
 import { LabelData } from 'src/types/label';
 import { MessageService } from 'primeng/api';
+import { ProjectData } from 'src/types/project';
 import { SprintData } from 'src/types/sprint';
 
 @Component({
@@ -55,12 +57,14 @@ export class TaskPageComponent implements OnInit {
   pageLoading: boolean = true;
   allLabels: LabelData[] = [];
   taskData!: TaskData;
-  sprintData!: SprintData;
+  sprintData!: SprintData; // sprintData.projectID is ProjectID# is in SprintData variable after init
+  projectData!: ProjectData;
   oldLabelRelations: LabelData[] = [];
   @ViewChild('progressPicker') progressPicker !: ProgressPickerComponent;
 
   constructor(
     private taskApi: TaskApi,
+    private projectApi: ProjectService,
     private sprintService: SprintService,
     private route: ActivatedRoute,
     private router: Router,
@@ -70,7 +74,8 @@ export class TaskPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageLoading = true;
-    this.loadTaskData();
+    this.loadTaskData();      // populate sprint data
+    this.loadProjectTasks();  // populate project data
   }
 
   deleteTask(): void {
@@ -187,6 +192,19 @@ export class TaskPageComponent implements OnInit {
         return;
       }
     }
+  }
+
+  loadProjectTasks(): void {
+    // Because sprint data already has projectId, we can use it to get project data
+    const projectId = this.sprintData.projectId;
+    this.projectApi.getProject(projectId, true, true).subscribe(
+      (data: ProjectData) => {
+        this.projectData = data;
+      },
+      (error: any) => {
+        console.error('Error: Failed to load project on task page', error);
+      }
+    );
   }
 
   // Add Get Task Relations Function Here
