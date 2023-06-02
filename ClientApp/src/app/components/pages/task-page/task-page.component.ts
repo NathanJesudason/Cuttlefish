@@ -73,8 +73,10 @@ export class TaskPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.pageLoading = true;
-    this.loadTaskData();      // populate sprint data
+    this.route.params.subscribe(_routeParams => {
+      this.pageLoading = true;
+      this.loadTaskData();      // populate sprint data
+    });
   }
 
   deleteTask(): void {

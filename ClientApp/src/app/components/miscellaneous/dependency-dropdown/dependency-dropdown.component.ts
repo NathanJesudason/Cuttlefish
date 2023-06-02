@@ -19,14 +19,13 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
   selector: 'dependency-dropdown',
   templateUrl: './dependency-dropdown.component.html',
   styleUrls: ['./dependency-dropdown.component.scss'],
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
 export class DependencyDropdownComponent implements OnInit {
   taskDataArray: { label: string, value: number }[] = [];
   selectedDependency: number | null = null;
 
   constructor(
-    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
     private route: ActivatedRoute,
@@ -40,8 +39,21 @@ export class DependencyDropdownComponent implements OnInit {
     this.route.params.subscribe(params => {
       const taskId = +params['id'];  // The '+' is to convert the string to a number
 
+
+      this.taskApi.getTaskRelations().subscribe({
+        next: (relations) => {
+          const filtered = relations.filter(r => r.dependentTaskID === taskId);
+          this.taskDataArray = filtered.map(({id, independentTaskID, dependentTaskID}) => ({ label: `Task ${independentTaskID}`, value: independentTaskID }));
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+
+      /*
       this.taskApi.getTaskData(taskId).subscribe(
         (taskData) => {
+          console.log('Task data:', taskData);
           if (taskData.dependencies) {
             let dependencies = taskData.dependencies;
             this.taskDataArray = dependencies.map(id => ({ label: `Task ${id}`, value: id }));
@@ -53,6 +65,7 @@ export class DependencyDropdownComponent implements OnInit {
           console.error('Error:', error);
         }
       );
+      */
     });
   }  
 
