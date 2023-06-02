@@ -8,14 +8,11 @@
 *   service to get the task data of the dependencies.
 */
 
-import { Component, Input, OnInit } from '@angular/core';
-import { from } from 'rxjs';
-import { concatMap, toArray, map } from 'rxjs/operators';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
-import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 @Component({
@@ -25,8 +22,6 @@ import { TaskApi } from 'src/app/services/tasks/tasks.service';
   providers: [MessageService, ConfirmationService]
 })
 export class DependencyDropdownComponent implements OnInit {
-  @Input() data!: TaskData;
-  
   taskDataArray: { label: string, value: number }[] = [];
   selectedDependency: number | null = null;
 
@@ -34,32 +29,31 @@ export class DependencyDropdownComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
+    private route: ActivatedRoute,
     private taskApi: TaskApi
   ) {}
 
   ngOnInit() {
-    this.loadAndSortDependencies();
   }
 
   loadAndSortDependencies(): void {
-    this.taskDataArray = [];
-    if (this.data.dependencies) {
-      from(this.data.dependencies).pipe(
-        concatMap((id) => this.taskApi.getTaskData(id)),
-        toArray(),
-        map((taskDataArray) => taskDataArray.sort((a, b) => a.id - b.id)),
-        map((taskDataArray) => taskDataArray.map(task => ({ label: `Task ${task.id} - ${task.name}`, value: task.id })))
-      ).subscribe(
-        (sortedTaskDataArray: { label: string, value: number }[]) => {
-          console.log("Tasks loaded: ", sortedTaskDataArray); // Add a console log here
-          this.taskDataArray = sortedTaskDataArray;
+    this.route.params.subscribe(params => {
+      const taskId = +params['id'];  // The '+' is to convert the string to a number
+
+      this.taskApi.getTaskData(taskId).subscribe(
+        (taskData) => {
+          if (taskData.dependencies) {
+            let dependencies = taskData.dependencies;
+            this.taskDataArray = dependencies.map(id => ({ label: `Task ${id}`, value: id }));
+          } else {
+            console.log('This task has no dependencies');
+          }
         },
-        (error: Error) => {
-          console.error("Error occurred while loading tasks: ", error); // Add a console log here
-          this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
+        (error) => {
+          console.error('Error:', error);
         }
       );
-    }
+    });
   }  
 
   redirectToTask(taskId: number): void {

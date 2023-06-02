@@ -75,7 +75,6 @@ export class TaskPageComponent implements OnInit {
   ngOnInit(): void {
     this.pageLoading = true;
     this.loadTaskData();      // populate sprint data
-    this.loadProjectTasks();  // populate project data
   }
 
   deleteTask(): void {
@@ -135,6 +134,7 @@ export class TaskPageComponent implements OnInit {
           this.sprintService.getSprint(task.sprintID).subscribe({
             next: sprint => {
               this.sprintData = sprint;
+              this.loadProjectTasks();  // populate project data
               this.pageLoading = false;
             } 
           });

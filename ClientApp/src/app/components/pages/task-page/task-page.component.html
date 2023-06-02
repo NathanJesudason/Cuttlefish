@@ -23,12 +23,14 @@
     <div class="relation-dependency-row">
       <p-multiSelect [options]="allLabels" [(ngModel)]="taskData.labels" optionLabel="name" defaultLabel="Label Relations" display="chip" (ngModelChange)="updateLabels($event)">
         </p-multiSelect>
-        <dependency-dropdown [data]="projectData" #dependencyDropdown></dependency-dropdown>
+        <dependency-dropdown #dependencyDropdown></dependency-dropdown>
     </div>
+  <!--
     <div class="dependency-controls">
       <dependency-picker [data]="projectData" #dependencyPicker></dependency-picker>
       <delete-dependency-picker [data]="projectData" #deleteDependencyPicker></delete-dependency-picker>
     </div>
+  -->
   </div>
 
   <description-inplace [entityData]="taskData" defaultText="Enter a description..."></description-inplace>
