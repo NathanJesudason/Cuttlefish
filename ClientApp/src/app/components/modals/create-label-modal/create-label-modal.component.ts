@@ -45,19 +45,15 @@ export class CreateLabelModalComponent implements OnInit {
 
   acceptModalInput() {
     // call to serverapi with the collected input* values
-    
     this.labelCreated = this.collectInputs()
     if (this.title === "Create"){
       if(!this.labelCreated.label){ 
         this.messageService.add({severity: 'error', summary: 'label cannot be empty'});
       } 
       else{
-        // get list of all labels
         this.labelService.getLabels().subscribe({
           next: res=>{
-            // search through list, if label does not exist then emit (create new label)
             const availableLabels = res 
-            // see if there exists that same label in the DB
             const result = availableLabels.find( l => { return l.label === this.labelCreated.label})
             if(!result){
               this.createLabel.emit(this.labelCreated)
