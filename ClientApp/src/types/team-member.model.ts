@@ -19,7 +19,7 @@ export class TeamMember {
     email: string = ""
     roles: string = ""
     avatar: string = ""
-    avatarObj: string = ""
+   
 
     /*
     could also possibly use a constructor to initialize

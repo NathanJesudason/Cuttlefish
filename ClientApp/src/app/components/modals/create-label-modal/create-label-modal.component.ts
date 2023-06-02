@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { LabelService } from 'src/app/services/labels/label.service';
 import { LabelData } from 'src/types/label';
-import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels-page.component';
 
 @Component({
   selector: 'create-label-modal',
@@ -12,6 +12,9 @@ import { LabelsPageComponent } from 'src/app/components/pages/labels-page/labels
 export class CreateLabelModalComponent implements OnInit {
 
   @Input() labels!: LabelData[]
+  @Output() createLabel = new EventEmitter<LabelData>();
+  @Output() editLabel = new EventEmitter<LabelData>();
+  @Output() delete = new EventEmitter()
   
   labelCreated!: LabelData
   createLabelModalShown: boolean = false;
@@ -20,7 +23,7 @@ export class CreateLabelModalComponent implements OnInit {
   color: string = "#ff0000"
   title: string = "Create"
 
-  constructor(private labelsComponent: LabelsPageComponent, private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private labelService: LabelService) { }
 
   ngOnInit(): void {
   }
@@ -45,29 +48,39 @@ export class CreateLabelModalComponent implements OnInit {
     
     this.labelCreated = this.collectInputs()
     if (this.title === "Create"){
-      var res = this.labelsComponent.createLabel(this.labelCreated)
-      if (res === -1){
-        this.messageService.add({severity: 'error', summary: 'label exists'});
-      }
-      else if( res === -2 ){
+      if(!this.labelCreated.label){ 
         this.messageService.add({severity: 'error', summary: 'label cannot be empty'});
-      }
-      else if (res === 0 ){
-        this.messageService.add({severity: 'success', summary: 'Label Created'});
-        this.hideCreateLabelModal()
+      } 
+      else{
+        // get list of all labels
+        this.labelService.getLabels().subscribe({
+          next: res=>{
+            // search through list, if label does not exist then emit (create new label)
+            const availableLabels = res 
+            // see if there exists that same label in the DB
+            const result = availableLabels.find( l => { return l.label === this.labelCreated.label})
+            if(!result){
+              this.createLabel.emit(this.labelCreated)
+              this.messageService.add({severity: 'success', summary: 'Label Created'});
+              this.hideCreateLabelModal()
+            } else{
+              this.messageService.add({severity: 'error', summary: 'label exists'});
+            }
+          },
+          error: err=> console.log("Error",err)
+        })
       }
     }
     else{
-      this.labelsComponent.editLabel(this.labelCreated)
+      this.editLabel.emit(this.labelCreated)
       this.messageService.add({severity: 'success', summary: 'Label Color Edited'});
       this.hideCreateLabelModal()
     }
-      
   }
 
   deleteLabel(){
     this.labelCreated = this.collectInputs() 
-    this.labelsComponent.deleteLabel()
+    this.delete.emit()
     this.messageService.add({severity: 'success', summary: 'Label Deleted'});
     this.hideCreateLabelModal()
   }

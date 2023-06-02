@@ -24,6 +24,8 @@ import { ToastModule } from 'primeng/toast';
 describe('CommentInplaceComponent', () => {
   const mockTeamMember: TeamMember = {
     id: 1,
+    name: 'name',
+    avatar: 'src',
     username: 'test',
     password: 'test',
     email: '',

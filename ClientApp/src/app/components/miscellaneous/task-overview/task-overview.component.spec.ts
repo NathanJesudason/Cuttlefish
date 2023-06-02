@@ -39,7 +39,7 @@ describe('TaskOverviewComponent', () => {
     type: 'Epic',
     cost: 0,
     labels: [{
-      name: 'label1',
+      label: 'label1',
       color: '#000000',
     }],
     order: 0,

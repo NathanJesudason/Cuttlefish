@@ -34,5 +34,9 @@
 </p-accordion>
 <create-label-modal
   #createLabelModal
-  [labels]="availableLabels ? availableLabels : []">
+  [labels]="availableLabels ? availableLabels : []"
+  (createLabel)="createLabel($event)"
+  (editLabel)="editLabel($event)"
+  (delete) = "deleteLabel()"
+  >
 </create-label-modal>

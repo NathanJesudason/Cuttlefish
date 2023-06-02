@@ -26,11 +26,13 @@ import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
 import { CreateLabelModalComponent } from 'src/app/components/modals/create-label-modal/create-label-modal.component'
 import { LableToTask } from 'src/types/label-to-tasks';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'labels-page',
   templateUrl: './labels-page.component.html',
   styleUrls: ['./labels-page.component.scss'],
+  providers: [MessageService],
 })
 export class LabelsPageComponent implements OnInit {
   
@@ -46,7 +48,8 @@ export class LabelsPageComponent implements OnInit {
     private taskApi: TaskApi,
     private route: ActivatedRoute,
     private router: Router,
-    public labelService: LabelService
+    public labelService: LabelService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -162,25 +165,10 @@ export class LabelsPageComponent implements OnInit {
   }
   
   createLabel(createL:LabelData){
-    // check if label exists
-    if(createL.label == ""){ 
-      console.log("Must include label") 
-      return -2;
-    }
-    else{
-      // see if there exists that same label in the DB
-      if(this.availableLabels.find( l => { return l.label === createL.label})){
-        console.log("label exists!", this.availableLabels, createL.label)
-        return -1;
-      }
-      else{
-        // if doesn't exist, insert the label
-        this.label = createL 
-        this.insertLabel()
-        this.availableLabels = this.labelService.refreshLabelList()
-        return 0;
-      }
-    }
+    // insert the label
+    this.label = createL 
+    this.insertLabel()
+    this.availableLabels = this.labelService.refreshLabelList()
   }
 
   cancelLabelSelection(){
