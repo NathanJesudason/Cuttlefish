@@ -244,9 +244,7 @@ namespace Cuttlefish.Controllers
             var message = "Team member updated";
 
             // check if email or username exists
-            if 
-                
-                (teamMember.username != null)
+            if (teamMember.username != null)
             {
 
                 var checkUsername = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == teamMember.username);
