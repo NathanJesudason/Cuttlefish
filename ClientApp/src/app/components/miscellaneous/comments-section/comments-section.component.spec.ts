@@ -32,6 +32,8 @@ describe('CommentsSectionComponent', () => {
   const mockTeamMember: TeamMember = {
     id: 1,
     username: 'test',
+    name: 'name',
+    avatar: 'src',
     password: 'test',
     email: '',
     roles: 'user',

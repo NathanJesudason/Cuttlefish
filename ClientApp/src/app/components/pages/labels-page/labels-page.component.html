@@ -2,7 +2,7 @@
   [(ngModel)]="currentLabel"
   [disabled]="taskPickerDisabled"
   [options]="availableLabels"
-  optionLabel="name"
+  optionLabel="label"
   placeholder="Select a label..."
   [showClear]="true"
   (onChange)="updateSelectedLabel($event)"
@@ -10,20 +10,33 @@
   <ng-template pTemplate="selectedItem">
     <div class="availableLabel-item" *ngIf="currentLabel">
       <span class="label-color-swatch" [ngStyle]="{'background-color': currentLabel.color}"></span>
-      <code>{{ currentLabel.name }}</code>
+      <code>{{ currentLabel.label }}</code>
     </div>
   </ng-template>
-
   <ng-template pTemplate="item" let-availableLabel>
     <div class="availableLabel-item">
       <span class="label-color-swatch" [ngStyle]="{'background-color': availableLabel.color}"></span>
-      <code>{{ availableLabel.name }}</code>
+      <code>{{ availableLabel.label }}</code>
     </div>
   </ng-template>
 </p-dropdown>
-
-<task-overview
-  *ngFor="let task of tasksByLabel"
-  [taskData]="task"
+<button id="editBtn" *ngIf="currentLabel" pButton type="submit" (click)="showEditLabelModal()">Edit Label</button>
+<button pButton type="submit"  *ngIf="!currentLabel" (click)="showCreateLabelModal()">Create a Label</button>
+<p-accordion
+  [multiple]="true"
+  [ngStyle]="{'margin-top': tasksByLabel.length === 0 ? '0' : 'var(--content-padding)'}"
+>
+<task-overview 
+  *ngFor="let task of tasksByLabel" 
+  [taskData]="task" 
   [dragDropEnabled]="false"
-></task-overview>
+  ></task-overview>
+</p-accordion>
+<create-label-modal
+  #createLabelModal
+  [labels]="availableLabels ? availableLabels : []"
+  (createLabel)="createLabel($event)"
+  (editLabel)="editLabel($event)"
+  (delete) = "deleteLabel()"
+  >
+</create-label-modal>

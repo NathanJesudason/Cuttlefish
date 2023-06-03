@@ -177,7 +177,7 @@ export class TaskApi {
    * @throws `HTTPErrorResponse`
    */
   deleteLabelRelations(oldLabel: LabelData, id: number){
-    return this.http.delete(`${environment.url}LabelsToTasks/${oldLabel.name}/${id}`)
+    return this.http.delete(`${environment.url}LabelsToTasks/${oldLabel.label}/${id}`)
     .pipe(
       catchError((err: HttpErrorResponse) => {
         return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
@@ -192,7 +192,7 @@ export class TaskApi {
    * @throws `HTTPErrorResponse`
    */
   AddLabelRelation(newLabel: LabelData, id: number){
-    return this.http.post(`${environment.url}LabelsToTasks/`, {taskID: id, label: newLabel.name})
+    return this.http.post(`${environment.url}LabelsToTasks/`, {taskID: id, label: newLabel.label})
     .pipe(
       catchError((err: HttpErrorResponse) => {
         return throwError(() => new Error(`Error getting taskData: ${err.error.message}`));
@@ -248,7 +248,7 @@ export class TaskApi {
                 var newLabels = allLabels.filter(r => listofIds.includes(r.label));
                 task.labels = []
                 newLabels.forEach(r => {
-                  task.labels!.push({name: r.label, color: r.color});
+                  task.labels!.push({label: r.label, color: r.color});
                 });
                 return task;
               }),
@@ -281,7 +281,7 @@ export class TaskApi {
 
   //Small helper to convert between label in database and label in UI
   labelAdaptor(input: {label: string, color: string;}): LabelData {
-    return {name: input.label, color: input.color};
+    return {label: input.label, color: input.color};
   }
 
   /**
@@ -298,7 +298,7 @@ export class TaskApi {
         return this.getLabelRelations().pipe(switchMap((labelRelations) => {
           return this.getLabels().pipe(map((labels) => {
             var usefulIds: number[] = [];
-            labelRelations.filter(r => r.label == Label.name).forEach(t => {usefulIds.push(t.taskID)});
+            labelRelations.filter(r => r.label == Label.label).forEach(t => {usefulIds.push(t.taskID)});
             labelRelations = labelRelations.filter(r => labelRelations.some(item => usefulIds.includes(item.taskID)));
             tasks = tasks.filter(t => labelRelations.some(item => item.taskID == t.id))              
             labelRelations.forEach(relation => {

@@ -21,8 +21,22 @@
     display: block;
   }
 
-  .p-dropdown-label, .p-dropdown-label code, .p-dropdown-item code {
+  .p-dropdown-label, .p-dropdown-label code, .p-dropdown-item code,input {
     font-size: 2rem;
     color: var(--text-color-secondary);
   }
+}
+.colorPicker{
+  margin: 30px;
+}
+
+
+form{
+  display: inline-block;
+  margin: 30px 0px 0px 40px;
+
+}
+
+button{
+  margin: 0px 0px 10px 30px;
 }

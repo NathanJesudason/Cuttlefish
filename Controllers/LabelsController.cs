@@ -47,6 +47,7 @@ namespace Cuttlefish.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLabels(string id, Labels labels)
         {
+            id = id.Replace("%", " ");
             if (id != labels.label)
             {
                 return BadRequest();

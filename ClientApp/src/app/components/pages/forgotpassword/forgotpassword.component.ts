@@ -44,14 +44,11 @@ export class ForgotPasswordComponent implements OnInit {
     this.forgotPasswordForm = this.formbuilder.group({
       email: ['', Validators.required]
     })
-    
   }
-
 
   sendEmail(){
     this.forgotPasswordButtonLoading = true;
     this.email = this.forgotPasswordForm.value
-
     // call api
     this.resetService.sendResetPasswordLink(this.forgotPasswordForm.value['email']).subscribe({
       next: (res)=>{

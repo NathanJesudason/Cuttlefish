@@ -1,6 +1,7 @@
 import {
   ActivatedRoute,
   convertToParamMap,
+  Router,
   RouterModule
 } from '@angular/router';
 
@@ -13,10 +14,11 @@ import {
 
 import { LabelsPageComponent } from './labels-page.component';
 import { AppModule } from 'src/app/app.module';
-import { LabelData } from 'src/types/label';
 import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { LabelService } from 'src/app/services/labels/label.service';
+import { TestBed } from '@angular/core/testing';
 
 describe('LabelsPageComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -42,13 +44,18 @@ describe('LabelsPageComponent', () => {
   
   MockInstance.scope();
 
+
   beforeEach(() => {
-    return MockBuilder(LabelsPageComponent, [AppModule, RouterModule])
+    return MockBuilder(LabelsPageComponent, [AppModule, RouterModule, Router])
       .mock(TaskApi, {
         getLabels: () => of(mockLabels),
         getTasksByLabel: () => of(mockTasks),
         getAllTasksWithLabel: () => of(mockTasks),
-      } as Partial<TaskApi>);
+      } as Partial<TaskApi>)
+      .mock(LabelService, {
+        getLabels: () => of(mockLabels)
+      })
+      
   });
 
   it('should create', () => {
@@ -58,7 +65,7 @@ describe('LabelsPageComponent', () => {
       jasmine.createSpy(),
       'get'
     ).and.returnValue({
-      queryParamMap: convertToParamMap({ 'name': null }),
+      queryParamMap: convertToParamMap({ 'label': null }),
     });
     
     MockRender(LabelsPageComponent);
@@ -73,12 +80,12 @@ describe('LabelsPageComponent', () => {
       jasmine.createSpy(),
       'get'
     ).and.returnValue({
-      queryParamMap: convertToParamMap({ 'name': mockLabelName }),
+      queryParamMap: convertToParamMap({ 'label': mockLabelName }),
     });
     
     const fixture = MockRender(LabelsPageComponent);
     const component = fixture.point.componentInstance;
 
-    expect(component.currentLabel.name).toEqual(mockLabelName);
+    expect(component.currentLabel!.label).toEqual(mockLabelName);
   });
 });
