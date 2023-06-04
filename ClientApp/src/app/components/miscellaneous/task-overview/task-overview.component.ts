@@ -22,9 +22,11 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 import { LabelData } from 'src/types/label';
 
 import { TaskData } from 'src/types/task';
+import { TeamMember } from 'src/types/team-member.model';
 
 @Component({
   selector: 'task-overview',
@@ -41,19 +43,46 @@ export class TaskOverviewComponent implements OnInit {
    */
   @Input() dragDropEnabled: boolean = true;
 
+  assignee!: TeamMember;
+
   trimmedDescription!: string;
   trimmedLabels: LabelData[] = [];
 
   scrollFrameNumber: number = 0;
 
+  loadingAvatar: boolean = true;
+
   constructor(
     private taskService: TaskApi,
     private messageService: MessageService,
+    private teamMemberService: TeamMemberService,
   ) { }
 
   ngOnInit(): void {
+    this.getAssignee();
     this.getLabels();
     this.getTrimmedDescription();
+  }
+
+  getAssignee() {
+    if (
+      this.taskData.assignee_id === 0 ||
+      this.taskData.assignee_id === null ||
+      this.taskData.assignee_id === undefined
+    ) {
+      // this.loadingAvatar = false;
+      return;
+    }
+
+    this.teamMemberService.getTeamMemberById(this.taskData.assignee_id).subscribe({
+      next: (assignee) => {
+        this.assignee = assignee;
+        // this.loadingAvatar = false;
+      },
+      error: (err) => {
+        this.messageService.add({severity: 'error', summary: err.message})
+      },
+    });
   }
 
   getTrimmedDescription() {
