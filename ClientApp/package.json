@@ -22,7 +22,7 @@
     "@angular/platform-server": "^14.2.10",
     "@angular/router": "^14.2.10",
     "@auth0/angular-jwt": "^5.1.2",
-    "@dicebear/collection": "^6.0.2",
+    "@dicebear/collection": "^6.0.4",
     "@dicebear/core": "^6.0.2",
     "@worktile/gantt": "^14.0.6",
     "apexcharts": "^3.39.0",
