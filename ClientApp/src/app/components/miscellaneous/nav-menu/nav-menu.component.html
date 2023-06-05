@@ -12,7 +12,6 @@
     <div
       class="user-dropdown-button"
       (click)="userMenu.toggle($event)"
-      (mouseleave)="userMenu.hide()"
     >
       <p-avatar
         *ngIf="signedInUser === undefined"
