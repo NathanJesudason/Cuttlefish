@@ -27,18 +27,15 @@ export class TokenInterceptor implements HttpInterceptor {
   // append a token to the header to send to the backend
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const myToken = this.auth.getToken()
-
     if(myToken){
       request = request.clone({
         setHeaders: {Authorization: `Bearer ${myToken}`} // this is the format for sending a token to the backend using the request property
       })
     }
-
     
     if(!this.auth.isLoggedIn()){
       return next.handle(request).pipe()
     }
-
     return next.handle(request).pipe(
       catchError((err) => {
         if(err instanceof HttpErrorResponse){
@@ -48,7 +45,6 @@ export class TokenInterceptor implements HttpInterceptor {
             return throwError(() => new Error('token expired, login again')) // console.log's this. might be better way to implement instead of console.logging it
           }
         }
- 
         return throwError(() => err);
       })
     );

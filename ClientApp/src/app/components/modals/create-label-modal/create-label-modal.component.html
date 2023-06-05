@@ -1,0 +1,43 @@
+<p-dialog
+  [header]="title"
+  [modal]="true"
+  [(visible)]="createLabelModalShown"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div id="modal-body">
+    <div id="modal-forms">
+      <span class="p-float-label" *ngIf="title == 'Create'">
+        <input id="name-input" type="text" pInputText [(ngModel)]="label" />
+        <label for="name-input">Label name</label>
+      </span>
+      <span>
+        <br>
+        <label for="color-picker">Color for label: </label><br>
+        <p-colorPicker id="color-picker" [inline]="true" [(ngModel)]="color"></p-colorPicker>
+      </span>
+    </div>
+    <div id="action-buttons">
+      <br>
+      <button
+        pButton class="p-button-success"
+        icon="pi pi-check"
+        (click)="acceptModalInput()"
+      ></button>
+
+      <button
+        pButton class="p-button-danger"
+        icon="pi pi-times"
+        (click)="cancelModalInput()"
+      ></button>
+      <br>
+      <br>
+      <div>
+        <button *ngIf="title == 'Edit'" pButton class="p-button-danger"
+        icon="pi pi-times" 
+        (click)="deleteLabel()">Delete Label</button>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-toast></p-toast>

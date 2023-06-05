@@ -110,7 +110,8 @@ export class DateInplaceComponent implements OnInit {
 
     //Check if date range is outside of parent range
     if(this.validationEntityData != null){
-      if(this.selectedDate > this.validationEntityData.endDate || this.selectedDate < this.validationEntityData.startDate) {
+      const parentIsBacklog = isSprintData(this.validationEntityData) && this.validationEntityData.isBacklog;
+      if(!parentIsBacklog && (this.selectedDate > this.validationEntityData.endDate || this.selectedDate < this.validationEntityData.startDate)) {
         this.cdr.detectChanges();
         this.selectedDate = this.oldSelectedDate;
         if(isTaskData(this.entityData)){

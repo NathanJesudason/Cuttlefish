@@ -41,6 +41,9 @@ import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageModule } from 'primeng/message';
 import { ConfirmationService } from 'primeng/api';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+
 
 import { NgxGanttModule } from '@worktile/gantt';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -58,7 +61,7 @@ import { NotFoundPageComponent } from 'src/app/components/pages/not-found-page/n
 import { FooterComponent } from 'src/app/components/miscellaneous/footer/footer.component';
 import { TitleInplaceComponent } from 'src/app/components/inplaces/title-inplace/title-inplace.component';
 import { TeamMembersComponent } from 'src/app/components/pages/team-members/team-members.component';
-import { TeamMembersFormComponent } from 'src/app/components/miscellaneous/team-members-form/team-members-form.component';
+import { TeamMembersFormComponent } from 'src/app/components/pages/team-members/team-members-form/team-members-form.component';
 import { LoginComponent } from 'src/app/components/pages/login/login.component';
 import { SignupComponent } from 'src/app/components/pages/signup/signup.component'
 import { AuthGuard } from 'src/app/guards/auth/auth.guard';
@@ -83,6 +86,9 @@ import { DependencyDropdownComponent } from 'src/app/components/miscellaneous/de
 import { TaskProgressTagComponent } from 'src/app/components/miscellaneous/task-progress-tag/task-progress-tag.component';
 import { CommentsSectionComponent } from './components/miscellaneous/comments-section/comments-section.component';
 import { CommentInplaceComponent } from './components/inplaces/comment-inplace/comment-inplace.component';
+import { CreateLabelModalComponent } from './components/modals/create-label-modal/create-label-modal.component';
+import { AccountPageComponent } from './components/pages/account-page/account-page.component';
+import { EditAvatarModalComponent } from './components/modals/edit-avatar-modal/edit-avatar-modal.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +127,10 @@ import { CommentInplaceComponent } from './components/inplaces/comment-inplace/c
     TaskProgressTagComponent,
     CommentsSectionComponent,
     CommentInplaceComponent,
+    CreateLabelModalComponent,
+    // AvatarsComponent,
+    AccountPageComponent,
+    EditAvatarModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -136,6 +146,7 @@ import { CommentInplaceComponent } from './components/inplaces/comment-inplace/c
     CardModule,
     PanelModule,
     ButtonModule,
+    SelectButtonModule,
     DividerModule,
     ChipModule,
     TagModule,
@@ -167,10 +178,12 @@ import { CommentInplaceComponent } from './components/inplaces/comment-inplace/c
     MessageModule,
     NgApexchartsModule,
     NgxRerenderModule,
+    ConfirmPopupModule,
     RouterModule.forRoot([
       { path: '', component: HomePageComponent, pathMatch: 'full' },  // landing page for site
       { path: 'login', component: LoginComponent},
       { path: 'signup', component: SignupComponent},
+      { path: 'account', component: AccountPageComponent,  canActivate:[AuthGuard]},
       { path: 'forgotpassword', component: ForgotPasswordComponent},
       { path: 'reset', component: ResetPasswordComponent},
       { path: 'teammembers', component: TeamMembersComponent, canActivate:[AuthGuard]},

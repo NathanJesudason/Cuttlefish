@@ -36,10 +36,15 @@ export class TeamMemberService {
   list: TeamMember[] = []
   readonly baseURL = environment.url // this is the server port
  
-  /**
-   * Create a new team member in the backend, using `TeamMemberService.teamMemberData`
-   * @returns `Observable<any>` the response from the backend
-   */
+  getTeamMember(){
+    return this.http.get(`${this.baseURL}TeamMembers`)
+  }
+
+  getTeamMemberByID(id: number){
+    return this.http.get(`${this.baseURL}TeamMembers/${id}`)
+  }
+
+
   postTeamMember(){
     return this.http.post(this.baseURL, this.teamMemberData)
   }
@@ -58,7 +63,19 @@ export class TeamMemberService {
    * @returns `Observable<any>` the response from the backend
    */
   deleteTeamMember(id:number){
-    return this.http.delete(`${this.baseURL}/${id}`)
+    return this.http.delete(`${this.baseURL}TeamMembers/${id}`)
+  }
+
+  getTeamMemberFromProject(teammemberId: number, projectId: number){
+    return this.http.get(`${this.baseURL}TeamMembersToProjects/${teammemberId}/${projectId}`)
+  }
+
+  deleteTeamMemberFromProject(id:number){
+    return this.http.delete(`${this.baseURL}TeamMembersToProjects/${id}`)
+  }
+
+  updateTeammember(username: string, teammember: object){
+    return this.http.patch(`${this.baseURL}TeamMembers/${username}`, teammember)
   }
 
   /**
@@ -97,7 +114,7 @@ export class TeamMemberService {
    * @returns `Observable<TeamMember>` the team member with the given username
    */
   getTeamMemberByUsername(username: string): Observable<TeamMember> {
-    return this.http.get<TeamMember>(`${this.baseURL}TeamMembers/by-username/${username}`)
+    return this.http.get<TeamMember>(`${this.baseURL}TeamMembers/username/${username}`)
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === HttpStatusCode.NotFound) {
