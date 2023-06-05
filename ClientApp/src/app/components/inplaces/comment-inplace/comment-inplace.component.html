@@ -4,8 +4,7 @@
 >
   <p-avatar
     id="comment-avatar"
-    shape="circle"
-    icon="pi pi-user"
+    [image]="commenter.avatar"
   ></p-avatar>
 
   <div id="commenter-name" *ngIf="commenter">{{commenter.username}}</div>

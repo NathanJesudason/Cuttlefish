@@ -8,9 +8,35 @@
       [routerLink]="['/projects']"
     >
   </ng-template>
+  <ng-template pTemplate="end">
+    <div
+      class="user-dropdown-button"
+      (click)="userMenu.toggle($event)"
+    >
+      <p-avatar
+        *ngIf="signedInUser === undefined"
+        class="user-avatar"
+        shape="circle"
+        icon="pi pi-user"
+      ></p-avatar>
+      <p-avatar
+        *ngIf="signedInUser !== undefined"
+        class="user-avatar"
+        [image]="signedInUser.avatar"
+      ></p-avatar>
+      <i class="pi pi-angle-down menu-icon"></i>
+    </div>
+    <p-menu
+      #userMenu
+      [model]="userMenuItems"
+      [popup]="true"
+    ></p-menu>
+  </ng-template>
 </p-menubar>
 
 <create-project-modal
   #createProjectModal
   [projects]="projects"
 ></create-project-modal>
+
+<p-toast></p-toast>

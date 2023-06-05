@@ -103,3 +103,7 @@ a {
     grid-area: 1 / auto / 3 / auto;
   }
 }
+
+.task-avatar {
+  height: 32px;
+}
