@@ -11,4 +11,34 @@
   .p-menubar .p-submenu-list {
     z-index: 1000;
   }
+
+  .p-overlaypanel .p-overlaypanel-content {
+    padding: 0;
+  }
+}
+
+.user-dropdown-button {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius);
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 0.75rem;
+}
+
+.user-dropdown-button > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.user-dropdown-button:hover {
+  cursor: pointer;
+  background-color: var(--surface-c);
+}
+
+.user-avatar {
+  height: 32px;
+}
+
+.menu-icon {
+  color: #6c757d;
 }
