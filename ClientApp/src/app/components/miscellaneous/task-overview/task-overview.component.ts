@@ -50,8 +50,6 @@ export class TaskOverviewComponent implements OnInit {
 
   scrollFrameNumber: number = 0;
 
-  loadingAvatar: boolean = true;
-
   constructor(
     private taskService: TaskApi,
     private messageService: MessageService,
@@ -70,14 +68,12 @@ export class TaskOverviewComponent implements OnInit {
       this.taskData.assignee_id === null ||
       this.taskData.assignee_id === undefined
     ) {
-      // this.loadingAvatar = false;
       return;
     }
 
     this.teamMemberService.getTeamMemberById(this.taskData.assignee_id).subscribe({
       next: (assignee) => {
         this.assignee = assignee;
-        // this.loadingAvatar = false;
       },
       error: (err) => {
         this.messageService.add({severity: 'error', summary: err.message})

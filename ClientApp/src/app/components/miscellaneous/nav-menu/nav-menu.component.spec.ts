@@ -12,17 +12,17 @@ import {
 import { MenubarModule } from 'primeng/menubar';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
+import { ToastModule } from 'primeng/toast';
 
 import { ProjectData } from 'src/types/project';
+import { TeamMember } from 'src/types/team-member.model';
 
 import { ProjectService } from 'src/app/services/project/project.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 
 import { NavMenuComponent } from './nav-menu.component';
 import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
-import { ToastModule } from 'primeng/toast';
-import { UserService } from 'src/app/services/user/user.service';
-import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
-import { TeamMember } from 'src/types/team-member.model';
 
 describe('NavMenuComponent', () => {
   const data: ProjectData = {

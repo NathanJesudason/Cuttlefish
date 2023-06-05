@@ -15,7 +15,10 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { MenuItem, MessageService } from 'primeng/api';
+import {
+  MenuItem,
+  MessageService
+} from 'primeng/api';
 
 import { ProjectData } from 'src/types/project';
 
@@ -26,7 +29,6 @@ import { UserService } from 'src/app/services/user/user.service';
 
 import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
 import { TeamMember } from 'src/types/team-member.model';
-import { ContextMenu } from 'primeng/contextmenu';
 
 @Component({
   selector: 'app-nav-menu',
