@@ -60,6 +60,7 @@ export class TaskApi {
     })
     .pipe(
       map((taskData: TaskData) => {
+        taskData.assignee_id = Number(taskData.assignee);
         return {
           ...taskData,
           startDate: new Date(taskData.startDate as any),
@@ -87,6 +88,7 @@ export class TaskApi {
     .pipe(
       map((taskData: TaskData[]) => {
         return taskData.map((task: TaskData) => {
+          task.assignee_id = Number(task.assignee);
           return {
             ...task,
             startDate: new Date(task.startDate as any),

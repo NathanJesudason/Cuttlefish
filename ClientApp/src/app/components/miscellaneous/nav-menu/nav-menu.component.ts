@@ -15,22 +15,30 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { MenuItem } from 'primeng/api';
+import {
+  MenuItem,
+  MessageService
+} from 'primeng/api';
 
 import { ProjectData } from 'src/types/project';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
+import { TeamMember } from 'src/types/team-member.model';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.scss']
+  styleUrls: ['./nav-menu.component.scss'],
+  providers: [MessageService],
 })
 export class NavMenuComponent implements OnInit {
   menuItems!: MenuItem[];
+  userMenuItems!: MenuItem[];
   projects!: ProjectData[];
 
   @ViewChild('createProjectModal') createProjectModal!: ElementRef<CreateProjectModalComponent>;
@@ -39,14 +47,20 @@ export class NavMenuComponent implements OnInit {
   item: string = ""
   currentItem!: string | null
 
+  signedInUser!: TeamMember;
+
   constructor(
-    private auth: AuthService,
+    private authService: AuthService,
     private projectService: ProjectService,
+    private userService: UserService,
+    private teamMemberService: TeamMemberService,
+    private messageService: MessageService,
   ) {}
 
   
 
   ngOnInit() {
+    this.getSignedInUser();
     this.assignMenuItems();
   }
 
@@ -73,26 +87,18 @@ export class NavMenuComponent implements OnInit {
         label: 'Team Members',
         routerLink: ['/teammembers'],
       },
+    ];
+
+    this.userMenuItems = [
       {
         icon: 'pi pi-user',
-        items: [
-          {
-            icon: 'pi pi-user',
-            label: 'Account',
-            routerLink: ['/account']
-          },
-          {
-            icon: 'pi pi-cog',
-            label: 'Settings',
-          },
-          {
-            icon: 'pi pi-sign-out',
-            label: 'Sign Out',
-            command: (event)   => 
-            { this.signOut()}
-            ,
-          },
-        ],
+        label: 'Account',
+        routerLink: ['/account']
+      },
+      {
+        icon: 'pi pi-sign-out',
+        label: 'Sign Out',
+        command: (event) => {this.signOut()},
       },
     ];
 
@@ -115,8 +121,24 @@ export class NavMenuComponent implements OnInit {
     
   }
 
+  getSignedInUser() {
+    this.userService.getUserName().subscribe({
+      next: (username: string) => {
+        const signedInUserName = username || this.authService.getUsernameFromToken();
+        this.teamMemberService.getTeamMemberByUsername(signedInUserName).subscribe({
+          next: (teamMember: TeamMember) => {
+            this.signedInUser = teamMember;
+          },
+          error: (err) => {
+            this.messageService.add({severity: 'error', summary: err.error.message});
+          },
+        });
+      },
+    });
+  }
+
 
   signOut(){
-    this.auth.signOut()
+    this.authService.signOut()
   }
 }

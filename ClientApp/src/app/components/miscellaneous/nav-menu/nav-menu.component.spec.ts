@@ -10,10 +10,16 @@ import {
 } from 'rxjs';
 
 import { MenubarModule } from 'primeng/menubar';
+import { AvatarModule } from 'primeng/avatar';
+import { MenuModule } from 'primeng/menu';
+import { ToastModule } from 'primeng/toast';
 
 import { ProjectData } from 'src/types/project';
+import { TeamMember } from 'src/types/team-member.model';
 
 import { ProjectService } from 'src/app/services/project/project.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { TeamMemberService } from 'src/app/services/team-member/team-member.service';
 
 import { NavMenuComponent } from './nav-menu.component';
 import { CreateProjectModalComponent } from 'src/app/components/modals/create-project-modal/create-project-modal.component';
@@ -59,11 +65,17 @@ describe('NavMenuComponent', () => {
   };
   
   beforeEach(() => {
-    return MockBuilder(NavMenuComponent, [MenubarModule])
+    return MockBuilder(NavMenuComponent, [MenubarModule, MenuModule, AvatarModule, ToastModule])
       .mock(CreateProjectModalComponent, { export: true })
       .mock(ProjectService, {
         getAllProjects: (id: number): Observable<ProjectData[]> => of([data]),
-      } as Partial<ProjectService>);
+      } as Partial<ProjectService>)
+      .mock(UserService, {
+        getUserName: () => of('Test User'),
+      } as Partial<UserService>)
+      .mock(TeamMemberService, {
+        getTeamMemberByUsername: () => of({} as TeamMember),
+      } as Partial<TeamMemberService>);
   });
 
   it('should create', () => {
