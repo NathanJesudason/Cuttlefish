@@ -7,12 +7,12 @@
   [placeholder]="'Dependencies'"
 >
   <ng-template let-option pTemplate="selectedItem">
-    <div class="p-d-flex p-ai-center">
+    <div class="p-d-flex p-ai-center my-dropdown-text">
       <a *ngIf="option" [routerLink]="['/task', option.value]" class="p-d-block p-text-truncate p-mr-2">{{ option.label }}</a>
     </div>
   </ng-template>
   <ng-template let-option pTemplate="item">
-    <div class="p-d-flex p-ai-center">
+    <div class="p-d-flex p-ai-center my-dropdown-text">
       <a *ngIf="option" [routerLink]="['/task', option.value]" class="p-d-block p-text-truncate p-mr-2">{{ option.label }}</a>
     </div>
   </ng-template>

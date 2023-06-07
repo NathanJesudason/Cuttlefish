@@ -24,3 +24,8 @@
 .dependencyListHead:hover {
   cursor: pointer;
 }
+
+.my-dropdown-text a {
+  color: var(--text-color);
+  text-decoration: none;
+}
