@@ -39,7 +39,6 @@ export class DependencyDropdownComponent implements OnInit {
     this.route.params.subscribe(params => {
       const taskId = +params['id'];  // The '+' is to convert the string to a number
 
-
       this.taskApi.getTaskRelations().subscribe({
         next: (relations) => {
           const filtered = relations.filter(r => r.dependentTaskID === taskId);
@@ -49,23 +48,6 @@ export class DependencyDropdownComponent implements OnInit {
           console.error(err);
         },
       });
-
-      /*
-      this.taskApi.getTaskData(taskId).subscribe(
-        (taskData) => {
-          console.log('Task data:', taskData);
-          if (taskData.dependencies) {
-            let dependencies = taskData.dependencies;
-            this.taskDataArray = dependencies.map(id => ({ label: `Task ${id}`, value: id }));
-          } else {
-            console.log('This task has no dependencies');
-          }
-        },
-        (error) => {
-          console.error('Error:', error);
-        }
-      );
-      */
     });
   }  
 
