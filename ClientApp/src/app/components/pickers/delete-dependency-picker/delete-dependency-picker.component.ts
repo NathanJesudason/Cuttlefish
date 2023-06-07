@@ -99,23 +99,21 @@ export class DeleteDependencyPickerComponent implements OnInit {
    */
   approveChanges(dependencyValue: number) {
     console.log('approveChanges called with value: ', dependencyValue);
-    this.taskApi.deleteTaskRelation(this.currentTaskId, dependencyValue)
+    this.taskApi.deleteTaskRelation(dependencyValue, this.currentTaskId)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.messageService.add({severity: 'error', summary: `Failed to remove dependency ${dependencyValue}: ${error.message}`});
           return of(null);
         })
       )
-      .subscribe((response: any) => {
-        if (response !== null) {
-          const result = this.removeDependency(dependencyValue);
-          if (result === 1) {
-            this.overlayPanel.hide();
-            this.messageService.add({severity: 'success', summary: `Dependency ${dependencyValue} was successfully removed!`});
-          } else {
-            this.overlayPanel.hide();
-            this.messageService.add({severity: 'error', summary: `Dependency ${dependencyValue} does not exist!`});
-          }
+      .subscribe((_response: any) => {
+        const result = this.removeDependency(dependencyValue);
+        if (result === 1) {
+          this.overlayPanel.hide();
+          this.messageService.add({severity: 'success', summary: `Dependency ${dependencyValue} was successfully removed!`});
+        } else {
+          this.overlayPanel.hide();
+          this.messageService.add({severity: 'error', summary: `Dependency ${dependencyValue} does not exist!`});
         }
       });
   }
@@ -128,7 +126,7 @@ export class DeleteDependencyPickerComponent implements OnInit {
   removeDependency(dependency: number): number {
     const index = this.dependencyOptions.findIndex(option => option.value === dependency);
     if (index !== -1) {
-      this.dependencyOptions.splice(index, 1);
+      this.dependencyOptions = this.dependencyOptions.splice(index, 1);
       return 1;
     }
     return -1;
