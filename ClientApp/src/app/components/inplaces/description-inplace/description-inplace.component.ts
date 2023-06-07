@@ -52,6 +52,18 @@ export class DescriptionInplaceComponent implements OnInit {
   text!: string;
   selected!: boolean;
 
+  editorFormats: string[] = [
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'list',
+    'bullet',
+    'align',
+    'link',
+    'code',
+  ];
+
   constructor(
     private projectService: ProjectService,
     private sprintService: SprintService,
