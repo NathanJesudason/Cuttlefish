@@ -39,8 +39,18 @@
 
 .remove-dependency-button {
   background-color: var(--red-500);
-  
+  color: #ffffff; /* Set the text color to white */
+  border-color: var(--red-500); /* Set the border color */
+
   &:hover {
     background-color: var(--red-600);
+    border-color: var(--red-600); /* Update the border color on hover */
+  }
+
+  &:active,
+  &:focus {
+    background-color: var(--red-500);
+    border-color: var(--red-500);
+    box-shadow: 0 0 0 0.2rem #fd9191;
   }
 }
