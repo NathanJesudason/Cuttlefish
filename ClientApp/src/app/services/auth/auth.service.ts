@@ -11,6 +11,8 @@ import {
   catchError,
   throwError
 } from 'rxjs';
+import { funEmoji } from '@dicebear/collection';
+import { createAvatar } from '@dicebear/core';
 
 import { environment } from 'src/environments/environment';
 
@@ -42,7 +44,11 @@ export class AuthService {
    * @returns an observable of the response from the backend
    */
   signUp(teammemberObj : any){
-    return this.http.post<any>(`${this.baseUrl}register`, teammemberObj)
+    const randomAvatarUri = createAvatar(funEmoji, {
+      seed: teammemberObj.email,
+      radius: 30,
+    }).toDataUriSync();
+    return this.http.post<any>(`${this.baseUrl}register`, {...teammemberObj, avatar: randomAvatarUri})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           if (err.status === HttpStatusCode.Conflict) {

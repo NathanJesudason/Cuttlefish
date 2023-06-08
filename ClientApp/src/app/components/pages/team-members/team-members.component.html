@@ -1,24 +1,30 @@
 <app-team-members-form>
 </app-team-members-form>
-
-<div>
-    <h1>Get team members from database</h1>
-    <table>
-        <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-        </tr>
-            <tr *ngFor = "let member of service.list">
-            <td (click)="populateForm(member)">{{member.username}}</td>
-            <td (click)="populateForm(member)">{{member.password}}</td>
-            <td (click)="populateForm(member)">{{member.email}}</td>
-            <td (click)="populateForm(member)">{{member.roles}}</td>
-            <td *ngIf="role === 'Admin'">
-                <i  (click)="onDelete(member.id)">Delete</i>
-            </td>
-            </tr>
-    </table>
-</div>
-
 <p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
+<p-table  styleClass="p-datatable-striped" [value]="listofProjects">
+  <ng-template pTemplate="header"  >
+    <tr>
+      <th>Project Name</th>
+      <th>Teammembers</th>
+      <th><p-button *ngIf="role === 'Admin'" id="editBtn" (click)="editMembers()">{{editOrCancel}}</p-button></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-projects>
+    <tr>
+      <th>{{projects.name}}</th>
+      <span *ngFor="let col of listofMembers">
+        <td class="username" *ngIf="userInProject(projects.id, col.id)"
+        pTooltip="{{showRole(col.username)}} <img src='{{avatar}}' />"  tooltipPosition="bottom" 
+        [escape]="false"
+        >
+        {{col.username}}
+          <i *ngIf="showDelete" id="deleteUserBtn" (click)="onDelete($event, col, projects)" 
+          class="pi pi-trash"
+          style="font-size: 1.3rem"
+          ></i>
+        </td>
+      </span>
+    </tr>
+  </ng-template>
+</p-table>

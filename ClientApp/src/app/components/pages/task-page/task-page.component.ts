@@ -111,7 +111,7 @@ export class TaskPageComponent implements OnInit {
         valueChange.forEach(x => {
           this.taskApi.deleteLabelRelations(x, this.taskData.id).subscribe({
             error: (err) => {
-              this.messageService.add({severity: 'error', summary: err.error.message});
+              this.messageService.add({severity: 'error', summary: err});
             }
           })
         })
@@ -184,7 +184,7 @@ export class TaskPageComponent implements OnInit {
 
       this.taskApi.getLabels().subscribe({
         next: labels => {
-          labels.forEach(label => {this.allLabels.push({name: label.label, color: label.color})})
+          labels.forEach(label => {this.allLabels.push({label: label.label, color: label.color})})
         }
       })
       

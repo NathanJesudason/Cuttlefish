@@ -1,0 +1,29 @@
+input{
+ border: 0;
+ border-bottom: 1px solid grey;
+ border-radius: 0;
+ margin: 5px;
+ font-weight: bold;
+ margin: 7px;
+}
+
+button{
+  margin: 7px;
+}
+
+::ng-deep .editBtn{
+  font-size: 15px;
+  margin-left: 15px
+}
+
+.avatarForm{
+  text-align: left;
+  float: left;
+  margin: 20px;
+}
+
+::ng-deep .inplace{
+  margin-left: 20px;
+  margin-top: 20px;
+  width: fit-content;
+}

@@ -1,9 +1,25 @@
 table{
-    width: 100%;
+  width: 100%;
 }
 
 td, th{
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
+  text-align: left;
 }
 
+.username{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#editBtn{
+  margin: 10px;
+}
+
+#deleteUserBtn:hover{
+  background-color: lightcoral;
+}

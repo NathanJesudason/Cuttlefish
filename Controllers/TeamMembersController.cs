@@ -45,8 +45,7 @@ namespace Cuttlefish.Controllers
                 return BadRequest(new { Message = "teammemberobj is null" });
             }
 
-            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username); // && x.Password == teammemberObj.Password);
-
+            var teammember = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == teammemberObj.username);
             var teammember_email = await _context.TeamMembers.FirstOrDefaultAsync(x => x.email == teammemberObj.username);
 
 
@@ -122,14 +121,40 @@ namespace Cuttlefish.Controllers
             var teamMembers = from t in _context.TeamMembers
                               select new TeamMemberDto()
                               {
+                                  id = t.id,
                                   username = t.username,
+                                  name = t.name,
                                   email = t.email,
-                                  roles = t.roles
+                                  roles = t.roles,
+                                  avatar = t.avatar
                               };
 
-            //return await _context.TeamMembers.ToListAsync();
             return teamMembers;
 
+        }
+
+        // GET: api/TeamMembers/username
+        [HttpGet("username/{username}")]
+        public async Task<ActionResult<TeamMemberDto>> GetTeamMembersByUsername(string username)
+        {
+            var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(t => t.username == username);
+
+            if (teamMember == null)
+            {
+                return NotFound();
+            }
+
+            var teamMemberDto = new TeamMemberDto()
+            {
+                id = teamMember.id,
+                username = teamMember.username,
+                name = teamMember.name,
+                email = teamMember.email,
+                roles = teamMember.roles,
+                avatar = teamMember.avatar,
+            };
+
+            return teamMemberDto;
         }
 
         // GET: api/TeamMembers/5
@@ -137,20 +162,6 @@ namespace Cuttlefish.Controllers
         public async Task<ActionResult<TeamMembers>> GetTeamMembers(int id)
         {
             var teamMembers = await _context.TeamMembers.FindAsync(id);
-
-            if (teamMembers == null)
-            {
-                return NotFound();
-            }
-
-            return teamMembers;
-        }
-
-        // GET: api/TeamMembers/by-username/username
-        [HttpGet("by-username/{username}")]
-        public async Task<ActionResult<TeamMembers>> GetTeamMembersByUsername(string username)
-        {
-            var teamMembers = await _context.TeamMembers.FirstOrDefaultAsync(x => x.username == username);
 
             if (teamMembers == null)
             {
@@ -191,6 +202,24 @@ namespace Cuttlefish.Controllers
             return NoContent();
         }
 
+
+        [HttpPatch("avatars/{username}")]
+        public async Task<IActionResult> PutAvatar(string username, [FromBody] AvatarsDto avatar)
+        {
+            var teamMember = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == username);
+
+            if (teamMember == null)
+            {
+                return NotFound();
+            }
+            teamMember.avatar = avatar.options;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Avatar changed" });
+        }
+
+
         // POST: api/TeamMembers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -200,6 +229,69 @@ namespace Cuttlefish.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTeamMembers", new { id = teamMembers.id }, teamMembers);
+        }
+
+        [HttpPatch("{username}")]
+        public async Task<IActionResult> PatchTeamMember(string username, [FromBody] TeamMemberDto teamMember)
+        {
+            var user = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == username);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var message = "Team member updated";
+
+            // check if email or username exists
+            if (teamMember.username != null)
+            {
+
+                var checkUsername = await _context.TeamMembers.FirstOrDefaultAsync(u => u.username == teamMember.username);
+                if (checkUsername == null)
+                {
+                    user.username = teamMember.username;
+
+                    user.token = CreateJwtToken(user);
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new
+                    {
+                        Token = user.token,
+                        Message = "Login Success"
+                    });
+                }
+                else
+                {
+                    message = "Username is taken!";
+                }
+
+            }
+
+            if (teamMember.email != null)
+            {
+                var checkEmail = await _context.TeamMembers.FirstOrDefaultAsync(u => u.email == teamMember.email);
+                if (checkEmail == null)
+                {
+                    user.email = teamMember.email;
+                }
+                else
+                {
+                    message = "Email is taken";
+                }
+            }
+
+            if (teamMember.name != null)
+            {
+                user.name = teamMember.name;
+            }
+
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = message });
+
         }
 
         // DELETE: api/TeamMembers/5
@@ -239,7 +331,7 @@ namespace Cuttlefish.Controllers
             {
                 Subject = identity,
 
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = credentials,
             };
             var token = jwtTokenHandler.CreateToken(tokenDecriptor);

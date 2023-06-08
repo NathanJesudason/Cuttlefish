@@ -1,15 +1,16 @@
 /**
- * All the types and functions related to labels
+ * All the types and functions related to labels.
+ * Must match types in database. 
  */
 
 
 /**
  * The data for a label
- * @property `name` - The name of the label
+ * @property `label` - The name of the label
  * @property `color` - The color of the label, as a hex string
  */
 export type LabelData = {
-  name: string;
+  label: string;
   color: string;
 }
 

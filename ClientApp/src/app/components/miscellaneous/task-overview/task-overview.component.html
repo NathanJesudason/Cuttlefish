@@ -19,7 +19,7 @@
       [rounded]="true"
       [style]="{'background': label.color}"
       styleClass="mr-2"
-      [value]="label.name"
+      [value]="label.label"
     ></p-tag>
   </div>
 
@@ -30,9 +30,16 @@
   ></p-tag>
 
   <p-avatar
+    *ngIf="assignee === undefined"
     class="task-avatar"
     shape="circle"
     icon="pi pi-user"
+  ></p-avatar>
+
+  <p-avatar
+    *ngIf="assignee !== undefined"
+    class="task-avatar"
+    [image]="assignee.avatar"
   ></p-avatar>
 
   <task-progress-tag
@@ -78,7 +85,7 @@
       [rounded]="true"
       [style]="{'background': label.color}"
       styleClass="mr-2"
-      [value]="label.name"
+      [value]="label.label"
     ></p-tag>
   </div>
 
@@ -89,9 +96,16 @@
   ></p-tag>
 
   <p-avatar
+    *ngIf="assignee === undefined"
     class="task-avatar"
     shape="circle"
     icon="pi pi-user"
+  ></p-avatar>
+
+  <p-avatar
+    *ngIf="assignee !== undefined"
+    class="task-avatar"
+    [image]="assignee.avatar"
   ></p-avatar>
 
   <task-progress-tag
