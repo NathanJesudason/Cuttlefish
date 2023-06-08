@@ -56,13 +56,25 @@ export class DescriptionInplaceComponent implements OnInit {
     'bold',
     'italic',
     'underline',
-    'strike',
-    'list',
-    'bullet',
-    'align',
+    'strikeThrough',
+    'list: ordered',
+    'list: bullet',
+    'align: left',
+    'align: center',
+    'align: right',
+    'align: justify',
     'link',
-    'code',
+    'code-block',
   ];
+
+  modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strikeThrough'],
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      ['link', 'code-block'],
+      [{ 'align': [] }],
+    ]
+  };
 
   constructor(
     private projectService: ProjectService,

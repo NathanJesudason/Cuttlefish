@@ -8,7 +8,7 @@
 ></div>
 
 <div id="description" *ngIf="selected">
-  <p-editor [(ngModel)]="text" [style]="{'height':'320px'}" [formats]="editorFormats"></p-editor>
+  <p-editor [(ngModel)]="text" [style]="{'height':'320px'}" [formats]="editorFormats" [modules]="modules"></p-editor>
   <span class="p-buttonset">
     <button pButton icon="pi pi-check" (click)="approveChanges($event)"></button>
     <button pButton icon="pi pi-times" (click)="cancelInput($event)"></button>
