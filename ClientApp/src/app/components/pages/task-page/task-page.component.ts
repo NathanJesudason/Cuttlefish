@@ -38,10 +38,12 @@ import {
 } from 'src/types/task';
 import { ProgressPickerComponent } from 'src/app/components/pickers/progress-picker/progress-picker.component';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
+import { ProjectService } from 'src/app/services/project/project.service';
 import { SprintService } from 'src/app/services/sprint/sprint.service'
 import { BasicFadeAmination } from 'src/app/animations/animations';
 import { LabelData } from 'src/types/label';
 import { MessageService } from 'primeng/api';
+import { ProjectData } from 'src/types/project';
 import { SprintData } from 'src/types/sprint';
 
 @Component({
@@ -55,12 +57,14 @@ export class TaskPageComponent implements OnInit {
   pageLoading: boolean = true;
   allLabels: LabelData[] = [];
   taskData!: TaskData;
-  sprintData!: SprintData;
+  sprintData!: SprintData; // sprintData.projectID is ProjectID# is in SprintData variable after init
+  projectData: ProjectData = {} as ProjectData;
   oldLabelRelations: LabelData[] = [];
   @ViewChild('progressPicker') progressPicker !: ProgressPickerComponent;
 
   constructor(
     private taskApi: TaskApi,
+    private projectApi: ProjectService,
     private sprintService: SprintService,
     private route: ActivatedRoute,
     private router: Router,
@@ -69,8 +73,10 @@ export class TaskPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.pageLoading = true;
-    this.loadTaskData();
+    this.route.params.subscribe(_routeParams => {
+      this.pageLoading = true;
+      this.loadTaskData();      // populate sprint data
+    });
   }
 
   deleteTask(): void {
@@ -130,6 +136,8 @@ export class TaskPageComponent implements OnInit {
           this.sprintService.getSprint(task.sprintID).subscribe({
             next: sprint => {
               this.sprintData = sprint;
+              this.loadProjectTasks();  // populate project data
+              this.loadTaskDependencies(); // populate task dependencies
               this.pageLoading = false;
             } 
           });
@@ -189,6 +197,29 @@ export class TaskPageComponent implements OnInit {
     }
   }
 
+  loadProjectTasks(): void {
+    // Because sprint data already has projectId, we can use it to get project data
+    const projectId = this.sprintData.projectId;
+    this.projectApi.getProject(projectId, true, true).subscribe(
+      (data: ProjectData) => {
+        this.projectData = data;
+      },
+      (error: any) => {
+        console.error('Error: Failed to load project on task page', error);
+      }
+    );
+  }
+
   // Add Get Task Relations Function Here
-  // Pass in a independent ID and return the list of matching dependent ID
+  loadTaskDependencies(): void {
+    this.taskApi.getTaskRelations().subscribe({
+      next: relations => {
+        const relevantRelations = relations.filter(rel => rel.dependentTaskID === this.taskData.id);
+        this.taskData.dependencies = relevantRelations.map(rel => rel.independentTaskID);
+      },
+      error: err => {
+        this.messageService.add({severity: 'error', summary: `Error getting task relations: ${err.message}`});
+      },
+    });
+  }
 }

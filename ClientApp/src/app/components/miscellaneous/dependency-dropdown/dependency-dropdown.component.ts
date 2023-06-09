@@ -8,52 +8,48 @@
 *   service to get the task data of the dependencies.
 */
 
-import { Component, Input } from '@angular/core';
-import { from } from 'rxjs';
-import { concatMap, toArray, map } from 'rxjs/operators';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
-import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 @Component({
   selector: 'dependency-dropdown',
   templateUrl: './dependency-dropdown.component.html',
   styleUrls: ['./dependency-dropdown.component.scss'],
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
-export class DependencyDropdownComponent {
-  @Input() dependencies!: number[];
-  
-  taskDataArray: TaskData[] = [];
+export class DependencyDropdownComponent implements OnInit {
+  taskDataArray: { label: string, value: number }[] = [];
   selectedDependency: number | null = null;
 
   constructor(
-    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
+    private route: ActivatedRoute,
     private taskApi: TaskApi
   ) {}
 
-  loadAndSortDependencies(): void {
-    this.taskDataArray = [];
-    if (this.dependencies) {
-      from(this.dependencies).pipe(
-        concatMap((id) => this.taskApi.getTaskData(id)),
-        toArray(),
-        map((taskDataArray) => taskDataArray.sort((a, b) => a.id - b.id))
-      ).subscribe(
-        (sortedTaskDataArray: TaskData[]) => {
-          this.taskDataArray = sortedTaskDataArray;
-        },
-        (error: Error) => {
-          this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
-        }
-      );
-    }
+  ngOnInit() {
   }
+
+  loadAndSortDependencies(): void {
+    this.route.params.subscribe(params => {
+      const taskId = +params['id'];  // The '+' is to convert the string to a number
+
+      this.taskApi.getTaskRelations().subscribe({
+        next: (relations) => {
+          const filtered = relations.filter(r => r.dependentTaskID === taskId);
+          this.taskDataArray = filtered.map(({id, independentTaskID, dependentTaskID}) => ({ label: `Task ${independentTaskID}`, value: independentTaskID }));
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    });
+  }  
 
   redirectToTask(taskId: number): void {
     if (this.selectedDependency !== taskId) {

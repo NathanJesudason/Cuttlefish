@@ -1,14 +1,23 @@
+/*
+* Component Folder: delete-dependency-picker
+* Component Name: DeleteDependencyPickerComponent
+* Description:
+*     This component, used on the task page, allows the user to delete
+*   a dependency from the task. It uses the TaskApi service to delete
+*   the dependency from the backend.
+*/
+
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-import { ConfirmationService } from 'primeng/api';
+// import { ConfirmationService } from 'primeng/api';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Dropdown } from 'primeng/dropdown';
@@ -16,9 +25,6 @@ import { Dropdown } from 'primeng/dropdown';
 import { TaskData } from 'src/types/task';
 import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
-/**
- * Component for deleting dependencies from the provided task
- */
 @Component({
   selector: 'delete-dependency-picker',
   templateUrl: './delete-dependency-picker.component.html',
@@ -32,32 +38,42 @@ export class DeleteDependencyPickerComponent implements OnInit {
   @ViewChild('dropdown')
   dropdown!: Dropdown;
 
-  /**
-   * The task to delete dependencies from
-   */
-  @Input() data!: TaskData;
-
   dependencyOptions: { label: string, value: number }[] = [];
   selectedDependency!: number;
+  currentTaskId!: number;
 
   constructor(
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private taskApi: TaskApi
+    private taskApi: TaskApi,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    if (this.data.dependencies) {
-      this.dependencyOptions = this.data.dependencies.map((dependency: number) => {
-        return { label: `Task ${dependency}`, value: dependency };
+    this.loadAndSortDependencies();
+  }
+
+  /**
+   * Loads the dependencies for the current task and sorts them
+   */
+  loadAndSortDependencies(): void {
+    this.route.params.subscribe(params => {
+      this.currentTaskId = +params['id'];
+
+      this.taskApi.getTaskRelations().subscribe({
+        next: (relations) => {
+          const filtered = relations.filter(r => r.dependentTaskID === this.currentTaskId);
+          this.dependencyOptions = filtered.map(({id, independentTaskID, dependentTaskID}) => ({ label: `Task ${independentTaskID}`, value: independentTaskID }));
+        },
+        error: (err) => {
+          console.error(err);
+        },
       });
-    } else {
-      this.showNoDependenciesToast();
-    }
+    });
   }
 
   /**
    * Shows the confirmation dialog for deleting the selected dependency
+   * TODO: Actually pull up confimation dialog
    * @param selectedDependencyValue the value of the dependency to be deleted
    */
   showConfirmation(selectedDependencyValue: number): void {
@@ -68,16 +84,12 @@ export class DeleteDependencyPickerComponent implements OnInit {
 
     const selectedDependency = this.dependencyOptions.find(option => option.value === selectedDependencyValue);
     
+    // Removed confirmation service related lines
     if (selectedDependency) {
-      this.confirmationService.confirm({
-        message: `Are you sure you want to remove dependency ${selectedDependency.value}?`,
-        accept: () => {
-          this.approveChanges(selectedDependency.value);
-        },
-        reject: () => {
-          this.overlayPanel.hide();
-        },
-      });
+      console.log('Accepted deletion for: ', selectedDependency.label);  // Debug line
+      this.approveChanges(selectedDependency.value);
+    } else {
+      console.log('selectedDependency not found in dependencyOptions');  // Debug line
     }
   }
 
@@ -86,23 +98,22 @@ export class DeleteDependencyPickerComponent implements OnInit {
    * @param dependencyValue the value of the dependency to be deleted
    */
   approveChanges(dependencyValue: number) {
-    this.taskApi.deleteTaskRelation(this.data.id, dependencyValue)
+    console.log('approveChanges called with value: ', dependencyValue);
+    this.taskApi.deleteTaskRelation(dependencyValue, this.currentTaskId)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           this.messageService.add({severity: 'error', summary: `Failed to remove dependency ${dependencyValue}: ${error.message}`});
           return of(null);
         })
       )
-      .subscribe((response: any) => {
-        if (response !== null) {
-          const result = this.removeDependency(dependencyValue);
-          if (result === 1) {
-            this.overlayPanel.hide();
-            this.messageService.add({severity: 'success', summary: `Dependency ${dependencyValue} was successfully removed!`});
-          } else {
-            this.overlayPanel.hide();
-            this.messageService.add({severity: 'error', summary: `Dependency ${dependencyValue} does not exist!`});
-          }
+      .subscribe((_response: any) => {
+        const result = this.removeDependency(dependencyValue);
+        if (result === 1) {
+          this.overlayPanel.hide();
+          this.messageService.add({severity: 'success', summary: `Dependency ${dependencyValue} was successfully removed!`});
+        } else {
+          this.overlayPanel.hide();
+          this.messageService.add({severity: 'error', summary: `Dependency ${dependencyValue} does not exist!`});
         }
       });
   }
@@ -113,9 +124,9 @@ export class DeleteDependencyPickerComponent implements OnInit {
    * @returns 1 if the dependency was removed, -1 if the dependency does not exist
    */
   removeDependency(dependency: number): number {
-    const index = this.data.dependencies?.indexOf(dependency);
-    if (index !== undefined && index !== -1) {
-      this.data.dependencies?.splice(index, 1);
+    const index = this.dependencyOptions.findIndex(option => option.value === dependency);
+    if (index !== -1) {
+      this.dependencyOptions = this.dependencyOptions.splice(index, 1);
       return 1;
     }
     return -1;

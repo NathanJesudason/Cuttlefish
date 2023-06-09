@@ -1,19 +1,19 @@
 <p-dropdown
   [options]="taskDataArray"
   [(ngModel)]="selectedDependency"
-  (onChange)="redirectToTask($event.value?.id)"
+  (onChange)="redirectToTask($event.value)"
   (onClick)="loadAndSortDependencies()"
   [autoDisplayFirst]="false"
-  [placeholder]="'Select Dependency'"
+  [placeholder]="'Dependencies'"
 >
   <ng-template let-option pTemplate="selectedItem">
-    <div class="p-d-flex p-ai-center">
-      <a *ngIf="option" routerLink="/task/{{ option.id }}" class="p-d-block p-text-truncate p-mr-2">{{ option.title }}</a>
+    <div class="p-d-flex p-ai-center my-dropdown-text">
+      <a *ngIf="option" [routerLink]="['/task', option.value]" class="p-d-block p-text-truncate p-mr-2">{{ option.label }}</a>
     </div>
   </ng-template>
   <ng-template let-option pTemplate="item">
-    <div class="p-d-flex p-ai-center">
-      <a *ngIf="option" routerLink="/task/{{ option.id }}" class="p-d-block p-text-truncate p-mr-2">{{ option.title }}</a>
+    <div class="p-d-flex p-ai-center my-dropdown-text">
+      <a *ngIf="option" [routerLink]="['/task', option.value]" class="p-d-block p-text-truncate p-mr-2">{{ option.label }}</a>
     </div>
   </ng-template>
 </p-dropdown>

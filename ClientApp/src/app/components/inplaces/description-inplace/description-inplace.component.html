@@ -8,8 +8,27 @@
 ></div>
 
 <div id="description" *ngIf="selected">
-  <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor>
-    
+  <p-editor [(ngModel)]="text" [style]="{'height':'320px'}">
+    <ng-template pTemplate="header">
+      <span class="ql-formats">
+        <select class="ql-header"></select>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-bold" aria-label="Bold"></button>
+        <button type="button" class="ql-italic" aria-label="Italic"></button>
+        <button type="button" class="ql-underline" aria-label="Underline"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-list" value="ordered" aria-label="Ordered List"></button>
+        <button type="button" class="ql-list" value="bullet" aria-label="Bullet List"></button>
+      </span>
+      <span class="ql-formats">
+        <button type="button" class="ql-link" aria-label="Link"></button>
+        <button type="button" class="ql-code" aria-label="Code"></button>
+        <button type="button" class="ql-blockquote" aria-label="Blockquote"></button>
+      </span>
+    </ng-template>
+  </p-editor>
   <span class="p-buttonset">
     <button pButton icon="pi pi-check" (click)="approveChanges($event)"></button>
     <button pButton icon="pi pi-times" (click)="cancelInput($event)"></button>

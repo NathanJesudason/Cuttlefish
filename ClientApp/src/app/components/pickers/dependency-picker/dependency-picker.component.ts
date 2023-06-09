@@ -1,19 +1,22 @@
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
+  Input
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { ActivatedRoute } from '@angular/router';
 
 import { TaskData } from 'src/types/task';
 import { ProjectData } from 'src/types/project';
-import { TaskApi } from 'src/app/services/tasks/tasks.service'
+import { TaskApi } from 'src/app/services/tasks/tasks.service';
 
 /**
- * Component for adding dependencies to the provided task
+ * DependencyPickerComponent
+ *
+ * This component provides an interface for adding dependencies to a task.
  */
 @Component({
   selector: 'dependency-picker',
@@ -25,55 +28,70 @@ export class DependencyPickerComponent implements OnInit {
   @ViewChild('overlayPanel')
   overlayPanel!: OverlayPanel;
 
-  /**
-   * The task to add dependencies to
-   */
-  @Input() data!: TaskData;
-
-  /**
-   * The project that the task belongs to, which contains the list of potential dependencies to add
-   */
+  // The data of the project this component belongs to.
   @Input() projectData!: ProjectData;
 
-  dependencyOptions: { label: string, value: number }[] = [];
+  // ID of the current task.
+  currentTaskId!: number;
+  // Data of the current task.
+  @Input() currentTaskData!: TaskData;
+
+  // List of tasks that can be added as dependencies.
   availableTasks: { label: string, value: number }[] = [];
+
+  // The task selected to be added as a dependency.
   selectedDependency!: number;
 
   constructor(
     private messageService: MessageService,
-    private taskService: TaskApi
+    private taskService: TaskApi,
+    private route: ActivatedRoute
   ) { }
 
-  /**
-   * Populate the dependencies dropdown with the dependencies of the provided task
-   */
   ngOnInit() {
-    // ngOnInit is required even if it is empty
+    // Get the current task's ID from the URL.
+    this.route.params.subscribe(params => {
+      this.currentTaskId = +params['id'];
+      this.fetchCurrentTask();
+    });
   }
 
+  /**
+   * Fetch the ID of the current task through the URL.
+   */
+  fetchCurrentTask() {
+    this.route.params.subscribe(params => {
+      this.currentTaskId = +params['id'];
+    });
+  }
+
+  /**
+  * Load the list of tasks that can be added as dependencies.
+  */
   loadAvailableTasks() {
-    this.taskService.getAllTasks().subscribe(
-      (tasks: TaskData[]) => {
-        this.availableTasks = tasks
-          .filter(task => !this.data.dependencies?.includes(task.id) && task.id !== this.data.id)
-          .map(task => ({ label: `Task ${task.id} - ${task.name}`, value: task.id }));
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: `Failed to retrieve tasks: ${error.message}` });
-      }
-    );
+    // Flatten all tasks in the project.
+    const allTasks: TaskData[] = this.projectData.sprints.reduce((taskList, sprint) => {
+        return taskList.concat(sprint.tasks);
+    }, [] as TaskData[]);
+
+    // Filter out the current task and its current dependencies.
+    this.availableTasks = allTasks
+        .filter(task => task.id !== this.currentTaskId && !this.currentTaskData?.dependencies?.includes(task.id))
+        .map(task => ({ label: `Task ${task.id} - ${task.name}`, value: task.id }));
   }
 
+  /**
+   * Toggle the overlay panel.
+   */
   toggleOverlayPanel(event: any) {
+    this.fetchCurrentTask();
     this.loadAvailableTasks();
     this.overlayPanel.toggle(event);
   }
 
   /**
-   * Adds `selectedDependency` as a dependency to the provided task
-   * 
-   * Displays a toast message on success or failure
-   */
+  * Add the selected task as a dependency.
+  */
   approveChanges() {
     if (this.selectedDependency) {
       const result = this.addDependency(this.selectedDependency);
@@ -82,38 +100,37 @@ export class DependencyPickerComponent implements OnInit {
         return;
       }
 
-      this.taskService.addTaskRelation(this.data.id, this.selectedDependency).subscribe(
+      // Add the dependency in the backend.
+      this.taskService.addTaskRelation(this.selectedDependency, this.currentTaskId).subscribe(
         () => {
+          this.currentTaskData.dependencies?.push(this.selectedDependency);
           this.overlayPanel.hide();
           this.messageService.add({severity: 'success', summary: 'Dependency added successfully!'});
         },
-        (error) => {
-          this.overlayPanel.hide();
-          this.messageService.add({severity: 'error', summary: 'Error adding dependency!'});
-        }
+        (error) => this.messageService.add({ severity: 'error', summary: `Failed to add dependency: ${error.message}` })
       );
     } else {
-      this.messageService.add({severity: 'error', summary: 'Please select a dependency!'});
+      this.messageService.add({severity: 'warn', summary: 'Please select a task to add as a dependency!'});
     }
   }
 
   /**
-   * Hides the overlay panel
+   * Add a dependency to the current task.
+   *
+   * @param dependencyId - The ID of the task to add as a dependency.
+   * @returns -1 if the task is already a dependency or the same as the current task.
+   */
+  addDependency(dependencyId: number) {
+    if (this.currentTaskData.dependencies?.includes(dependencyId) || this.currentTaskId === dependencyId) {
+      return -1;
+    }
+    return 0;
+  }
+
+  /**
+   * Cancel the input and hide the panel.
    */
   cancelInput() {
     this.overlayPanel.hide();
-  }
-
-  addDependency(dependencyId: number): number {
-    if (!this.data.dependencies) {
-      this.data.dependencies = [];
-    }
-
-    if (this.data.dependencies.includes(dependencyId)) {
-      return -1; // dependency already exists within the task
-    }
-
-    this.data.dependencies.push(dependencyId);
-    return 1; // dependency added
   }
 }

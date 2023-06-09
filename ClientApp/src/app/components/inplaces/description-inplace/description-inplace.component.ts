@@ -149,5 +149,27 @@ export class DescriptionInplaceComponent implements OnInit {
 
   cancelInput(event: any) {
     this.unSelect();
+
+    if (this.text === this.defaultText) return;
+
+    const originalDescription = isSprintData(this.entityData) ? this.entityData.goal : this.entityData.description;
+    const trimmedText = this.text.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '');
+    
+    if (trimmedText === '') {
+      this.text = this.defaultText;
+      return;
+    }
+
+    if (this.text === '' || this.text === null || this.text === undefined) {
+      this.text = this.defaultText;
+      return;
+    }
+
+    if (originalDescription === '') {
+      this.text = this.defaultText;
+      return;
+    }
+    
+    this.text = originalDescription;
   }
 }

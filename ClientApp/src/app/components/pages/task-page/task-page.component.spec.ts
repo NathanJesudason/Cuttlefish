@@ -1,6 +1,7 @@
 import {
   ActivatedRoute,
   convertToParamMap,
+  Params,
   RouterModule
 } from '@angular/router';
 import {
@@ -34,6 +35,10 @@ import { DependencyDropdownComponent } from '../../miscellaneous/dependency-drop
 import { DependencyPickerComponent } from '../../pickers/dependency-picker/dependency-picker.component';
 import { DeleteDependencyPickerComponent } from '../../pickers/delete-dependency-picker/delete-dependency-picker.component';
 import { CommentsSectionComponent } from 'src/app/components/miscellaneous/comments-section/comments-section.component';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { SprintData } from 'src/types/sprint';
+import { ProjectData } from 'src/types/project';
+import { SprintService } from 'src/app/services/sprint/sprint.service';
 
 describe('TaskPageComponent', () => {
   const mockLabels: { label: string; color: string; }[] = [
@@ -58,6 +63,31 @@ describe('TaskPageComponent', () => {
     comments: [],
   };
 
+  const mockSprint: SprintData = {
+    id: 0,
+    name: '',
+    goal: '',
+    startDate: new Date(Date.parse('12/23/2022')),
+    endDate: new Date(Date.parse('12/26/2022')),
+    isCompleted: false,
+    pointsCompleted: 0,
+    pointsAttempted: 0,
+    projectId: 0,
+    isBacklog: false,
+    tasks: [data],
+  };
+
+  const mockProject: ProjectData = {
+    id: 0,
+    name: '',
+    description: '',
+    startDate: new Date(Date.parse('12/23/2022')),
+    endDate: new Date(Date.parse('12/26/2022')),
+    sprints: [mockSprint],
+    color: '#000000',
+    funds: 0,
+  };
+
   beforeEach(() => {
     return MockBuilder(TaskPageComponent,
       [TagModule, ChipModule, ButtonModule, RouterModule,
@@ -77,11 +107,18 @@ describe('TaskPageComponent', () => {
         snapshot: {
           paramMap: convertToParamMap({ 'id': data.id })
         },
+        params: of({ 'id': data.id } as Params),
       } as Partial<ActivatedRoute>, { export: true })
       .mock(TaskApi, {
         getTaskDataWithLabels: (id: number) => of(data),
         getLabels: () => of(mockLabels),
-      } as Partial<TaskApi>);
+      } as Partial<TaskApi>)
+      .mock(ProjectService, {
+        getProject: (id: number, getSprints: boolean, getTasks: boolean) => of(mockProject),
+      } as Partial<ProjectService>)
+      .mock(SprintService, {
+        getSprint: (id: number) => of(mockSprint),
+      } as Partial<SprintService>);
   });
 
   it('should create', () => {
