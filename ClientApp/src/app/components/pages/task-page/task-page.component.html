@@ -26,7 +26,7 @@
         <dependency-dropdown #dependencyDropdown></dependency-dropdown>
     </div>
     <div class="dependency-controls">
-      <dependency-picker [data]="projectData" #dependencyPicker></dependency-picker>
+      <dependency-picker [projectData]="projectData" [currentTaskData]="taskData" #dependencyPicker></dependency-picker>
       <delete-dependency-picker #deleteDependencyPicker></delete-dependency-picker>
     </div>
   </div>

@@ -58,7 +58,7 @@ export class TaskPageComponent implements OnInit {
   allLabels: LabelData[] = [];
   taskData!: TaskData;
   sprintData!: SprintData; // sprintData.projectID is ProjectID# is in SprintData variable after init
-  projectData!: ProjectData;
+  projectData: ProjectData = {} as ProjectData;
   oldLabelRelations: LabelData[] = [];
   @ViewChild('progressPicker') progressPicker !: ProgressPickerComponent;
 
@@ -137,6 +137,7 @@ export class TaskPageComponent implements OnInit {
             next: sprint => {
               this.sprintData = sprint;
               this.loadProjectTasks();  // populate project data
+              this.loadTaskDependencies(); // populate task dependencies
               this.pageLoading = false;
             } 
           });
@@ -210,5 +211,15 @@ export class TaskPageComponent implements OnInit {
   }
 
   // Add Get Task Relations Function Here
-  // Pass in a independent ID and return the list of matching dependent ID
+  loadTaskDependencies(): void {
+    this.taskApi.getTaskRelations().subscribe({
+      next: relations => {
+        const relevantRelations = relations.filter(rel => rel.dependentTaskID === this.taskData.id);
+        this.taskData.dependencies = relevantRelations.map(rel => rel.independentTaskID);
+      },
+      error: err => {
+        this.messageService.add({severity: 'error', summary: `Error getting task relations: ${err.message}`});
+      },
+    });
+  }
 }

@@ -34,7 +34,7 @@ export class DependencyPickerComponent implements OnInit {
   // ID of the current task.
   currentTaskId!: number;
   // Data of the current task.
-  currentTaskData!: TaskData;
+  @Input() currentTaskData!: TaskData;
 
   // List of tasks that can be added as dependencies.
   availableTasks: { label: string, value: number }[] = [];
@@ -53,7 +53,6 @@ export class DependencyPickerComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.currentTaskId = +params['id'];
       this.fetchCurrentTask();
-      this.loadAvailableTasks();
     });
   }
 
@@ -74,9 +73,6 @@ export class DependencyPickerComponent implements OnInit {
     const allTasks: TaskData[] = this.projectData.sprints.reduce((taskList, sprint) => {
         return taskList.concat(sprint.tasks);
     }, [] as TaskData[]);
-
-    // Find the current task data.
-    this.currentTaskData = allTasks.find(task => task.id === this.currentTaskId) || this.currentTaskData;
 
     // Filter out the current task and its current dependencies.
     this.availableTasks = allTasks
@@ -105,7 +101,7 @@ export class DependencyPickerComponent implements OnInit {
       }
 
       // Add the dependency in the backend.
-      this.taskService.addTaskRelation(this.currentTaskId, this.selectedDependency).subscribe(
+      this.taskService.addTaskRelation(this.selectedDependency, this.currentTaskId).subscribe(
         () => {
           this.currentTaskData.dependencies?.push(this.selectedDependency);
           this.overlayPanel.hide();
@@ -130,5 +126,11 @@ export class DependencyPickerComponent implements OnInit {
     }
     return 0;
   }
-  
+
+  /**
+   * Cancel the input and hide the panel.
+   */
+  cancelInput() {
+    this.overlayPanel.hide();
+  }
 }

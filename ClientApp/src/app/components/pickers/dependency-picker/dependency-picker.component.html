@@ -3,7 +3,7 @@
     Add Dependency
   </div>
   <div class="overlay-content">
-    <p-dropdown [options]="availableTasks || []" [(ngModel)]="selectedDependency" (onClick)="loadAvailableTasks()" (onFocus)="loadAvailableTasks()"></p-dropdown>
+    <p-dropdown [options]="availableTasks || []" [(ngModel)]="selectedDependency" (onShow)="loadAvailableTasks()"></p-dropdown>
     <button class="approve-button custom-button" (click)="approveChanges()">Add</button>
     <button class="cancel-button custom-button" (click)="cancelInput()">Cancel</button>
   </div>

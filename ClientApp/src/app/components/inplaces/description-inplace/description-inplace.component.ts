@@ -52,30 +52,6 @@ export class DescriptionInplaceComponent implements OnInit {
   text!: string;
   selected!: boolean;
 
-  editorFormats: string[] = [
-    'bold',
-    'italic',
-    'underline',
-    'strikeThrough',
-    'list: ordered',
-    'list: bullet',
-    'align: left',
-    'align: center',
-    'align: right',
-    'align: justify',
-    'link',
-    'code-block',
-  ];
-
-  modules = {
-    toolbar: [
-      ['bold', 'italic', 'underline', 'strikeThrough'],
-      [{'list': 'ordered'}, {'list': 'bullet'}],
-      ['link', 'code-block'],
-      [{ 'align': [] }],
-    ]
-  };
-
   constructor(
     private projectService: ProjectService,
     private sprintService: SprintService,
@@ -173,5 +149,27 @@ export class DescriptionInplaceComponent implements OnInit {
 
   cancelInput(event: any) {
     this.unSelect();
+
+    if (this.text === this.defaultText) return;
+
+    const originalDescription = isSprintData(this.entityData) ? this.entityData.goal : this.entityData.description;
+    const trimmedText = this.text.replace(/<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g, '');
+    
+    if (trimmedText === '') {
+      this.text = this.defaultText;
+      return;
+    }
+
+    if (this.text === '' || this.text === null || this.text === undefined) {
+      this.text = this.defaultText;
+      return;
+    }
+
+    if (originalDescription === '') {
+      this.text = this.defaultText;
+      return;
+    }
+    
+    this.text = originalDescription;
   }
 }
