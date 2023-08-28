@@ -25,7 +25,7 @@
     "@dicebear/collection": "^6.0.4",
     "@dicebear/core": "^6.0.4",
     "@worktile/gantt": "^14.0.6",
-    "apexcharts": "^3.39.0",
+    "apexcharts": "^3.42.0",
     "bootstrap": "^5.3.0",
     "date-fns": "^2.30.0",
     "html2canvas": "^1.4.1",
